@@ -14,3 +14,14 @@
 - `shared/` — 공통 스타일과 리소스
 
 루트 `index.html`은 공개 시연 도구를 연결하는 허브입니다.
+
+## Workflow
+
+모든 변경은 기능 브랜치에서 작업하고 자동 검증을 통과한 Pull Request로 `main`에 병합합니다. `main` 병합 후 GitHub Pages가 자동 배포됩니다.
+
+```sh
+python3 scripts/validate_site.py
+git diff --check
+```
+
+에이전트 공통 규칙은 `AGENTS.md`, 전체 작업 절차는 `docs/WORKFLOW.md`를 참고하세요.
