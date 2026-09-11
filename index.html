@@ -301,7 +301,7 @@
 
     .tool-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
     }
 
@@ -345,6 +345,10 @@
       font-size: 1rem;
       font-weight: 800;
       text-decoration: none;
+    }
+
+    @media (max-width: 1180px) {
+      .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 940px) {
@@ -466,6 +470,14 @@
               <span class="tool-kicker">Internal Estimate</span>
               <h2>Development<br>Quote</h2>
               <p>홈페이지·랜딩 수정과 상세페이지 작업을 분류하고 내부 예상 견적과 승인 상태를 확인하는 도구입니다.</p>
+            </div>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="tool-card" href="./google-ads-training-quote/">
+            <div>
+              <span class="tool-kicker">External Calculator</span>
+              <h2>Google Ads<br>Training</h2>
+              <p>기본·맞춤 교육 상품을 비교하고 VAT를 포함한 예상 견적을 바로 확인하는 계산 도구입니다.</p>
             </div>
             <span class="arrow" aria-hidden="true">↗</span>
           </a>

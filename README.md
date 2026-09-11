@@ -6,6 +6,7 @@
 
 - `video-quote/` — 영상 제작 견적기
 - `development-quote/` — 홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적기
+- `google-ads-training-quote/` — Google Ads 교육 상품 예상 견적기
 - `ad-quote/` — 광고 운영 견적
 - `content-quote/` — 콘텐츠 제작 견적
 - `media-plan/` — 미디어 플랜

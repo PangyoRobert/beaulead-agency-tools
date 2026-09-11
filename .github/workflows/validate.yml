@@ -23,3 +23,5 @@ jobs:
         run: python3 scripts/validate_site.py
       - name: Test development quote rules
         run: node scripts/test_development_quote.js
+      - name: Test Google Ads training quote rules
+        run: node scripts/test_google_ads_training_quote.js
