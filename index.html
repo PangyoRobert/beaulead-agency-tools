@@ -299,12 +299,18 @@
 
     .work-placeholder p { color: var(--muted); line-height: 1.7; }
 
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
     .tool-card {
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: end;
-      min-height: 340px;
-      padding: clamp(30px, 6vw, 72px);
+      min-height: 380px;
+      padding: clamp(30px, 5vw, 58px);
       border: 1px solid rgba(204, 255, 0, 0.36);
       color: var(--text);
       background: linear-gradient(145deg, rgba(204, 255, 0, 0.13), rgba(204, 255, 0, 0.02));
@@ -314,7 +320,8 @@
 
     .tool-card:hover,
     .tool-card:focus-visible { background: rgba(204, 255, 0, 0.16); }
-    .tool-card h2 { margin: 0 0 16px; font-size: clamp(2.2rem, 5vw, 5rem); letter-spacing: -0.06em; }
+    .tool-card .tool-kicker { display: block; margin-bottom: 22px; color: var(--accent); font-size: 0.73rem; letter-spacing: 0.13em; text-transform: uppercase; }
+    .tool-card h2 { margin: 0 0 16px; font-size: clamp(2.2rem, 4vw, 4rem); line-height: 0.95; letter-spacing: -0.06em; }
     .tool-card p { max-width: 590px; margin: 0; color: #c2c3be; line-height: 1.65; }
     .tool-card .arrow { color: var(--accent); font-size: clamp(3rem, 7vw, 6rem); }
 
@@ -368,6 +375,7 @@
       .service-line em { grid-column: 2; }
       .work-placeholder { grid-template-columns: 1fr; }
       .work-placeholder .number { min-height: 220px; border-top: 1px solid var(--line); border-left: 0; }
+      .tool-grid { grid-template-columns: 1fr; }
       .tool-card { grid-template-columns: 1fr; }
       .tool-card .arrow { margin-top: 36px; }
       .contact-row { align-items: start; flex-direction: column; }
@@ -444,13 +452,24 @@
     <section id="tools">
       <div class="section-inner">
         <p class="section-label">04 — Agency Tools</p>
-        <a class="tool-card" href="./video-quote/">
-          <div>
-            <h2>Video Quote</h2>
-            <p>영상 길이, 수량과 제작 옵션을 조합해 예상 견적을 실시간으로 확인하는 인터랙티브 시연 도구입니다.</p>
-          </div>
-          <span class="arrow" aria-hidden="true">↗</span>
-        </a>
+        <div class="tool-grid">
+          <a class="tool-card" href="./video-quote/">
+            <div>
+              <span class="tool-kicker">External Demo</span>
+              <h2>Video<br>Quote</h2>
+              <p>영상 길이, 수량과 제작 옵션을 조합해 예상 견적을 실시간으로 확인하는 인터랙티브 시연 도구입니다.</p>
+            </div>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="tool-card" href="./development-quote/">
+            <div>
+              <span class="tool-kicker">Internal Estimate</span>
+              <h2>Development<br>Quote</h2>
+              <p>홈페이지·랜딩 수정과 상세페이지 작업을 분류하고 내부 예상 견적과 승인 상태를 확인하는 도구입니다.</p>
+            </div>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
     </section>
 

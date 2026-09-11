@@ -21,3 +21,5 @@ jobs:
           python-version: "3.x"
       - name: Validate static site
         run: python3 scripts/validate_site.py
+      - name: Test development quote rules
+        run: node scripts/test_development_quote.js
