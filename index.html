@@ -443,7 +443,11 @@
       .nav-list { flex-direction: column; gap: 8px; }
       .nav-link { display: block; padding: 12px; font-size: clamp(1.9rem, 8vw, 3.5rem); letter-spacing: -0.04em; }
       .nav-link::after { display: none; }
-      .hero { padding-inline: 20px; }
+      /* 좁은 화면에서는 h1 이 작아지는데 히어로 높이는 100svh 로 고정이라,
+         하단 정렬(align-content:end)을 유지하면 남는 공간이 전부 헤더 아래
+         공백으로 몰린다. 정렬을 바꾸면 공백이 콘텐츠 사이로 옮겨갈 뿐이므로
+         히어로 높이 자체를 줄인다. 하단 정렬과 여백 리듬은 그대로 둔다. */
+      .hero { padding-inline: 20px; min-height: 68svh; }
       .hero-bottom { align-items: start; }
       .scroll-mark { display: none; }
       .service-line { grid-template-columns: 42px 1fr; }
