@@ -270,24 +270,55 @@
     .service-line strong { font-size: clamp(1.3rem, 2.5vw, 2.2rem); letter-spacing: -0.04em; }
     .service-line em { color: var(--accent); font-style: normal; }
 
-    .work-placeholder {
-      display: grid;
-      grid-template-columns: 1.4fr 0.6fr;
-      min-height: 460px;
-      border: 1px solid var(--line);
-      background: linear-gradient(135deg, #171717, #0b0b0b);
+    .work-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 8px;
+      align-items: end;
+      justify-content: space-between;
     }
 
-    .work-placeholder > div { padding: clamp(28px, 5vw, 72px); }
-    .work-placeholder .number {
-      display: grid;
-      place-items: center;
-      border-left: 1px solid var(--line);
-      color: var(--accent);
-      font-size: clamp(5rem, 15vw, 13rem);
-      font-weight: 900;
-      letter-spacing: -0.08em;
+    .work-head span { color: var(--muted); font-size: 0.76rem; font-weight: 800; letter-spacing: 0.12em; }
+
+    .work-head h2 {
+      max-width: 700px;
+      margin: 18px 0 0;
+      font-size: clamp(2rem, 5vw, 4.8rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
     }
+
+    .work-all {
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--accent);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .work-line {
+      display: grid;
+      grid-template-columns: 180px 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 30px 0;
+      border-top: 1px solid var(--line);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .work-line:first-of-type { margin-top: 48px; }
+    .work-line em { color: var(--accent); font-size: 0.76rem; font-style: normal; font-weight: 800; letter-spacing: 0.1em; }
+    .work-line strong { display: block; font-size: clamp(1.3rem, 2.5vw, 2.2rem); letter-spacing: -0.04em; }
+    .work-line p { margin: 8px 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.6; word-break: keep-all; }
+    .work-line .period { color: var(--muted); font-size: 0.76rem; font-weight: 750; white-space: nowrap; }
+    .work-line:hover strong, .work-line:focus-visible strong { color: var(--accent); }
+
+    .work-empty { margin-top: 48px; padding: 56px 0; border-top: 1px solid var(--line); color: var(--muted); }
 
     .work-placeholder h2 {
       max-width: 700px;
@@ -452,8 +483,8 @@
       .scroll-mark { display: none; }
       .service-line { grid-template-columns: 42px 1fr; }
       .service-line em { grid-column: 2; }
-      .work-placeholder { grid-template-columns: 1fr; }
-      .work-placeholder .number { min-height: 220px; border-top: 1px solid var(--line); border-left: 0; }
+      .work-line { grid-template-columns: 1fr; gap: 10px; }
+      .work-line .period { justify-self: start; }
       .tool-grid { grid-template-columns: 1fr; }
       .tool-card { grid-template-columns: 1fr; }
       .tool-card .arrow { margin-top: 36px; }
@@ -518,14 +549,14 @@
     <section id="work">
       <div class="section-inner">
         <p class="section-label">03 — Selected Work</p>
-        <div class="work-placeholder">
+        <div class="work-head">
           <div>
             <span>SELECTED PROJECTS</span>
             <h2>성과로 설명하는 프로젝트</h2>
-            <p>대표 프로젝트와 캠페인 사례가 이 영역에 연결됩니다.</p>
           </div>
-          <div class="number">+</div>
+          <a class="work-all" href="./work/">VIEW ALL ↗</a>
         </div>
+        <div id="work-list"></div>
       </div>
     </section>
 
@@ -599,6 +630,56 @@
       </div>
     </section>
   </main>
+
+  <script src="./work/cases.js"></script>
+  <script>
+    // 03 섹션은 상위 3건만 보여주고 전체는 /work/ 로 넘긴다.
+    const workList = document.getElementById('work-list');
+    const cases = (window.WORK_CASES || []).slice().sort((a, b) => {
+      const av = typeof a.order === 'number' ? a.order : Number.MAX_SAFE_INTEGER;
+      const bv = typeof b.order === 'number' ? b.order : Number.MAX_SAFE_INTEGER;
+      return av - bv;
+    }).slice(0, 3);
+
+    if (cases.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'work-empty';
+      empty.textContent = '공개 준비 중인 사례가 곧 이 자리에 올라옵니다.';
+      workList.appendChild(empty);
+    } else {
+      cases.forEach((item) => {
+        const row = document.createElement('a');
+        row.className = 'work-line';
+        row.href = './work/';
+
+        const industry = document.createElement('em');
+        industry.textContent = item.industry || 'PROJECT';
+
+        const body = document.createElement('div');
+        const name = document.createElement('strong');
+        name.textContent = item.displayName;
+        body.appendChild(name);
+        if (item.summary) {
+          const summary = document.createElement('p');
+          summary.textContent = item.summary;
+          body.appendChild(summary);
+        }
+
+        row.append(industry, body);
+
+        if (item.periodStart) {
+          const period = document.createElement('span');
+          period.className = 'period';
+          period.textContent = item.periodEnd
+            ? `${item.periodStart.replace('-', '.')} — ${item.periodEnd.replace('-', '.')}`
+            : `${item.periodStart.replace('-', '.')} — 진행중`;
+          row.appendChild(period);
+        }
+
+        workList.appendChild(row);
+      });
+    }
+  </script>
 
   <script>
     const button = document.querySelector('.menu-button');

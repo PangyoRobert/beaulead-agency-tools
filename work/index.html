@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="뷰리드가 함께한 고객사 프로젝트와 담당 영역을 정리한 레퍼런스 페이지">
+  <title>Selected Work · Beaulead</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080808;
+      --surface: #111;
+      --text: #f5f5f0;
+      --muted: #999b96;
+      --line: rgba(255, 255, 255, 0.15);
+      --accent: #ccff00;
+      --header-height: 84px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+
+    .gnb {
+      position: sticky;
+      z-index: 100;
+      top: 0;
+      height: var(--header-height);
+      border-bottom: 1px solid var(--line);
+      background: rgba(8, 8, 8, 0.86);
+      backdrop-filter: blur(16px);
+    }
+    .gnb-inner {
+      display: flex;
+      width: min(1440px, calc(100% - 64px));
+      height: 100%;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.04em; text-decoration: none; }
+    .logo::after { color: var(--accent); content: "."; }
+    .back { color: var(--muted); font-size: 0.8rem; font-weight: 750; letter-spacing: 0.04em; text-decoration: none; }
+    .back:hover, .back:focus-visible { color: var(--text); }
+
+    .page-inner { width: min(1440px, calc(100% - 64px)); margin: 0 auto; padding: 96px 0 120px; }
+    .section-label {
+      margin: 0 0 40px;
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 920px;
+      margin: 0;
+      font-size: clamp(2.4rem, 5.6vw, 5rem);
+      line-height: 1.02;
+      letter-spacing: -0.06em;
+      word-break: keep-all;
+    }
+    .intro {
+      max-width: 560px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      word-break: keep-all;
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 20px;
+      margin-top: 72px;
+    }
+    .case-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 320px;
+      padding: clamp(28px, 3.4vw, 44px);
+      border: 1px solid rgba(204, 255, 0, 0.32);
+      background: linear-gradient(145deg, rgba(204, 255, 0, 0.1), rgba(204, 255, 0, 0.015));
+    }
+    .case-industry {
+      display: block;
+      margin-bottom: 18px;
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .case-name { margin: 0; font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.045em; }
+    .case-summary { margin: 16px 0 0; color: var(--muted); font-size: 0.95rem; line-height: 1.65; word-break: keep-all; }
+    .case-metric {
+      margin: 24px 0 0;
+      padding: 16px 18px;
+      border-left: 3px solid var(--accent);
+      background: rgba(204, 255, 0, 0.07);
+      font-size: 1rem;
+      font-weight: 750;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+    .case-foot {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: auto;
+      padding-top: 28px;
+      align-items: end;
+      justify-content: space-between;
+    }
+    .case-services { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
+    .case-services li {
+      padding: 6px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .case-period { color: var(--muted); font-size: 0.78rem; font-weight: 750; letter-spacing: 0.03em; white-space: nowrap; }
+
+    .empty {
+      margin-top: 72px;
+      padding: clamp(40px, 6vw, 88px);
+      border: 1px dashed var(--line);
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .foot-note { margin: 64px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.7; word-break: keep-all; }
+    .foot-link { display: inline-block; margin-top: 56px; padding-bottom: 6px; border-bottom: 2px solid currentColor; font-weight: 800; letter-spacing: 0.04em; text-decoration: none; }
+
+    @media (max-width: 940px) {
+      :root { --header-height: 72px; }
+      .gnb-inner, .page-inner { width: min(100% - 40px, 1440px); }
+      .page-inner { padding: 64px 0 88px; }
+      .case-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 52px; }
+      .case-card { min-height: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="gnb">
+    <div class="gnb-inner">
+      <a class="logo" href="../">BEAULEAD</a>
+      <a class="back" href="../#work">← BACK TO HOME</a>
+    </div>
+  </header>
+
+  <main class="page-inner">
+    <p class="section-label">Selected Work</p>
+    <h1>성과로 설명하는 프로젝트</h1>
+    <p class="intro">함께한 고객사와 저희가 맡은 영역을 정리했습니다. 공개에 동의해 주신 사례만 싣습니다.</p>
+
+    <div id="case-list"></div>
+
+    <p class="foot-note" id="foot-note"></p>
+    <a class="foot-link" href="../#contact">프로젝트 문의하기 ↗</a>
+  </main>
+
+  <script src="./cases.js"></script>
+  <script>
+    const CASES = (window.WORK_CASES || []).slice().sort((a, b) => {
+      const av = typeof a.order === 'number' ? a.order : Number.MAX_SAFE_INTEGER;
+      const bv = typeof b.order === 'number' ? b.order : Number.MAX_SAFE_INTEGER;
+      return av - bv;
+    });
+
+    function periodLabel(item) {
+      if (!item.periodStart) return '';
+      const start = item.periodStart.replace('-', '.');
+      if (!item.periodEnd) return `${start} — 진행중`;
+      return `${start} — ${item.periodEnd.replace('-', '.')}`;
+    }
+
+    function caseCard(item) {
+      const article = document.createElement('article');
+      article.className = 'case-card';
+
+      const industry = document.createElement('span');
+      industry.className = 'case-industry';
+      industry.textContent = item.industry || 'PROJECT';
+      article.appendChild(industry);
+
+      const name = document.createElement('h2');
+      name.className = 'case-name';
+      name.textContent = item.displayName;
+      article.appendChild(name);
+
+      if (item.summary) {
+        const summary = document.createElement('p');
+        summary.className = 'case-summary';
+        summary.textContent = item.summary;
+        article.appendChild(summary);
+      }
+
+      // 승인된 성과 문구가 있을 때만 노출한다. 없으면 영역 자체가 생기지 않는다.
+      if (item.metric) {
+        const metric = document.createElement('p');
+        metric.className = 'case-metric';
+        metric.textContent = item.metric;
+        article.appendChild(metric);
+      }
+
+      const foot = document.createElement('div');
+      foot.className = 'case-foot';
+
+      const services = document.createElement('ul');
+      services.className = 'case-services';
+      (item.services || []).forEach((service) => {
+        const li = document.createElement('li');
+        li.textContent = service;
+        services.appendChild(li);
+      });
+      foot.appendChild(services);
+
+      const period = periodLabel(item);
+      if (period) {
+        const span = document.createElement('span');
+        span.className = 'case-period';
+        span.textContent = period;
+        foot.appendChild(span);
+      }
+
+      article.appendChild(foot);
+      return article;
+    }
+
+    const list = document.getElementById('case-list');
+    if (CASES.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty';
+      empty.textContent = '공개 준비 중인 사례가 곧 이 자리에 올라옵니다.';
+      list.appendChild(empty);
+    } else {
+      const grid = document.createElement('div');
+      grid.className = 'case-grid';
+      CASES.forEach((item) => grid.appendChild(caseCard(item)));
+      list.appendChild(grid);
+    }
+
+    document.getElementById('foot-note').textContent =
+      `현재 ${CASES.length}개 사례를 공개하고 있습니다. 계약상 실명을 밝힐 수 없는 프로젝트는 업종 표기로 대신합니다.`;
+  </script>
+</body>
+</html>
