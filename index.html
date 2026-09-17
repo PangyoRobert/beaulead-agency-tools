@@ -347,6 +347,77 @@
       text-decoration: none;
     }
 
+    .profile {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(240px, 0.8fr);
+      gap: clamp(32px, 5vw, 80px);
+      margin-top: clamp(56px, 7vw, 96px);
+      padding-top: clamp(32px, 4vw, 48px);
+      border-top: 2px solid rgba(8, 8, 8, 0.25);
+    }
+
+    .profile-name {
+      margin: 0;
+      font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+    }
+
+    .profile-name span { font-weight: 600; opacity: 0.6; }
+
+    .profile-role {
+      margin: 8px 0 0;
+      font-size: 0.95rem;
+      font-weight: 750;
+      letter-spacing: 0.02em;
+      opacity: 0.72;
+    }
+
+    .profile-bio {
+      max-width: 46ch;
+      margin: 26px 0 0;
+      font-size: 1.02rem;
+      line-height: 1.68;
+      word-break: keep-all;
+    }
+
+    .profile-bio a { font-weight: 750; text-decoration: underline; text-underline-offset: 3px; }
+
+    .profile-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 26px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .profile-tags li {
+      padding: 7px 13px;
+      border: 1.5px solid rgba(8, 8, 8, 0.4);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 750;
+    }
+
+    .profile-meta { margin: 0; }
+    .profile-meta dt {
+      font-size: 0.72rem;
+      font-weight: 850;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+    .profile-meta dd {
+      margin: 10px 0 0;
+      font-size: 1.02rem;
+      font-weight: 750;
+      word-break: break-all;
+    }
+    .profile-meta dd + dt { margin-top: 30px; }
+    .profile-meta a { text-decoration: underline; text-underline-offset: 3px; }
+
+
     @media (max-width: 1180px) {
       .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
@@ -383,6 +454,7 @@
       .tool-card { grid-template-columns: 1fr; }
       .tool-card .arrow { margin-top: 36px; }
       .contact-row { align-items: start; flex-direction: column; }
+      .profile { grid-template-columns: 1fr; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -499,6 +571,26 @@
         <div class="contact-row">
           <h2 class="section-title">다음 성장을<br>함께 설계합니다.</h2>
           <a href="#home">BACK TO TOP ↑</a>
+        </div>
+
+        <div class="profile">
+          <div>
+            <p class="profile-name">권현수 <span>(Robert)</span></p>
+            <p class="profile-role">퍼포먼스마케팅팀장 · Performance Marketing Lead</p>
+            <p class="profile-bio">2018년부터 이커머스·에이전시·바이럴·브랜드 전 구간의 풀퍼널 마케팅을 해왔습니다. 광고 운영에서 끝내지 않고 판단에 필요한 도구를 직접 만듭니다. 위 <a href="#tools">Agency Tools</a>가 그 결과물입니다.</p>
+            <ul class="profile-tags">
+              <li>이커머스</li>
+              <li>퍼포먼스</li>
+              <li>바이럴</li>
+              <li>브랜드</li>
+            </ul>
+          </div>
+          <dl class="profile-meta">
+            <dt>Certification</dt>
+            <dd>Google Partners</dd>
+            <dt>Contact</dt>
+            <dd><a href="mailto:robert@beaulead.co.kr">robert@beaulead.co.kr</a></dd>
+          </dl>
         </div>
       </div>
     </section>
