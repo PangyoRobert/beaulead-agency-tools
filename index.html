@@ -5,6 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Beaulead는 브랜드와 비즈니스의 성장을 설계하는 디지털 에이전시입니다.">
   <title>Beaulead — Digital Growth Agency</title>
+  <link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Beaulead">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/">
+  <meta property="og:title" content="Beaulead — Digital Growth Agency">
+  <meta property="og:description" content="Beaulead는 브랜드와 비즈니스의 성장을 설계하는 디지털 에이전시입니다.">
+  <meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Beaulead — Digital Growth Agency">
+  <meta name="twitter:description" content="Beaulead는 브랜드와 비즈니스의 성장을 설계하는 디지털 에이전시입니다.">
+  <meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <link rel="icon" href="./shared/brand/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="./shared/brand/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./shared/brand/favicon-16.png">
+  <link rel="apple-touch-icon" href="./shared/brand/apple-touch-icon.png">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap">
   <style>
     :root {
       color-scheme: dark;
@@ -14,6 +35,7 @@
       --muted: #999b96;
       --line: rgba(255, 255, 255, 0.15);
       --accent: #ccff00;
+      --mono: "IBM Plex Mono", monospace;
       --header-height: 84px;
     }
 
@@ -23,8 +45,9 @@
 
     body {
       margin: 0;
+      min-width: 320px;
       color: var(--text);
-      font-family: Arial, Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: var(--bg);
     }
 
@@ -55,7 +78,7 @@
       position: relative;
       z-index: 102;
       font-size: 1.28rem;
-      font-weight: 900;
+      font-weight: 700;
       letter-spacing: -0.05em;
       text-decoration: none;
     }
@@ -79,7 +102,7 @@
       padding: 31px 0;
       color: #c9cac5;
       font-size: 0.78rem;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 0.09em;
       text-decoration: none;
       transition: color 160ms ease;
@@ -117,7 +140,7 @@
       border: 1px solid var(--text);
       border-radius: 999px;
       font-size: 0.76rem;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 0.08em;
       text-decoration: none;
       transition: color 160ms ease, background 160ms ease;
@@ -179,7 +202,7 @@
       margin: 0 0 26px;
       color: var(--accent);
       font-size: 0.8rem;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 0.13em;
       text-transform: uppercase;
     }
@@ -242,7 +265,7 @@
       margin: 0 0 56px;
       color: var(--accent);
       font-size: 0.76rem;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 0.13em;
       text-transform: uppercase;
     }
@@ -279,7 +302,7 @@
       justify-content: space-between;
     }
 
-    .work-head span { color: var(--muted); font-size: 0.76rem; font-weight: 800; letter-spacing: 0.12em; }
+    .work-head span { color: var(--muted); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.12em; }
 
     .work-head h2 {
       max-width: 700px;
@@ -294,7 +317,7 @@
       border-bottom: 2px solid var(--accent);
       color: var(--accent);
       font-size: 0.82rem;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 0.04em;
       text-decoration: none;
       white-space: nowrap;
@@ -312,10 +335,10 @@
     }
 
     .work-line:first-of-type { margin-top: 48px; }
-    .work-line em { color: var(--accent); font-size: 0.76rem; font-style: normal; font-weight: 800; letter-spacing: 0.1em; }
+    .work-line em { color: var(--accent); font-size: 0.76rem; font-style: normal; font-weight: 700; letter-spacing: 0.1em; }
     .work-line strong { display: block; font-size: clamp(1.3rem, 2.5vw, 2.2rem); letter-spacing: -0.04em; }
     .work-line p { margin: 8px 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.6; word-break: keep-all; }
-    .work-line .period { color: var(--muted); font-size: 0.76rem; font-weight: 750; white-space: nowrap; }
+    .work-line .period { color: var(--muted); font-size: 0.76rem; font-weight: 600; white-space: nowrap; }
     .work-line:hover strong, .work-line:focus-visible strong { color: var(--accent); }
 
     .work-empty { margin-top: 48px; padding: 56px 0; border-top: 1px solid var(--line); color: var(--muted); }
@@ -374,7 +397,7 @@
       padding-bottom: 6px;
       border-bottom: 2px solid currentColor;
       font-size: 1rem;
-      font-weight: 800;
+      font-weight: 700;
       text-decoration: none;
     }
 
@@ -390,7 +413,7 @@
     .profile-name {
       margin: 0;
       font-size: clamp(1.75rem, 3.4vw, 2.75rem);
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: -0.05em;
     }
 
@@ -399,7 +422,7 @@
     .profile-role {
       margin: 8px 0 0;
       font-size: 0.95rem;
-      font-weight: 750;
+      font-weight: 600;
       letter-spacing: 0.02em;
       opacity: 0.72;
     }
@@ -412,7 +435,7 @@
       word-break: keep-all;
     }
 
-    .profile-bio a { font-weight: 750; text-decoration: underline; text-underline-offset: 3px; }
+    .profile-bio a { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
     .profile-tags {
       display: flex;
@@ -428,13 +451,13 @@
       border: 1.5px solid rgba(8, 8, 8, 0.4);
       border-radius: 999px;
       font-size: 0.82rem;
-      font-weight: 750;
+      font-weight: 600;
     }
 
     .profile-meta { margin: 0; }
     .profile-meta dt {
       font-size: 0.72rem;
-      font-weight: 850;
+      font-weight: 700;
       letter-spacing: 0.13em;
       text-transform: uppercase;
       opacity: 0.6;
@@ -442,7 +465,7 @@
     .profile-meta dd {
       margin: 10px 0 0;
       font-size: 1.02rem;
-      font-weight: 750;
+      font-weight: 600;
       word-break: break-all;
     }
     .profile-meta dd + dt { margin-top: 30px; }
@@ -496,6 +519,10 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition-duration: 0.01ms !important; }
     }
+
+    /* tokens.json font.secondary — 수치·기간·금액·라벨은 자릿수 정렬용 모노. */
+    .hero-kicker, .section-label, .work-head span, .work-line em,
+    .work-line .period, .service-line span, .profile-meta dt { font-family: var(--mono); }
   </style>
 </head>
 <body>
