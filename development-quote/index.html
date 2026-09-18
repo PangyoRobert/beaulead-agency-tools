@@ -429,7 +429,7 @@
             </label>
             <label class="field">
               <span>조정 금액</span>
-              <input id="adjustment-amount" type="number" min="0" step="10000" value="0">
+              <input id="adjustment-amount" type="text" inputmode="decimal" value="0" data-money>
             </label>
           </div>
           <label class="field" style="margin-top:14px">
@@ -473,6 +473,7 @@
 
   <div class="toast" id="toast" role="status">견적 요약을 복사했습니다.</div>
 
+  <script src="../shared/money-input.js"></script>
   <script src="./pricing-config.js"></script>
   <script src="./calculator.js"></script>
   <script>
@@ -482,6 +483,9 @@
     const money = (value) => `${Math.max(0, Math.round(value)).toLocaleString('ko-KR')}원`;
     const value = (name) => document.querySelector(`[name="${name}"]:checked`)?.value;
     const element = (id) => document.getElementById(id);
+    // 금액 칸은 쉼표가 섞여 있어 input.value 를 그대로 Number 에 넣으면 NaN 이다.
+    const MONEY = window.MONEY_INPUT;
+    MONEY.upgrade();
 
     element('version').textContent = CONFIG.version;
 
@@ -508,7 +512,7 @@
         urgent: element('urgent').checked,
         extraDevelopment: element('extra-development').checked,
         adjustmentType: element('adjustment-type').value,
-        adjustmentAmount: Number(element('adjustment-amount').value),
+        adjustmentAmount: MONEY.read(element('adjustment-amount')),
         adjustmentReason: element('adjustment-reason').value,
         managerApproved: element('manager-approved').checked
       }, CONFIG);
