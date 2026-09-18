@@ -127,4 +127,57 @@ near(onlyFixed.impliedRoas, base.targetRoas, "지원비 0 · 고정비만 있어
 assert.equal(config.fixedCost.default, 0);
 assert.ok(config.fixedCost.hint.length > 0, "고정비 입력 안내 문구가 있어야 한다");
 
-console.log("YouTube creator quote rules: 54 assertions passed.");
+// ── 예산 → 명수 역산 ────────────────────────────────────────────────
+// B = K + F*n + c*ROAS*B  →  n = (B*(1 - c*ROAS) - K) / F
+// 사람은 쪼갤 수 없으므로 내림하고, 그래서 남는 예산을 leftover 로 밝힌다.
+const solved = calculator.solveCreatorCount({ ...base, budget: 10000000 }, config);
+near(solved.exactCount, 36.6667, "정확해 명수");
+assert.equal(solved.creatorCount, 36, "내림한 명수");
+near(solved.totalCost, 9818181.8182, "실제 집행 총 비용");
+near(solved.leftover, 181818.1818, "예산 잔액");
+near(solved.totalRevenue, 29454545.4545, "필요 총 매출");
+near(solved.totalUnits, 589.0909, "총 판매수량");
+near(solved.impliedRoas, base.targetRoas, "역산 결과도 목표 ROAS 를 만족한다");
+assert.equal(solved.budget, 10000000);
+assert.ok(solved.totalCost <= 10000000, "집행액이 예산을 넘지 않아야 한다");
+
+// 역산 결과를 정방향에 되먹이면 같은 값이 나와야 한다(양방향 검산).
+const replay = calculator.calculate({ ...base, creatorCount: solved.creatorCount }, config);
+near(replay.totalCost, solved.totalCost, "역산→정방향 총 비용 일치");
+near(replay.revenuePerCreator, solved.revenuePerCreator, "역산→정방향 1인당 매출 일치");
+
+// 고정비가 있으면 같은 예산으로 쓸 수 있는 사람이 줄고 1인당 부담이 커진다.
+const solvedFixed = calculator.solveCreatorCount({ ...base, budget: 10000000, fixedCost: 2000000 }, config);
+assert.equal(solvedFixed.creatorCount, 23, "고정비 200만원이면 23명");
+near(solvedFixed.revenuePerCreator, 1292490.1186, "고정비가 있으면 1인당 부담이 커진다");
+assert.ok(
+  solvedFixed.creatorCount < solved.creatorCount,
+  "고정비가 늘면 같은 예산으로 쓸 수 있는 명수가 줄어야 한다"
+);
+near(solvedFixed.impliedRoas, base.targetRoas, "고정비가 있어도 목표 ROAS 달성");
+
+// 막아야 하는 경우들
+assert.throws(
+  () => calculator.solveCreatorCount({ ...base, budget: 10000000, fixedCost: 30000000 }, config),
+  /cover the fixed cost/,
+  "예산이 고정비를 못 덮으면 막는다"
+);
+assert.throws(
+  () => calculator.solveCreatorCount({ ...base, budget: 10000000, targetRoas: 7 }, config),
+  /unreachable/,
+  "ROAS 상한 초과는 정방향과 같은 이유로 막는다"
+);
+assert.throws(
+  () => calculator.solveCreatorCount({ ...base, budget: 10000000, supportFee: 0 }, config),
+  /Support fee must be greater/,
+  "지원비 0 이면 명수가 결정되지 않는다"
+);
+assert.throws(
+  () => calculator.solveCreatorCount({ ...base, budget: 1000 }, config),
+  /fewer than one creator/,
+  "1명도 못 쓰는 예산은 막는다"
+);
+assert.throws(() => calculator.solveCreatorCount({ ...base, budget: 0 }, config), /Budget/);
+assert.throws(() => calculator.solveCreatorCount({ ...base, budget: -1 }, config), /Budget/);
+
+console.log("YouTube creator quote rules: 75 assertions passed.");

@@ -107,6 +107,12 @@
     .field input:focus-visible { outline: 2px solid var(--accent-soft); outline-offset: 2px; }
     .field input:invalid { border-color: var(--accent); }
 
+    .modes { display: inline-flex; gap: 4px; margin-bottom: 22px; padding: 4px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+    .mode { min-height: 44px; padding: 0 20px; border: 0; border-radius: 10px; color: var(--muted); background: transparent; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+    .mode[aria-selected="true"] { color: #fff; background: var(--accent); }
+    .mode:hover:not([aria-selected="true"]) { color: var(--text); }
+    .mode:focus-visible { outline: 2px solid var(--accent-soft); outline-offset: 2px; }
+
     .scenario-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 8px; }
 
     .result { position: sticky; top: 90px; }
@@ -205,7 +211,7 @@
       html, body { background: #FFFFFF !important; }
       body { min-width: 0; }
 
-      .color-bar, .topbar, .back, .toast, .copy-button { display: none !important; }
+      .color-bar, .topbar, .back, .toast, .copy-button, .modes { display: none !important; }
 
       main { width: 100%; padding: 0; }
       .page-head { display: block; }
@@ -237,10 +243,15 @@
       <span class="ceiling-pill" id="ceiling-pill">CPS 수수료율 입력 대기</span>
     </div>
 
+    <div class="modes" role="tablist" aria-label="계산 방향">
+      <button class="mode" type="button" role="tab" id="mode-forward" aria-selected="true" aria-controls="panel-forward">명수 → 총액</button>
+      <button class="mode" type="button" role="tab" id="mode-reverse" aria-selected="false" aria-controls="panel-reverse">총액 → 명수</button>
+    </div>
+
     <div class="workspace">
       <section class="panel selector" aria-labelledby="input-heading">
         <h2 class="section-title" id="input-heading">입력값</h2>
-        <p class="section-note">객단가와 목표 ROAS는 기본값을 두지 않습니다. 실제 값을 직접 입력하세요.</p>
+        <p class="section-note" id="input-note"></p>
 
         <div class="field-grid">
           <div class="field">
@@ -270,27 +281,48 @@
           </div>
         </div>
 
-        <h2 class="section-title" style="margin-top: 28px;">인플루언서 명수 시나리오</h2>
-        <p class="section-note">모집 인원은 계획대로 되지 않습니다. 세 가지 경우를 함께 봅니다.</p>
-        <div class="scenario-grid" id="scenario-grid"></div>
+        <div id="panel-forward" role="tabpanel" aria-labelledby="mode-forward">
+          <h2 class="section-title" style="margin-top: 28px;">인플루언서 명수 시나리오</h2>
+          <p class="section-note">모집 인원은 계획대로 되지 않습니다. 세 가지 경우를 함께 봅니다.</p>
+          <div class="scenario-grid" id="scenario-grid"></div>
+        </div>
+
+        <div id="panel-reverse" role="tabpanel" aria-labelledby="mode-reverse" hidden>
+          <h2 class="section-title" style="margin-top: 28px;">예산 총액</h2>
+          <p class="section-note">집행할 금액을 넣으면 크리에이터를 몇 명까지 쓸 수 있는지 거꾸로 풉니다.</p>
+          <div class="field">
+            <label for="budget">예산 총액 (원)</label>
+            <input type="number" id="budget" min="1" step="any" placeholder="예: 45000000" inputmode="numeric">
+            <span class="hint">지원비 + CPS 수수료 + 고정비를 모두 합친 <strong>총 비용</strong> 기준입니다. 선집행 예산이나 목표 매출이 아닙니다.</span>
+          </div>
+        </div>
       </section>
 
       <aside class="panel result" aria-live="polite">
         <div class="result-head">
-          <span class="status">1인당 필요 실적</span>
+          <span class="status" id="result-status">1인당 필요 실적</span>
           <h2 id="result-title">입력 대기</h2>
           <p class="result-summary" id="result-summary">목표 ROAS와 객단가를 입력하면 계산합니다.</p>
         </div>
         <div class="total-box">
-          <span class="total-label">크리에이터 1인당 필요 매출</span>
+          <span class="total-label" id="total-label">크리에이터 1인당 필요 매출</span>
           <div><span class="total" id="revenue-per-creator">—</span><span class="total-unit">원</span></div>
         </div>
-        <div class="breakdown">
+        <div class="breakdown" id="breakdown-forward">
           <div class="line-item" id="outlay-row" hidden><span>1인당 지출 (지원비 + 고정비 분담)</span><strong id="echo-outlay">—</strong></div>
           <div class="line-item"><span>1인당 필요 판매수량</span><strong id="units-per-creator">—</strong></div>
           <div class="line-item"><span>목표 ROAS</span><strong id="echo-roas">—</strong></div>
           <div class="line-item"><span>CPS 수수료율</span><strong id="echo-rate">—</strong></div>
           <div class="line-item"><span>ROAS 도달 상한</span><strong id="echo-ceiling">—</strong></div>
+        </div>
+        <div class="breakdown" id="breakdown-reverse" hidden>
+          <div class="line-item"><span>1인당 필요 매출</span><strong id="r-per-creator">—</strong></div>
+          <div class="line-item"><span>1인당 필요 판매수량</span><strong id="r-units">—</strong></div>
+          <div class="line-item"><span>총 판매수량</span><strong id="r-total-units">—</strong></div>
+          <div class="line-item"><span>총 지원비</span><strong id="r-support">—</strong></div>
+          <div class="line-item" id="r-fixed-row" hidden><span>고정비</span><strong id="r-fixed">—</strong></div>
+          <div class="line-item"><span>총 CPS 수수료</span><strong id="r-commission">—</strong></div>
+          <div class="line-item"><span>검산 ROAS</span><strong id="r-roas">—</strong></div>
         </div>
         <p class="error" id="error-box" hidden></p>
         <button class="copy-button" type="button" id="copy-summary" disabled>견적 요약 복사</button>
@@ -328,6 +360,8 @@
     const commissionInput = el('commission-rate');
     const fixedCostInput = el('fixed-cost');
     const scenarioGrid = el('scenario-grid');
+    const budgetInput = el('budget');
+    let mode = 'forward';
     const errorBox = el('error-box');
     const copyButton = el('copy-summary');
 
@@ -384,12 +418,11 @@
       el('result-title').textContent = '입력 대기';
       el('result-summary').textContent = message;
       el('revenue-per-creator').textContent = '—';
-      el('units-per-creator').textContent = '—';
-      el('echo-roas').textContent = '—';
-      el('echo-rate').textContent = '—';
-      el('echo-ceiling').textContent = '—';
+      ['units-per-creator', 'echo-roas', 'echo-rate', 'echo-ceiling', 'echo-outlay',
+       'r-per-creator', 'r-units', 'r-total-units', 'r-support', 'r-fixed', 'r-commission', 'r-roas']
+        .forEach((id) => { el(id).textContent = '—'; });
       el('outlay-row').hidden = true;
-      el('echo-outlay').textContent = '—';
+      el('r-fixed-row').hidden = true;
       el('scenario-head').innerHTML = '<th scope="col">구분</th>';
       el('scenario-body').innerHTML = '';
       el('scope-notice').textContent = CONFIG.roasScopeNotice;
@@ -397,12 +430,100 @@
       delete copyButton.dataset.summary;
     }
 
+    // 막힌 이유를 그대로 말한다. 사용자가 고칠 수 있는 건 입력값이지 오류 코드가 아니다.
+    function explain(error, input) {
+      const pct = (input.commissionRate * 100).toFixed(0);
+      if (/unreachable/.test(error.message)) {
+        return `CPS ${pct}%에서는 목표 ROAS ${input.targetRoas} 에 도달할 수 없습니다. 지원비가 0원이어도 총비용에 매출의 ${pct}%가 항상 포함되므로 ROAS 상한은 ${CALCULATOR.ceilingRoas(input.commissionRate).toFixed(2)} 입니다.`;
+      }
+      if (/cover the fixed cost/.test(error.message)) {
+        return `예산에서 CPS 수수료 몫을 뗀 나머지가 고정비 ${won(input.fixedCost)}보다 적습니다. 예산을 늘리거나 고정비를 줄여야 크리에이터를 한 명이라도 쓸 수 있습니다.`;
+      }
+      if (/fewer than one creator/.test(error.message)) {
+        return '예산이 크리에이터 1명분에도 못 미칩니다. 예산을 늘리거나 지원비·고정비를 줄여 주세요.';
+      }
+      if (/Support fee must be greater/.test(error.message)) {
+        return '지원비가 0원이면 사람을 늘려도 비용이 늘지 않아 명수가 정해지지 않습니다. 지원비를 입력해 주세요.';
+      }
+      return `입력값을 확인해 주세요. (${error.message})`;
+    }
+
+    function fail(error, input) {
+      clearResult('계산할 수 없는 조건입니다.');
+      errorBox.hidden = false;
+      errorBox.textContent = explain(error, input);
+    }
+
+    // 표는 두 모드가 같은 모양을 쓴다. 정방향은 명수마다 한 열, 역산은 한 열.
+    function renderTable(columns, rows) {
+      const head = el('scenario-head');
+      const body = el('scenario-body');
+      head.innerHTML = '<th scope="col">구분</th>';
+      body.innerHTML = '';
+      columns.forEach((label) => {
+        const th = document.createElement('th');
+        th.scope = 'col';
+        th.textContent = label;
+        head.appendChild(th);
+      });
+      rows.forEach(([label, values]) => {
+        const tr = document.createElement('tr');
+        if (label === 'ROAS') tr.className = 'row-roas';
+        const first = document.createElement('td');
+        first.textContent = label;
+        tr.appendChild(first);
+        values.forEach((value) => {
+          const td = document.createElement('td');
+          td.textContent = value;
+          tr.appendChild(td);
+        });
+        body.appendChild(tr);
+      });
+    }
+
+    function planRows(input, items) {
+      return [
+        ['총 매출', items.map((i) => won(i.totalRevenue))],
+        ['총 지원비', items.map((i) => won(i.totalSupportFee))],
+        ...(input.fixedCost > 0 ? [['고정비 (명수 무관)', items.map((i) => won(i.fixedCost))]] : []),
+        ['총 CPS 수수료', items.map((i) => won(i.totalCommission))],
+        ['총 비용', items.map((i) => won(i.totalCost))],
+        ['1인당 필요 매출', items.map((i) => won(i.revenuePerCreator))],
+        ['1인당 필요 판매수량', items.map((i) => `${i.unitsPerCreator.toFixed(1)}개`)],
+        ['ROAS', items.map((i) => `${i.impliedRoas.toFixed(2)}배`)]
+      ];
+    }
+
+    // 모드마다 고정 문구와 보이는 블록이 다르다. 계산 전에 먼저 맞춰 둔다.
+    function applyMode() {
+      const forward = mode === 'forward';
+      el('mode-forward').setAttribute('aria-selected', String(forward));
+      el('mode-reverse').setAttribute('aria-selected', String(!forward));
+      el('panel-forward').hidden = !forward;
+      el('panel-reverse').hidden = forward;
+      el('breakdown-forward').hidden = !forward;
+      el('breakdown-reverse').hidden = forward;
+      el('input-note').textContent = forward
+        ? '객단가와 목표 ROAS는 기본값을 두지 않습니다. 실제 값을 직접 입력하세요.'
+        : '예산을 넣으면 명수를 거꾸로 풉니다. 객단가와 목표 ROAS는 직접 입력하세요.';
+      el('result-status').textContent = forward ? '1인당 필요 실적' : '예산으로 가능한 규모';
+      el('total-label').textContent = forward ? '크리에이터 1인당 필요 매출' : '필요 총 매출';
+      el('scenario-heading').textContent = forward ? '명수 시나리오별 총액' : '예산 집행 내역';
+      el('scenario-note').textContent = forward
+        ? scenarioNote(Number(fixedCostInput.value) || 0)
+        : '예산 칸의 금액은 총 비용(지원비 + CPS 수수료 + 고정비)입니다. 선집행 예산이나 목표 매출이 아닙니다.';
+    }
+
     function render() {
       const input = readInputs();
       updateCeilingPill(input.commissionRate);
-      el('scenario-note').textContent = scenarioNote(input.fixedCost);
+      applyMode();
       errorBox.hidden = true;
+      if (mode === 'reverse') renderReverse(input);
+      else renderForward(input);
+    }
 
+    function renderForward(input) {
       if (!(input.targetRoas > 0) || !(input.averageOrderValue > 0)) {
         clearResult('목표 ROAS와 객단가를 입력하면 계산합니다.');
         return;
@@ -417,11 +538,7 @@
       try {
         base = CALCULATOR.calculate({ ...input, creatorCount: probeCount }, CONFIG);
       } catch (error) {
-        clearResult('계산할 수 없는 조건입니다.');
-        errorBox.hidden = false;
-        errorBox.textContent = /unreachable/.test(error.message)
-          ? `CPS ${(input.commissionRate * 100).toFixed(0)}%에서는 목표 ROAS ${input.targetRoas} 에 도달할 수 없습니다. 지원비가 0원이어도 총비용에 매출의 ${(input.commissionRate * 100).toFixed(0)}%가 항상 포함되므로 ROAS 상한은 ${CALCULATOR.ceilingRoas(input.commissionRate).toFixed(2)} 입니다.`
-          : `입력값을 확인해 주세요. (${error.message})`;
+        fail(error, input);
         return;
       }
 
@@ -438,58 +555,21 @@
       el('echo-outlay').textContent = won(base.outlayPerCreator);
       el('scope-notice').textContent = base.scopeNotice;
 
-      const head = el('scenario-head');
-      const body = el('scenario-body');
-      head.innerHTML = '<th scope="col">구분</th>';
-      body.innerHTML = '';
-
       if (counts.length === 0) {
+        el('scenario-head').innerHTML = '<th scope="col">구분</th>';
+        el('scenario-body').innerHTML = '';
         copyButton.disabled = true;
         delete copyButton.dataset.summary;
         return;
       }
 
       const results = counts.map((count) => CALCULATOR.calculate({ ...input, creatorCount: count }, CONFIG));
-      results.forEach((item) => {
-        const th = document.createElement('th');
-        th.scope = 'col';
-        th.textContent = `${item.creatorCount}명`;
-        head.appendChild(th);
-      });
-
-      const rows = [
-        ['총 매출', (item) => won(item.totalRevenue)],
-        ['총 지원비', (item) => won(item.totalSupportFee)],
-        ...(input.fixedCost > 0 ? [['고정비 (명수 무관)', (item) => won(item.fixedCost)]] : []),
-        ['총 CPS 수수료', (item) => won(item.totalCommission)],
-        ['총 비용', (item) => won(item.totalCost)],
-        ['1인당 필요 매출', (item) => won(item.revenuePerCreator)],
-        ['1인당 필요 판매수량', (item) => `${item.unitsPerCreator.toFixed(1)}개`],
-        ['ROAS', (item) => `${item.impliedRoas.toFixed(2)}배`]
-      ];
-
-      rows.forEach(([label, format], index) => {
-        const tr = document.createElement('tr');
-        if (index === rows.length - 1) tr.className = 'row-roas';
-        const th = document.createElement('td');
-        th.textContent = label;
-        tr.appendChild(th);
-        results.forEach((item) => {
-          const td = document.createElement('td');
-          td.textContent = format(item);
-          tr.appendChild(td);
-        });
-        body.appendChild(tr);
-      });
+      renderTable(results.map((item) => `${item.creatorCount}명`), planRows(input, results));
 
       copyButton.disabled = false;
       copyButton.dataset.summary = [
-        '[유튜브 크리에이터 제휴 예상 견적]',
-        `목표 ROAS: ${input.targetRoas}배`,
-        `객단가: ${won(input.averageOrderValue)}`,
-        `콘텐츠 지원비: ${won(input.supportFee)} / 인 (전원 동일)`,
-        `CPS 수수료율: ${(input.commissionRate * 100).toFixed(0)}%`,
-        ...(input.fixedCost > 0 ? [`고정비(명수 무관, 전체): ${won(input.fixedCost)}`] : []),
+        '[유튜브 크리에이터 제휴 예상 견적 — 명수 기준]',
+        ...sharedSummaryLines(input),
         '',
         `1인당 필요 매출: ${won(base.revenuePerCreator)}`,
         `1인당 필요 판매수량: ${base.unitsPerCreator.toFixed(1)}개`,
@@ -498,11 +578,79 @@
           `${item.creatorCount}명 → 총 매출 ${won(item.totalRevenue)} / 총 비용 ${won(item.totalCost)} / ROAS ${item.impliedRoas.toFixed(2)}배`
         ),
         '',
-        CONFIG.roasScopeNotice
+        base.scopeNotice
       ].join('\n');
     }
 
-    [targetRoasInput, aovInput, supportFeeInput, commissionInput, fixedCostInput, ...scenarioInputs]
+    function renderReverse(input) {
+      const budget = Number(budgetInput.value);
+      if (!(budget > 0) || !(input.targetRoas > 0) || !(input.averageOrderValue > 0)) {
+        clearResult('예산 총액, 목표 ROAS, 객단가를 입력하면 계산합니다.');
+        return;
+      }
+
+      let plan;
+      try {
+        plan = CALCULATOR.solveCreatorCount({ ...input, budget }, CONFIG);
+      } catch (error) {
+        fail(error, input);
+        return;
+      }
+
+      el('result-title').textContent = `${plan.creatorCount}명`;
+      el('result-summary').textContent =
+        `총 비용 ${won(plan.totalCost)}을 집행하고 예산이 ${won(plan.leftover)} 남습니다. `
+        + `정확해는 ${plan.exactCount.toFixed(2)}명이고 사람은 쪼갤 수 없어 내림했습니다.`;
+      el('revenue-per-creator').textContent = Math.round(plan.totalRevenue).toLocaleString('ko-KR');
+      el('r-per-creator').textContent = won(plan.revenuePerCreator);
+      el('r-units').textContent = `${plan.unitsPerCreator.toFixed(1)}개`;
+      el('r-total-units').textContent = `${Math.round(plan.totalUnits).toLocaleString('ko-KR')}개`;
+      el('r-support').textContent = won(plan.totalSupportFee);
+      el('r-fixed-row').hidden = input.fixedCost <= 0;
+      el('r-fixed').textContent = won(plan.fixedCost);
+      el('r-commission').textContent = won(plan.totalCommission);
+      el('r-roas').textContent = `${plan.impliedRoas.toFixed(2)}배`;
+      el('scope-notice').textContent = plan.scopeNotice;
+
+      renderTable([`${plan.creatorCount}명`], [
+        ['예산 총액 (입력)', [won(plan.budget)]],
+        ...planRows(input, [plan]),
+        ['예산 잔액', [won(plan.leftover)]]
+      ]);
+
+      copyButton.disabled = false;
+      copyButton.dataset.summary = [
+        '[유튜브 크리에이터 제휴 예상 견적 — 예산 기준]',
+        `예산 총액(총 비용): ${won(plan.budget)}`,
+        ...sharedSummaryLines(input),
+        '',
+        `가능 인플루언서: ${plan.creatorCount}명 (정확해 ${plan.exactCount.toFixed(2)}명 내림)`,
+        `실제 집행 총 비용: ${won(plan.totalCost)} (잔액 ${won(plan.leftover)})`,
+        `필요 총 매출: ${won(plan.totalRevenue)}`,
+        `총 판매수량: ${Math.round(plan.totalUnits).toLocaleString('ko-KR')}개`,
+        '',
+        `1인당 필요 매출: ${won(plan.revenuePerCreator)}`,
+        `1인당 필요 판매수량: ${plan.unitsPerCreator.toFixed(1)}개`,
+        '',
+        plan.scopeNotice
+      ].join('\n');
+    }
+
+    function sharedSummaryLines(input) {
+      return [
+        `목표 ROAS: ${input.targetRoas}배`,
+        `객단가: ${won(input.averageOrderValue)}`,
+        `콘텐츠 지원비: ${won(input.supportFee)} / 인 (전원 동일)`,
+        `CPS 수수료율: ${(input.commissionRate * 100).toFixed(0)}%`,
+        ...(input.fixedCost > 0 ? [`고정비(명수 무관, 전체): ${won(input.fixedCost)}`] : [])
+      ];
+    }
+
+    ['forward', 'reverse'].forEach((next) => {
+      el(`mode-${next}`).addEventListener('click', () => { mode = next; render(); });
+    });
+
+    [targetRoasInput, aovInput, supportFeeInput, commissionInput, fixedCostInput, budgetInput, ...scenarioInputs]
       .forEach((field) => field.addEventListener('input', render));
 
     copyButton.addEventListener('click', async () => {
