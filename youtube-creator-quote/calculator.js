@@ -31,6 +31,9 @@
     const commissionRate = input.commissionRate;
     const averageOrderValue = input.averageOrderValue;
     const creatorCount = input.creatorCount;
+    // 명수와 무관하게 한 번 나가는 비용(영상 제작비·대행 수수료 등).
+    // 넣지 않으면 0이고, 그때 결과는 고정비 도입 전과 완전히 같다.
+    const fixedCost = input.fixedCost === undefined ? 0 : input.fixedCost;
 
     assertPositive(targetRoas, "Target ROAS");
     assertPositive(averageOrderValue, "Average order value");
@@ -39,8 +42,15 @@
     if (typeof supportFee !== "number" || !Number.isFinite(supportFee) || supportFee < 0) {
       throw new Error("Support fee must be zero or a positive number");
     }
+    if (typeof fixedCost !== "number" || !Number.isFinite(fixedCost) || fixedCost < 0) {
+      throw new Error("Fixed cost must be zero or a positive number");
+    }
     if (!Number.isInteger(creatorCount) || creatorCount < 1) {
       throw new Error("Creator count must be a positive integer");
+    }
+    // 지출이 전혀 없으면 ROAS 가 정의되지 않는다(0 으로 나눈다).
+    if (supportFee * creatorCount + fixedCost <= 0) {
+      throw new Error("Total outlay must be greater than zero");
     }
 
     const denominator = 1 / targetRoas - commissionRate;
@@ -48,20 +58,25 @@
       throw new Error("Target ROAS is unreachable at this commission rate");
     }
 
-    const revenuePerCreator = supportFee / denominator;
+    // 고정비는 명수로 나눠 1인당 지출에 얹는다. 그래서 고정비가 있으면
+    // 1인당 필요 매출이 더는 명수와 무관하지 않고, 사람이 늘수록 내려간다.
+    const outlayPerCreator = supportFee + fixedCost / creatorCount;
+    const revenuePerCreator = outlayPerCreator / denominator;
     const unitsPerCreator = revenuePerCreator / averageOrderValue;
     const totalRevenue = revenuePerCreator * creatorCount;
     const totalSupportFee = supportFee * creatorCount;
     const totalCommission = totalRevenue * commissionRate;
-    const totalCost = totalSupportFee + totalCommission;
+    const totalCost = fixedCost + totalSupportFee + totalCommission;
 
     return Object.freeze({
       targetRoas,
       creatorCount,
       supportFee,
+      fixedCost,
       commissionRate,
       averageOrderValue,
       ceilingRoas: ceilingRoas(commissionRate),
+      outlayPerCreator,
       revenuePerCreator,
       unitsPerCreator,
       totalRevenue,
@@ -70,8 +85,18 @@
       totalCost,
       // 검산값. 입력한 목표 ROAS와 같아야 한다.
       impliedRoas: totalCost === 0 ? Infinity : totalRevenue / totalCost,
-      scopeNotice: config && config.roasScopeNotice ? config.roasScopeNotice : ""
+      scopeNotice: scopeNotice(config, fixedCost)
     });
+  }
+
+  // 분모에 무엇이 들어갔는지는 고정비 입력 여부에 따라 달라진다. 화면에 늘
+  // 같은 문구를 띄우면 둘 중 한 경우에는 거짓말이 된다.
+  function scopeNotice(config, fixedCost) {
+    if (!config) return "";
+    if (fixedCost > 0 && config.roasScopeNoticeWithFixedCost) {
+      return config.roasScopeNoticeWithFixedCost;
+    }
+    return config.roasScopeNotice || "";
   }
 
   return Object.freeze({ calculate, ceilingRoas });
