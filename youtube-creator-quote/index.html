@@ -169,6 +169,55 @@
     /* tokens.json font.secondary — 수치·기간·금액·라벨은 자릿수 정렬용 모노. */
     .eyebrow, .ceiling-pill, .status, .total, .total-unit,
     .line-item strong, table th, table td { font-family: var(--mono); }
+
+    /* 인쇄·PDF. 종이에서는 화면용 어두운 배경·그라디언트·그림자를 전부 걷어낸다.
+       규칙을 하나씩 뒤집으면 하드코딩된 rgba 배경을 놓쳐 글자가 배경에 묻으므로
+       일괄로 지우고 강조만 브랜드 액센트로 되살린다. 폼 컨트롤은 일괄 대상에서
+       빼는데, 배경·색을 덮어쓰면 체크 여부가 종이에서 안 읽히기 때문이다.
+       색은 brand-design-system tokens.json — surface.default / text.default /
+       rule.on_light / brand.accent. */
+    @media print {
+      @page { margin: 14mm; }
+
+      /* 네이티브 컨트롤이 어두운 테마로 그려지지 않게 먼저 뒤집는다. */
+      :root { color-scheme: light; }
+
+      *:not(input):not(select):not(textarea):not(option),
+      *::before,
+      *::after {
+        background: transparent !important;
+        color: #241815 !important;
+        border-color: #E0E0E0 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+
+      /* type 속성이 없는 <input> 도 있어서 타입 지정으로 잡으면 새어나간다.
+         (video-quote 의 고객사명 입력이 그랬고 인쇄본에서 거의 안 보였다) */
+      input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea {
+        color: #241815 !important;
+        background: #FFFFFF !important;
+        border-color: #E0E0E0 !important;
+      }
+
+      input[type="checkbox"], input[type="radio"] { accent-color: #0F62FE; }
+
+      html, body { background: #FFFFFF !important; }
+      body { min-width: 0; }
+
+      .color-bar, .topbar, .back, .toast, .copy-button { display: none !important; }
+
+      main { width: 100%; padding: 0; }
+      .page-head { display: block; }
+      .workspace { display: block; }
+      .panel { border: 1px solid #E0E0E0 !important; border-radius: 0; break-inside: avoid; }
+      .result { position: static !important; margin-top: 16px; }
+      .table-scroll { overflow: visible; }
+      table { break-inside: avoid; }
+      th, td { border-color: #E0E0E0 !important; }
+
+      .eyebrow, .status, .total, .row-roas td { color: #0F62FE !important; }
+    }
   </style>
 </head>
 <body>
