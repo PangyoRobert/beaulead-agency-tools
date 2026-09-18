@@ -99,5 +99,68 @@
     return config.roasScopeNotice || "";
   }
 
-  return Object.freeze({ calculate, ceilingRoas });
+  /** 예산에서 명수를 거꾸로 푼다.
+   *
+   * 정방향은 명수를 받아 총액을 내지만, 영업에서 먼저 정해지는 쪽은 보통
+   * 예산이다. "4,500만원이면 몇 명"에 답하려고 같은 식을 n 에 대해 푼 것이다.
+   *
+   *   총비용 B = 고정비 K + 지원비 F x n + 수수료율 c x 총매출
+   *   총매출 = ROAS x B      (ROAS 의 정의)
+   *   => B = K + F x n + c x ROAS x B
+   *   => n = ( B x (1 - c x ROAS) - K ) / F
+   *
+   * 수수료를 예산만으로 표현할 수 있어서 미지수가 n 하나만 남는다. 그래서
+   * 반복 계산이나 근사 없이 나눗셈 한 번으로 끝난다.
+   *
+   * `budget` 은 총 비용(지원비 + CPS 수수료 + 고정비)이다. 선집행 예산이나
+   * 목표 매출이 아니다 - 섞으면 답이 몇 배씩 달라진다.
+   */
+  function solveCreatorCount(input, config) {
+    const budget = input.budget;
+    const targetRoas = input.targetRoas;
+    const supportFee = input.supportFee;
+    const commissionRate = input.commissionRate;
+    const fixedCost = input.fixedCost === undefined ? 0 : input.fixedCost;
+
+    assertPositive(budget, "Budget");
+    assertPositive(targetRoas, "Target ROAS");
+    assertRate(commissionRate);
+    if (typeof fixedCost !== "number" || !Number.isFinite(fixedCost) || fixedCost < 0) {
+      throw new Error("Fixed cost must be zero or a positive number");
+    }
+    // 지원비가 0 이면 사람을 늘려도 비용이 늘지 않아 명수가 결정되지 않는다.
+    if (typeof supportFee !== "number" || !Number.isFinite(supportFee) || supportFee <= 0) {
+      throw new Error("Support fee must be greater than zero to solve for a creator count");
+    }
+
+    // 1 - c x ROAS <= 0 은 1/ROAS - c <= 0 과 같은 조건이다. 정방향과 같은 상한.
+    const slack = 1 - commissionRate * targetRoas;
+    if (slack <= 0) {
+      throw new Error("Target ROAS is unreachable at this commission rate");
+    }
+
+    // 예산에서 수수료 몫과 고정비를 떼고 남는 돈이 지원비로 갈 수 있는 전부다.
+    const supportBudget = budget * slack - fixedCost;
+    if (supportBudget <= 0) {
+      throw new Error("Budget does not cover the fixed cost");
+    }
+
+    const exactCount = supportBudget / supportFee;
+    const creatorCount = Math.floor(exactCount);
+    if (creatorCount < 1) {
+      throw new Error("Budget affords fewer than one creator");
+    }
+
+    // 명수는 정수로 내리므로 실제 집행액은 예산보다 조금 적다. 그 차액을 밝힌다.
+    const plan = calculate({ ...input, fixedCost, creatorCount }, config);
+    return Object.freeze({
+      ...plan,
+      budget,
+      exactCount,
+      leftover: budget - plan.totalCost,
+      totalUnits: plan.unitsPerCreator * creatorCount
+    });
+  }
+
+  return Object.freeze({ calculate, ceilingRoas, solveCreatorCount });
 });
