@@ -21,9 +21,10 @@ jobs:
           python-version: "3.x"
       - name: Validate static site
         run: python3 scripts/validate_site.py
-      - name: Test development quote rules
-        run: node scripts/test_development_quote.js
-      - name: Test Google Ads training quote rules
-        run: node scripts/test_google_ads_training_quote.js
-      - name: Test YouTube creator quote rules
-        run: node scripts/test_youtube_creator_quote.js
+      # 파일을 하나씩 적으면 새 테스트를 추가하고 여기 넣는 걸 잊는다.
+      - name: Run every node test
+        run: |
+          for file in scripts/test_*.js; do
+            echo "── $file"
+            node "$file" || exit 1
+          done

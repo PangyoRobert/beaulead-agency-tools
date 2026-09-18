@@ -298,12 +298,12 @@
           </div>
           <div class="field">
             <label for="aov">객단가 (원)</label>
-            <input type="number" id="aov" min="1" step="any" placeholder="직접 입력" inputmode="numeric">
+            <input type="text" id="aov" placeholder="직접 입력" inputmode="decimal" data-money>
             <span class="hint">1건당 평균 주문금액.</span>
           </div>
           <div class="field">
             <label for="support-fee">콘텐츠 지원비 (원/인)</label>
-            <input type="number" id="support-fee" min="0" step="any" inputmode="numeric">
+            <input type="text" id="support-fee" inputmode="decimal" data-money>
             <span class="hint" id="support-fee-hint"></span>
           </div>
           <div class="field">
@@ -313,7 +313,7 @@
           </div>
           <div class="field">
             <label for="fixed-cost">고정비 (원, 전체)</label>
-            <input type="number" id="fixed-cost" min="0" step="any" inputmode="numeric">
+            <input type="text" id="fixed-cost" inputmode="decimal" data-money>
             <span class="hint" id="fixed-cost-hint"></span>
           </div>
         </div>
@@ -329,7 +329,7 @@
           <p class="section-note">집행할 금액을 넣으면 크리에이터를 몇 명까지 쓸 수 있는지 거꾸로 풉니다.</p>
           <div class="field">
             <label for="budget">예산 총액 (원)</label>
-            <input type="number" id="budget" min="1" step="any" placeholder="예: 45000000" inputmode="numeric">
+            <input type="text" id="budget" placeholder="예: 45,000,000" inputmode="decimal" data-money>
             <span class="hint">지원비 + CPS 수수료 + 고정비를 모두 합친 <strong>총 비용</strong> 기준입니다. 선집행 예산이나 목표 매출이 아닙니다.</span>
           </div>
         </div>
@@ -437,6 +437,7 @@
 
   <div class="toast" id="toast" role="status">견적 요약을 복사했습니다.</div>
 
+  <script src="../shared/money-input.js"></script>
   <script src="./pricing-config.js"></script>
   <script src="./calculator.js"></script>
   <script>
@@ -445,6 +446,9 @@
 
     const won = (amount) => `${Math.round(amount).toLocaleString('ko-KR')}원`;
     const el = (id) => document.getElementById(id);
+    // 금액 칸은 쉼표가 섞여 있어 input.value 를 그대로 Number 에 넣으면 NaN 이다.
+    const MONEY = window.MONEY_INPUT;
+    MONEY.upgrade();
 
     const targetRoasInput = el('target-roas');
     const aovInput = el('aov');
@@ -457,13 +461,13 @@
     const errorBox = el('error-box');
     const copyButton = el('copy-summary');
 
-    supportFeeInput.value = CONFIG.supportFee.default;
+    MONEY.write(supportFeeInput, CONFIG.supportFee.default);
     el('support-fee-hint').textContent =
       `전원 동일 지급. 권장 범위 ${won(CONFIG.supportFee.min)} ~ ${won(CONFIG.supportFee.max)}.`;
 
     commissionInput.value = Math.round(CONFIG.commissionRate.default * 100);
     el('commission-hint').textContent = '한번 정하면 캠페인 내내 유지합니다.';
-    fixedCostInput.value = CONFIG.fixedCost.default;
+    MONEY.write(fixedCostInput, CONFIG.fixedCost.default);
     el('fixed-cost-hint').textContent = CONFIG.fixedCost.hint;
     el('scope-notice').textContent = CONFIG.roasScopeNotice;
 
@@ -481,10 +485,10 @@
     function readInputs() {
       return {
         targetRoas: Number(targetRoasInput.value),
-        averageOrderValue: Number(aovInput.value),
-        supportFee: Number(supportFeeInput.value),
+        averageOrderValue: MONEY.read(aovInput),
+        supportFee: MONEY.read(supportFeeInput),
         commissionRate: Number(commissionInput.value) / 100,
-        fixedCost: Number(fixedCostInput.value) || 0
+        fixedCost: MONEY.read(fixedCostInput)
       };
     }
 
@@ -675,7 +679,7 @@
     }
 
     function renderReverse(input) {
-      const budget = Number(budgetInput.value);
+      const budget = MONEY.read(budgetInput);
       if (!(budget > 0) || !(input.targetRoas > 0) || !(input.averageOrderValue > 0)) {
         clearResult('예산 총액, 목표 ROAS, 객단가를 입력하면 계산합니다.');
         return;
