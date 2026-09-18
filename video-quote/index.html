@@ -49,6 +49,10 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important}}
 /* tokens.json font.secondary — 수치·기간·금액·라벨은 자릿수 정렬용 모노. */
 .chip,.price,.qty,.optPrice,.amount,.range,.status,.line strong{font-family:var(--mono)}
+/* 인쇄·PDF. 하드코딩된 rgba 배경까지 한 번에 걷어내되 폼 컨트롤은 제외한다
+   (배경·색을 덮으면 체크 여부가 종이에서 안 읽힌다).
+   색은 brand-design-system tokens.json 확정값. */
+@media print{@page{margin:14mm}:root{color-scheme:light}*:not(input):not(select):not(textarea):not(option),*:before,*:after{background:transparent!important;color:#241815!important;border-color:#E0E0E0!important;box-shadow:none!important;text-shadow:none!important}input:not([type=checkbox]):not([type=radio]):not([type=range]){color:#241815!important;background:#FFFFFF!important;border-color:#E0E0E0!important}html,body{background:#FFFFFF!important}body{min-width:0}.topbar,.back,.toast,.actions,.foot,input[type=range],.range{display:none!important}.wrap{width:100%;padding:0}.top{display:block}.chips{justify-content:flex-start;margin-top:12px}.grid{display:block}.panel{border:1px solid #E0E0E0!important;border-radius:0;break-inside:avoid}.right{position:static!important;margin-top:16px}.svc,.opt,.field,.chip,.seg button,.approval,.notice{border:1px solid #E0E0E0!important}.mark{border:1px solid #0F62FE!important;color:#0F62FE!important}.switch{border:1px solid #E0E0E0!important}.switch.on,.switch.on:after{background:#0F62FE!important}.seg .on{border-color:#0F62FE!important;color:#0F62FE!important}.price,.amount,.status,.qty,.disc strong{color:#0F62FE!important}/* 고르지 않은 옵션은 종이에서 소음이다. :has 미지원 브라우저는 전부 인쇄된다. */.opt:not(:has(.switch.on)){display:none}}
 </style>
 </head>
 <body>
