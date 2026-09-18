@@ -263,6 +263,11 @@
             <input type="number" id="commission-rate" min="1" max="99" step="1" inputmode="decimal">
             <span class="hint" id="commission-hint"></span>
           </div>
+          <div class="field">
+            <label for="fixed-cost">고정비 (원, 전체)</label>
+            <input type="number" id="fixed-cost" min="0" step="any" inputmode="numeric">
+            <span class="hint" id="fixed-cost-hint"></span>
+          </div>
         </div>
 
         <h2 class="section-title" style="margin-top: 28px;">인플루언서 명수 시나리오</h2>
@@ -281,6 +286,7 @@
           <div><span class="total" id="revenue-per-creator">—</span><span class="total-unit">원</span></div>
         </div>
         <div class="breakdown">
+          <div class="line-item" id="outlay-row" hidden><span>1인당 지출 (지원비 + 고정비 분담)</span><strong id="echo-outlay">—</strong></div>
           <div class="line-item"><span>1인당 필요 판매수량</span><strong id="units-per-creator">—</strong></div>
           <div class="line-item"><span>목표 ROAS</span><strong id="echo-roas">—</strong></div>
           <div class="line-item"><span>CPS 수수료율</span><strong id="echo-rate">—</strong></div>
@@ -293,7 +299,7 @@
 
     <section class="panel scenarios" aria-labelledby="scenario-heading">
       <h2 class="section-title" id="scenario-heading">명수 시나리오별 총액</h2>
-      <p class="section-note">1인당 지표와 ROAS는 명수와 무관하게 같습니다. 명수는 총 규모만 바꿉니다.</p>
+      <p class="section-note" id="scenario-note"></p>
       <div class="table-scroll">
         <table>
           <thead><tr id="scenario-head"><th scope="col">구분</th></tr></thead>
@@ -320,6 +326,7 @@
     const aovInput = el('aov');
     const supportFeeInput = el('support-fee');
     const commissionInput = el('commission-rate');
+    const fixedCostInput = el('fixed-cost');
     const scenarioGrid = el('scenario-grid');
     const errorBox = el('error-box');
     const copyButton = el('copy-summary');
@@ -330,6 +337,8 @@
 
     commissionInput.value = Math.round(CONFIG.commissionRate.default * 100);
     el('commission-hint').textContent = '한번 정하면 캠페인 내내 유지합니다.';
+    fixedCostInput.value = CONFIG.fixedCost.default;
+    el('fixed-cost-hint').textContent = CONFIG.fixedCost.hint;
     el('scope-notice').textContent = CONFIG.roasScopeNotice;
 
     const scenarioInputs = CONFIG.scenarioLabels.map((label, index) => {
@@ -348,7 +357,8 @@
         targetRoas: Number(targetRoasInput.value),
         averageOrderValue: Number(aovInput.value),
         supportFee: Number(supportFeeInput.value),
-        commissionRate: Number(commissionInput.value) / 100
+        commissionRate: Number(commissionInput.value) / 100,
+        fixedCost: Number(fixedCostInput.value) || 0
       };
     }
 
@@ -361,6 +371,15 @@
       pill.textContent = `CPS ${(rate * 100).toFixed(0)}% · ROAS 상한 ${CALCULATOR.ceilingRoas(rate).toFixed(2)}`;
     }
 
+    // 고정비가 0일 때만 "명수와 무관"이 참이다. 늘 같은 문구를 띄우면 둘 중 한
+    // 경우에는 화면이 거짓말을 한다.
+    function scenarioNote(fixedCost) {
+      if (fixedCost > 0) {
+        return '고정비가 있으면 1인당 지표는 명수와 무관하지 않습니다. 사람이 늘수록 고정비를 나눠 지므로 1인당 필요 매출이 내려갑니다.';
+      }
+      return '1인당 지표와 ROAS는 명수와 무관하게 같습니다. 명수는 총 규모만 바꿉니다.';
+    }
+
     function clearResult(message) {
       el('result-title').textContent = '입력 대기';
       el('result-summary').textContent = message;
@@ -369,8 +388,11 @@
       el('echo-roas').textContent = '—';
       el('echo-rate').textContent = '—';
       el('echo-ceiling').textContent = '—';
+      el('outlay-row').hidden = true;
+      el('echo-outlay').textContent = '—';
       el('scenario-head').innerHTML = '<th scope="col">구분</th>';
       el('scenario-body').innerHTML = '';
+      el('scope-notice').textContent = CONFIG.roasScopeNotice;
       copyButton.disabled = true;
       delete copyButton.dataset.summary;
     }
@@ -378,6 +400,7 @@
     function render() {
       const input = readInputs();
       updateCeilingPill(input.commissionRate);
+      el('scenario-note').textContent = scenarioNote(input.fixedCost);
       errorBox.hidden = true;
 
       if (!(input.targetRoas > 0) || !(input.averageOrderValue > 0)) {
@@ -404,12 +427,16 @@
 
       el('result-title').textContent = won(base.revenuePerCreator);
       el('result-summary').textContent =
-        `객단가 ${won(input.averageOrderValue)} 기준 1인당 ${base.unitsPerCreator.toFixed(1)}개를 팔아야 목표 ROAS에 도달합니다.`;
+        `객단가 ${won(input.averageOrderValue)} 기준 1인당 ${base.unitsPerCreator.toFixed(1)}개를 팔아야 목표 ROAS에 도달합니다.`
+        + (input.fixedCost > 0 ? ` (${probeCount}명 기준 — 고정비를 나눠 지므로 명수마다 달라집니다)` : '');
       el('revenue-per-creator').textContent = Math.round(base.revenuePerCreator).toLocaleString('ko-KR');
       el('units-per-creator').textContent = `${base.unitsPerCreator.toFixed(1)}개`;
       el('echo-roas').textContent = `${input.targetRoas}배`;
       el('echo-rate').textContent = `${(input.commissionRate * 100).toFixed(0)}%`;
       el('echo-ceiling').textContent = `${base.ceilingRoas.toFixed(2)}배`;
+      el('outlay-row').hidden = input.fixedCost <= 0;
+      el('echo-outlay').textContent = won(base.outlayPerCreator);
+      el('scope-notice').textContent = base.scopeNotice;
 
       const head = el('scenario-head');
       const body = el('scenario-body');
@@ -433,6 +460,7 @@
       const rows = [
         ['총 매출', (item) => won(item.totalRevenue)],
         ['총 지원비', (item) => won(item.totalSupportFee)],
+        ...(input.fixedCost > 0 ? [['고정비 (명수 무관)', (item) => won(item.fixedCost)]] : []),
         ['총 CPS 수수료', (item) => won(item.totalCommission)],
         ['총 비용', (item) => won(item.totalCost)],
         ['1인당 필요 매출', (item) => won(item.revenuePerCreator)],
@@ -461,6 +489,7 @@
         `객단가: ${won(input.averageOrderValue)}`,
         `콘텐츠 지원비: ${won(input.supportFee)} / 인 (전원 동일)`,
         `CPS 수수료율: ${(input.commissionRate * 100).toFixed(0)}%`,
+        ...(input.fixedCost > 0 ? [`고정비(명수 무관, 전체): ${won(input.fixedCost)}`] : []),
         '',
         `1인당 필요 매출: ${won(base.revenuePerCreator)}`,
         `1인당 필요 판매수량: ${base.unitsPerCreator.toFixed(1)}개`,
@@ -473,7 +502,7 @@
       ].join('\n');
     }
 
-    [targetRoasInput, aovInput, supportFeeInput, commissionInput, ...scenarioInputs]
+    [targetRoasInput, aovInput, supportFeeInput, commissionInput, fixedCostInput, ...scenarioInputs]
       .forEach((field) => field.addEventListener('input', render));
 
     copyButton.addEventListener('click', async () => {
