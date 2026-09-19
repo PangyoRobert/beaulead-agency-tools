@@ -20,6 +20,7 @@
 - `/development-quote/` — 홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적 아티팩트
 - `/google-ads-training-quote/` — Google Ads 교육 상품 예상 견적 아티팩트
 - `/youtube-creator-quote/` — 카페24·유튜브 쇼핑 크리에이터 제휴 견적 아티팩트
+- `/youtube-view-quote/` — 유튜브 조회수 보장형 광고 상품 가격표 아티팩트
 - `/ad-quote/` — 광고 운영 견적 아티팩트
 - `/content-quote/` — 콘텐츠 제작 견적 아티팩트
 - `/media-plan/` — 미디어 플랜 아티팩트

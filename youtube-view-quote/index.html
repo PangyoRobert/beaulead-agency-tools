@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="유튜브 조회수 보장형 광고 상품의 패키지별 가격과 진행 조건을 안내하는 페이지">
+  <title>유튜브 조회수 보장형 광고 · Beaulead Agency Tools</title>
+  <link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/youtube-view-quote/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Beaulead">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/youtube-view-quote/">
+  <meta property="og:title" content="유튜브 조회수 보장형 광고 · Beaulead Agency Tools">
+  <meta property="og:description" content="유튜브 조회수 보장형 광고 상품의 패키지별 가격과 진행 조건을 안내하는 페이지">
+  <meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="유튜브 조회수 보장형 광고 · Beaulead Agency Tools">
+  <meta name="twitter:description" content="유튜브 조회수 보장형 광고 상품의 패키지별 가격과 진행 조건을 안내하는 페이지">
+  <meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+  <link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090b0f;
+      --panel: #12161d;
+      --panel-2: #181d25;
+      --line: #2b323d;
+      --text: #f6f7f9;
+      --muted: #9ca5b3;
+      --blue: #4285f4;
+      --red: #ea4335;
+      --yellow: #fbbc04;
+      --green: #34a853;
+      --radius: 20px;
+      --mono: "IBM Plex Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 76% -12%, rgba(66, 133, 244, 0.2), transparent 29rem),
+        var(--bg);
+    }
+    a { color: inherit; }
+
+    .color-bar { position: fixed; z-index: 40; top: 0; right: 0; left: 0; display: grid; grid-template-columns: repeat(4, 1fr); height: 4px; }
+    .color-bar span:nth-child(1) { background: var(--blue); }
+    .color-bar span:nth-child(2) { background: var(--red); }
+    .color-bar span:nth-child(3) { background: var(--yellow); }
+    .color-bar span:nth-child(4) { background: var(--green); }
+
+    .topbar {
+      position: sticky;
+      z-index: 30;
+      top: 0;
+      display: flex;
+      min-height: 68px;
+      padding: 14px max(20px, calc((100vw - 1360px) / 2));
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      background: rgba(9, 11, 15, 0.9);
+      backdrop-filter: blur(16px);
+    }
+    .brand { font-weight: 700; letter-spacing: -0.05em; text-decoration: none; }
+    .brand::after { color: var(--blue); content: "."; }
+    .back { color: var(--muted); font-size: 0.875rem; font-weight: 600; text-decoration: none; }
+    .back:hover, .back:focus-visible { color: var(--text); }
+
+    main { width: min(1360px, calc(100% - 40px)); margin: 0 auto; padding: 42px 0 72px; }
+    .page-head { display: flex; justify-content: space-between; gap: 32px; margin-bottom: 26px; align-items: end; }
+    .eyebrow { margin: 0 0 11px; color: #8bb4ff; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(2.3rem, 5vw, 4.7rem); line-height: 0.96; letter-spacing: -0.065em; }
+    .intro { max-width: 560px; margin: 14px 0 0; color: var(--muted); font-size: 1rem; line-height: 1.6; word-break: keep-all; }
+    .vat-pill { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
+
+    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: rgba(18, 22, 29, 0.95); overflow: hidden; }
+    .section-title { margin: 0 0 8px; font-size: 1.15rem; letter-spacing: -0.025em; }
+    .section-note { margin: 0 0 18px; color: var(--muted); font-size: 0.875rem; line-height: 1.55; }
+
+    .plan-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .plan {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: clamp(22px, 2.4vw, 30px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--panel-2);
+    }
+    .plan-tier { color: #8bb4ff; font-size: 0.73rem; font-weight: 700; letter-spacing: 0.13em; }
+    .plan-name { margin: 0; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.03em; }
+    .plan-views { font-size: clamp(2.4rem, 4.2vw, 3.4rem); font-weight: 700; line-height: 0.95; letter-spacing: -0.06em; }
+    .plan-views small { margin-left: 6px; color: var(--muted); font-size: 1rem; font-weight: 700; letter-spacing: 0; }
+    .plan-price { padding-top: 18px; border-top: 1px solid var(--line); }
+    .plan-supply { font-size: clamp(1.4rem, 2.4vw, 1.85rem); font-weight: 700; letter-spacing: -0.04em; }
+    .plan-vat { margin: 7px 0 0; color: var(--muted); font-size: 0.85rem; }
+    .plan-rows { display: grid; gap: 10px; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line); }
+    .plan-row { display: flex; gap: 14px; justify-content: space-between; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
+    /* 라벨이 "추천 대 / 상" 으로 쪼개지면 안 된다. 좁은 카드에서 실제로 그랬다. */
+    .plan-row > span { white-space: nowrap; }
+    .plan-row strong { color: var(--text); font-weight: 600; text-align: right; word-break: keep-all; }
+
+    .steps { margin-top: 22px; padding: clamp(24px, 3vw, 34px); }
+    .step-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
+    .step-card { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-2); }
+    .step-no { display: block; margin-bottom: 9px; color: #8bb4ff; font-size: 0.75rem; font-weight: 700; }
+    .step-card strong { display: block; margin-bottom: 8px; font-size: 0.95rem; }
+    .step-card p { margin: 0; color: var(--muted); font-size: 0.84rem; line-height: 1.55; }
+
+    .notes { margin-top: 22px; padding: clamp(24px, 3vw, 34px); }
+    .note-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+    .note-card { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-2); }
+    .note-card strong { display: block; margin-bottom: 8px; font-size: 0.95rem; }
+    .note-card p { margin: 0; color: var(--muted); font-size: 0.84rem; line-height: 1.6; word-break: keep-all; }
+    .footnote { margin: 18px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; }
+
+    @media (max-width: 960px) {
+      .plan-grid { grid-template-columns: 1fr; }
+      .step-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 620px) {
+      main { width: min(100% - 24px, 1360px); padding-top: 28px; }
+      .page-head { display: block; }
+      .vat-pill { display: inline-block; margin-top: 16px; }
+      .step-grid, .note-grid { grid-template-columns: 1fr; }
+      /* 폰 폭에서는 라벨과 값을 한 줄에 마주 보게 두면 값이 두세 줄로 접힌다. */
+      .plan-row { flex-direction: column; gap: 4px; }
+      .plan-row strong { text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+
+    /* tokens.json font.secondary — 수치·금액·라벨은 자릿수 정렬용 모노. */
+    .eyebrow, .vat-pill, .plan-tier, .plan-views, .plan-supply, .step-no, .plan-row strong { font-family: var(--mono); }
+
+    /* 인쇄·PDF. 화면용 어두운 배경을 일괄로 걷어내고 강조만 브랜드 액센트로 되살린다.
+       google-ads-training-quote 와 같은 규칙이다. 이 페이지에는 폼 컨트롤이 없다. */
+    @media print {
+      @page { margin: 14mm; }
+      :root { color-scheme: light; }
+
+      *, *::before, *::after {
+        background: transparent !important;
+        color: #241815 !important;
+        border-color: #E0E0E0 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+
+      html, body { background: #FFFFFF !important; }
+      body { min-width: 0; }
+
+      .color-bar, .topbar, .back { display: none !important; }
+
+      main { width: 100%; padding: 0; }
+      .page-head { display: block; }
+      .plan-grid { grid-template-columns: repeat(3, 1fr); }
+      .panel, .plan { border: 1px solid #E0E0E0 !important; border-radius: 0; break-inside: avoid; }
+      .notes { break-before: page; }
+      .eyebrow, .plan-tier, .plan-views, .plan-supply, .step-no { color: #0F62FE !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="color-bar" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+  <header class="topbar">
+    <a class="brand" href="../">BEAULEAD</a>
+    <a class="back" href="../#tools">← Agency Tools</a>
+  </header>
+
+  <main>
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">YouTube View Guarantee</p>
+        <h1>유튜브 조회수<br>보장형 광고</h1>
+        <p class="intro">정해진 조회수를 채울 때까지 구글 공식 광고로 집행합니다. 목표에 못 미친 채로 끝나지 않습니다.</p>
+      </div>
+      <span class="vat-pill">VAT 10% 별도</span>
+    </div>
+
+    <section aria-labelledby="plan-heading">
+      <h2 class="section-title" id="plan-heading">패키지</h2>
+      <p class="section-note">보장 조회수에 따라 세 가지 중에서 고르시면 됩니다.</p>
+      <div class="plan-grid" id="plan-grid"></div>
+    </section>
+
+    <section class="panel steps" aria-labelledby="step-heading">
+      <h2 class="section-title" id="step-heading">진행 방식</h2>
+      <p class="section-note">신청부터 리포트까지 네 단계로 진행합니다.</p>
+      <div class="step-grid" id="step-grid"></div>
+    </section>
+
+    <section class="panel notes" aria-labelledby="note-heading">
+      <h2 class="section-title" id="note-heading">안내 사항</h2>
+      <p class="section-note">계약 전에 확인해 주셔야 하는 조건입니다.</p>
+      <div class="note-grid" id="note-grid"></div>
+      <p class="footnote">표기된 금액은 모두 공급가이며 부가세 10%가 별도로 부과됩니다. 문의는 <a href="mailto:robert@beaulead.co.kr">robert@beaulead.co.kr</a>로 주십시오.</p>
+    </section>
+  </main>
+
+  <script src="./pricing-config.js"></script>
+  <script>
+    (function renderPage() {
+      const CONFIG = window.YOUTUBE_VIEW_CONFIG;
+      const won = new Intl.NumberFormat("ko-KR");
+
+      // 금액은 config 의 공급가에서만 파생한다. 화면에 숫자를 따로 적어 두면
+      // 나중에 가격을 고칠 때 두 곳이 어긋난다.
+      function withVat(supplyPrice) {
+        return Math.round(supplyPrice * (1 + CONFIG.vatRate));
+      }
+
+      function element(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      }
+
+      function planRow(label, value) {
+        const row = element("div", "plan-row");
+        row.append(element("span", null, label), element("strong", null, value));
+        return row;
+      }
+
+      const planGrid = document.getElementById("plan-grid");
+      CONFIG.packages.forEach(function (plan) {
+        const card = element("article", "plan");
+
+        card.append(element("span", "plan-tier", plan.tier));
+        card.append(element("h3", "plan-name", plan.name));
+
+        const views = element("div", "plan-views", won.format(plan.guaranteedViews));
+        views.append(element("small", null, "회 보장"));
+        card.append(views);
+
+        const price = element("div", "plan-price");
+        price.append(element("div", "plan-supply", won.format(plan.supplyPrice) + "원"));
+        price.append(element("p", "plan-vat", "VAT 포함 " + won.format(withVat(plan.supplyPrice)) + "원"));
+        card.append(price);
+
+        const rows = element("div", "plan-rows");
+        rows.append(planRow(
+          "예상 노출",
+          won.format(plan.impressionsMin) + "~" + won.format(plan.impressionsMax) + "회"
+        ));
+        rows.append(planRow("추천 대상", plan.audience));
+        card.append(rows);
+
+        planGrid.append(card);
+      });
+
+      const stepGrid = document.getElementById("step-grid");
+      CONFIG.steps.forEach(function (step, index) {
+        const card = element("article", "step-card");
+        card.append(element("span", "step-no", "STEP " + (index + 1)));
+        card.append(element("strong", null, step.title));
+        card.append(element("p", null, step.body));
+        stepGrid.append(card);
+      });
+
+      const noteGrid = document.getElementById("note-grid");
+      CONFIG.notices.forEach(function (notice) {
+        const card = element("article", "note-card");
+        card.append(element("strong", null, notice.title));
+        card.append(element("p", null, notice.body));
+        noteGrid.append(card);
+      });
+    })();
+  </script>
+</body>
+</html>
