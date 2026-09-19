@@ -120,6 +120,16 @@
     .step-card strong { display: block; margin-bottom: 8px; font-size: 0.95rem; }
     .step-card p { margin: 0; color: var(--muted); font-size: 0.84rem; line-height: 1.55; }
 
+    .ops { margin-top: 22px; padding: clamp(24px, 3vw, 34px); }
+    .ops-list { display: grid; gap: 12px; margin: 18px 0 0; padding: 0; list-style: none; counter-reset: ops; }
+    .ops-item { padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-2); counter-increment: ops; }
+    .ops-item > strong { display: block; margin-bottom: 9px; font-size: 0.98rem; }
+    .ops-item > strong::before { margin-right: 8px; color: #8bb4ff; content: counter(ops) "."; font-family: var(--mono); }
+    .ops-item > p { margin: 0; color: var(--muted); font-size: 0.87rem; line-height: 1.65; word-break: keep-all; }
+    .ops-points { margin: 12px 0 0; padding: 0 0 0 16px; color: var(--muted); font-size: 0.84rem; line-height: 1.6; }
+    .ops-points li + li { margin-top: 7px; }
+    .ops-points li { word-break: keep-all; }
+
     .notes { margin-top: 22px; padding: clamp(24px, 3vw, 34px); }
     .note-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
     .note-card { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-2); }
@@ -204,6 +214,12 @@
       <div class="step-grid" id="step-grid"></div>
     </section>
 
+    <section class="panel ops" aria-labelledby="ops-heading">
+      <h2 class="section-title" id="ops-heading">보장형 상품 운영 안내</h2>
+      <p class="section-note" id="ops-lead"></p>
+      <ol class="ops-list" id="ops-list"></ol>
+    </section>
+
     <section class="panel notes" aria-labelledby="note-heading">
       <h2 class="section-title" id="note-heading">안내 사항</h2>
       <p class="section-note">계약 전에 확인해 주셔야 하는 조건입니다.</p>
@@ -271,6 +287,22 @@
         card.append(element("strong", null, step.title));
         card.append(element("p", null, step.body));
         stepGrid.append(card);
+      });
+
+      document.getElementById("ops-lead").textContent = CONFIG.operations.lead;
+      const opsList = document.getElementById("ops-list");
+      CONFIG.operations.items.forEach(function (item) {
+        const li = element("li", "ops-item");
+        li.append(element("strong", null, item.title));
+        li.append(element("p", null, item.body));
+        if (item.points && item.points.length) {
+          const points = element("ul", "ops-points");
+          item.points.forEach(function (point) {
+            points.append(element("li", null, point));
+          });
+          li.append(points);
+        }
+        opsList.append(li);
       });
 
       const noteGrid = document.getElementById("note-grid");
