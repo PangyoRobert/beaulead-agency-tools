@@ -23,23 +23,27 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
   <link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+  <link rel="stylesheet" href="../shared/tokens.css">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap">
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #080a0c;
-      --surface: #111519;
-      --surface-2: #171c21;
-      --line: #2a3138;
-      --text: #f4f6f2;
-      --muted: #9ca6ad;
-      --accent: #ccff00;
-      --mono: "IBM Plex Mono", monospace;
-      --blue: #7ba7ff;
-      --yellow: #ffd166;
-      --red: #ff7b72;
+      /* 브랜드 토큰 매핑. 값의 원본은 shared/tokens.css 이며 손으로 고치지 않는다.
+         라이트에서 면은 2단뿐이라(흰색·회색) 페이지를 회색, 카드를 흰색으로
+         쌓아 3단을 만든다. 색을 새로 만들지 않기 위해서다. */
+      color-scheme: light;
+      --bg: var(--bl-surface-raised);
+      --surface: var(--bl-surface-default);
+      --surface-2: var(--bl-surface-raised);
+      --line: var(--bl-rule-on-light);
+      --text: var(--bl-text-default);
+      --muted: var(--bl-text-body-on-light);
+      --accent: var(--bl-brand-accent);
+      --mono: var(--bl-font-mono);
+      --blue: var(--bl-brand-accent);
+      --yellow: var(--bl-state-warning);
+      --red: var(--bl-state-danger);
       --radius: 20px;
     }
 
@@ -51,7 +55,7 @@
       color: var(--text);
       font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 72% -10%, rgba(204, 255, 0, 0.09), transparent 28rem),
+        radial-gradient(circle at 72% -10%, rgba(15, 98, 254, 0.12), transparent 28rem),
         var(--bg);
     }
 
@@ -68,7 +72,7 @@
       min-height: 68px;
       padding: 12px max(20px, calc((100vw - 1440px) / 2));
       border-bottom: 1px solid var(--line);
-      background: rgba(8, 10, 12, 0.9);
+      background: rgba(244, 244, 244, 0.92);
       backdrop-filter: blur(16px);
     }
 
@@ -114,7 +118,7 @@
     .panel {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(17, 21, 25, 0.94);
+      background: var(--surface);
       overflow: hidden;
     }
 
@@ -144,7 +148,7 @@
       text-align: center;
       transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
     }
-    .choice input:checked + span { border-color: var(--accent); color: var(--text); background: rgba(204, 255, 0, 0.08); }
+    .choice input:checked + span { border-color: var(--accent); color: var(--text); background: rgba(15, 98, 254, 0.1); }
     .choice input:focus-visible + span { outline: 2px solid var(--blue); outline-offset: 2px; }
 
     .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
@@ -161,7 +165,7 @@
       background: var(--surface-2);
     }
     textarea { min-height: 84px; resize: vertical; }
-    input:focus, select:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(123, 167, 255, 0.13); }
+    input:focus, select:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.18); }
 
     .range-row { display: grid; grid-template-columns: 1fr 76px; gap: 14px; align-items: center; }
     input[type="range"] { width: 100%; accent-color: var(--accent); }
@@ -175,7 +179,7 @@
       padding: 13px;
       border: 1px solid var(--line);
       border-radius: 12px;
-      color: #dce1dd;
+      color: var(--text);
       font-size: 14px;
       line-height: 1.45;
       background: var(--surface-2);
@@ -187,8 +191,8 @@
       margin-top: 14px;
       padding: 13px 14px;
       border-left: 3px solid var(--yellow);
-      color: #d7d1bd;
-      background: rgba(255, 209, 102, 0.07);
+      color: var(--text);
+      background: rgba(241, 194, 27, 0.15);
       font-size: 13px;
       line-height: 1.55;
     }
@@ -197,14 +201,14 @@
 
     .result-head { padding: 26px; border-bottom: 1px solid var(--line); }
     .status { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px; padding: 7px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
-    .status::before { width: 7px; height: 7px; border-radius: 50%; background: currentColor; content: ""; }
-    .status.auto { color: var(--accent); background: rgba(204, 255, 0, 0.1); }
-    .status.review { color: var(--yellow); background: rgba(255, 209, 102, 0.1); }
-    .status.consult { color: var(--red); background: rgba(255, 123, 114, 0.1); }
+    .status::before { width: 7px; height: 7px; border-radius: 50%; background: var(--dot); content: ""; }
+    .status.auto { color: var(--text); background: rgba(15, 98, 254, 0.12); --dot: var(--accent); }
+    .status.review { color: var(--text); background: rgba(241, 194, 27, 0.18); --dot: var(--yellow); }
+    .status.consult { color: var(--text); background: rgba(218, 30, 40, 0.12); --dot: var(--red); }
     .result-title { margin: 0 0 8px; font-size: clamp(1.55rem, 3vw, 2.35rem); letter-spacing: -0.05em; }
     .result-description { min-height: 44px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
 
-    .total-box { padding: 26px; border-bottom: 1px solid var(--line); background: linear-gradient(135deg, rgba(204, 255, 0, 0.09), transparent); }
+    .total-box { padding: 26px; border-bottom: 1px solid var(--line); background: linear-gradient(135deg, rgba(15, 98, 254, 0.12), transparent); }
     .total-label { color: var(--muted); font-size: 13px; }
     .total { margin-top: 8px; font-size: clamp(2.3rem, 5vw, 4.4rem); font-weight: 700; letter-spacing: -0.065em; }
     .total-suffix { margin-left: 5px; color: var(--muted); font-size: 15px; font-weight: 700; }
@@ -215,19 +219,19 @@
     .line-item.subtotal { margin-top: 10px; padding-top: 17px; border-top: 1px solid var(--line); color: var(--text); }
     .line-item.adjustment strong { color: var(--blue); }
 
-    .reasons { margin: 0 26px 22px; padding: 15px 16px 15px 34px; border: 1px solid rgba(255, 209, 102, 0.25); border-radius: 12px; color: #e7ddbd; background: rgba(255, 209, 102, 0.06); font-size: 13px; line-height: 1.6; }
+    .reasons { margin: 0 26px 22px; padding: 15px 16px 15px 34px; border: 1px solid rgba(241, 194, 27, 0.4); border-radius: 12px; color: var(--text); background: rgba(241, 194, 27, 0.12); font-size: 13px; line-height: 1.6; }
     .reasons:empty { display: none; }
 
     .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 26px 26px; }
     .button { min-height: 48px; border: 1px solid var(--line); border-radius: 12px; color: var(--text); background: var(--surface-2); font-weight: 700; }
-    .button.primary { border-color: var(--accent); color: #080a0c; background: var(--accent); }
+    .button.primary { border-color: var(--accent); color: var(--bl-text-inverse); background: var(--accent); }
     .button:hover { filter: brightness(1.08); }
 
     .approval-box { margin-top: 14px; padding: 16px; border: 1px dashed var(--line); border-radius: 14px; }
     .approval-state { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
     .approval-state.approved { color: var(--accent); }
 
-    .footnote { margin: 18px 0 0; color: #778188; font-size: 12px; line-height: 1.55; }
+    .footnote { margin: 18px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
 
     .toast {
       position: fixed;
@@ -238,7 +242,7 @@
       border: 1px solid var(--line);
       border-radius: 12px;
       color: var(--text);
-      background: #1b2126;
+      background: var(--surface);
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
       transform: translateY(20px);
       opacity: 0;
