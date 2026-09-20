@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
-"""Validate public HTML entry points and repository-local links."""
+"""Validate public HTML entry points, repository-local links, and the registry."""
 
 from __future__ import annotations
 
+import sys
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import registry
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -65,7 +70,8 @@ def link_target(page: Path, href: str) -> Path | None:
 
 
 def main() -> int:
-    errors: list[str] = []
+    # 레지스트리가 낡았거나 생성물이 손으로 수정됐으면 여기서 걸린다.
+    errors: list[str] = registry.check_all()
     pages = sorted(ROOT.rglob("index.html"))
 
     if ROOT / "index.html" not in pages:
@@ -102,7 +108,10 @@ def main() -> int:
             print(f"- {error}")
         return 1
 
-    print(f"Validated {len(pages)} HTML entry point(s); local links are valid.")
+    print(
+        f"Validated {len(pages)} HTML entry point(s); local links are valid; "
+        "registry and generated files agree."
+    )
     return 0
 
 

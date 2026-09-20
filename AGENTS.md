@@ -15,23 +15,29 @@
 
 ## 구조
 
+<!-- registry:structure:start — data/tools.json 에서 생성한다. 직접 고치지 말 것. -->
 - `/index.html` — 에이전시 메인 홈페이지와 GNB
-- `/video-quote/` — 영상 제작 견적 아티팩트
-- `/development-quote/` — 홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적 아티팩트
-- `/google-ads-training-quote/` — Google Ads 교육 상품 예상 견적 아티팩트
-- `/youtube-creator-quote/` — 카페24·유튜브 쇼핑 크리에이터 제휴 견적 아티팩트
-- `/youtube-view-quote/` — 유튜브 조회수 보장형 광고 상품 가격표 아티팩트
-- `/ad-quote/` — 광고 운영 견적 아티팩트
-- `/content-quote/` — 콘텐츠 제작 견적 아티팩트
-- `/media-plan/` — 미디어 플랜 아티팩트
-- `/campaign-planner/` — 캠페인 플래너
-- `/reporting-dashboard/` — 성과 대시보드
-- `/client-demos/` — 공개 가능한 고객사별 시연본
-- `/shared/` — 공통 스타일, 스크립트, 이미지
+- `/video-quote/` — 영상 제작 견적기
+- `/development-quote/` — 홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적기
+- `/google-ads-training-quote/` — Google Ads 교육 상품 예상 견적기
+- `/youtube-creator-quote/` — 카페24·유튜브 쇼핑 크리에이터 제휴 견적기
+- `/youtube-view-quote/` — 유튜브 조회수 보장형 광고 상품 가격표
+- `/ad-quote/` — 광고 운영 견적 (예정 — 아직 페이지 없음)
+- `/content-quote/` — 콘텐츠 제작 견적 (예정 — 아직 페이지 없음)
+- `/media-plan/` — 미디어 플랜 (예정 — 아직 페이지 없음)
+- `/campaign-planner/` — 캠페인 플래너 (예정 — 아직 페이지 없음)
+- `/reporting-dashboard/` — 성과 대시보드 (예정 — 아직 페이지 없음)
+- `/client-demos/` — 공개 가능한 고객사별 시연본 (예정 — 아직 페이지 없음)
+- `/work/` — 고객사 레퍼런스 목록
+- `/shared/` — 공통 스크립트와 브랜드 자산
+- `/data/` — 레지스트리 등 생성 원본 데이터
 - `/docs/` — 운영 문서
-- `/scripts/` — 저장소 검증 도구
+- `/scripts/` — 저장소 검증·생성 도구
+<!-- registry:structure:end -->
 
-새 아티팩트는 목적에 맞는 형제 디렉토리의 `index.html`로 만든다. 루트 `index.html`을 개별 아티팩트로 덮어쓰지 않는다.
+위 목록은 `data/tools.json` 레지스트리에서 생성한다. 디렉토리를 추가·삭제하거나 이름·상태를 바꿀 때는 그 파일만 고치고 `python3 scripts/sync_registry.py --write`를 실행한다. 목록을 손으로 고치면 검증이 실패한다.
+
+새 아티팩트는 목적에 맞는 형제 디렉토리의 `index.html`로 만들고 같은 커밋에서 레지스트리의 `status`를 `live`로 올린다. 루트 `index.html`을 개별 아티팩트로 덮어쓰지 않는다.
 
 ## 작업 원칙
 

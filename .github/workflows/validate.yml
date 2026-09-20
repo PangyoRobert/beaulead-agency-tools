@@ -28,3 +28,9 @@ jobs:
             echo "── $file"
             node "$file" || exit 1
           done
+      - name: Run every python test
+        run: |
+          for file in scripts/test_*.py; do
+            echo "── $file"
+            python3 "$file" || exit 1
+          done

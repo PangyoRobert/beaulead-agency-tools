@@ -1,0 +1,157 @@
+{
+  "$schema": "./tools.schema.md",
+  "$comment": "저장소 디렉토리 레지스트리의 단일 원천. 여기만 고치고 `python3 scripts/sync_registry.py --write` 를 돌린다. 루트 index.html 의 도구 카드, README.md 와 AGENTS.md 의 구조 목록은 전부 이 파일에서 생성되며 직접 편집하면 CI 가 막는다. 필드 설명은 data/tools.schema.md 참고.",
+  "root": {
+    "name": "에이전시 메인 홈페이지와 GNB"
+  },
+  "entries": [
+    {
+      "slug": "video-quote",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "영상 제작 견적기",
+      "card": {
+        "kicker": "External Demo",
+        "title": ["Video", "Quote"],
+        "description": "영상 길이, 수량과 제작 옵션을 조합해 예상 견적을 실시간으로 확인하는 인터랙티브 시연 도구입니다."
+      }
+    },
+    {
+      "slug": "development-quote",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적기",
+      "card": {
+        "kicker": "Internal Estimate",
+        "title": ["Development", "Quote"],
+        "description": "홈페이지·랜딩 수정과 상세페이지 작업을 분류하고 내부 예상 견적과 승인 상태를 확인하는 도구입니다."
+      }
+    },
+    {
+      "slug": "google-ads-training-quote",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "Google Ads 교육 상품 예상 견적기",
+      "card": {
+        "kicker": "External Calculator",
+        "title": ["Google Ads", "Training"],
+        "description": "기본·맞춤 교육 상품을 비교하고 VAT를 포함한 예상 견적을 바로 확인하는 계산 도구입니다."
+      }
+    },
+    {
+      "slug": "youtube-creator-quote",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "카페24·유튜브 쇼핑 크리에이터 제휴 견적기",
+      "card": {
+        "kicker": "External Calculator",
+        "title": ["YouTube Creator", "Affiliate"],
+        "description": "목표 ROAS에서 크리에이터 1인당 필요 매출과 판매수량을 역산하고, 명수 시나리오별 총액을 비교하는 계산 도구입니다."
+      }
+    },
+    {
+      "slug": "youtube-view-quote",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "유튜브 조회수 보장형 광고 상품 가격표",
+      "card": {
+        "kicker": "External Price List",
+        "title": ["YouTube View", "Guarantee"],
+        "description": "보장 조회수별 패키지 가격과 진행 방식, 계약 전 확인 사항을 한 장에서 안내하는 상품 소개 페이지입니다."
+      }
+    },
+    {
+      "slug": "ad-quote",
+      "kind": "tool",
+      "status": "planned",
+      "public": false,
+      "name": "광고 운영 견적",
+      "card": null
+    },
+    {
+      "slug": "content-quote",
+      "kind": "tool",
+      "status": "planned",
+      "public": false,
+      "name": "콘텐츠 제작 견적",
+      "card": null
+    },
+    {
+      "slug": "media-plan",
+      "kind": "tool",
+      "status": "planned",
+      "public": false,
+      "name": "미디어 플랜",
+      "card": null
+    },
+    {
+      "slug": "campaign-planner",
+      "kind": "tool",
+      "status": "planned",
+      "public": false,
+      "name": "캠페인 플래너",
+      "card": null
+    },
+    {
+      "slug": "reporting-dashboard",
+      "kind": "tool",
+      "status": "planned",
+      "public": false,
+      "name": "성과 대시보드",
+      "card": null
+    },
+    {
+      "slug": "client-demos",
+      "kind": "tool",
+      "status": "planned",
+      "public": false,
+      "name": "공개 가능한 고객사별 시연본",
+      "card": null
+    },
+    {
+      "slug": "work",
+      "kind": "page",
+      "status": "live",
+      "public": true,
+      "name": "고객사 레퍼런스 목록",
+      "card": null
+    },
+    {
+      "slug": "shared",
+      "kind": "support",
+      "status": "live",
+      "public": true,
+      "name": "공통 스크립트와 브랜드 자산",
+      "card": null
+    },
+    {
+      "slug": "data",
+      "kind": "support",
+      "status": "live",
+      "public": false,
+      "name": "레지스트리 등 생성 원본 데이터",
+      "card": null
+    },
+    {
+      "slug": "docs",
+      "kind": "support",
+      "status": "live",
+      "public": false,
+      "name": "운영 문서",
+      "card": null
+    },
+    {
+      "slug": "scripts",
+      "kind": "support",
+      "status": "live",
+      "public": false,
+      "name": "저장소 검증·생성 도구",
+      "card": null
+    }
+  ]
+}
