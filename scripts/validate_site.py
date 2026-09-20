@@ -10,6 +10,7 @@ from urllib.parse import unquote, urlsplit
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import check_colors
 import registry
 
 
@@ -113,6 +114,10 @@ def main() -> int:
         print("Site validation failed:")
         for error in errors:
             print(f"- {error}")
+        return 1
+
+    # 브랜드 토큰으로 전환한 페이지에 토큰 밖 색이 들어왔는지 본다.
+    if check_colors.main() != 0:
         return 1
 
     print(
