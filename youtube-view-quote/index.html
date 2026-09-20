@@ -23,24 +23,28 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
   <link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+  <link rel="stylesheet" href="../shared/tokens.css">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap">
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #090b0f;
-      --panel: #12161d;
-      --panel-2: #181d25;
-      --line: #2b323d;
-      --text: #f6f7f9;
-      --muted: #9ca5b3;
-      --blue: #4285f4;
-      --red: #ea4335;
-      --yellow: #fbbc04;
-      --green: #34a853;
+      /* 브랜드 토큰 매핑. 값의 원본은 shared/tokens.css 이며 손으로 고치지 않는다.
+         라이트에서 면은 2단뿐이라(흰색·회색) 페이지를 회색, 카드를 흰색으로
+         쌓아 3단을 만든다. 색을 새로 만들지 않기 위해서다. */
+      color-scheme: light;
+      --bg: var(--bl-surface-raised);
+      --panel: var(--bl-surface-default);
+      --panel-2: var(--bl-surface-raised);
+      --line: var(--bl-rule-on-light);
+      --text: var(--bl-text-default);
+      --muted: var(--bl-text-body-on-light);
+      --blue: var(--bl-brand-accent);
+      --red: var(--bl-state-danger);
+      --yellow: var(--bl-state-warning);
+      --green: var(--bl-state-success);
       --radius: 20px;
-      --mono: "IBM Plex Mono", monospace;
+      --mono: var(--bl-font-mono);
     }
 
     * { box-sizing: border-box; }
@@ -50,16 +54,13 @@
       color: var(--text);
       font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 76% -12%, rgba(66, 133, 244, 0.2), transparent 29rem),
+        radial-gradient(circle at 76% -12%, rgba(15, 98, 254, 0.12), transparent 29rem),
         var(--bg);
     }
     a { color: inherit; }
 
     .color-bar { position: fixed; z-index: 40; top: 0; right: 0; left: 0; display: grid; grid-template-columns: repeat(4, 1fr); height: 4px; }
-    .color-bar span:nth-child(1) { background: var(--blue); }
-    .color-bar span:nth-child(2) { background: var(--red); }
-    .color-bar span:nth-child(3) { background: var(--yellow); }
-    .color-bar span:nth-child(4) { background: var(--green); }
+    .color-bar span { background: var(--blue); }
 
     .topbar {
       position: sticky;
@@ -71,7 +72,7 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid var(--line);
-      background: rgba(9, 11, 15, 0.9);
+      background: rgba(244, 244, 244, 0.92);
       backdrop-filter: blur(16px);
     }
     .brand { font-weight: 700; letter-spacing: -0.05em; text-decoration: none; }
@@ -81,12 +82,12 @@
 
     main { width: min(1360px, calc(100% - 40px)); margin: 0 auto; padding: 42px 0 72px; }
     .page-head { display: flex; justify-content: space-between; gap: 32px; margin-bottom: 26px; align-items: end; }
-    .eyebrow { margin: 0 0 11px; color: #8bb4ff; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    .eyebrow { margin: 0 0 11px; color: var(--blue); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
     h1 { margin: 0; font-size: clamp(2.3rem, 5vw, 4.7rem); line-height: 0.96; letter-spacing: -0.065em; }
     .intro { max-width: 560px; margin: 14px 0 0; color: var(--muted); font-size: 1rem; line-height: 1.6; word-break: keep-all; }
     .vat-pill { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
 
-    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: rgba(18, 22, 29, 0.95); overflow: hidden; }
+    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); overflow: hidden; }
     .section-title { margin: 0 0 8px; font-size: 1.15rem; letter-spacing: -0.025em; }
     .section-note { margin: 0 0 18px; color: var(--muted); font-size: 0.875rem; line-height: 1.55; }
 
@@ -100,7 +101,7 @@
       border-radius: 18px;
       background: var(--panel-2);
     }
-    .plan-tier { color: #8bb4ff; font-size: 0.73rem; font-weight: 700; letter-spacing: 0.13em; }
+    .plan-tier { color: var(--blue); font-size: 0.73rem; font-weight: 700; letter-spacing: 0.13em; }
     .plan-name { margin: 0; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.03em; }
     .plan-views { font-size: clamp(2.4rem, 4.2vw, 3.4rem); font-weight: 700; line-height: 0.95; letter-spacing: -0.06em; }
     .plan-views small { margin-left: 6px; color: var(--muted); font-size: 1rem; font-weight: 700; letter-spacing: 0; }
@@ -116,7 +117,7 @@
     .steps { margin-top: 22px; padding: clamp(24px, 3vw, 34px); }
     .step-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
     .step-card { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-2); }
-    .step-no { display: block; margin-bottom: 9px; color: #8bb4ff; font-size: 0.75rem; font-weight: 700; }
+    .step-no { display: block; margin-bottom: 9px; color: var(--blue); font-size: 0.75rem; font-weight: 700; }
     .step-card strong { display: block; margin-bottom: 8px; font-size: 0.95rem; }
     .step-card p { margin: 0; color: var(--muted); font-size: 0.84rem; line-height: 1.55; }
 
@@ -124,7 +125,7 @@
     .ops-list { display: grid; gap: 12px; margin: 18px 0 0; padding: 0; list-style: none; counter-reset: ops; }
     .ops-item { padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-2); counter-increment: ops; }
     .ops-item > strong { display: block; margin-bottom: 9px; font-size: 0.98rem; }
-    .ops-item > strong::before { margin-right: 8px; color: #8bb4ff; content: counter(ops) "."; font-family: var(--mono); }
+    .ops-item > strong::before { margin-right: 8px; color: var(--blue); content: counter(ops) "."; font-family: var(--mono); }
     .ops-item > p { margin: 0; color: var(--muted); font-size: 0.87rem; line-height: 1.65; word-break: keep-all; }
     .ops-points { margin: 12px 0 0; padding: 0 0 0 16px; color: var(--muted); font-size: 0.84rem; line-height: 1.6; }
     .ops-points li + li { margin-top: 7px; }

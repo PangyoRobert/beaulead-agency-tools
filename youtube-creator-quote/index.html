@@ -23,22 +23,27 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
   <link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+  <link rel="stylesheet" href="../shared/tokens.css">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap">
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #090b0f;
-      --panel: #12161d;
-      --panel-2: #181d25;
-      --line: #2b323d;
-      --text: #f6f7f9;
-      --muted: #9ca5b3;
-      --accent: #ff4d4f;
-      --mono: "IBM Plex Mono", monospace;
-      --accent-soft: #ff8a8b;
-      --ok: #34a853;
+      /* 브랜드 토큰 매핑. 값의 원본은 shared/tokens.css 이며 손으로 고치지 않는다.
+         라이트에서 면은 2단뿐이라(흰색·회색) 페이지를 회색, 카드를 흰색으로
+         쌓아 3단을 만든다. 색을 새로 만들지 않기 위해서다.
+         유튜브 레드(#ff4d4f)는 플랫폼 색이라 뺐다 — 액센트는 브랜드 확정색이다. */
+      color-scheme: light;
+      --bg: var(--bl-surface-raised);
+      --panel: var(--bl-surface-default);
+      --panel-2: var(--bl-surface-raised);
+      --line: var(--bl-rule-on-light);
+      --text: var(--bl-text-default);
+      --muted: var(--bl-text-body-on-light);
+      --accent: var(--bl-brand-accent);
+      --mono: var(--bl-font-mono);
+      --accent-soft: var(--bl-brand-accent);
+      --ok: var(--bl-state-success);
       --radius: 20px;
     }
 
@@ -49,16 +54,14 @@
       color: var(--text);
       font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 76% -12%, rgba(255, 77, 79, 0.18), transparent 29rem),
+        radial-gradient(circle at 76% -12%, rgba(15, 98, 254, 0.12), transparent 29rem),
         var(--bg);
     }
     button, input, select { font: inherit; }
     a { color: inherit; }
 
     .color-bar { position: fixed; z-index: 40; top: 0; right: 0; left: 0; display: grid; grid-template-columns: repeat(3, 1fr); height: 4px; }
-    .color-bar span:nth-child(1) { background: var(--accent); }
-    .color-bar span:nth-child(2) { background: #ffffff; }
-    .color-bar span:nth-child(3) { background: #1f2933; }
+    .color-bar span { background: var(--accent); }
 
     .topbar {
       position: sticky;
@@ -70,7 +73,7 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid var(--line);
-      background: rgba(9, 11, 15, 0.9);
+      background: rgba(244, 244, 244, 0.92);
       backdrop-filter: blur(16px);
     }
     .brand { font-weight: 700; letter-spacing: -0.05em; text-decoration: none; }
@@ -86,7 +89,7 @@
     .ceiling-pill { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
 
     .workspace { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(340px, 0.7fr); gap: 22px; align-items: start; }
-    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: rgba(18, 22, 29, 0.95); overflow: hidden; }
+    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); overflow: hidden; }
     .selector { padding: clamp(22px, 3vw, 34px); }
     .section-title { margin: 0 0 8px; font-size: 1.15rem; letter-spacing: -0.025em; }
     .section-note { margin: 0 0 18px; color: var(--muted); font-size: 0.875rem; line-height: 1.55; }
@@ -109,7 +112,7 @@
 
     .modes { display: inline-flex; gap: 4px; margin-bottom: 22px; padding: 4px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
     .mode { min-height: 44px; padding: 0 20px; border: 0; border-radius: 10px; color: var(--muted); background: transparent; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
-    .mode[aria-selected="true"] { color: #fff; background: var(--accent); }
+    .mode[aria-selected="true"] { color: var(--bl-text-inverse); background: var(--accent); }
     .mode:hover:not([aria-selected="true"]) { color: var(--text); }
     .mode:focus-visible { outline: 2px solid var(--accent-soft); outline-offset: 2px; }
 
@@ -117,26 +120,26 @@
 
     .result { position: sticky; top: 90px; }
     .result-head { padding: 28px 28px 24px; border-bottom: 1px solid var(--line); }
-    .status { display: inline-flex; padding: 6px 9px; border-radius: 999px; color: #ffd9d9; background: rgba(255, 77, 79, 0.16); font-size: 0.75rem; font-weight: 700; }
+    .status { display: inline-flex; padding: 6px 9px; border-radius: 999px; color: var(--text); background: rgba(15, 98, 254, 0.12); font-size: 0.75rem; font-weight: 700; }
     .result h2 { margin: 19px 0 7px; font-size: 1.75rem; letter-spacing: -0.04em; }
     .result-summary { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.55; }
-    .total-box { padding: 30px 28px; background: linear-gradient(135deg, rgba(255, 77, 79, 0.2), rgba(52, 168, 83, 0.06)); }
-    .total-label { display: block; margin-bottom: 9px; color: #dcc6c6; font-size: 0.8rem; font-weight: 600; }
+    .total-box { padding: 30px 28px; background: linear-gradient(135deg, rgba(15, 98, 254, 0.14), rgba(15, 98, 254, 0.03)); }
+    .total-label { display: block; margin-bottom: 9px; color: var(--muted); font-size: 0.8rem; font-weight: 600; }
     .total { font-size: clamp(2.2rem, 4.4vw, 3.6rem); font-weight: 700; line-height: 0.95; letter-spacing: -0.07em; }
-    .total-unit { margin-left: 5px; color: #dcc6c6; font-weight: 700; }
+    .total-unit { margin-left: 5px; color: var(--muted); font-weight: 700; }
     .breakdown { padding: 22px 28px; }
     .line-item { display: flex; gap: 20px; justify-content: space-between; padding: 12px 0; color: var(--muted); font-size: 0.9rem; }
     .line-item + .line-item { border-top: 1px solid var(--line); }
     .line-item strong { color: var(--text); }
-    .copy-button { width: calc(100% - 56px); min-height: 50px; margin: 0 28px 28px; border: 0; border-radius: 12px; color: #fff; background: var(--accent); font-weight: 700; cursor: pointer; }
-    .copy-button:hover, .copy-button:focus-visible { background: #e04345; }
-    .copy-button:disabled { background: #3a424e; color: var(--muted); cursor: not-allowed; }
+    .copy-button { width: calc(100% - 56px); min-height: 50px; margin: 0 28px 28px; border: 0; border-radius: 12px; color: var(--bl-text-inverse); background: var(--accent); font-weight: 700; cursor: pointer; }
+    .copy-button:hover, .copy-button:focus-visible { filter: brightness(0.92); }
+    .copy-button:disabled { background: var(--bl-rule-on-light); color: var(--muted); cursor: not-allowed; }
 
     .error {
       margin: 0;
       padding: 18px 28px;
-      color: #ffd9d9;
-      background: rgba(255, 77, 79, 0.12);
+      color: var(--text);
+      background: rgba(218, 30, 40, 0.12);
       border-top: 1px solid var(--line);
       font-size: 0.88rem;
       line-height: 1.6;
@@ -150,7 +153,7 @@
     th:first-child, td:first-child { text-align: left; color: var(--muted); }
     thead th { color: var(--text); font-size: 0.85rem; letter-spacing: -0.01em; }
     tbody tr:last-child td { border-bottom: 0; }
-    .row-roas td { color: var(--ok); font-weight: 700; }
+    .row-roas td { color: var(--text); background: rgba(36, 161, 72, 0.12); font-weight: 700; }
     .faq { margin-top: 22px; padding: clamp(24px, 3vw, 34px); }
     .faq details { border-top: 1px solid var(--line); }
     .faq details:last-of-type { border-bottom: 1px solid var(--line); }
@@ -186,7 +189,7 @@
     .notice { margin: 18px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.6; word-break: keep-all; }
     .notice strong { color: var(--text); }
 
-    .toast { position: fixed; z-index: 50; right: 24px; bottom: 24px; padding: 13px 16px; border: 1px solid var(--line); border-radius: 12px; background: #202631; transform: translateY(18px); opacity: 0; pointer-events: none; transition: 160ms ease; }
+    .toast { position: fixed; z-index: 50; right: 24px; bottom: 24px; padding: 13px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-2); transform: translateY(18px); opacity: 0; pointer-events: none; transition: 160ms ease; }
     .toast.show { transform: translateY(0); opacity: 1; }
 
     @media (max-width: 960px) {

@@ -27,6 +27,14 @@ TOKENS = ROOT / "data" / "brand-tokens.json"
 COLOR_PATTERN = re.compile(r"#[0-9a-fA-F]{3,8}\b|rgba?\([^)]*\)")
 RGB_NUMBERS = re.compile(r"[\d.]+")
 
+# 주석 안의 색은 렌더되지 않는다. 뺀 색을 주석으로 설명하면 오탐이 난다.
+COMMENT_PATTERN = re.compile(r"/\*.*?\*/|<!--.*?-->", re.DOTALL)
+
+
+def strip_comments(text: str) -> str:
+    """주석을 같은 길이의 공백으로 바꾼다. 줄 번호가 어긋나면 안 된다."""
+    return COMMENT_PATTERN.sub(lambda m: re.sub(r"[^\n]", " ", m.group()), text)
+
 
 def expand(value: str) -> str:
     """#abc -> #aabbcc"""
@@ -86,7 +94,7 @@ def main() -> int:
             continue
         checked += 1
         relative = page.relative_to(ROOT)
-        for line_number, line in enumerate(text.splitlines(), start=1):
+        for line_number, line in enumerate(strip_comments(text).splitlines(), start=1):
             for literal in COLOR_PATTERN.findall(line):
                 rgb = rgb_of(literal)
                 if rgb is None:
