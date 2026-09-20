@@ -23,6 +23,7 @@ git switch -c feature/video-quote-client-preview
 ## 2. 구현
 
 - 새 도구는 해당 형제 디렉토리 안에 구현한다.
+- 디렉토리를 추가·삭제하거나 도구 이름·상태·루트 카드를 바꿀 때는 `data/tools.json`만 고치고 `python3 scripts/sync_registry.py --write`를 실행한다. 루트 `index.html`의 도구 카드와 `README.md`·`AGENTS.md`의 구조 목록은 그 레지스트리에서 생성되므로 손으로 고치면 검증이 실패한다. 필드 설명은 `data/tools.schema.md`에 있다.
 - 루트는 에이전시 홈페이지와 전체 도구 진입점으로 유지한다.
 - 공통 요소는 `/shared/`로 분리하되, 기존 도구의 외형이나 동작이 바뀌는지 확인한다.
 - 고객사별 자료는 공개 가능한 데이터인지 먼저 확인한다.
