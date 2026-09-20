@@ -68,7 +68,16 @@ Pull Request에는 다음 내용을 포함한다.
 
 ## 6. 병합과 자동 배포
 
-검토와 자동 검증이 끝나면 Pull Request를 `main`에 병합한다. GitHub Pages가 자동으로 새 버전을 배포한다.
+검토와 자동 검증이 끝나면 Pull Request를 `main`에 병합한다. `.github/workflows/pages.yml`이 자동으로 새 버전을 배포한다.
+
+배포되는 것은 저장소 루트가 아니라 `scripts/build_site.py`가 만든 `_site/`다. `data/tools.json`의 `public` 필드가 `true`인 디렉토리와 루트 `index.html`만 들어가고, 각 디렉토리의 `README.md`는 빠진다. 로컬에서 나갈 파일을 그대로 확인하려면:
+
+```sh
+python3 scripts/build_site.py --manifest
+cd _site && python3 -m http.server 8000
+```
+
+공개 범위를 바꿀 때는 워크플로가 아니라 `data/tools.json`의 `public`을 고친다. 단 **배포되지 않는 것과 비공개인 것은 다르다** — 공개 저장소라 커밋한 파일은 GitHub에서 그대로 읽힌다.
 
 배포 후 확인할 주소:
 

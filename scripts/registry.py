@@ -22,8 +22,8 @@ REGISTRY_PATH = ROOT / "data" / "tools.json"
 KINDS = {"tool", "page", "support"}
 STATUSES = {"live", "planned"}
 
-# 레지스트리에 올리지 않는 루트 항목. 디렉토리가 아니거나 Git/CI 의 것이다.
-IGNORED_DIRS = {".git", ".github"}
+# 레지스트리에 올리지 않는 루트 항목. Git/CI 의 것이거나 빌드 산출물이다.
+IGNORED_DIRS = {".git", ".github", "_site"}
 
 
 def load() -> dict:

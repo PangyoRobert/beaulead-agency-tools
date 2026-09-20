@@ -69,7 +69,10 @@ shasum -a 256 path/to/index.html
 
 ## 배포
 
-- GitHub Pages는 `main` 브랜치의 루트 디렉토리를 자동 배포한다.
+- GitHub Pages는 `.github/workflows/pages.yml`이 배포한다. 저장소 루트를 통째로 서빙하지 않는다.
+- 무엇이 공개될지는 `data/tools.json`의 `public` 필드가 정한다. `scripts/build_site.py`가 그 값을 읽어 `_site/`로 모으고 그 결과만 배포된다. 공개 범위를 바꾸려면 워크플로가 아니라 레지스트리를 고친다.
+- `AGENTS.md`, `CLAUDE.md`, `README.md`, `docs/`, `scripts/`, `data/`와 각 디렉토리의 `README.md`는 배포되지 않는다. 이 경계는 `scripts/test_build_site.py`가 고정한다.
+- 공개 저장소이므로 **배포되지 않는다는 것과 비공개라는 것은 다르다.** 커밋한 것은 GitHub에서 누구나 읽을 수 있다. 위쪽 「공개 저장소 안전 규칙」이 그대로 우선한다.
 - Pull Request 검증이 통과하고 검토가 끝난 뒤에만 `main`에 병합한다.
 - 병합 후 GitHub Pages 배포 완료와 공개 URL의 HTTP 200 응답을 확인한다.
 - 대면 미팅에 사용할 확정본은 `demo-YYYY-MM-DD-이름` 형식의 Git 태그로 남긴다.
