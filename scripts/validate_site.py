@@ -72,7 +72,14 @@ def link_target(page: Path, href: str) -> Path | None:
 def main() -> int:
     # 레지스트리가 낡았거나 생성물이 손으로 수정됐으면 여기서 걸린다.
     errors: list[str] = registry.check_all()
-    pages = sorted(ROOT.rglob("index.html"))
+
+    # `_site/` 는 원본을 복사한 빌드 산출물이다. 같이 훑으면 같은 페이지를 두 번
+    # 검사하게 되고, 빌드를 했는지 여부에 따라 검증 결과가 달라진다.
+    pages = sorted(
+        page
+        for page in ROOT.rglob("index.html")
+        if not set(page.relative_to(ROOT).parts) & registry.IGNORED_DIRS
+    )
 
     if ROOT / "index.html" not in pages:
         errors.append("missing root index.html")
