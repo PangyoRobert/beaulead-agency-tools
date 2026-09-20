@@ -1,0 +1,34 @@
+{
+  "$comment": "생성물이다. 손으로 고치지 말고 `python3 scripts/build_tokens.py` 를 돌린다. CI 에는 brand-design-system 이 없어서 재생성할 수 없으므로 값을 여기 남긴다. scripts/check_colors.py 가 이걸 읽어 토큰 밖 색을 잡는다.",
+  "source": "brand-design-system/brands/beaulead/tokens.json",
+  "source_commit": "d48db7f",
+  "generated": "2026-09-21",
+  "colors": {
+    "brand-primary": "#241815",
+    "brand-accent": "#0F62FE",
+    "text-default": "#241815",
+    "text-muted": "#8D8D8D",
+    "text-inverse": "#FFFFFF",
+    "text-body-on-light": "#525252",
+    "surface-default": "#FFFFFF",
+    "surface-raised": "#F4F4F4",
+    "surface-inverse": "#161616",
+    "state-success": "#24A148",
+    "state-warning": "#F1C21B",
+    "state-danger": "#DA1E28",
+    "rule-on-light": "#E0E0E0",
+    "rule-on-dark": "#393939",
+    "on-dark-body": "#C6C6C6",
+    "on-dark-label": "#6F6F6F"
+  },
+  "chart": [
+    "#0F62FE",
+    "#4589FF",
+    "#A6C8FF",
+    "#D0E2FF"
+  ],
+  "fonts": {
+    "font-primary": "Pretendard, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+    "font-mono": "\"IBM Plex Mono\", monospace"
+  }
+}
