@@ -21,7 +21,8 @@
       "slug": "development-quote",
       "kind": "tool",
       "status": "live",
-      "public": true,
+      "$public": "2026-09-21 배포 제외. 수동 금액 조정(할인·추가 청구)과 관리자 승인 게이트가 들어 있어 고객에게 보일 화면이 아니다. 다시 공개하려면 그 섹션을 걷어낸 뒤 true 로 올린다.",
+      "public": false,
       "name": "홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적기",
       "card": {
         "kicker": "Internal Estimate",

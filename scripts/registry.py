@@ -97,7 +97,13 @@ def validate(registry: dict) -> list[str]:
 
 
 def tools_with_cards(registry: dict) -> list[dict]:
-    return [e for e in registry["entries"] if e.get("card")]
+    """허브에 카드로 거는 항목.
+
+    `public` 을 함께 보는 이유: 배포에서 뺀 디렉토리의 카드가 남으면 허브에
+    404 로 가는 링크가 생긴다. `public` 하나만 내리면 나머지가 따라오도록
+    둔다 — 카드를 따로 지우게 하면 둘이 어긋난다.
+    """
+    return [e for e in registry["entries"] if e.get("card") and e.get("public")]
 
 
 def render_cards(registry: dict) -> str:
@@ -120,7 +126,13 @@ def render_cards(registry: dict) -> str:
 
 
 def _doc_line(entry: dict, *, prefix: str, planned_suffix: str) -> str:
-    suffix = planned_suffix if entry["status"] == "planned" else ""
+    if entry["status"] == "planned":
+        suffix = planned_suffix
+    elif not entry["public"]:
+        # 문서만 보고 "사이트에 있다" 고 읽으면 안 된다. 커밋돼 있어도 안 나간다.
+        suffix = " (저장소에만 있음 — 배포 제외)"
+    else:
+        suffix = ""
     return f"- `{prefix}{entry['slug']}/` — {entry['name']}{suffix}"
 
 
