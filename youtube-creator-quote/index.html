@@ -154,6 +154,13 @@
     thead th { color: var(--text); font-size: 0.85rem; letter-spacing: -0.01em; }
     tbody tr:last-child td { border-bottom: 0; }
     .row-roas td { color: var(--text); background: rgba(36, 161, 72, 0.12); font-weight: 700; }
+    .reuse { margin-top: 22px; padding: clamp(24px, 3vw, 34px); }
+    .reuse-item { border-top: 1px solid var(--line); padding: 18px 0; }
+    .reuse-item:last-of-type { border-bottom: 1px solid var(--line); }
+    .reuse-item h3 { margin: 0 0 8px; font-size: 0.95rem; letter-spacing: -0.01em; }
+    .reuse-item p { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.75; word-break: keep-all; }
+    .reuse-item p + p { margin-top: 10px; }
+    .reuse-item strong { color: var(--text); }
     .faq { margin-top: 22px; padding: clamp(24px, 3vw, 34px); }
     .faq details { border-top: 1px solid var(--line); }
     .faq details:last-of-type { border-bottom: 1px solid var(--line); }
@@ -382,6 +389,31 @@
       <p class="notice">표시 수치는 입력한 목표 ROAS를 달성한다고 가정했을 때 필요한 실적을 역산한 값입니다. <strong>실제 달성을 보장하지 않습니다.</strong></p>
     </section>
 
+    <section class="panel reuse" aria-labelledby="reuse-heading">
+      <h2 class="section-title" id="reuse-heading">콘텐츠 2차 활용 가치</h2>
+      <p class="section-note">위 계산은 크리에이터가 만든 콘텐츠를 <strong>판매 수단</strong>으로만 놓고 값을 매깁니다. 실제로는 그 영상이 캠페인이 끝난 뒤에도 남아 다른 자리에서 다시 쓰이며, 그 몫은 위 표의 ROAS에 들어 있지 않습니다.</p>
+
+      <div class="reuse-item">
+        <h3>다른 매체 배너·영상 광고 소재로 2차 활용</h3>
+        <p>크리에이터가 촬영·편집한 원본을 메타, 디스플레이, 자사몰 배너 등의 광고 소재로 재편집해 씁니다. 같은 캠페인을 위해 소재를 따로 제작했을 경우의 비용이 그만큼 줄어듭니다.</p>
+        <p>실제 사용 후기와 얼굴이 담긴 소재라 브랜드가 직접 만든 소재와 성격이 다르고, 소재를 여러 벌 돌려야 하는 매체일수록 확보할 수 있는 변주가 늘어납니다.</p>
+      </div>
+
+      <div class="reuse-item">
+        <h3>구글 크리에이터 부스트(파트너십 광고)로 활용</h3>
+        <p>크리에이터 채널에 이미 올라간 그 영상을 브랜드가 광고로 집행하는 방식입니다. 브랜드 계정에서 새로 만든 광고가 아니라 크리에이터의 이름과 채널로 나가는 영상을 그대로 태우는 형태입니다.</p>
+        <p>제휴로 만든 콘텐츠 한 편을 오가닉 노출에서 끝내지 않고 유료 도달까지 이어 붙이는 것이라, 콘텐츠 한 편에서 뽑는 값이 커집니다.</p>
+      </div>
+
+      <div class="reuse-item">
+        <h3>이 가치를 견적에 반영하려면</h3>
+        <p>위 계산기는 2차 활용 가치를 <strong>자동으로 반영하지 않습니다.</strong> 반영하려면 <strong>고정비 칸</strong>에서 조정합니다 — 2차 활용으로 따로 만들지 않아도 되는 소재 제작비만큼 고정비를 낮추면, 낮아진 고정비가 1인당 필요 매출과 판매수량을 함께 내려 결과에 들어옵니다.</p>
+        <p>넣는 금액은 <strong>실제로 줄어드는 제작비를 근거로</strong> 잡습니다. 짐작으로 깎으면 그만큼 견적이 헐거워집니다.</p>
+      </div>
+
+      <p class="notice">2차 활용과 파트너십 광고는 둘 다 <strong>크리에이터의 사용 허락이 전제</strong>입니다. 사용 매체 범위, 기간, 편집 가능 여부를 섭외 단계에서 계약에 적어두지 않으면 나중에 쓸 수 없습니다. 그 조건을 붙이면 지원비 자체가 올라가는 것이 보통이므로, 내려가는 고정비와 올라가는 지원비를 함께 보고 판단하세요.</p>
+    </section>
+
     <section class="panel faq" aria-labelledby="faq-heading">
       <h2 class="section-title" id="faq-heading">자주 묻는 질문</h2>
       <p class="section-note">이 계산기가 왜 그런 값을 내놓는지에 대한 설명입니다.</p>
@@ -434,6 +466,21 @@
         <summary><span class="q-no">10</span><span>이 숫자는 성과 예측인가요?</span></summary>
         <p class="a">아닙니다. <strong>“목표 ROAS를 달성한다고 가정했을 때 필요한 실적”을 거꾸로 계산한 값</strong>이며, 달성 가능성이나 실제 판매량을 예측하지 않습니다.</p>
         <p class="a">또한 분모에 들어간 비용은 화면에 표시된 항목뿐입니다. 고정비 칸에 넣지 않은 광고 매체비 등은 포함되지 않습니다. 계약 전 경향 확인용으로만 쓰세요.</p>
+      </details>
+      <details>
+        <summary><span class="q-no">11</span><span>콘텐츠 2차 활용 가치는 이 계산에 들어가 있나요?</span></summary>
+        <p class="a">들어가 있지 않습니다. 이 계산에 들어가는 매출은 <strong>제휴 판매로 생긴 매출</strong>뿐입니다. 캠페인이 끝난 뒤 그 영상을 배너 소재로 쓰거나 파트너십 광고로 태워서 얻는 몫은 어느 칸에도 반영되지 않습니다.</p>
+        <p class="a">반영하려면 <strong>고정비 칸</strong>에서 직접 조정합니다. 2차 활용 덕분에 따로 제작하지 않아도 되는 소재 제작비만큼 고정비를 낮추면 1인당 필요 매출과 판매수량이 함께 내려갑니다. 단 짐작한 금액이 아니라 실제로 줄어드는 제작비를 근거로 넣으세요.</p>
+      </details>
+      <details>
+        <summary><span class="q-no">12</span><span>파트너십 광고(크리에이터 부스트)로 집행하면 표의 ROAS가 올라가나요?</span></summary>
+        <p class="a">이 표의 ROAS는 움직이지 않습니다. 분모에 들어가는 비용이 지원비, CPS 수수료, 고정비뿐이고 <strong>광고 매체비는 애초에 들어가 있지 않기 때문</strong>입니다.</p>
+        <p class="a">실제로 광고를 태우면 매출도 매체비도 함께 늘어나므로, 캠페인 전체의 ROAS는 이 표와 다른 숫자가 됩니다. 매체비까지 포함한 판단은 이 계산기 밖에서 해야 합니다. 이 표는 제휴 조건만 떼어 본 값입니다.</p>
+      </details>
+      <details>
+        <summary><span class="q-no">13</span><span>2차 활용을 전제로 견적을 낮춰서 제안해도 되나요?</span></summary>
+        <p class="a">사용 허락을 <strong>계약에 적은 뒤에만</strong> 됩니다. 사용 매체 범위, 기간, 편집 가능 여부가 정해지지 않았다면 아직 확보하지 않은 가치이고, 나중에 크리에이터가 거절하면 깎아둔 만큼이 그대로 손실로 남습니다.</p>
+        <p class="a">그리고 그 권리를 계약에 넣으면 <strong>지원비 자체가 올라가는 것이 보통</strong>입니다. 고정비가 내려가는 폭과 지원비가 올라가는 폭을 함께 넣어보고, 그래도 결과가 나아지는지 확인한 뒤에 제안하세요.</p>
       </details>
     </section>
   </main>
