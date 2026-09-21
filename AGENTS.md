@@ -18,7 +18,7 @@
 <!-- registry:structure:start — data/tools.json 에서 생성한다. 직접 고치지 말 것. -->
 - `/index.html` — 에이전시 메인 홈페이지와 GNB
 - `/video-quote/` — 영상 제작 견적기
-- `/development-quote/` — 홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적기
+- `/development-quote/` — 홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적기 (저장소에만 있음 — 배포 제외)
 - `/google-ads-training-quote/` — Google Ads 교육 상품 예상 견적기
 - `/youtube-creator-quote/` — 카페24·유튜브 쇼핑 크리에이터 제휴 견적기
 - `/youtube-view-quote/` — 유튜브 조회수 보장형 광고 상품 가격표
@@ -30,14 +30,16 @@
 - `/client-demos/` — 공개 가능한 고객사별 시연본 (예정 — 아직 페이지 없음)
 - `/work/` — 고객사 레퍼런스 목록
 - `/shared/` — 공통 스크립트와 브랜드 자산
-- `/data/` — 레지스트리 등 생성 원본 데이터
-- `/docs/` — 운영 문서
-- `/scripts/` — 저장소 검증·생성 도구
+- `/data/` — 레지스트리 등 생성 원본 데이터 (저장소에만 있음 — 배포 제외)
+- `/docs/` — 운영 문서 (저장소에만 있음 — 배포 제외)
+- `/scripts/` — 저장소 검증·생성 도구 (저장소에만 있음 — 배포 제외)
 <!-- registry:structure:end -->
 
 위 목록은 `data/tools.json` 레지스트리에서 생성한다. 디렉토리를 추가·삭제하거나 이름·상태를 바꿀 때는 그 파일만 고치고 `python3 scripts/sync_registry.py --write`를 실행한다. 목록을 손으로 고치면 검증이 실패한다.
 
 새 아티팩트는 목적에 맞는 형제 디렉토리의 `index.html`로 만들고 같은 커밋에서 레지스트리의 `status`를 `live`로 올린다. 루트 `index.html`을 개별 아티팩트로 덮어쓰지 않는다.
+
+`public`을 내리면 배포에서 빠지는 것과 함께 루트 `index.html`의 카드도 사라지고 위 구조 목록에 `(저장소에만 있음 — 배포 제외)` 표시가 붙는다. 카드를 따로 지울 필요가 없고, 지우려 하면 레지스트리와 어긋나 검증이 실패한다. 공개 범위를 바꾸는 레버는 `public` 하나다.
 
 ## 작업 원칙
 

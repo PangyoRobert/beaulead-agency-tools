@@ -120,12 +120,27 @@ def main() -> int:
             and entry["card"]["description"] in cards,
         )
     for entry in data["entries"]:
-        if entry.get("card"):
+        if entry.get("card") and entry["public"]:
             continue
         check(
             f"{entry['slug']} 는 카드에 안 나온다",
             f'href="./{entry["slug"]}/"' not in cards,
         )
+
+    # public 을 내렸는데 카드가 남으면 허브에서 404 로 가는 링크가 된다.
+    hidden = copy.deepcopy(data)
+    target = next(e for e in hidden["entries"] if e["card"] and e["public"])
+    target["public"] = False
+    check(
+        "public 을 내리면 카드도 같이 빠진다",
+        f'href="./{target["slug"]}/"' not in registry.render_cards(hidden),
+    )
+    check(
+        "배포 제외 항목은 문서 목록에 표시가 붙는다",
+        "배포 제외" in registry.render_agents(hidden).split("\n")[
+            [e["slug"] for e in hidden["entries"]].index(target["slug"]) + 1
+        ],
+    )
 
     if failures:
         print(f"\n{len(failures)} 개 실패:")
