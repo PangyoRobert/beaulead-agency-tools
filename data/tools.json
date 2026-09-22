@@ -34,7 +34,8 @@
       "slug": "google-ads-training-quote",
       "kind": "tool",
       "status": "live",
-      "public": true,
+      "$public": "2026-09-22 폐쇄. 상품 운영을 접어 공개 배포에서 내렸다. 페이지 파일은 그대로 두었으므로 다시 열려면 public 을 true 로 올리고 sync_registry 를 돌린다.",
+      "public": false,
       "name": "Google Ads 교육 상품 예상 견적기",
       "card": {
         "kicker": "External Calculator",
@@ -58,7 +59,8 @@
       "slug": "youtube-view-quote",
       "kind": "tool",
       "status": "live",
-      "public": true,
+      "$public": "2026-09-22 폐쇄. 상품 운영을 접어 공개 배포에서 내렸다. 페이지 파일은 그대로 두었으므로 다시 열려면 public 을 true 로 올리고 sync_registry 를 돌린다.",
+      "public": false,
       "name": "유튜브 조회수 보장형 광고 상품 가격표",
       "card": {
         "kicker": "External Price List",

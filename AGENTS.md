@@ -20,9 +20,9 @@
 - `/index.html` — 에이전시 메인 홈페이지와 GNB
 - `/video-quote/` — 영상 제작 견적기
 - `/development-quote/` — 홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적기 (저장소에만 있음 — 배포 제외)
-- `/google-ads-training-quote/` — Google Ads 교육 상품 예상 견적기
+- `/google-ads-training-quote/` — Google Ads 교육 상품 예상 견적기 (저장소에만 있음 — 배포 제외)
 - `/youtube-creator-quote/` — 카페24·유튜브 쇼핑 크리에이터 제휴 견적기
-- `/youtube-view-quote/` — 유튜브 조회수 보장형 광고 상품 가격표
+- `/youtube-view-quote/` — 유튜브 조회수 보장형 광고 상품 가격표 (저장소에만 있음 — 배포 제외)
 - `/ad-quote/` — 광고 운영 견적 (예정 — 아직 페이지 없음)
 - `/content-quote/` — 콘텐츠 제작 견적 (예정 — 아직 페이지 없음)
 - `/media-plan/` — 미디어 플랜 (예정 — 아직 페이지 없음)
