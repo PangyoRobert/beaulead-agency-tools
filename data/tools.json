@@ -69,6 +69,18 @@
       }
     },
     {
+      "slug": "keyword-volume-plan",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "네이버 월간 검색량 조회 화면기획서",
+      "card": {
+        "kicker": "Screen Specification",
+        "title": ["Keyword Volume", "Screen Plan"],
+        "description": "PC·모바일 월간 검색량 조회 화면과 상태별 동작, 데이터 표시 기준을 확인하는 웹 화면기획서입니다."
+      }
+    },
+    {
       "slug": "ad-quote",
       "kind": "tool",
       "status": "planned",
