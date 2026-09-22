@@ -108,7 +108,8 @@ assert.equal(config.supportFee.max, 200000);
 assert.equal(config.supportFee.default, 150000);
 assert.equal(config.commissionRate.default, 0.15);
 assert.ok(config.roasScopeNotice.includes("카페24 수수료"), "분모에 카페24 수수료가 있음을 밝힌다");
-assert.ok(config.roasScopeNotice.includes("광고 매체비"), "빠진 비용도 함께 밝힌다");
+assert.ok(config.roasScopeNotice.includes("CPS 수수료"), "분모 세 항목을 모두 밝힌다");
+assert.ok(!config.roasScopeNotice.includes("매체비"), "크리에이터 제휴에 없는 매체비는 언급하지 않는다");
 assert.equal(result.scopeNotice, config.roasScopeNotice);
 
 // 고정비는 이 계산기에서 사라졌다. 잔재가 남아 있으면 화면이 거짓말을 한다.
@@ -125,7 +126,7 @@ near(stray.totalCost, result.totalCost, "fixedCost 를 넘겨도 결과가 달�
 // B = (1 + r)*F*n + c*ROAS*B  →  n = B*(1 - c*ROAS) / ((1 + r)*F)
 // 사람은 쪼갤 수 없으므로 내림하고, 그래서 남는 예산을 leftover 로 밝힌다.
 const solved = calculator.solveCreatorCount({ ...base, budget: 10000000 }, config);
-near(solved.exactCount, 34.9206, "정확해 명수");
+near(solved.exactCount, 34.9206, "내림 전 명수");
 assert.equal(solved.creatorCount, 34, "내림한 명수");
 near(solved.totalCost, 9736363.6364, "실제 집행 총 비용");
 near(solved.leftover, 263636.3636, "예산 잔액");
@@ -165,4 +166,4 @@ assert.throws(() => calculator.solveCreatorCount({ ...base, budget: 0 }, config)
 assert.throws(() => calculator.solveCreatorCount({ ...base, budget: -1 }, config), /Budget/);
 assert.throws(() => calculator.solveCreatorCount({ ...base, budget: 10000000 }, {}), /Cafe24 fee rate/);
 
-console.log("YouTube creator quote rules: 71 assertions passed.");
+console.log("YouTube creator quote rules: 72 assertions passed.");

@@ -23,6 +23,5 @@ window.YOUTUBE_CREATOR_CONFIG = Object.freeze({
   scenarioLabels: Object.freeze(["시나리오 A", "시나리오 B", "시나리오 C"]),
   // 화면과 복사 요약에 항상 함께 표기해야 하는 ROAS 정의.
   roasScopeNotice:
-    "본 ROAS는 크리에이터 지원비, 카페24 수수료, CPS 수수료를 분모로 계산했습니다. " +
-    "광고 매체비는 포함되지 않았습니다."
+    "본 ROAS는 크리에이터 지원비, 카페24 수수료, CPS 수수료를 분모로 계산했습니다."
 });
