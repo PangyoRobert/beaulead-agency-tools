@@ -711,7 +711,7 @@
         `1인당 필요 판매수량: ${base.unitsPerCreator.toFixed(1)}개`,
         '',
         ...results.map((item) =>
-          `${item.creatorCount}명 → 총 매출 ${won(item.totalRevenue)} / 총 비용 ${won(item.totalCost)} / ROAS ${item.impliedRoas.toFixed(2)}배`
+          [`${item.creatorCount}명 → 총 매출 ${won(item.totalRevenue)} / 총 비용 ${won(item.totalCost)} / ROAS ${item.impliedRoas.toFixed(2)}배`, ...costSummaryLines(item)].join('\n')
         ),
         '',
         base.scopeNotice
@@ -761,6 +761,7 @@
         '',
         `가능 인플루언서: ${plan.creatorCount}명 (정확히는 ${plan.exactCount.toFixed(2)}명, 내림)`,
         `실제 집행 총 비용: ${won(plan.totalCost)} (잔액 ${won(plan.leftover)})`,
+        ...costSummaryLines(plan),
         `필요 총 매출: ${won(plan.totalRevenue)}`,
         `총 판매수량: ${Math.round(plan.totalUnits).toLocaleString('ko-KR')}개`,
         '',
@@ -769,6 +770,14 @@
         '',
         plan.scopeNotice
       ].join('\n');
+    }
+
+    function costSummaryLines(plan) {
+      return [
+        `총 인플루언서 콘텐츠 지원비: ${won(plan.totalSupportFee)} (${plan.creatorCount}명 × ${won(plan.supportFee)})`,
+        `총 카페24 수수료: ${won(plan.cafe24Fee)}`,
+        `총 CPS 수수료: ${won(plan.totalCommission)} (필요 총 매출 기준)`
+      ];
     }
 
     function sharedSummaryLines(input) {
