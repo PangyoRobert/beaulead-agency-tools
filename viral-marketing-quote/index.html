@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="바이럴 마케팅 서비스 6개 모듈 구성과 예산대별 패키지 1차 초안을 확인하는 견적 페이지">
+  <title>바이럴 마케팅 서비스 견적 · Beaulead Agency Tools</title>
+  <link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/viral-marketing-quote/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Beaulead">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/viral-marketing-quote/">
+  <meta property="og:title" content="바이럴 마케팅 서비스 견적 · Beaulead Agency Tools">
+  <meta property="og:description" content="바이럴 마케팅 서비스 6개 모듈 구성과 예산대별 패키지 1차 초안을 확인하는 견적 페이지">
+  <meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="바이럴 마케팅 서비스 견적 · Beaulead Agency Tools">
+  <meta name="twitter:description" content="바이럴 마케팅 서비스 6개 모듈 구성과 예산대별 패키지 1차 초안을 확인하는 견적 페이지">
+  <meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+  <link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+  <link rel="stylesheet" href="../shared/tokens.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <style>
+    :root {
+      /* 브랜드 토큰 매핑. 값의 원본은 shared/tokens.css 이며 손으로 고치지 않는다.
+         라이트에서 면은 2단뿐이라(흰색·회색) 페이지를 회색, 카드를 흰색으로
+         쌓아 3단을 만든다. 색을 새로 만들지 않기 위해서다. */
+      color-scheme: light;
+      --bg: var(--bl-surface-raised);
+      --panel: var(--bl-surface-default);
+      --panel-2: var(--bl-surface-raised);
+      --line: var(--bl-rule-on-light);
+      --text: var(--bl-text-default);
+      --muted: var(--bl-text-body-on-light);
+      --blue: var(--bl-brand-accent);
+      --radius: 20px;
+      --mono: var(--bl-font-mono);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 76% -12%, rgba(15, 98, 254, 0.12), transparent 29rem),
+        var(--bg);
+    }
+    a { color: inherit; }
+
+    .color-bar { position: fixed; z-index: 40; top: 0; right: 0; left: 0; display: grid; grid-template-columns: repeat(3, 1fr); height: 4px; }
+    .color-bar span { background: var(--blue); }
+
+    .topbar {
+      position: sticky;
+      z-index: 30;
+      top: 0;
+      display: flex;
+      min-height: 68px;
+      padding: 14px max(20px, calc((100vw - 1360px) / 2));
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      background: rgba(244, 244, 244, 0.92);
+      backdrop-filter: blur(16px);
+    }
+    .brand { font-weight: 700; letter-spacing: -0.05em; text-decoration: none; }
+    .brand::after { color: var(--blue); content: "."; }
+    .back { color: var(--muted); font-size: 0.875rem; font-weight: 600; text-decoration: none; }
+    .back:hover, .back:focus-visible { color: var(--text); }
+
+    main { width: min(1360px, calc(100% - 40px)); margin: 0 auto; padding: 42px 0 72px; }
+    .page-head { display: flex; justify-content: space-between; gap: 32px; margin-bottom: 26px; align-items: end; }
+    .eyebrow { margin: 0 0 11px; color: var(--blue); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(2.3rem, 5vw, 4.7rem); line-height: 0.96; letter-spacing: -0.065em; }
+    .intro { max-width: 620px; margin: 14px 0 0; color: var(--muted); font-size: 1rem; line-height: 1.6; word-break: keep-all; }
+    .vat-pill { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
+
+    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); overflow: hidden; }
+    .section-title { margin: 0 0 8px; font-size: 1.15rem; letter-spacing: -0.025em; }
+    .section-note { margin: 0 0 18px; color: var(--muted); font-size: 0.875rem; line-height: 1.55; }
+
+    /* 서비스 메뉴 구조 표 */
+    .menu { padding: clamp(24px, 3vw, 34px); }
+    .table-scroll { overflow-x: auto; margin-top: 18px; }
+    table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    th, td { padding: 14px 16px; border-bottom: 1px solid var(--line); text-align: left; font-size: 0.9rem; line-height: 1.55; vertical-align: top; }
+    thead th { color: var(--text); font-size: 0.8rem; letter-spacing: -0.01em; }
+    tbody tr:last-child td { border-bottom: 0; }
+    td.module-cell { width: 15%; color: var(--blue); font-weight: 700; white-space: nowrap; }
+    td.module-cell span { display: block; margin-top: 4px; color: var(--text); font-weight: 700; white-space: normal; }
+    td.item-name { width: 24%; font-weight: 600; word-break: keep-all; }
+    td.item-body { color: var(--muted); word-break: keep-all; }
+
+    /* 예산대별 패키지 */
+    .plan-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .plan {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: clamp(22px, 2.4vw, 30px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--panel-2);
+    }
+    .plan.is-recommended { border-color: var(--blue); }
+    .plan-badge { align-self: flex-start; padding: 5px 10px; border-radius: 999px; color: var(--bl-text-inverse); background: var(--blue); font-size: 0.72rem; font-weight: 700; }
+    .plan-tier { color: var(--blue); font-size: 0.73rem; font-weight: 700; letter-spacing: 0.13em; }
+    .plan-name { margin: 0; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.03em; }
+    .plan-budget { padding-top: 4px; }
+    .plan-budget-value { font-size: clamp(1.5rem, 2.6vw, 1.95rem); font-weight: 700; letter-spacing: -0.04em; }
+    .plan-budget-label { margin: 6px 0 0; color: var(--muted); font-size: 0.82rem; }
+    .plan-purpose { margin: 0; padding-top: 14px; border-top: 1px solid var(--line); font-size: 0.9rem; line-height: 1.6; word-break: keep-all; }
+    .plan-modules { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .plan-modules li { position: relative; padding-left: 16px; color: var(--muted); font-size: 0.85rem; line-height: 1.55; word-break: keep-all; }
+    .plan-modules li::before { position: absolute; left: 0; content: "·"; color: var(--blue); font-weight: 700; }
+    .plan-kpi { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); }
+    .kpi-chip { padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 0.76rem; }
+
+    /* 패키지별 상세 운영안 */
+    .detail { margin-top: 22px; padding: clamp(24px, 3vw, 34px); }
+    .detail-list { display: grid; gap: 16px; margin: 18px 0 0; padding: 0; list-style: none; }
+    .detail-item { padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-2); }
+    .detail-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+    .detail-tier { color: var(--blue); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; }
+    .detail-item h3 { margin: 0; font-size: 1.1rem; letter-spacing: -0.02em; }
+    .detail-row { display: grid; grid-template-columns: 140px 1fr; gap: 12px; margin-top: 10px; }
+    .detail-row dt { color: var(--muted); font-size: 0.8rem; font-weight: 600; }
+    .detail-row dd { margin: 0; font-size: 0.88rem; line-height: 1.6; word-break: keep-all; }
+    .detail-items { display: grid; gap: 10px; margin: 14px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); list-style: none; }
+    .detail-line { display: grid; grid-template-columns: 140px 1fr; gap: 12px; font-size: 0.86rem; line-height: 1.6; }
+    .detail-line strong { font-weight: 600; }
+    .detail-line span { color: var(--muted); word-break: keep-all; }
+
+    .notes { margin-top: 22px; padding: clamp(24px, 3vw, 34px); }
+    .note-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+    .note-card { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-2); }
+    .note-card strong { display: block; margin-bottom: 8px; font-size: 0.95rem; }
+    .note-card p { margin: 0; color: var(--muted); font-size: 0.84rem; line-height: 1.6; word-break: keep-all; }
+    .footnote { margin: 18px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; }
+
+    @media (max-width: 960px) {
+      .plan-grid { grid-template-columns: 1fr; }
+      .detail-row, .detail-line { grid-template-columns: 110px 1fr; }
+    }
+    @media (max-width: 620px) {
+      main { width: min(100% - 24px, 1360px); padding-top: 28px; }
+      .page-head { display: block; }
+      .vat-pill { display: inline-block; margin-top: 16px; }
+      .note-grid { grid-template-columns: 1fr; }
+      .detail-row, .detail-line { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+
+    /* tokens.json font.secondary — 수치·금액·모듈 코드는 자릿수 정렬용 모노. */
+    .eyebrow, .vat-pill, .plan-tier, .plan-budget-value, .detail-tier, .module-cell { font-family: var(--mono); }
+
+    /* 인쇄·PDF. 화면용 어두운 배경을 일괄로 걷어내고 강조만 브랜드 액센트로 되살린다.
+       youtube-view-quote 와 같은 규칙이다. 이 페이지에도 폼 컨트롤이 없다. */
+    @media print {
+      @page { margin: 14mm; }
+      :root { color-scheme: light; }
+
+      *, *::before, *::after {
+        background: transparent !important;
+        color: #241815 !important;
+        border-color: #E0E0E0 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+
+      html, body { background: #FFFFFF !important; }
+      body { min-width: 0; }
+
+      .color-bar, .topbar, .back { display: none !important; }
+
+      main { width: 100%; padding: 0; }
+      .page-head { display: block; }
+      .plan-grid { grid-template-columns: repeat(3, 1fr); }
+      .panel, .plan, .detail-item { border: 1px solid #E0E0E0 !important; border-radius: 0; break-inside: avoid; }
+      .menu { break-inside: avoid; }
+      table { break-inside: avoid; }
+      .detail { break-before: page; }
+      .notes { break-before: page; }
+      .eyebrow, .plan-tier, .plan-budget-value, .detail-tier, .module-cell, .plan-badge { color: #0F62FE !important; }
+      .plan-badge { background: transparent !important; border: 1px solid #0F62FE !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="color-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+  <header class="topbar">
+    <a class="brand" href="../">BEAULEAD</a>
+    <a class="back" href="../#tools">← Agency Tools</a>
+  </header>
+
+  <main>
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Viral Marketing Service · 1차 초안</p>
+        <h1>바이럴 마케팅<br>서비스 견적</h1>
+        <p class="intro">크리에이터 바이럴부터 다크포스트 결합까지 6개 서비스 모듈을 광고주 목적에 맞춰 조합하고, 월 예산 수준에 따라 세 가지 패키지 중에서 고르시면 됩니다.</p>
+      </div>
+      <span class="vat-pill">VAT 10% 별도</span>
+    </div>
+
+    <section class="panel menu" aria-labelledby="menu-heading">
+      <h2 class="section-title" id="menu-heading">서비스 메뉴 구조</h2>
+      <p class="section-note">개별 바이럴 기술을 단품(A la carte) 모듈로 구조화해 인지도 확산, 댓글 반응 유도, 직접 전환 등 목적에 맞춰 조합합니다.</p>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">서비스 모듈</th>
+              <th scope="col">세부 상품명</th>
+              <th scope="col">실행 내용 및 전달물 (Deliverables)</th>
+            </tr>
+          </thead>
+          <tbody id="menu-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="plan-heading" style="margin-top: 22px;">
+      <h2 class="section-title" id="plan-heading">금액대별 서비스 패키지 1차 초안</h2>
+      <p class="section-note">신규 브랜드 진입부터 대세감 형성 및 직접 전환까지, 월 예산 수준에 맞춘 세 가지 구성입니다.</p>
+      <div class="plan-grid" id="plan-grid"></div>
+    </section>
+
+    <section class="panel detail" aria-labelledby="detail-heading">
+      <h2 class="section-title" id="detail-heading">패키지별 상세 운영안</h2>
+      <p class="section-note">패키지별 타깃, 운영 전략과 세부 구성입니다.</p>
+      <ol class="detail-list" id="detail-list"></ol>
+    </section>
+
+    <section class="panel notes" aria-labelledby="note-heading">
+      <h2 class="section-title" id="note-heading">안내 사항</h2>
+      <div class="note-grid" id="note-grid"></div>
+      <p class="footnote">표기된 금액은 월 집행 예산 기준이며 부가세 10%가 별도로 부과됩니다. 문의는 <a href="mailto:robert@beaulead.co.kr">robert@beaulead.co.kr</a>로 주십시오.</p>
+    </section>
+  </main>
+
+  <script src="./pricing-config.js"></script>
+  <script>
+    (function renderPage() {
+      const CONFIG = window.VIRAL_MARKETING_CONFIG;
+      const won = new Intl.NumberFormat("ko-KR");
+
+      // 예산은 "300만" / "1,200만" 단위 표기가 원문 그대로다. 자릿수 표기
+      // (3,000,000원)로 바꾸면 원문 견적서와 화면이 어긋나 보이므로 만원 단위
+      // 헬퍼를 둔다. 천 단위 콤마는 원문의 "1,200만"·"2,000만" 표기를 그대로 따른다.
+      function manwon(amount) {
+        return won.format(Math.round(amount / 10000)) + "만";
+      }
+
+      function budgetLabel(plan) {
+        if (plan.budgetMax) {
+          return manwon(plan.budgetMin) + " ~ " + manwon(plan.budgetMax) + " 원";
+        }
+        return manwon(plan.budgetMin) + " 원 이상";
+      }
+
+      function element(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      }
+
+      // 서비스 메뉴 구조 표. 모듈 열은 원문 표처럼 첫 행에서만 보이고
+      // 나머지 행은 rowspan 으로 묶는다.
+      const menuBody = document.getElementById("menu-body");
+      CONFIG.modules.forEach(function (module) {
+        module.items.forEach(function (item, index) {
+          const row = element("tr");
+          if (index === 0) {
+            const moduleCell = element("td", "module-cell", "[" + module.id + "]");
+            moduleCell.rowSpan = module.items.length;
+            moduleCell.append(element("span", null, module.name));
+            row.append(moduleCell);
+          }
+          row.append(element("td", "item-name", item.name));
+          row.append(element("td", "item-body", item.body));
+          menuBody.append(row);
+        });
+      });
+
+      const planGrid = document.getElementById("plan-grid");
+      CONFIG.packages.forEach(function (plan) {
+        const card = element("article", "plan" + (plan.badge ? " is-recommended" : ""));
+
+        if (plan.badge) card.append(element("span", "plan-badge", plan.badge));
+        card.append(element("span", "plan-tier", plan.tier));
+        card.append(element("h3", "plan-name", plan.name));
+
+        const budget = element("div", "plan-budget");
+        budget.append(element("div", "plan-budget-value", budgetLabel(plan)));
+        budget.append(element("p", "plan-budget-label", "월 집행 예산"));
+        card.append(budget);
+
+        card.append(element("p", "plan-purpose", plan.purpose));
+
+        const modules = element("ul", "plan-modules");
+        plan.coreModules.forEach(function (item) {
+          modules.append(element("li", null, item));
+        });
+        card.append(modules);
+
+        const kpiWrap = element("div", "plan-kpi");
+        plan.kpis.forEach(function (kpi) {
+          kpiWrap.append(element("span", "kpi-chip", kpi));
+        });
+        card.append(kpiWrap);
+
+        planGrid.append(card);
+      });
+
+      const detailList = document.getElementById("detail-list");
+      CONFIG.packages.forEach(function (plan) {
+        const li = element("li", "detail-item");
+
+        const head = element("div", "detail-head");
+        head.append(element("span", "detail-tier", "[" + plan.tier + "]"));
+        head.append(element("h3", null, plan.name + " · " + budgetLabel(plan) + " 대"));
+        li.append(head);
+
+        const targetRow = element("div", "detail-row");
+        targetRow.append(element("dt", null, "타깃"));
+        targetRow.append(element("dd", null, plan.audience));
+        li.append(targetRow);
+
+        const strategyRow = element("div", "detail-row");
+        strategyRow.append(element("dt", null, "운영 전략"));
+        strategyRow.append(element("dd", null, plan.strategy));
+        li.append(strategyRow);
+
+        const items = element("ul", "detail-items");
+        plan.lineItems.forEach(function (line) {
+          const row = element("li", "detail-line");
+          row.append(element("strong", null, line.title));
+          row.append(element("span", null, line.body));
+          items.append(row);
+        });
+        li.append(items);
+
+        detailList.append(li);
+      });
+
+      const noteGrid = document.getElementById("note-grid");
+      [
+        {
+          title: "1차 초안",
+          body: "제시된 5가지 바이럴 메커니즘을 기반으로 정리한 서비스 메뉴와 패키지 구성의 첫 안입니다. 실제 견적·계약 전 내부 검토를 거칩니다."
+        },
+        {
+          title: "모듈 조합",
+          body: "패키지 구성은 대표 조합 예시입니다. 광고주 목적(인지도 확산, 댓글 반응 유도, 직접 전환)에 맞춰 모듈 단위로 다시 조합할 수 있습니다."
+        }
+      ].forEach(function (notice) {
+        const card = element("article", "note-card");
+        card.append(element("strong", null, notice.title));
+        card.append(element("p", null, notice.body));
+        noteGrid.append(card);
+      });
+    })();
+  </script>
+</body>
+</html>
