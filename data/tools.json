@@ -47,11 +47,11 @@
       "slug": "viral-marketing-quote",
       "kind": "tool",
       "status": "live",
-      "$public": "2026-09-28 공개. 내부 검토 완료.",
-      "public": true,
+      "$public": "2026-09-28 재비공개. 담당자 판단으로 아직 바로 쓸 수 있는 수준이 아니라 배포 제외. 내용 보완 후 다시 검토한다.",
+      "public": false,
       "name": "바이럴 마케팅 서비스 견적",
       "card": {
-        "kicker": "External Price List",
+        "kicker": "Internal Draft",
         "title": ["Viral Marketing", "Quote"],
         "description": "크리에이터 바이럴부터 다크포스트 결합까지 6개 서비스 모듈과 예산대별 패키지 구성을 확인하는 견적 페이지입니다."
       }

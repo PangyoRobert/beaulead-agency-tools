@@ -21,7 +21,7 @@
 - `/video-quote/` — 영상 제작 견적기
 - `/development-quote/` — 홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적기 (저장소에만 있음 — 배포 제외)
 - `/google-ads-training-quote/` — Google Ads 교육 상품 예상 견적기 (저장소에만 있음 — 배포 제외)
-- `/viral-marketing-quote/` — 바이럴 마케팅 서비스 견적
+- `/viral-marketing-quote/` — 바이럴 마케팅 서비스 견적 (저장소에만 있음 — 배포 제외)
 - `/youtube-creator-quote/` — 카페24·유튜브 쇼핑 크리에이터 제휴 견적기
 - `/youtube-view-quote/` — 유튜브 조회수 보장형 광고 상품 가격표 (저장소에만 있음 — 배포 제외)
 - `/keyword-volume-plan/` — 네이버 월간 검색량 조회 화면기획서
