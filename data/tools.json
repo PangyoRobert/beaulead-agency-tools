@@ -94,6 +94,18 @@
       }
     },
     {
+      "slug": "ad-agency-contract",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "디지털 광고 대행 계약서 작성기",
+      "card": {
+        "kicker": "Contract Builder",
+        "title": ["Ad Agency", "Contract"],
+        "description": "고객사 정보·계약 기간·매체별 광고비를 입력해 디지털 광고 대행 계약서를 만들고 A4로 인쇄하는 도구입니다."
+      }
+    },
+    {
       "slug": "ad-quote",
       "kind": "tool",
       "status": "planned",
