@@ -57,6 +57,18 @@
       }
     },
     {
+      "slug": "fnb-seeding-guide",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "F&B 로컬 시딩 컨설팅 가이드",
+      "card": {
+        "kicker": "Consulting Guide",
+        "title": ["F&B Local", "Seeding"],
+        "description": "체험단·로컬 인플루언서·지역 파워페이지·UGC의 역할과 비용, 콘텐츠 권리와 방문 성과 측정 구조를 안내합니다."
+      }
+    },
+    {
       "slug": "youtube-creator-quote",
       "kind": "tool",
       "status": "live",
