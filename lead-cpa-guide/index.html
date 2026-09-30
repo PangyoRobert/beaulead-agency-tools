@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="업종별 리드(DB) 단가를 2025년 1분기 원자료와 2026년 반영가(+10%)로 함께 확인하는 참고표">
+<title>업종별 리드 단가 참고표 · Beaulead Agency Tools</title>
+<link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/lead-cpa-guide/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Beaulead">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/lead-cpa-guide/">
+<meta property="og:title" content="업종별 리드 단가 참고표 · Beaulead Agency Tools">
+<meta property="og:description" content="업종별 리드(DB) 단가를 2025년 1분기 원자료와 2026년 반영가(+10%)로 함께 확인하는 참고표">
+<meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="업종별 리드 단가 참고표 · Beaulead Agency Tools">
+<meta name="twitter:description" content="업종별 리드(DB) 단가를 2025년 1분기 원자료와 2026년 반영가(+10%)로 함께 확인하는 참고표">
+<meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+<link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{color-scheme:light;--bg:var(--bl-surface-raised);--panel:var(--bl-surface-default);--ink:var(--bl-text-default);--muted:var(--bl-text-body-on-light);--line:var(--bl-rule-on-light);--brand:var(--bl-brand-accent);--yellow:var(--bl-state-warning)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;min-width:320px;background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+a{color:inherit}button,input{font:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+header{background:var(--bl-surface-inverse);color:var(--bl-text-inverse);padding:20px 5vw;display:flex;justify-content:space-between;gap:16px}
+header a{color:inherit;text-decoration:none;font-weight:800;letter-spacing:.06em}
+header .back{color:var(--bl-on-dark-body);font-weight:600;font-size:14px}
+main{max-width:1180px;margin:auto;padding:52px 28px 80px}
+.eyebrow{font-size:12px;letter-spacing:.15em;font-weight:800;color:var(--brand)}
+h1{font-size:clamp(32px,4.6vw,56px);letter-spacing:-.05em;line-height:1.12;margin:14px 0 18px}
+.lead{max-width:740px;font-size:16px;color:var(--muted);word-break:keep-all}
+.source{margin:22px 0 8px;border-left:4px solid var(--brand);background:var(--panel);padding:18px 22px;font-size:13px;color:var(--ink);word-break:keep-all}
+.source strong{display:block;margin-bottom:6px;font-size:14px}
+.source ul{margin:8px 0 0;padding-left:18px}
+.source li{margin-bottom:5px}
+.filter-bar{display:flex;gap:10px;align-items:center;margin:26px 0 6px;flex-wrap:wrap}
+.filter-bar input{flex:1;min-width:220px;padding:12px 14px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;font-size:14px}
+.filter-bar input:focus-visible{outline:3px solid var(--brand);outline-offset:1px}
+.filter-count{font-size:13px;color:var(--muted);white-space:nowrap}
+.cat-title{font-size:22px;letter-spacing:-.03em;margin:36px 0 4px}
+.cat-note{font-size:13px;color:var(--muted);margin:0 0 16px}
+.group-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.group{border:1px solid var(--line);background:var(--panel);border-radius:14px;overflow:hidden}
+.group h3{margin:0;padding:13px 16px;font-size:14px;border-bottom:1px solid var(--line);background:var(--bl-surface-raised)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{color:var(--muted);font-weight:600;font-size:11px;letter-spacing:.03em;text-transform:uppercase}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+tr.hide{display:none}
+.delta{color:var(--muted);font-size:11px;margin-left:4px}
+.empty{margin:24px 0;padding:26px;text-align:center;background:var(--panel);border:1px dashed var(--line);border-radius:14px;color:var(--muted);font-size:14px}
+.foot{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.7}
+[hidden]{display:none!important}
+@media(max-width:640px){main{padding:36px 18px}header{padding:16px}.group-grid{grid-template-columns:1fr}th,td{padding:9px 10px}}
+@media print{
+  header,.filter-bar{display:none!important}
+  main{padding:0}
+  .group{break-inside:avoid;border-color:#E0E0E0!important}
+  body{background:#fff!important;color:#241815!important}
+  .source{border-left-color:#0F62FE!important}
+}
+</style>
+</head>
+<body>
+<header><a href="../">BEAULEAD ↗</a><span class="back"><a href="../#tools">← 전체 도구</a></span></header>
+<main>
+<div class="eyebrow">LEAD CPA BENCHMARK</div>
+<h1>업종별 리드 단가<br>참고표</h1>
+<p class="lead">업종·제품별 리드(DB) 1건당 평균 단가를 2025년 1분기 원자료와, 여기에 10%를 반영한 2026년 참고가로 함께 보여줍니다.</p>
+
+<div class="source" id="source-note">
+<strong>이 표를 읽기 전에 확인해 주세요</strong>
+<span id="source-text"></span>
+<ul>
+<li>10% 인상은 실측 인플레이션이 아니라 <b>일괄 적용한 조정값</b>입니다. 원자료 단가를 항상 함께 표시해 어떤 값이 실측이고 어떤 값이 조정값인지 구분됩니다.</li>
+<li>부가세 포함·별도 여부는 원자료에 표기가 없어 <b>확인 전</b>입니다. 고객 대면 자료로 쓰기 전에 확인이 필요합니다.</li>
+<li>업종·상품에 따라 실제 단가는 지역, 시즌, 매체, 경쟁 강도에 따라 달라질 수 있는 <b>참고용 평균치</b>입니다.</li>
+</ul>
+</div>
+
+<div class="filter-bar">
+<label for="filter" class="visually-hidden">업종 또는 제품으로 찾기</label>
+<input type="text" id="filter" placeholder="업종 또는 제품으로 찾기 (예: 임플란트, 성형)" autocomplete="off">
+<span class="filter-count" id="filter-count" role="status" aria-live="polite"></span>
+</div>
+
+<div id="categories"></div>
+<p class="empty" id="empty-state" hidden>일치하는 업종·제품이 없습니다. 검색어를 다시 확인해 주세요.</p>
+
+<p class="foot">단위: 원(KRW), 리드 1건당 단가. 2026년 반영가 = 2025년 1분기 원자료 × 1.10 (원 단위 반올림). 문의는 <a href="mailto:robert@beaulead.co.kr">robert@beaulead.co.kr</a>로 주십시오.</p>
+</main>
+<style>.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}</style>
+<script src="./pricing-config.js"></script>
+<script>
+(function () {
+  const CONFIG = window.LEAD_CPA_GUIDE_CONFIG;
+  const won = new Intl.NumberFormat("ko-KR");
+
+  function el(tag, props, children) {
+    const node = document.createElement(tag);
+    Object.entries(props || {}).forEach(([key, value]) => {
+      if (key === "text") node.textContent = value;
+      else if (key === "class") node.className = value;
+      else node.setAttribute(key, value);
+    });
+    (children || []).forEach((child) => child && node.append(child));
+    return node;
+  }
+
+  function adjusted(base) {
+    return Math.round(base * (1 + CONFIG.inflationRate));
+  }
+
+  document.getElementById("source-text").textContent = CONFIG.sourceNote;
+
+  const categoriesEl = document.getElementById("categories");
+  CONFIG.categories.forEach((category) => {
+    const groupGrid = el("div", { class: "group-grid" });
+    category.groups.forEach((group) => {
+      const rows = group.items.map((item) => {
+        const row = el("tr", { "data-search": (group.label + " " + item.name).toLowerCase() }, [
+          el("td", { text: item.name }),
+          el("td", { class: "n", text: won.format(item.base) + "원" }),
+          el("td", { class: "n", text: won.format(adjusted(item.base)) + "원" })
+        ]);
+        return row;
+      });
+      const table = el("table", {}, [
+        el("thead", {}, [el("tr", {}, [
+          el("th", { scope: "col", text: "제품" }),
+          el("th", { scope: "col", class: "n", text: CONFIG.baseYear }),
+          el("th", { scope: "col", class: "n", text: CONFIG.targetYear + " (+10%)" })
+        ])]),
+        el("tbody", {}, rows)
+      ]);
+      groupGrid.append(el("article", { class: "group" }, [
+        el("h3", { text: group.label }),
+        el("div", { class: "table-wrap" }, [table])
+      ]));
+    });
+    categoriesEl.append(
+      el("h2", { class: "cat-title", text: category.label }),
+      groupGrid
+    );
+  });
+
+  const filter = document.getElementById("filter");
+  const count = document.getElementById("filter-count");
+  const empty = document.getElementById("empty-state");
+  const allRows = [...categoriesEl.querySelectorAll("tr[data-search]")];
+  const totalCount = allRows.length;
+
+  function applyFilter() {
+    const query = filter.value.trim().toLowerCase();
+    let visible = 0;
+    categoriesEl.querySelectorAll(".group").forEach((group) => {
+      let groupVisible = 0;
+      group.querySelectorAll("tr[data-search]").forEach((row) => {
+        const match = !query || row.dataset.search.includes(query);
+        row.classList.toggle("hide", !match);
+        if (match) { visible += 1; groupVisible += 1; }
+      });
+      group.hidden = groupVisible === 0;
+    });
+    categoriesEl.querySelectorAll(".cat-title, .group-grid").forEach((node) => {
+      if (node.classList.contains("cat-title")) {
+        const grid = node.nextElementSibling;
+        const anyVisible = grid && [...grid.children].some((child) => !child.hidden);
+        node.hidden = !anyVisible;
+        if (grid) grid.hidden = !anyVisible;
+      }
+    });
+    count.textContent = query ? `${visible} / ${totalCount}건` : `전체 ${totalCount}건`;
+    empty.hidden = visible !== 0;
+  }
+
+  filter.addEventListener("input", applyFilter);
+  applyFilter();
+})();
+</script>
+</body>
+</html>
