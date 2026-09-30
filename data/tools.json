@@ -121,7 +121,8 @@
       "slug": "meta-ad-price-history",
       "kind": "tool",
       "status": "live",
-      "public": true,
+      "$public": "2026-09-30 비공개 전환. 로버트님 판단으로 상품성 없음(시의성 확보 안 됨) — 성수기 CPM 벤치마크가 아니라 메타 단독의 YoY 공시 이력으로 축소한 결과물이 고객 대면 자료로 쓰기엔 약하다는 결론. 페이지 파일은 그대로 두었으므로 다시 열려면 public 을 true 로 올리고 sync_registry 를 돌린다.",
+      "public": false,
       "name": "메타 광고단가 공시 이력",
       "card": {
         "kicker": "Earnings Disclosure Log",
