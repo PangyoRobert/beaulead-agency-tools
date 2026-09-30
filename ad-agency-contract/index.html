@@ -62,17 +62,21 @@ button,input,select,textarea{font:inherit;color:inherit}
 .mode input{margin-top:4px;accent-color:var(--brand)}
 .mode small{display:block;color:var(--muted);font-size:12px}
 .mode:has(input:checked){border-color:var(--brand);background:rgba(15,98,254,.06)}
-.sched{width:100%;table-layout:fixed;border-collapse:collapse;font-size:13px;margin-bottom:8px}.sched col.c-media{width:34%}.sched col.c-budget{width:28%}.sched col.c-rate{width:15%}.sched col.c-del{width:30px}
-.sched th{font-size:11px;color:var(--muted);font-weight:600;text-align:left;padding:0 4px 4px}
-.sched td{padding:3px 4px;vertical-align:middle}
-.sched input{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--bl-surface-raised);padding:7px 8px;font-size:13px}
-.sched .num{text-align:right;font-variant-numeric:tabular-nums}
-.sched .fee{white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
-.del{border:0;background:transparent;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:4px 6px}
+.srow{border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px;background:var(--panel)}
+.srow-top{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+.srow input{width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--bl-surface-raised);padding:7px 9px;font-size:13px}
+.srow-in{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:6px}
+.srow-in label span{display:block;font-size:11px;color:var(--muted);margin-bottom:2px}
+.srow .num{text-align:right;font-variant-numeric:tabular-nums}
+.calc{margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:12px;color:var(--muted)}
+.calc dt{margin:0}.calc dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+.calc .sum{font-weight:700;border-top:1px solid var(--line);padding-top:3px;margin-top:2px}
+.del{border:0;background:transparent;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:4px 6px;flex:none}
 .del:hover{color:var(--bl-state-danger)}
 .add{width:100%;border:1px dashed var(--line);background:transparent;border-radius:10px;padding:9px;cursor:pointer;font-size:13px;color:var(--muted)}
 .add:hover{border-color:var(--brand);color:var(--ink)}
-.sched-total{display:flex;justify-content:space-between;font-size:13px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.sched-total{margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--bl-surface-raised)}
+.sched-total .calc{margin:0;font-size:13px}
 .agency{background:var(--bl-surface-raised);border-radius:12px;padding:12px 14px;font-size:13px}
 .agency dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px}.agency dt{color:var(--muted)}.agency dd{margin:0}
 .issues{border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:16px}
@@ -98,8 +102,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .parties th,.parties td{text-align:center;font-weight:700;min-width:48mm}
 .preamble{margin:0 0 12mm}
 .doc h3{text-align:center;font-size:13pt;margin:0 0 5mm}
-.summary{width:100%;max-width:120mm;margin:0 auto 10mm}
-.summary th{width:32mm;font-weight:400}
+.summary{width:100%;max-width:150mm;margin:0 auto 10mm}
+.summary th{width:32mm;font-weight:400}.amount-detail{list-style:none;margin:4px 0 0;padding:0;font-size:9pt;line-height:1.55}.amount-detail li{margin:1px 0;padding-left:.9em;text-indent:-.9em}.amount-detail li:before{content:"· "}.amount-detail li.total{font-weight:700}
 .sign-date{text-align:center;margin:8mm 0}
 .sign{width:100%;break-inside:avoid;page-break-inside:avoid}
 .sign td{width:50%;height:44mm;border-style:dotted;padding:8px 12px}
@@ -118,7 +122,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .attach-wrap{overflow-x:auto}.attach-table{width:100%;font-size:10pt}
 .attach-table th{background:var(--bl-surface-raised);font-weight:700}
 .attach-table .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.attach-table tfoot td{font-weight:700}
+.attach-table tfoot td,.attach-table tfoot th{font-weight:700}.attach-table .sub td{font-weight:700;background:var(--bl-surface-raised)}.attach-table .grand td,.attach-table .grand th{border-top:2px solid var(--bl-text-default)}
 .attach-note{font-size:9.5pt;margin-top:4mm}
 .blank{background:rgba(241,194,27,.28);border-bottom:1px solid var(--bl-state-warning);padding:0 .2em;color:var(--bl-text-default);font-weight:600;white-space:nowrap}
 .blank:before{content:"〔"}.blank:after{content:"〕"}
@@ -127,7 +131,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 @media(max-width:980px){.grid{grid-template-columns:minmax(0,1fr)}.actions{position:static}}
 .form,.paper{min-width:0}
-@media(max-width:520px){.attach-table th,.attach-table td{padding:6px 7px}.wrap{width:calc(100% - 32px)}.row2,.row-ceo{grid-template-columns:1fr}.sheet{font-size:10pt}.cover{min-height:auto}.cover h2{margin-top:10mm}.cover .date,.cover table{margin-top:24mm}.parties th,.parties td{min-width:0}.form{padding:16px}.sched col.c-media{width:36%}.sched col.c-budget{width:34%}.sched col.c-rate{width:19%}.sched col.c-fee{width:0}.sched th:nth-child(4),.sched td:nth-child(4){display:none}.mode small{overflow-wrap:anywhere}}
+@media(max-width:520px){.attach-table th,.attach-table td{padding:6px 7px}.wrap{width:calc(100% - 32px)}.row2,.row-ceo{grid-template-columns:1fr}.sheet{font-size:10pt}.cover{min-height:auto}.cover h2{margin-top:10mm}.cover .date,.cover table{margin-top:24mm}.parties th,.parties td{min-width:0}.form{padding:16px}.mode small{overflow-wrap:anywhere}}
 
 @media print{
   @page{size:A4;margin:18mm 18mm 16mm}
@@ -140,7 +144,7 @@ button,input,select,textarea{font:inherit;color:inherit}
   /* 빈칸은 손으로 채울 수 있게 밑줄만 남긴다. */
   .blank{background:none;color:transparent;border-bottom:1px solid var(--bl-text-default);display:inline-block;min-width:28mm}
   .blank:before,.blank:after{content:""}
-  .attach-table th{background:none}
+  .attach-table th,.attach-table .sub td{background:none}
 }
 </style>
 </head>
@@ -189,19 +193,16 @@ button,input,select,textarea{font:inherit;color:inherit}
         <legend>비용</legend>
         <div class="modes">
           <label class="mode"><input type="radio" name="amountMode" value="text"><span>문구로 적기<small>원본과 같이 “월별 매체별 진행” 등 문구를 적습니다.</small></span></label>
-          <label class="mode"><input type="radio" name="amountMode" value="schedule"><span>견적서1 금액 표 붙이기<small>매체별 월 광고비와 대행수수료율을 넣으면 합계가 총계약금액이 됩니다.</small></span></label>
+          <label class="mode"><input type="radio" name="amountMode" value="schedule"><span>견적서1 금액 표 붙이기<small>매체별 월 광고비와 대행수수료율을 넣으면 광고비·수수료·부가세 내역이 요강과 견적서1에 들어갑니다.</small></span></label>
         </div>
         <div id="textMode">
           <label class="field"><span>총계약금액 문구</span><input id="totalAmountText" autocomplete="off"></label>
           <label class="field"><span>붙임문서</span><input id="attachments" autocomplete="off" placeholder="없으면 비워 두세요"></label>
         </div>
         <div id="scheduleMode" hidden>
-          <table class="sched"><colgroup><col class="c-media"><col class="c-budget"><col class="c-rate"><col class="c-fee"><col class="c-del"></colgroup>
-            <thead><tr><th scope="col">매체</th><th scope="col">월 광고비(원)</th><th scope="col">수수료율(%)</th><th scope="col">수수료</th><th><span class="visually-hidden">삭제</span></th></tr></thead>
-            <tbody id="scheduleRows"></tbody>
-          </table>
+          <div id="scheduleRows"></div>
           <button type="button" class="add" id="addRow">+ 매체 추가</button>
-          <div class="sched-total"><span>월 합계 (VAT 별도)</span><strong id="scheduleTotal">0원</strong></div>
+          <div class="sched-total" aria-live="polite"><dl class="calc" id="scheduleTotal"></dl></div>
         </div>
       </fieldset>
 
@@ -273,30 +274,44 @@ button,input,select,textarea{font:inherit;color:inherit}
   }
 
   // ---- 입력 ----
+  function calcList(pairs) {
+    return pairs.flatMap(([label, value, cls]) => [el("dt", { text: label, class: cls || "" }), el("dd", { text: value, class: cls || "" })]);
+  }
+
   function scheduleRow(values) {
-    const tr = el("tr");
-    const media = el("input", { "aria-label": "매체명", autocomplete: "off", placeholder: "매체명" });
+    const row = el("div", { class: "srow" });
+    const media = el("input", { "aria-label": "매체명", autocomplete: "off", placeholder: "매체명 (예: 구글 광고)" });
     media.value = values.media || "";
-    const budget = el("input", { class: "num", "aria-label": "월 광고비", "data-money": "" });
-    const rate = el("input", { class: "num rate", type: "number", min: "0", max: "100", step: "0.1", "aria-label": "대행수수료율 퍼센트" });
+    const budget = el("input", { class: "num", "aria-label": "월 광고비(원)", "data-money": "", placeholder: "0" });
+    const rate = el("input", { class: "num", type: "number", min: "0", max: "100", step: "0.1", "aria-label": "대행수수료율(%)", placeholder: "0" });
     rate.value = values.feeRate == null ? "" : values.feeRate;
-    const fee = el("td", { class: "fee" });
     const del = el("button", { type: "button", class: "del", "aria-label": "이 매체 삭제", text: "×" });
-    del.addEventListener("click", () => { tr.remove(); render(); });
-    tr.append(el("td", {}, [media]), el("td", {}, [budget]), el("td", {}, [rate]), fee, el("td", {}, [del]));
-    $("scheduleRows").append(tr);
-    MONEY.upgrade(tr);
+    del.addEventListener("click", () => { row.remove(); render(); });
+    row.append(
+      el("div", { class: "srow-top" }, [media, del]),
+      el("div", { class: "srow-in" }, [
+        el("label", {}, [el("span", { text: "월 광고비(원)" }), budget]),
+        el("label", {}, [el("span", { text: "대행수수료율(%)" }), rate])
+      ]),
+      el("dl", { class: "calc" })
+    );
+    $("scheduleRows").append(row);
+    MONEY.upgrade(row);
     if (values.budget) MONEY.write(budget, values.budget);
     [media, budget, rate].forEach((input) => input.addEventListener("input", render));
-    return tr;
+    return row;
+  }
+
+  function scheduleCards() {
+    return [...$("scheduleRows").children];
   }
 
   function readInput() {
     const input = {};
     TEXT_FIELDS.forEach((id) => { input[id] = $(id).value; });
     input.amountMode = document.querySelector("input[name=amountMode]:checked").value;
-    input.scheduleRows = [...$("scheduleRows").rows].map((tr) => {
-      const [media, budget, rate] = tr.querySelectorAll("input");
+    input.scheduleRows = scheduleCards().map((row) => {
+      const [media, budget, rate] = row.querySelectorAll("input");
       return { media: media.value, budget: MONEY.read(budget), feeRate: rate.value === "" ? 0 : Number(rate.value) };
     });
     return input;
@@ -344,7 +359,14 @@ button,input,select,textarea{font:inherit;color:inherit}
   }
 
   function renderSummary(model) {
-    const rows = model.summary.map((row) => el("tr", {}, [el("th", { scope: "row", text: row.label }), el("td", {}, [segs(row.value)])]));
+    const rows = model.summary.map((row) => {
+      const cell = el("td", {}, [segs(row.value)]);
+      if (row.details && row.details.length) {
+        const last = row.details.length - 1;
+        cell.append(el("ul", { class: "amount-detail" }, row.details.map((d, i) => el("li", { class: i === last ? "total" : "" }, [segs(d)]))));
+      }
+      return el("tr", {}, [el("th", { scope: "row", text: row.label }), cell]);
+    });
     $("sheetSummary").replaceChildren(
       el("p", { class: "preamble" }, [segs(model.preamble)]),
       el("h3", { text: "[계약의 요강]" }),
@@ -381,26 +403,28 @@ button,input,select,textarea{font:inherit;color:inherit}
     const a = model.attachment;
     sheet.hidden = !a;
     if (!a) { sheet.replaceChildren(); return; }
-    const pct = (rate) => `${Number(rate.toFixed(2))}%`;
-    const body = a.lines.map((line) => el("tr", {}, [
-      el("td", {}, [segs([{ field: "media", value: line.media, label: "매체명" }])]),
-      el("td", { class: "n", text: C.won(line.budget) }),
-      el("td", { class: "n", text: pct(line.feeRate) }),
-      el("td", { class: "n", text: C.won(line.fee) }),
-      el("td", { class: "n", text: C.won(line.subtotal) })
-    ]));
+    const money = (n) => el("td", { class: "n", text: C.won(n) });
+    const vatPct = C.percent(a.vatRate * 100);
+    // 매체마다 광고비 · 대행수수료 · 소계 3줄. 매체명은 rowspan 으로 묶는다.
+    const body = a.lines.flatMap((line) => [
+      el("tr", {}, [
+        el("td", { rowspan: "3" }, [segs([{ field: "media", value: line.media, label: "매체명" }])]),
+        el("td", { text: "광고비" }), money(line.budget), money(line.budgetVat), money(line.budget + line.budgetVat)
+      ]),
+      el("tr", {}, [el("td", { text: `대행수수료 (${C.percent(line.feeRate)})` }), money(line.fee), money(line.feeVat), money(line.fee + line.feeVat)]),
+      el("tr", { class: "sub" }, [el("td", { text: "소계" }), money(line.supply), money(line.vat), money(line.total)])
+    ]);
+    const foot = (label, supply, vat, cls) => el("tr", { class: cls || "" }, [el("th", { scope: "row", colspan: "2", text: label }), money(supply), money(vat), money(supply + vat)]);
     sheet.replaceChildren(
       el("h3", { class: "body-title", text: `붙임 ${a.name} — ${a.title}` }),
       el("div", { class: "attach-wrap" }, [el("table", { class: "attach-table" }, [
-        el("thead", {}, [el("tr", {}, ["노출매체", "월 광고비", "대행수수료율", "대행수수료", "소계"].map((t) => el("th", { scope: "col", text: t })))]),
+        el("thead", {}, [el("tr", {}, ["노출매체", "구분", "공급가액", `부가세 (${vatPct})`, "합계 (VAT 포함)"].map((t) => el("th", { scope: "col", text: t })))]),
         el("tbody", {}, body),
-        el("tfoot", {}, [el("tr", {}, [
-          el("td", { text: "월 합계" }),
-          el("td", { class: "n", text: C.won(a.budget) }),
-          el("td", {}),
-          el("td", { class: "n", text: C.won(a.fee) }),
-          el("td", { class: "n", text: C.won(a.total) })
-        ])])
+        el("tfoot", {}, [
+          foot("광고비 합계", a.budget, a.budgetVat, "grand"),
+          foot("대행수수료 합계", a.fee, a.feeVat),
+          foot("월 총계", a.supply, a.vat)
+        ])
       ])]),
       el("p", { class: "attach-note", text: a.note })
     );
@@ -425,9 +449,24 @@ button,input,select,textarea{font:inherit;color:inherit}
     const schedule = input.amountMode === "schedule";
     $("textMode").hidden = schedule;
     $("scheduleMode").hidden = !schedule;
-    const table = C.schedule(input.scheduleRows);
-    [...$("scheduleRows").rows].forEach((tr, i) => { tr.cells[3].textContent = C.won(table.lines[i].fee); });
-    $("scheduleTotal").textContent = C.won(table.total);
+    const table = C.schedule(input.scheduleRows, CONFIG.vatRate);
+    const vatPct = C.percent(table.vatRate * 100);
+    scheduleCards().forEach((row, i) => {
+      const line = table.lines[i];
+      row.querySelector(".calc").replaceChildren(...calcList([
+        [`대행수수료 (${C.percent(line.feeRate)})`, C.won(line.fee)],
+        ["공급가액 (광고비 + 수수료)", C.won(line.supply)],
+        [`부가세 (${vatPct})`, C.won(line.vat)],
+        ["합계 (VAT 포함)", C.won(line.total), "sum"]
+      ]));
+    });
+    $("scheduleTotal").replaceChildren(...calcList([
+      ["광고비 합계", C.won(table.budget)],
+      ["대행수수료 합계", C.won(table.fee)],
+      ["공급가액 합계 (VAT 별도)", C.won(table.supply)],
+      [`부가세 (${vatPct})`, C.won(table.vat)],
+      ["월 총액 (VAT 포함)", C.won(table.total), "sum"]
+    ]));
 
     const model = C.build(input, CONFIG);
     renderCover(model);

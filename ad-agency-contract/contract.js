@@ -98,17 +98,38 @@
     return `${Math.round(amount).toLocaleString("ko-KR")}원`;
   }
 
-  /** 붙임 견적서1 계산. 금액과 율이 숫자가 아니면 0 으로 본다(검증이 따로 경고한다). */
-  function schedule(rows) {
+  /** 붙임 견적서1 계산. 광고비와 대행수수료 각각에 부가세를 매기고, 원 단위는 항목마다 반올림한다.
+   *  금액과 율이 숫자가 아니면 0 으로 본다(검증이 따로 경고한다). */
+  function schedule(rows, vatRate) {
+    const rate = Number(vatRate) >= 0 ? Number(vatRate) : 0;
+    const vatOf = (amount) => Math.round(amount * rate);
     const lines = (rows || []).map((row) => {
       const media = text(row.media);
       const budget = Number(row.budget) > 0 ? Number(row.budget) : 0;
-      const rate = Number(row.feeRate) > 0 ? Number(row.feeRate) : 0;
-      const fee = Math.round((budget * rate) / 100);
-      return { media, budget, feeRate: rate, fee, subtotal: budget + fee };
+      const feeRate = Number(row.feeRate) > 0 ? Number(row.feeRate) : 0;
+      const fee = Math.round((budget * feeRate) / 100);
+      const budgetVat = vatOf(budget);
+      const feeVat = vatOf(fee);
+      const supply = budget + fee;
+      const vat = budgetVat + feeVat;
+      return { media, budget, budgetVat, feeRate, fee, feeVat, supply, vat, total: supply + vat };
     });
     const sum = (key) => lines.reduce((acc, line) => acc + line[key], 0);
-    return { lines, budget: sum("budget"), fee: sum("fee"), total: sum("subtotal") };
+    return {
+      vatRate: rate,
+      lines,
+      budget: sum("budget"),
+      budgetVat: sum("budgetVat"),
+      fee: sum("fee"),
+      feeVat: sum("feeVat"),
+      supply: sum("supply"),
+      vat: sum("vat"),
+      total: sum("total")
+    };
+  }
+
+  function percent(rate) {
+    return `${Number(Number(rate).toFixed(2))}%`;
   }
 
   function usesSchedule(input) {
@@ -194,8 +215,21 @@
 
   function totalAmount(input, config) {
     if (!usesSchedule(input)) return slot("totalAmountText", input.totalAmountText, "총계약금액");
-    const sum = schedule(input.scheduleRows).total;
-    return [{ text: `월 ${won(sum)} (VAT 별도, 붙임 “${config.attachment.name}” 참조)` }];
+    const t = schedule(input.scheduleRows, config.vatRate);
+    return [{ text: `월 ${won(t.supply)} (VAT 별도) · VAT 포함 ${won(t.total)}` }];
+  }
+
+  /** 요강 총계약금액 칸 아래에 붙는 매체별 내역. 글자만으로 계산 과정이 보이게 한다. */
+  function totalDetails(input, config) {
+    if (!usesSchedule(input)) return [];
+    const t = schedule(input.scheduleRows, config.vatRate);
+    const vatLabel = `부가세 ${percent(t.vatRate * 100)}`;
+    const lines = t.lines.map((line) => [
+      { field: "media", value: line.media, label: "매체명" },
+      { text: ` : 광고비 ${won(line.budget)} + 대행수수료 ${won(line.fee)}(${percent(line.feeRate)}) = ${won(line.supply)}, ${vatLabel} ${won(line.vat)} → ${won(line.total)}` }
+    ]);
+    lines.push([{ text: `합계 : 공급가액 ${won(t.supply)} + ${vatLabel} ${won(t.vat)} = ${won(t.total)} (세부 내역은 붙임 “${config.attachment.name}”)` }]);
+    return lines;
   }
 
   function build(input, config) {
@@ -223,7 +257,7 @@
 
     const summary = [
       { label: "계약명", value: slot("contractName", input.contractName, "계약명") },
-      { label: "총계약금액", value: totalAmount(input, config) },
+      { label: "총계약금액", value: totalAmount(input, config), details: totalDetails(input, config) },
       {
         label: "계약기간",
         value: [...slot("startDate", start, "시작일"), { text: " ~ " }, ...slot("endDate", end, "종료일")]
@@ -275,7 +309,7 @@
       articles,
       closing: config.closing,
       attachment: usesSchedule(input)
-        ? { name: config.attachment.name, title: config.attachment.title, note: config.attachment.note, ...schedule(input.scheduleRows) }
+        ? { name: config.attachment.name, title: config.attachment.title, note: config.attachment.note, ...schedule(input.scheduleRows, config.vatRate) }
         : null,
       issues: validate(input)
     };
@@ -303,6 +337,7 @@
     termPhrase,
     formatBizNo,
     won,
+    percent,
     schedule,
     validate,
     fill,
