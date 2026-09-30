@@ -107,21 +107,34 @@ const reversed = contract.validate({ ...sample, endDate: "2026-08-01" });
 check(reversed.map((i) => i.field), ["endDate"], "종료일이 시작일보다 빠르면 오류");
 check(contract.validate({ ...sample, clientBizNo: "12345" })[0].level, "warning", "사업자번호 자릿수 경고");
 
-// 견적서1 — 월 광고비 × 수수료율, 원 단위 반올림.
+// 견적서1 — 사용자가 든 예시: 구글 500만·메타 2,000만, 둘 다 수수료 15%, 부가세 10%.
 const scheduled = { ...sample, amountMode: "schedule", scheduleRows: [
-  { media: "네이버 검색광고", budget: 3000000, feeRate: 15 },
-  { media: "메타", budget: 1234567, feeRate: 10 }
+  { media: "구글 광고", budget: 5000000, feeRate: 15 },
+  { media: "메타 광고", budget: 20000000, feeRate: 15 }
 ] };
-const table = contract.schedule(scheduled.scheduleRows);
-check(table.lines[0].fee, 450000, "300만 × 15%");
-check(table.lines[1].fee, 123457, "반올림");
-check(table.budget, 4234567, "광고비 합계");
-check(table.fee, 573457, "수수료 합계");
-check(table.total, 4808024, "총 합계");
+const table = contract.schedule(scheduled.scheduleRows, config.vatRate);
+check(config.vatRate, 0.1, "부가세 10%");
+check(table.lines[0], { media: "구글 광고", budget: 5000000, budgetVat: 500000, feeRate: 15, fee: 750000, feeVat: 75000, supply: 5750000, vat: 575000, total: 6325000 }, "구글 한 줄");
+check(table.lines[1], { media: "메타 광고", budget: 20000000, budgetVat: 2000000, feeRate: 15, fee: 3000000, feeVat: 300000, supply: 23000000, vat: 2300000, total: 25300000 }, "메타 한 줄");
+check([table.budget, table.budgetVat, table.fee, table.feeVat], [25000000, 2500000, 3750000, 375000], "광고비·수수료 합계와 각 부가세");
+check([table.supply, table.vat, table.total], [28750000, 2875000, 31625000], "공급가액·부가세·VAT 포함 총액");
+
+// 반올림은 항목마다 원 단위. 합계는 반올림한 항목을 더한다(표의 줄이 합계와 어긋나지 않게).
+const odd = contract.schedule([{ media: "x", budget: 1234567, feeRate: 10 }], 0.1);
+check([odd.lines[0].fee, odd.lines[0].budgetVat, odd.lines[0].feeVat, odd.lines[0].vat], [123457, 123457, 12346, 135803], "원 단위 반올림");
+check(odd.vat, odd.budgetVat + odd.feeVat, "부가세 합 = 광고비 부가세 + 수수료 부가세");
+
 const scheduledModel = contract.build(scheduled, config);
-check(plain(scheduledModel.summary[1].value), "월 4,808,024원 (VAT 별도, 붙임 “견적서1” 참조)", "총계약금액이 표 합계를 따른다");
+check(plain(scheduledModel.summary[1].value), "월 28,750,000원 (VAT 별도) · VAT 포함 31,625,000원", "요강 총계약금액");
+check(scheduledModel.summary[1].details.map(plain), [
+  "구글 광고 : 광고비 5,000,000원 + 대행수수료 750,000원(15%) = 5,750,000원, 부가세 10% 575,000원 → 6,325,000원",
+  "메타 광고 : 광고비 20,000,000원 + 대행수수료 3,000,000원(15%) = 23,000,000원, 부가세 10% 2,300,000원 → 25,300,000원",
+  "합계 : 공급가액 28,750,000원 + 부가세 10% 2,875,000원 = 31,625,000원 (세부 내역은 붙임 “견적서1”)"
+], "요강에 매체별 내역");
+check(model.summary[1].details, [], "문구 모드에는 내역이 없다");
 check(plain(scheduledModel.summary[4].value), "견적서1 (매체별 광고비용)", "붙임문서 자동 기재");
-check(scheduledModel.attachment.lines.length, 2, "붙임 표 2행");
+check(scheduledModel.attachment.lines.length, 2, "붙임 표 2개 매체");
+check(scheduledModel.attachment.total, 31625000, "붙임 표 총액");
 check(contract.validate({ ...scheduled, scheduleRows: [] })[0].field, "scheduleRows", "매체 없이 표 모드면 오류");
 check(contract.validate({ ...scheduled, scheduleRows: [{ media: "", budget: 0, feeRate: 120 }] }).length, 3, "매체명·금액·율 각각 검증");
 

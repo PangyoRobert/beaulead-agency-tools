@@ -25,6 +25,9 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
 
   court: "서울중앙지방법원",
 
+  // 부가가치세율(부가가치세법 10%). 견적서1의 광고비·대행수수료 각각에 붙는다.
+  vatRate: 0.1,
+
   defaults: Object.freeze({
     contractName: "온라인 광고대행",
     totalAmountText: "월별 매체별 진행",
@@ -38,7 +41,7 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
   attachment: Object.freeze({
     name: "견적서1",
     title: "매체별 광고비용",
-    note: "광고비용은 VAT 별도 금액입니다. 대행수수료는 월 광고비 × 수수료율을 원 단위로 반올림합니다."
+    note: "대행수수료는 월 광고비 × 수수료율입니다. 부가세는 광고비와 대행수수료 각각에 10%를 적용하며, 금액은 항목마다 원 단위로 반올림합니다. 계약서 본문의 광고비용은 VAT 별도 금액(공급가액)입니다."
   }),
 
   preamble:
