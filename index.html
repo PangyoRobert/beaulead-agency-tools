@@ -471,6 +471,83 @@
     .profile-meta dd + dt { margin-top: 30px; }
     .profile-meta a { text-decoration: underline; text-underline-offset: 3px; }
 
+    /* 06 — GEO × SEO: 2010년대/2020년대 마케팅 스택을 같은 트리로 나란히 놓는다.
+       GEO 는 SEO 옆에 새로 붙은 노드일 뿐, 별도 트리가 아니라는 걸 구조로 보여준다. */
+    .stack-compare {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .stack-tree {
+      padding: 28px 24px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      text-align: center;
+    }
+    .stack-tree--now { border-color: var(--accent); }
+    .stack-era {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .stack-root {
+      display: inline-block;
+      padding: 9px 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .stack-connector { width: 1px; height: 18px; margin: 0 auto; background: var(--line); }
+    .stack-ai-layer {
+      display: inline-block;
+      padding: 5px 14px;
+      border: 1px dashed var(--accent);
+      border-radius: 999px;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+    }
+    .stack-nodes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+    .stack-node {
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .stack-node--new { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+    .stack-caption { max-width: 640px; margin: 22px 0 0; color: var(--muted); font-size: 0.9rem; line-height: 1.6; word-break: keep-all; }
+
+    /* 07 — Team: 시대마다 다뤄야 할 영역이 늘어난 걸 하나의 가로 타임라인으로 보여준다.
+       마지막 구간(2020s~)만 강조해 "지금이 변곡점"이라는 걸 색으로도 보탠다 —
+       단, 시기·제목 라벨이 이미 있어서 색이 유일한 단서는 아니다. */
+    .era-line {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 48px;
+      border-top: 1px solid var(--line);
+    }
+    .era-stage { padding: 22px 20px 0; border-left: 1px solid var(--line); }
+    .era-stage:first-child { border-left: 0; }
+    .era-stage--now { border-top: 2px solid var(--accent); margin-top: -1px; }
+    .era-period { margin: 0 0 10px; color: var(--muted); font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.04em; }
+    .era-title { margin: 0 0 8px; font-size: 1.05rem; letter-spacing: -0.02em; }
+    .era-note { margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; word-break: keep-all; }
+    .era-stage--now .era-period, .era-stage--now .era-title { color: var(--accent); }
 
     @media (max-width: 1180px) {
       .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -513,6 +590,11 @@
       .tool-card .arrow { margin-top: 36px; }
       .contact-row { align-items: start; flex-direction: column; }
       .profile { grid-template-columns: 1fr; }
+      .stack-compare { grid-template-columns: 1fr; }
+      .era-line { grid-template-columns: 1fr; border-top: 0; }
+      .era-stage { border-left: 0; border-top: 1px solid var(--line); padding: 20px 0 0; }
+      .era-stage:first-child { border-top: 0; }
+      .era-stage--now { margin-top: 0; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -673,6 +755,37 @@
       <div class="section-inner">
         <p class="section-label">06 — GEO × SEO</p>
         <h2 class="section-title">AI 시대에도, SEO에서 쌓은 신뢰는 사라지지 않습니다.</h2>
+
+        <div class="stack-compare">
+          <div class="stack-tree">
+            <p class="stack-era">2010년대</p>
+            <div class="stack-root">디지털 마케팅</div>
+            <div class="stack-connector"></div>
+            <div class="stack-nodes">
+              <span class="stack-node">SEO</span>
+              <span class="stack-node">퍼포먼스</span>
+              <span class="stack-node">CRM</span>
+              <span class="stack-node">소셜</span>
+              <span class="stack-node">데이터</span>
+            </div>
+          </div>
+          <div class="stack-tree stack-tree--now">
+            <p class="stack-era">2020년대 — 현재</p>
+            <div class="stack-root">디지털 마케팅</div>
+            <div class="stack-connector"></div>
+            <div class="stack-ai-layer">AI 레이어</div>
+            <div class="stack-connector"></div>
+            <div class="stack-nodes">
+              <span class="stack-node">SEO</span>
+              <span class="stack-node stack-node--new">GEO</span>
+              <span class="stack-node">퍼포먼스</span>
+              <span class="stack-node">CRM</span>
+              <span class="stack-node">소셜</span>
+              <span class="stack-node">데이터</span>
+            </div>
+          </div>
+        </div>
+        <p class="stack-caption">GEO는 SEO 옆에 새로 생긴 노드입니다 — 별도의 트리가 아니라, 같은 트리 위에서 자랍니다.</p>
       </div>
     </section>
 
@@ -680,6 +793,30 @@
       <div class="section-inner">
         <p class="section-label">07 — Team</p>
         <h2 class="section-title">이제 한 사람의 T자형 인재로는,<br>마케팅 문제를 풀 수 없습니다.</h2>
+
+        <div class="era-line">
+          <div class="era-stage">
+            <p class="era-period">80–90s</p>
+            <h3 class="era-title">마케팅 확성기</h3>
+            <p class="era-note">한 사람이 매체를 담당할 수 있었다.</p>
+          </div>
+          <div class="era-stage">
+            <p class="era-period">2000s</p>
+            <h3 class="era-title">검색 알고리즘 이기기</h3>
+            <p class="era-note">해야 할 일이 처음 두 갈래로 나뉘었다.</p>
+          </div>
+          <div class="era-stage">
+            <p class="era-period">2010s</p>
+            <h3 class="era-title">마케팅 스택 운영하기</h3>
+            <p class="era-note">영역별로 나뉘어 따로 운영됐다.</p>
+          </div>
+          <div class="era-stage era-stage--now">
+            <p class="era-period">2020s~</p>
+            <h3 class="era-title">소프트웨어화의 마케팅</h3>
+            <p class="era-note">개인이 감당할 영역이 폭발적으로 늘었다.</p>
+          </div>
+        </div>
+        <p class="stack-caption">복잡도가 커진 게 아니라, 복잡도의 성질이 바뀌었습니다 — 그래서 팀으로 움직입니다.</p>
       </div>
     </section>
   </main>
