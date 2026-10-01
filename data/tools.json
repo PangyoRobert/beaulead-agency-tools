@@ -69,6 +69,18 @@
       }
     },
     {
+      "slug": "wellness-experience-cases",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "웰니스 경험 설계 사례",
+      "card": {
+        "kicker": "Case Study",
+        "title": ["Wellness", "Experience"],
+        "description": "효능이 아니라 섭취 경험을 바꿔 성장한 웰니스 브랜드 4곳의 전략과 공통 패턴, 고객사 적용 질문을 정리한 제안용 사례 페이지입니다."
+      }
+    },
+    {
       "slug": "youtube-creator-quote",
       "kind": "tool",
       "status": "live",
