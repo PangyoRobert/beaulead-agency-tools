@@ -144,6 +144,43 @@ check(special.articles.length, 14, "특약 조 추가");
 check(special.articles[13].heading, "제14조 (특약사항)", "특약 조 제목");
 check(special.articles[13].paragraphs.map((p) => plain(p.segments)), ["첫째 특약.", "둘째 {{clientName}}"], "특약은 문자 그대로");
 
+// 견적서1 매체별 세부 업무 — 견적서에만 들어가고 계약서 조항에는 들어가지 않는다.
+const presets = config.mediaScope.presets;
+check(presets.map((p) => p.id), ["meta-ecom-own", "meta-ecom-mall", "meta-cpa"], "메타 세부 업무 프리셋 3종");
+const own = presets[0];
+const ownText = own.items.map((i) => i.text).join("\n");
+["Google Marketing Platform(GA4·GTM", "픽셀 및 전환 API(CAPI)", "GMC 및 카탈로그", "입금 후 24시간(영업일 기준 2일)"].forEach((t) =>
+  check(ownText.includes(t), true, `이커머스(독립몰) 확정 문구: ${t}`)
+);
+check(own.items.filter((i) => i.status === "confirmed").length, 4, "독립몰 확정 항목 4개");
+check(presets[2].items.every((i) => i.status === "draft"), true, "CPA 항목은 전부 초안(사용자 확정 전)");
+check(presets.every((p) => p.items.every((i) => ["confirmed", "draft"].includes(i.status))), true, "항목 상태는 confirmed/draft");
+
+const scoped = (row) => ({ ...sample, amountMode: "schedule", scheduleRows: [{ media: "메타 광고", budget: 1000000, feeRate: 10, ...row }] });
+const none = contract.build(scoped({}), config);
+check(none.attachment.scopes, [], "유형을 안 고르면 세부 업무가 없다");
+
+const confirmedIdx = own.items.map((i, k) => (i.status === "confirmed" ? k : -1)).filter((k) => k >= 0);
+const withScope = contract.build(scoped({ scopeId: "meta-ecom-own", scopeOn: confirmedIdx }), config);
+check(withScope.attachment.scopes.length, 1, "세부 업무 1개 매체");
+check(withScope.attachment.scopes[0].items, own.items.filter((i) => i.status === "confirmed").map((i) => i.text), "켜진 확정 항목만 나온다");
+check(withScope.issues.filter((i) => /초안/.test(i.message)).length, 0, "초안을 안 켜면 초안 경고가 없다");
+
+const draftOn = contract.build(scoped({ scopeId: "meta-ecom-own", scopeOn: [...confirmedIdx, 4] }), config);
+check(draftOn.issues.some((i) => i.level === "warning" && /초안·미확정 항목 1개/.test(i.message)), true, "초안을 켜면 경고");
+
+const emptyPick = contract.build(scoped({ scopeId: "meta-cpa", scopeOn: [] }), config);
+check(emptyPick.attachment.scopes, [], "항목을 하나도 안 켜면 견적서에 나오지 않는다");
+check(emptyPick.issues.some((i) => /선택된 항목이 없어/.test(i.message)), true, "빈 선택 경고");
+
+const extra = contract.build(scoped({ scopeId: "meta-cpa", scopeOn: [], scopeExtra: "첫째 추가\n\n 둘째 추가 " }), config);
+check(extra.attachment.scopes[0].items, ["첫째 추가", "둘째 추가"], "추가 항목은 줄마다 1개");
+
+// 24시간 집행 문구는 견적서에만 있다. 계약서 조항(제7조 포함)에는 넣지 않는다.
+const articleText = JSON.stringify(withScope.articles) + JSON.stringify(withScope.summary);
+check(articleText.includes("24시간"), false, "계약서 본문에는 24시간 집행 문구가 없다");
+check(JSON.stringify(config.articles).includes("24시간"), false, "조항 원문에도 없다");
+
 // 공개 저장소 규칙 — 입력값을 밖으로 내보내는 경로가 없어야 한다.
 const dir = path.join(__dirname, "..", "ad-agency-contract");
 const source = ["index.html", "contract.js", "contract-config.js"].map((f) => fs.readFileSync(path.join(dir, f), "utf8")).join("\n");
