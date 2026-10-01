@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="구글 애즈 에디터로 계정을 내려받고, 오프라인에서 일괄 수정하고, 검토 후 게시하는 흐름과 재검토가 걸리는 변경·안 걸리는 변경을 한 장으로 정리했습니다.">
+<title>구글 애즈 에디터 활용법 · Beaulead Agency Tools</title>
+<link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/google-ads-editor-guide/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Beaulead">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/google-ads-editor-guide/">
+<meta property="og:title" content="구글 애즈 에디터 활용법 · Beaulead Agency Tools">
+<meta property="og:description" content="다운로드 → 일괄 편집 → 검토 → 게시. 구글 애즈 에디터 작업 흐름과 재검토 기준.">
+<meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="구글 애즈 에디터 활용법 · Beaulead Agency Tools">
+<meta name="twitter:description" content="구글 애즈 에디터 작업 흐름과 재검토 기준.">
+<meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+<link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{color-scheme:light;--bg:var(--bl-surface-raised);--panel:var(--bl-surface-default);--ink:var(--bl-text-default);--body:var(--bl-text-body-on-light);--muted:var(--bl-text-muted);--line:var(--bl-rule-on-light);--brand:var(--bl-brand-accent);--dark:var(--bl-surface-inverse);--dark-body:var(--bl-on-dark-body)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;min-width:320px;background:var(--bg);color:var(--ink);font-family:var(--bl-font-primary);line-height:1.65}
+a{color:inherit}:focus-visible{outline:3px solid var(--brand);outline-offset:3px}
+.skip{position:fixed;left:16px;top:-80px;z-index:10;background:var(--panel);padding:10px 14px;font-weight:800}.skip:focus{top:16px}
+header{background:var(--dark);color:var(--bl-text-inverse);padding:20px 5vw;display:flex;justify-content:space-between;gap:16px}
+header a{color:inherit;text-decoration:none;font-weight:800;letter-spacing:.06em}.back{color:var(--dark-body);font-size:14px}
+main{max-width:1180px;margin:auto;padding:64px 28px 96px}
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:28px;align-items:end;padding-bottom:58px}
+.eyebrow{font-family:var(--bl-font-mono);font-size:12px;letter-spacing:.13em;font-weight:700;color:var(--brand);text-transform:uppercase}
+h1{font-size:clamp(38px,6vw,72px);letter-spacing:-.065em;line-height:1.06;margin:14px 0 22px;word-break:keep-all}
+.lead{max-width:780px;margin:0;font-size:clamp(17px,2vw,21px);color:var(--body);word-break:keep-all}
+.principle{background:var(--dark);color:var(--bl-text-inverse);border-radius:20px;padding:28px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between}
+.principle span{font-family:var(--bl-font-mono);font-size:12px;color:var(--dark-body);letter-spacing:.1em}.principle strong{display:block;font-size:26px;line-height:1.35;letter-spacing:-.04em;word-break:keep-all}
+section{padding:58px 0;border-top:1px solid var(--line)}
+.section-head{display:grid;grid-template-columns:180px minmax(0,1fr);gap:28px;margin-bottom:28px}.section-no{font-family:var(--bl-font-mono);color:var(--brand);font-size:13px;font-weight:700}.section-head h2{font-size:clamp(28px,4vw,44px);line-height:1.15;letter-spacing:-.045em;margin:0 0 12px;word-break:keep-all}.section-head p{margin:0;color:var(--body);max-width:760px;word-break:keep-all}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px}.card h3{display:block;font-size:19px;letter-spacing:-.025em;margin:0 0 10px}.card p{margin:0;color:var(--body);font-size:14px}
+.fig{margin:0 0 18px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
+.fig figcaption{margin-top:14px;font-size:13px;color:var(--body)}
+.fig svg{display:block;width:100%;height:auto}
+.vs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.vs div{border-radius:14px;padding:22px;border:1px solid var(--line);background:var(--bg)}.vs small{font-family:var(--bl-font-mono);font-size:11px;letter-spacing:.1em;color:var(--body)}.vs strong{display:block;font-size:20px;letter-spacing:-.03em;margin:10px 0 6px;word-break:keep-all}.vs p{margin:0;font-size:14px;color:var(--body)}
+.vs .win{background:var(--dark);border-color:var(--dark)}.vs .win small,.vs .win p{color:var(--dark-body)}.vs .win strong{color:var(--bl-text-inverse)}
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;counter-reset:f}
+.flow div{counter-increment:f;position:relative;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:18px 16px}
+.flow div:before{content:"0" counter(f);font-family:var(--bl-font-mono);font-size:11px;color:var(--brand);font-weight:700}
+.flow div:not(:last-child):after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);z-index:1;font-weight:800;color:var(--muted)}
+.flow strong{display:block;margin:8px 0 4px;font-size:15px;word-break:keep-all}.flow span{font-size:13px;color:var(--body)}
+.flow.two{grid-template-columns:repeat(2,minmax(0,1fr))}.flow.two div:nth-child(2){background:var(--dark);border-color:var(--dark)}.flow.two div:nth-child(2):before{color:var(--dark-body)}.flow.two div:nth-child(2) strong{color:var(--bl-text-inverse)}.flow.two div:nth-child(2) span{color:var(--dark-body)}
+.funnel{display:grid;gap:6px;justify-items:center}.funnel div{border-radius:12px;padding:16px 20px;text-align:center;color:var(--ink)}.funnel strong{display:block;font-size:15px;word-break:keep-all}.funnel span{font-size:13px}.funnel .f1{width:100%;background:var(--bl-chart-4)}.funnel .f2{width:82%;background:var(--bl-chart-3)}.funnel .f3{width:64%;background:var(--bl-chart-1);color:var(--bl-text-inverse)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+.tile{background:var(--dark);color:var(--bl-text-inverse);border-radius:14px;padding:22px}.tile small{font-family:var(--bl-font-mono);font-size:11px;color:var(--dark-body);letter-spacing:.08em}.tile b{display:block;font-size:clamp(22px,6vw,32px);letter-spacing:-.04em;margin:8px 0 4px}.tile span{font-size:13px;color:var(--dark-body)}
+.points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.points div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;font-size:14px;color:var(--body)}.points strong{display:block;color:var(--ink);margin-bottom:6px}
+.caution{margin-top:18px;border-left:4px solid var(--brand);padding:12px 16px;background:var(--panel);font-size:13px;color:var(--body)}
+.src{margin:14px 0 0;font-size:12px;color:var(--muted)}.src a{font-weight:700}
+.table-wrap{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px}table{width:100%;border-collapse:collapse;font-size:14px;min-width:820px}th,td{text-align:left;vertical-align:top;padding:15px 16px;border-bottom:1px solid var(--line)}th{font-size:12px;color:var(--muted);letter-spacing:.04em}tbody tr:last-child td{border-bottom:0}td:first-child{font-weight:800}
+.t-label{fill:var(--ink);font:700 14px var(--bl-font-primary)}.t-sub{fill:var(--body);font:12px var(--bl-font-primary)}.t-inv{fill:var(--bl-text-inverse);font:700 14px var(--bl-font-primary)}.t-inv-sub{fill:var(--dark-body);font:12px var(--bl-font-primary)}.axis{stroke:var(--line);stroke-width:1}
+.checklist{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px}.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.checks label{display:flex;gap:11px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:12px;cursor:pointer;font-size:14px}.checks input{margin-top:4px;accent-color:var(--brand)}
+.legal-side{background:rgba(241,194,27,.15);border:1px solid var(--bl-state-warning);border-radius:16px;padding:24px;margin-top:18px}.legal-side h3{margin:0 0 10px;font-size:18px}.legal-side ul{margin:0;padding-left:20px;color:var(--body);font-size:14px}.legal-side li+li{margin-top:8px}
+.cta{margin-top:58px;background:var(--dark);color:var(--bl-text-inverse);border-radius:22px;padding:clamp(28px,5vw,52px);display:flex;justify-content:space-between;align-items:end;gap:28px}.cta h2{font-size:clamp(28px,4vw,44px);line-height:1.15;letter-spacing:-.04em;margin:12px 0}.cta p{color:var(--dark-body);max-width:620px;margin:0}.cta a{display:inline-flex;text-decoration:none;background:var(--bl-text-inverse);color:var(--ink);padding:13px 18px;border-radius:10px;font-weight:850;white-space:nowrap}
+.foot{margin-top:32px;color:var(--muted);font-size:12px}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.card-grid,.points{grid-template-columns:repeat(2,minmax(0,1fr))}.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.flow div:after{display:none}.flow.two div:not(:last-child):after{display:block}}
+@media(max-width:640px){.flow.two div:not(:last-child):after{display:none}.funnel .f2{width:92%}.funnel .f3{width:84%}header{padding:16px}main{padding:42px 18px 72px}.hero{padding-bottom:42px}.section-head{grid-template-columns:1fr;gap:8px}.card-grid,.points,.vs,.flow,.flow.two,.tiles,.checks{grid-template-columns:1fr}.cta{align-items:flex-start;flex-direction:column}.cta a{width:100%;justify-content:center}}
+@media print{header,.skip,.cta a{display:none!important}main{max-width:none;padding:0}body{background:var(--panel)}section,.card,.fig,.tile,.checklist{break-inside:avoid}.cta{color:var(--ink);background:var(--panel);border:1px solid var(--line)}.cta p{color:var(--body)}}
+.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.col{border-radius:16px;padding:22px;border:1px solid var(--line);background:var(--panel)}.col.dark{background:var(--dark);border-color:var(--dark);color:var(--bl-text-inverse)}.col h3{margin:0 0 12px;font-size:18px}.col ul{margin:0;padding-left:20px;font-size:14px;color:var(--body)}.col.dark ul{color:var(--dark-body)}.col li+li{margin-top:7px}
+ol.steps{margin:0;padding-left:22px;color:var(--body)}ol.steps li{padding:10px 0;border-bottom:1px solid var(--line)}ol.steps li:last-child{border-bottom:0}ol.steps strong{color:var(--ink)}
+table.sm{min-width:640px}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<header><a href="../">BEAULEAD ↗</a><span class="back"><a href="../">← 홈</a></span></header>
+<main id="main">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Google Ads Editor Guide</div>
+      <h1>캠페인을 빠르게 만드는<br>가장 정직한 방법.</h1>
+      <p class="lead">구글 애즈 에디터는 계정을 내려받아 오프라인에서 한꺼번에 고치고, 확인한 뒤 올리는 무료 데스크톱 프로그램입니다. 많은 캠페인을 반복해서 만들고 고칠 때 웹 화면보다 훨씬 빠릅니다. 단, 광고 심사를 건너뛰어 주지는 않습니다.</p>
+    </div>
+    <aside class="principle"><span>CORE RULE</span><strong>처음부터<br>최종본으로 만든다.<br>심사는 건너뛰지 않는다.</strong></aside>
+  </div>
+
+  <section aria-labelledby="p">
+    <div class="section-head"><span class="section-no">01 / PROCESS</span><div><h2 id="p">작업 흐름 4단계</h2><p>에디터의 기본 순서입니다. 편집은 내 컴퓨터에서 이뤄지고, 게시하는 순간에야 계정에 반영됩니다.</p></div></div>
+    <figure class="fig">
+      <div class="flow" role="img" aria-label="에디터 작업 4단계: 계정 다운로드, 오프라인 일괄 편집, 변경사항 검토, 게시">
+        <div><strong>계정 다운로드</strong><span>작업할 계정의 최신 상태를 내려받는다. 여러 계정을 동시에 열 수 있다.</span></div>
+        <div><strong>오프라인 편집</strong><span>복사·붙여넣기, 일괄 변경, 찾아 바꾸기, CSV 가져오기로 한꺼번에 작업한다.</span></div>
+        <div><strong>변경 검토</strong><span>바뀐 항목과 오류·경고를 확인한다. 게시 전에 되돌릴 수 있다.</span></div>
+        <div><strong>게시</strong><span>확인한 변경만 계정에 반영한다. 이때부터 광고 심사가 시작된다.</span></div>
+      </div>
+      <figcaption>그림 1. 구글 애즈 에디터의 작업 흐름. 게시 전의 편집은 계정에 영향을 주지 않습니다.</figcaption>
+    </figure>
+  </section>
+
+  <section aria-labelledby="w">
+    <div class="section-head"><span class="section-no">02 / WHY</span><div><h2 id="w">언제 에디터가 웹보다 빠른가</h2><p>항목이 많고 반복적일수록 에디터가 유리합니다. 한두 개를 고치는 일은 웹 화면이 더 빠릅니다.</p></div></div>
+    <div class="two-col">
+      <div class="col"><h3>웹 화면이 나은 경우</h3><ul><li>한두 개 항목을 빠르게 고칠 때</li><li>실시간 성과를 보면서 조정할 때</li><li>에디터에서 지원하지 않는 신규 기능을 쓸 때</li></ul></div>
+      <div class="col dark"><h3>에디터가 나은 경우</h3><ul><li>캠페인·광고그룹·키워드를 대량으로 만들거나 고칠 때</li><li>한 구조를 다른 캠페인이나 다른 계정에 복제할 때</li><li>여러 계정을 한 화면에서 같은 방식으로 관리할 때</li><li>게시 전에 변경사항을 한 번에 검토하고 싶을 때</li></ul></div>
+    </div>
+    <p class="caution">에디터가 지원하는 기능 범위는 버전에 따라 달라집니다. 쓰려는 기능이 에디터에 있는지는 Google Ads Editor 도움말에서 먼저 확인하세요.</p>
+  </section>
+
+  <section aria-labelledby="b">
+    <div class="section-head"><span class="section-no">03 / BULK</span><div><h2 id="b">빠르게 만드는 세 가지 방법</h2><p>모두 "처음부터 실제로 쓸 내용"을 대량으로 만드는 방법입니다.</p></div></div>
+    <div class="card-grid">
+      <div class="card"><h3>① 구조 복제</h3><p>잘 만든 캠페인을 복사해 다른 캠페인이나 다른 계정에 붙여넣습니다. 구조를 처음부터 짜는 시간이 줄어듭니다. 복제한 뒤 문구·URL·예산은 해당 계정에 맞게 반드시 고칩니다.</p></div>
+      <div class="card"><h3>② 일괄 변경</h3><p>선택한 여러 항목의 입찰가, 상태, 문구 일부를 한 번에 바꾸거나 찾아 바꾸기를 씁니다. 같은 수정을 항목마다 반복하지 않아도 됩니다.</p></div>
+      <div class="card"><h3>③ CSV 가져오기</h3><p>스프레드시트에서 키워드·광고 문구를 정리해 한 번에 가져옵니다. 문구 글자 수 제한을 시트에서 미리 확인하면 오류가 줄어듭니다.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="r">
+    <div class="section-head"><span class="section-no">04 / REVIEW</span><div><h2 id="r">고치면 다시 심사받는 것, 아닌 것</h2><p>게시한 뒤의 수정은 항목에 따라 광고 심사에 영향을 줍니다. 아래는 일반적으로 알려진 구분이며, 정확한 기준은 Google Ads 정책 도움말을 따릅니다.</p></div></div>
+    <figure class="fig">
+      <div class="two-col" role="img" aria-label="재검토 기준 구분: 광고 제목·설명·최종 URL·이미지는 수정하면 다시 심사되고, 예산·입찰·지역·일정·제외 키워드는 일반적으로 광고 심사와 무관합니다.">
+        <div class="col dark"><h3>다시 심사될 수 있는 변경</h3><ul><li>광고 제목·설명</li><li>최종 URL(랜딩 페이지)</li><li>이미지·동영상 소재</li><li>새로 추가하는 키워드</li></ul></div>
+        <div class="col"><h3>보통 광고 심사와 무관한 변경</h3><ul><li>일 예산</li><li>입찰가·입찰 전략</li><li>지역·언어 타겟</li><li>요일·시간대 일정</li><li>제외 키워드</li></ul></div>
+      </div>
+      <figcaption>그림 2. 같은 "수정"이어도 심사에 닿는 범위가 다릅니다.</figcaption>
+    </figure>
+    <p class="caution"><strong>심사를 통과하기 쉬운 임시 문구로 승인받은 뒤 실제 문구로 바꾸는 방식은 쓰지 않습니다.</strong> 이는 Google 광고 정책의 시스템 우회에 해당할 수 있고, 신규 계정은 광고 거부를 넘어 계정 정지로 이어질 수 있습니다. 시간을 줄이는 정직한 방법은 처음부터 최종 문구와 실제 랜딩 URL로 만들어 일시중지 상태로 승인을 먼저 받아 두고, 승인되면 켜는 것입니다.</p>
+  </section>
+
+  <section aria-labelledby="c">
+    <div class="section-head"><span class="section-no">05 / CHECKLIST</span><div><h2 id="c">게시 전 체크리스트</h2><p>순서대로 확인합니다.</p></div></div>
+    <div class="checklist">
+      <ol class="steps">
+        <li><strong>최신 상태를 내려받았는가?</strong> 웹에서 바뀐 내용을 모르고 덮어쓰지 않도록 작업 전에 계정을 다시 받습니다.</li>
+        <li><strong>복제한 구조의 계정 고유값을 모두 바꿨는가?</strong> 예산, 최종 URL, 브랜드명, 지역을 확인합니다.</li>
+        <li><strong>문구와 랜딩이 실제로 쓸 최종본인가?</strong> 임시 문구를 두지 않습니다.</li>
+        <li><strong>오류·경고를 모두 해결했는가?</strong> 변경 검토 화면에서 남은 항목이 없는지 봅니다.</li>
+        <li><strong>업종별 정책 제한을 확인했는가?</strong> 도박·금융·의료·건강 관련 등 제한 업종은 광고 가능 여부와 필요한 인증을 먼저 확인합니다.</li>
+        <li><strong>처음에는 일시중지 상태로 게시했는가?</strong> 승인 상태를 확인한 뒤 켭니다.</li>
+        <li><strong>게시 후 승인 상태를 확인했는가?</strong> 거부된 항목은 사유를 보고 정책에 맞게 고칩니다.</li>
+      </ol>
+    </div>
+  </section>
+
+  <p class="foot">이 페이지는 구글 애즈 에디터의 일반적인 작업 방식을 정리한 안내이며 Google과 제휴 관계가 없습니다. 기능과 정책은 바뀔 수 있으니 최신 내용은 Google Ads 도움말에서 확인하세요.</p>
+</main>
+</body>
+</html>

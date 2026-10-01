@@ -219,6 +219,14 @@
       "card": null
     },
     {
+      "slug": "google-ads-editor-guide",
+      "kind": "page",
+      "status": "live",
+      "public": true,
+      "name": "구글 애즈 에디터 활용법",
+      "card": null
+    },
+    {
       "slug": "shared",
       "kind": "support",
       "status": "live",
