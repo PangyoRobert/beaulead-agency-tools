@@ -211,6 +211,14 @@
       "card": null
     },
     {
+      "slug": "meta-cpm-article",
+      "kind": "page",
+      "status": "live",
+      "public": true,
+      "name": "메타 광고 CPM 아티클 (초안)",
+      "card": null
+    },
+    {
       "slug": "shared",
       "kind": "support",
       "status": "live",

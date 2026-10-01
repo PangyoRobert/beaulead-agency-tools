@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="CPM은 노출 1,000번의 가격일 뿐 고객 한 명의 값이 아닙니다. 메타 광고 소재를 끄는 기준을 CPM이 아니라 CPA 상한으로 잡아야 하는 이유와 진단 순서를 정리했습니다.">
+<title>메타 광고 CPM이 높은 소재, 끄는 게 맞을까? · Beaulead Agency Tools</title>
+<link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/meta-cpm-article/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Beaulead">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/meta-cpm-article/">
+<meta property="og:title" content="메타 광고 CPM이 높은 소재, 끄는 게 맞을까? · Beaulead Agency Tools">
+<meta property="og:description" content="CPM이 높아도 남는 소재가 있고, 낮아도 손해인 소재가 있습니다. 소재를 끄는 기준을 고객 한 명의 값에 두는 방법.">
+<meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="메타 광고 CPM이 높은 소재, 끄는 게 맞을까? · Beaulead Agency Tools">
+<meta name="twitter:description" content="메타 광고 소재를 끄는 기준은 CPM이 아니라 CPA 상한입니다.">
+<meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+<link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{color-scheme:light;--bg:var(--bl-surface-raised);--panel:var(--bl-surface-default);--ink:var(--bl-text-default);--body:var(--bl-text-body-on-light);--muted:var(--bl-text-muted);--line:var(--bl-rule-on-light);--brand:var(--bl-brand-accent);--dark:var(--bl-surface-inverse);--dark-body:var(--bl-on-dark-body)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;min-width:320px;background:var(--bg);color:var(--ink);font-family:var(--bl-font-primary);line-height:1.65}
+a{color:inherit}:focus-visible{outline:3px solid var(--brand);outline-offset:3px}
+.skip{position:fixed;left:16px;top:-80px;z-index:10;background:var(--panel);padding:10px 14px;font-weight:800}.skip:focus{top:16px}
+header{background:var(--dark);color:var(--bl-text-inverse);padding:20px 5vw;display:flex;justify-content:space-between;gap:16px}
+header a{color:inherit;text-decoration:none;font-weight:800;letter-spacing:.06em}.back{color:var(--dark-body);font-size:14px}
+main{max-width:1180px;margin:auto;padding:64px 28px 96px}
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:28px;align-items:end;padding-bottom:58px}
+.eyebrow{font-family:var(--bl-font-mono);font-size:12px;letter-spacing:.13em;font-weight:700;color:var(--brand);text-transform:uppercase}
+h1{font-size:clamp(38px,6vw,72px);letter-spacing:-.065em;line-height:1.06;margin:14px 0 22px;word-break:keep-all}
+.lead{max-width:780px;margin:0;font-size:clamp(17px,2vw,21px);color:var(--body);word-break:keep-all}
+.principle{background:var(--dark);color:var(--bl-text-inverse);border-radius:20px;padding:28px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between}
+.principle span{font-family:var(--bl-font-mono);font-size:12px;color:var(--dark-body);letter-spacing:.1em}.principle strong{display:block;font-size:26px;line-height:1.35;letter-spacing:-.04em;word-break:keep-all}
+section{padding:58px 0;border-top:1px solid var(--line)}
+.section-head{display:grid;grid-template-columns:180px minmax(0,1fr);gap:28px;margin-bottom:28px}.section-no{font-family:var(--bl-font-mono);color:var(--brand);font-size:13px;font-weight:700}.section-head h2{font-size:clamp(28px,4vw,44px);line-height:1.15;letter-spacing:-.045em;margin:0 0 12px;word-break:keep-all}.section-head p{margin:0;color:var(--body);max-width:760px;word-break:keep-all}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px}.card h3{display:block;font-size:19px;letter-spacing:-.025em;margin:0 0 10px}.card p{margin:0;color:var(--body);font-size:14px}
+.fig{margin:0 0 18px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
+.fig figcaption{margin-top:14px;font-size:13px;color:var(--body)}
+.fig svg{display:block;width:100%;height:auto}
+.vs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.vs div{border-radius:14px;padding:22px;border:1px solid var(--line);background:var(--bg)}.vs small{font-family:var(--bl-font-mono);font-size:11px;letter-spacing:.1em;color:var(--body)}.vs strong{display:block;font-size:20px;letter-spacing:-.03em;margin:10px 0 6px;word-break:keep-all}.vs p{margin:0;font-size:14px;color:var(--body)}
+.vs .win{background:var(--dark);border-color:var(--dark)}.vs .win small,.vs .win p{color:var(--dark-body)}.vs .win strong{color:var(--bl-text-inverse)}
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;counter-reset:f}
+.flow div{counter-increment:f;position:relative;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:18px 16px}
+.flow div:before{content:"0" counter(f);font-family:var(--bl-font-mono);font-size:11px;color:var(--brand);font-weight:700}
+.flow div:not(:last-child):after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);z-index:1;font-weight:800;color:var(--muted)}
+.flow strong{display:block;margin:8px 0 4px;font-size:15px;word-break:keep-all}.flow span{font-size:13px;color:var(--body)}
+.flow.two{grid-template-columns:repeat(2,minmax(0,1fr))}.flow.two div:nth-child(2){background:var(--dark);border-color:var(--dark)}.flow.two div:nth-child(2):before{color:var(--dark-body)}.flow.two div:nth-child(2) strong{color:var(--bl-text-inverse)}.flow.two div:nth-child(2) span{color:var(--dark-body)}
+.funnel{display:grid;gap:6px;justify-items:center}.funnel div{border-radius:12px;padding:16px 20px;text-align:center;color:var(--ink)}.funnel strong{display:block;font-size:15px;word-break:keep-all}.funnel span{font-size:13px}.funnel .f1{width:100%;background:var(--bl-chart-4)}.funnel .f2{width:82%;background:var(--bl-chart-3)}.funnel .f3{width:64%;background:var(--bl-chart-1);color:var(--bl-text-inverse)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+.tile{background:var(--dark);color:var(--bl-text-inverse);border-radius:14px;padding:22px}.tile small{font-family:var(--bl-font-mono);font-size:11px;color:var(--dark-body);letter-spacing:.08em}.tile b{display:block;font-size:clamp(22px,6vw,32px);letter-spacing:-.04em;margin:8px 0 4px}.tile span{font-size:13px;color:var(--dark-body)}
+.points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.points div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;font-size:14px;color:var(--body)}.points strong{display:block;color:var(--ink);margin-bottom:6px}
+.caution{margin-top:18px;border-left:4px solid var(--brand);padding:12px 16px;background:var(--panel);font-size:13px;color:var(--body)}
+.src{margin:14px 0 0;font-size:12px;color:var(--muted)}.src a{font-weight:700}
+.table-wrap{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px}table{width:100%;border-collapse:collapse;font-size:14px;min-width:820px}th,td{text-align:left;vertical-align:top;padding:15px 16px;border-bottom:1px solid var(--line)}th{font-size:12px;color:var(--muted);letter-spacing:.04em}tbody tr:last-child td{border-bottom:0}td:first-child{font-weight:800}
+.t-label{fill:var(--ink);font:700 14px var(--bl-font-primary)}.t-sub{fill:var(--body);font:12px var(--bl-font-primary)}.t-inv{fill:var(--bl-text-inverse);font:700 14px var(--bl-font-primary)}.t-inv-sub{fill:var(--dark-body);font:12px var(--bl-font-primary)}.axis{stroke:var(--line);stroke-width:1}
+.checklist{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px}.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.checks label{display:flex;gap:11px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:12px;cursor:pointer;font-size:14px}.checks input{margin-top:4px;accent-color:var(--brand)}
+.legal-side{background:rgba(241,194,27,.15);border:1px solid var(--bl-state-warning);border-radius:16px;padding:24px;margin-top:18px}.legal-side h3{margin:0 0 10px;font-size:18px}.legal-side ul{margin:0;padding-left:20px;color:var(--body);font-size:14px}.legal-side li+li{margin-top:8px}
+.cta{margin-top:58px;background:var(--dark);color:var(--bl-text-inverse);border-radius:22px;padding:clamp(28px,5vw,52px);display:flex;justify-content:space-between;align-items:end;gap:28px}.cta h2{font-size:clamp(28px,4vw,44px);line-height:1.15;letter-spacing:-.04em;margin:12px 0}.cta p{color:var(--dark-body);max-width:620px;margin:0}.cta a{display:inline-flex;text-decoration:none;background:var(--bl-text-inverse);color:var(--ink);padding:13px 18px;border-radius:10px;font-weight:850;white-space:nowrap}
+.foot{margin-top:32px;color:var(--muted);font-size:12px}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.card-grid,.points{grid-template-columns:repeat(2,minmax(0,1fr))}.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.flow div:after{display:none}.flow.two div:not(:last-child):after{display:block}}
+@media(max-width:640px){.flow.two div:not(:last-child):after{display:none}.funnel .f2{width:92%}.funnel .f3{width:84%}header{padding:16px}main{padding:42px 18px 72px}.hero{padding-bottom:42px}.section-head{grid-template-columns:1fr;gap:8px}.card-grid,.points,.vs,.flow,.flow.two,.tiles,.checks{grid-template-columns:1fr}.cta{align-items:flex-start;flex-direction:column}.cta a{width:100%;justify-content:center}}
+@media print{header,.skip,.cta a{display:none!important}main{max-width:none;padding:0}body{background:var(--panel)}section,.card,.fig,.tile,.checklist{break-inside:avoid}.cta{color:var(--ink);background:var(--panel);border:1px solid var(--line)}.cta p{color:var(--body)}}
+.formula{background:var(--dark);color:var(--bl-text-inverse);border-radius:18px;padding:clamp(22px,4vw,36px);text-align:center}.formula code{display:block;font-family:var(--bl-font-mono);font-size:clamp(15px,3.2vw,26px);letter-spacing:-.02em;word-break:keep-all;line-height:1.5}.formula span{display:block;margin-top:12px;font-size:13px;color:var(--dark-body)}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.three .card b{font-family:var(--bl-font-mono);font-size:12px;color:var(--brand);letter-spacing:.1em;display:block;margin-bottom:8px}
+.badge{display:inline-block;font-size:12px;font-weight:800;padding:3px 10px;border-radius:999px;background:rgba(241,194,27,.15);border:1px solid var(--bl-state-warning);color:var(--ink)}
+table.sm{min-width:640px}
+ol.steps{margin:0;padding-left:22px;color:var(--body)}ol.steps li{padding:10px 0;border-bottom:1px solid var(--line)}ol.steps li:last-child{border-bottom:0}ol.steps strong{color:var(--ink)}
+@media(max-width:640px){.three{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<header><a href="../">BEAULEAD ↗</a><span class="back"><a href="../">← 홈</a></span></header>
+<main id="main">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Meta Ads · CPM <span class="badge">초안</span></div>
+      <h1>CPM이 높은 소재,<br>끄는 게 맞을까?</h1>
+      <p class="lead">"CPM이 비싸니 끄자"는 절반만 맞는 규칙입니다. CPM은 노출 1,000번의 가격이지, 고객 한 명을 얻는 데 든 비용이 아닙니다. 소재를 끄는 기준을 노출 가격에서 고객 한 명의 값으로 옮기면 판단이 달라집니다.</p>
+    </div>
+    <aside class="principle">
+      <span>THREE LINES</span>
+      <strong>끄는 기준은 CPA 상한.<br>CPM은 원인을 찾는<br>진단 지표.</strong>
+    </aside>
+  </div>
+
+  <section aria-labelledby="s1">
+    <div class="section-head"><span class="section-no">01 / SCENE</span><div><h2 id="s1">흔한 장면</h2><p>메타 광고 소재 리포트를 열면 CPM 열이 눈에 띕니다. 어떤 소재는 8,000원, 어떤 소재는 25,000원입니다. "이 소재는 CPM이 세 배나 비싸네요. 끄죠"라는 말이 나옵니다. 같은 돈으로 노출을 덜 사니 맞아 보이지만, 이 판단은 자주 틀립니다.</p></div></div>
+    <div class="three">
+      <div class="card"><b>01</b><h3>CPM이란</h3><p>광고가 1,000번 노출되는 데 드는 비용입니다. 노출은 지나가는 사람이 광고를 한 번 본 것일 뿐 클릭도 구매도 아닙니다.</p></div>
+      <div class="card"><b>02</b><h3>그래서 생기는 한계</h3><p>CPM만으로는 "돈이 남는 광고인지" 알 수 없습니다. 고객이 한 명도 들어 있지 않은 숫자이기 때문입니다.</p></div>
+      <div class="card"><b>03</b><h3>이 글의 결론</h3><p>소재를 끄는 기준은 CPA(고객 1명 획득 비용)가 허용 상한을 넘는지입니다. CPM은 그 원인을 찾는 데 씁니다.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s2">
+    <div class="section-head"><span class="section-no">02 / FORMULA</span><div><h2 id="s2">CPM에서 CPA까지 세 단계</h2><p>광고비가 고객이 되기까지는 세 관문을 지납니다. 노출을 사고(CPM), 클릭을 받고(CTR), 구매로 이어지게 하는(전환율) 단계입니다. CPM이 두 배가 되어도 CTR이 두 배가 되면 CPA는 그대로입니다.</p></div></div>
+    <div class="formula" role="img" aria-label="CPA는 CPM을 1,000 곱하기 CTR 곱하기 전환율로 나눈 값입니다."><code>CPA = CPM ÷ (1,000 × CTR × 전환율)</code><span>CPM: 노출 1,000번의 가격 · CTR: 노출 중 클릭 비율 · 전환율: 클릭 중 구매 비율</span></div>
+  </section>
+
+  <section aria-labelledby="s3">
+    <div class="section-head"><span class="section-no">03 / EXAMPLE</span><div><h2 id="s3">CPM이 두 배인데 더 좋은 소재</h2><p>허용 CPA 상한을 20,000원으로 가정합니다. 아래 숫자는 설명을 위한 <strong>가상 수치</strong>이며 실제 계정의 데이터가 아닙니다.</p></div></div>
+    <div class="table-wrap">
+      <table class="sm">
+        <thead><tr><th scope="col">소재</th><th scope="col">CPM</th><th scope="col">CTR</th><th scope="col">전환율</th><th scope="col">CPA</th><th scope="col">상한 대비</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td>10,000원</td><td>1.0%</td><td>2.5%</td><td>40,000원</td><td>초과 → 끈다</td></tr>
+          <tr><td>B</td><td>20,000원</td><td>2.0%</td><td>2.5%</td><td>20,000원</td><td>상한과 동일 → 유지</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure class="fig" style="margin-top:18px">
+      <svg viewBox="0 0 560 170" role="img" aria-label="가상 사례의 CPA 비교: 소재 A는 40,000원으로 상한 20,000원의 두 배, 소재 B는 20,000원으로 상한과 같습니다.">
+        <text class="t-label" x="10" y="38">소재 A</text>
+        <rect x="80" y="20" width="400" height="30" rx="4" style="fill:var(--bl-chart-3)"/>
+        <text class="t-label" x="488" y="40">40,000원</text>
+        <text class="t-label" x="10" y="98">소재 B</text>
+        <rect x="80" y="80" width="200" height="30" rx="4" style="fill:var(--bl-chart-1)"/>
+        <text class="t-label" x="288" y="100">20,000원</text>
+        <line x1="280" y1="8" x2="280" y2="125" stroke="var(--ink)" stroke-width="2" stroke-dasharray="5 4"/>
+        <text class="t-sub" x="280" y="145" text-anchor="middle">허용 CPA 상한 (가정 20,000원)</text>
+      </svg>
+      <figcaption>그림 1. CPM만 보면 A를 남기고 B를 끄게 됩니다. 실제로는 A가 고객 한 명에 두 배의 돈을 씁니다. (가상 수치)</figcaption>
+    </figure>
+  </section>
+
+  <section aria-labelledby="s4">
+    <div class="section-head"><span class="section-no">04 / FLOOR</span><div><h2 id="s4">기준은 "상한"이어야 한다</h2><p>해외 영양제 브랜드 Grüns의 창업자는 LTV가 CAC의 최소 3배여야 한다는 원칙을 목표가 아니라 하한선으로 지켰고, 이 기준을 못 넘는 고객은 데려오지 않았다고 소개됩니다. 가져올 것은 숫자 3이 아니라 구조입니다.</p></div></div>
+    <div class="points">
+      <div><strong>상한을 먼저 정한다</strong>고객 한 명에 쓸 수 있는 돈의 한도를 광고를 켜기 전에 정합니다.</div>
+      <div><strong>넘으면 하지 않는다</strong>한도를 넘는 고객 획득은 매출이 커 보여도 하지 않습니다.</div>
+      <div><strong>소재 단위로 판단한다</strong>계정 평균이 좋아도 한도를 넘는 소재는 따로 가려냅니다.</div>
+    </div>
+    <p class="caution">3배라는 배수는 그 회사의 기준이지 모든 광고주에게 맞는 값이 아닙니다. 배수와 CPA 상한은 광고주의 마진과 재구매 구조에서 따로 정해야 합니다. 이 사례는 영상으로 소개된 2차 인용이며 원문 기사 대조 전의 내용입니다.</p>
+    <p class="src">출처: thisisgoingtobebig.com 기사를 소개한 영상 (원문 직접 대조 전)</p>
+  </section>
+
+  <section aria-labelledby="s5">
+    <div class="section-head"><span class="section-no">05 / DIAGNOSE</span><div><h2 id="s5">그래도 CPM을 봐야 하는 이유</h2><p>CPA가 상한을 넘은 소재를 만났을 때, 어느 단계가 문제인지 가려내면 대응이 달라집니다. CPM은 버리는 지표가 아니라 원인을 찾는 도구입니다.</p></div></div>
+    <div class="table-wrap">
+      <table class="sm">
+        <thead><tr><th scope="col">증상</th><th scope="col">의심</th><th scope="col">먼저 해볼 것</th></tr></thead>
+        <tbody>
+          <tr><td>CPM이 높고 CTR도 낮다</td><td>소재가 노출 경매에서 불리하다</td><td>소재 교체, 첫 3초·헤드라인 수정</td></tr>
+          <tr><td>CPM은 보통, CTR이 낮다</td><td>눈길을 못 끈다</td><td>시각 요소·메시지 점검</td></tr>
+          <tr><td>CTR은 좋은데 전환율이 낮다</td><td>클릭 이후가 문제</td><td>랜딩페이지·가격·오퍼 점검</td></tr>
+          <tr><td>CPM만 높고 CTR·전환율은 정상</td><td>타겟·시즌·노출 위치 요인</td><td>타겟 범위와 노출 위치 구성 확인</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caution">메타는 입찰가뿐 아니라 사용자가 광고에 반응할 가능성 등을 함께 따지는 경매로 노출을 정하는 것으로 알려져 있습니다. 반응이 약할 것으로 평가되는 소재가 같은 노출에 더 비싼 값을 치르는 경향은 여기서 나옵니다. 다만 경향일 뿐이며, CPM이 높다고 소재가 나쁘다고 단정할 수는 없습니다. 정확한 구성은 Meta 공식 도움말에서 확인하세요.</p>
+  </section>
+
+  <section aria-labelledby="s6">
+    <div class="section-head"><span class="section-no">06 / MARKET</span><div><h2 id="s6">CPM은 시장 전체로도 움직인다</h2><p>CPM이 오른 원인이 소재가 아니라 시장일 수 있습니다. 메타는 분기 실적에서 평균 광고단가의 전년 동기 대비 변동을 공시하지만, 그 설명은 "광고주 수요"나 "환율" 같은 일반적 표현이었고 특정 시즌 효과라고 밝힌 적은 없습니다. 그래서 소재를 탓하기 전에 같은 기간 다른 소재의 CPM도 함께 올랐는지 먼저 봐야 합니다.</p></div></div>
+  </section>
+
+  <section aria-labelledby="s7">
+    <div class="section-head"><span class="section-no">07 / CHECKLIST</span><div><h2 id="s7">소재를 끄기 전 체크리스트</h2><p>순서대로 확인합니다.</p></div></div>
+    <div class="checklist">
+      <ol class="steps">
+        <li><strong>허용 CPA 상한이 정해져 있는가?</strong> 없으면 먼저 광고주와 정합니다.</li>
+        <li><strong>표본이 충분한가?</strong> 클릭·전환이 너무 적으면 우연일 수 있습니다. 최소 기준은 광고주별로 정합니다.</li>
+        <li><strong>데이터 기간이 확정치인가?</strong> 최근 며칠은 전환이 아직 반영 중일 수 있습니다.</li>
+        <li><strong>CPA가 상한을 넘었는가?</strong> 넘었다면 다음 단계로, 아니면 유지합니다.</li>
+        <li><strong>CPM·CTR·전환율 중 어디가 원인인가?</strong> 위 진단표로 확인합니다.</li>
+        <li><strong>고칠 수 있는 문제인가?</strong> 랜딩 문제라면 소재를 끄는 것으로 해결되지 않습니다.</li>
+        <li><strong>끈다면 기록한다.</strong> 어떤 기준으로 끈 것인지 남겨 같은 실수를 반복하지 않습니다.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="s8">
+    <div class="section-head"><span class="section-no">08 / CLOSING</span><div><h2 id="s8">맺으며</h2><p>"CPM이 높으면 끈다"는 빠르게 판단하고 싶은 마음에서 나온 규칙입니다. 하지만 광고는 노출을 사는 일이 아니라 고객을 사는 일입니다. 기준을 고객 한 명의 값에 두면 CPM이 높아도 남는 소재는 살리고, CPM이 낮아도 손해인 소재는 정리할 수 있습니다.</p></div></div>
+  </section>
+
+  <p class="foot">이 글은 초안이며 본문의 모든 숫자 예시는 설명용 가상 수치입니다. 특정 광고주나 계정의 성과를 나타내지 않으며 성과를 보장하지 않습니다.</p>
+</main>
+</body>
+</html>
