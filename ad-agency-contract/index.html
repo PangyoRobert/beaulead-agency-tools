@@ -67,6 +67,14 @@ button,input,select,textarea{font:inherit;color:inherit}
 .srow input{width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--bl-surface-raised);padding:7px 9px;font-size:13px}
 .srow-in{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:6px}
 .srow-in label span{display:block;font-size:11px;color:var(--muted);margin-bottom:2px}
+.scope{margin-top:8px;border-top:1px dashed var(--line);padding-top:8px}
+.scope label.pick span{display:block;font-size:11px;color:var(--muted);margin-bottom:2px}
+.srow select,.srow textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--bl-surface-raised);padding:7px 9px;font:inherit;font-size:13px}
+.srow textarea{min-height:56px;resize:vertical}
+.scope-items{margin:6px 0;display:grid;gap:4px}
+.scope-items label{display:flex;gap:7px;align-items:flex-start;font-size:12px;line-height:1.45}
+.scope-items input{width:auto;margin-top:2px;accent-color:var(--brand)}
+.scope-items .draft{font-style:normal;font-size:10px;font-weight:700;background:rgba(241,194,27,.25);border-radius:4px;padding:0 5px;margin-left:4px;white-space:nowrap}
 .srow .num{text-align:right;font-variant-numeric:tabular-nums}
 .calc{margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:12px;color:var(--muted)}
 .calc dt{margin:0}.calc dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
@@ -124,6 +132,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .attach-table .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .attach-table tfoot td,.attach-table tfoot th{font-weight:700}.attach-table .sub td{font-weight:700;background:var(--bl-surface-raised)}.attach-table .grand td,.attach-table .grand th{border-top:2px solid var(--bl-text-default)}
 .attach-note{font-size:9.5pt;margin-top:4mm}
+.scope-doc{margin-top:7mm}.scope-doc h4{font-size:11pt;margin:0 0 3mm}.scope-block{break-inside:avoid;margin-bottom:5mm}.scope-block h5{font-size:10pt;margin:0 0 1.5mm}.scope-block ol{margin:0;padding-left:5mm;font-size:9.5pt}.scope-block li+li{margin-top:1mm}
 .blank{background:rgba(241,194,27,.28);border-bottom:1px solid var(--bl-state-warning);padding:0 .2em;color:var(--bl-text-default);font-weight:600;white-space:nowrap}
 .blank:before{content:"〔"}.blank:after{content:"〕"}
 .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -278,6 +287,41 @@ button,input,select,textarea{font:inherit;color:inherit}
     return pairs.flatMap(([label, value, cls]) => [el("dt", { text: label, class: cls || "" }), el("dd", { text: value, class: cls || "" })]);
   }
 
+  // 세부 업무: 유형을 고르면 프리셋 항목이 체크박스로 나온다. 확정 항목은 켜지고 초안은 꺼진 채 표시가 붙는다.
+  const PRESETS = (CONFIG.mediaScope && CONFIG.mediaScope.presets) || [];
+
+  function fillScopeItems(box, presetId) {
+    const preset = PRESETS.find((item) => item.id === presetId);
+    box.replaceChildren();
+    if (!preset) return;
+    preset.items.forEach((item, index) => {
+      const check = el("input", { type: "checkbox", "data-index": String(index) });
+      check.checked = item.status !== "draft";
+      const label = el("label", {}, [check, el("span", { text: item.text })]);
+      if (item.status === "draft") label.lastChild.append(el("em", { class: "draft", text: "초안·미확정" }));
+      box.append(label);
+    });
+  }
+
+  function scopeControls(values) {
+    const select = el("select", { class: "scope-type", "aria-label": "세부 업무 유형" }, [
+      el("option", { value: "", text: "세부 업무 없음" }),
+      ...PRESETS.map((preset) => el("option", { value: preset.id, text: preset.label }))
+    ]);
+    const items = el("div", { class: "scope-items" });
+    const extra = el("textarea", { class: "scope-extra", "aria-label": "추가 세부 업무(줄마다 1개)", placeholder: "추가 항목 — 줄마다 1개, 없으면 비워 두세요" });
+    select.value = values.scopeId || "";
+    fillScopeItems(items, select.value);
+    select.addEventListener("change", () => { fillScopeItems(items, select.value); render(); });
+    items.addEventListener("change", render);
+    extra.addEventListener("input", render);
+    return el("div", { class: "scope" }, [
+      el("label", { class: "pick" }, [el("span", { text: "세부 업무 (견적서에만 들어갑니다)" }), select]),
+      items,
+      extra
+    ]);
+  }
+
   function scheduleRow(values) {
     const row = el("div", { class: "srow" });
     const media = el("input", { "aria-label": "매체명", autocomplete: "off", placeholder: "매체명 (예: 구글 광고)" });
@@ -293,7 +337,8 @@ button,input,select,textarea{font:inherit;color:inherit}
         el("label", {}, [el("span", { text: "월 광고비(원)" }), budget]),
         el("label", {}, [el("span", { text: "대행수수료율(%)" }), rate])
       ]),
-      el("dl", { class: "calc" })
+      el("dl", { class: "calc" }),
+      scopeControls(values)
     );
     $("scheduleRows").append(row);
     MONEY.upgrade(row);
@@ -312,7 +357,15 @@ button,input,select,textarea{font:inherit;color:inherit}
     input.amountMode = document.querySelector("input[name=amountMode]:checked").value;
     input.scheduleRows = scheduleCards().map((row) => {
       const [media, budget, rate] = row.querySelectorAll("input");
-      return { media: media.value, budget: MONEY.read(budget), feeRate: rate.value === "" ? 0 : Number(rate.value) };
+      const scopeOn = [...row.querySelectorAll(".scope-items input:checked")].map((box) => Number(box.dataset.index));
+      return {
+        media: media.value,
+        budget: MONEY.read(budget),
+        feeRate: rate.value === "" ? 0 : Number(rate.value),
+        scopeId: row.querySelector(".scope-type").value,
+        scopeOn,
+        scopeExtra: row.querySelector(".scope-extra").value
+      };
     });
     return input;
   }
@@ -426,7 +479,14 @@ button,input,select,textarea{font:inherit;color:inherit}
           foot("월 총계", a.supply, a.vat)
         ])
       ])]),
-      el("p", { class: "attach-note", text: a.note })
+      el("p", { class: "attach-note", text: a.note }),
+      ...(a.scopes.length ? [el("div", { class: "scope-doc" }, [
+        el("h4", { text: "매체별 세부 업무" }),
+        ...a.scopes.map((block) => el("div", { class: "scope-block" }, [
+          el("h5", { text: block.media ? `${block.media} — ${block.heading}` : block.heading }),
+          el("ol", {}, block.items.map((item) => el("li", { text: item })))
+        ]))
+      ])] : [])
     );
   }
 

@@ -44,6 +44,54 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
     note: "대행수수료는 월 광고비 × 수수료율입니다. 부가세는 광고비와 대행수수료 각각에 10%를 적용하며, 금액은 항목마다 원 단위로 반올림합니다. 계약서 본문의 광고비용은 VAT 별도 금액(공급가액)입니다."
   }),
 
+  // 견적서1 매체 행에서 고르는 "세부 업무" 프리셋. 견적서에만 들어가고 계약서 조항에는 들어가지 않는다.
+  // status: "confirmed" 는 사용자가 확정한 문구라 선택하면 기본으로 켜지고, "draft" 는 초안이라
+  // 기본으로 꺼진 채 "초안·미확정" 표시가 붙는다. 확정되면 status 만 바꾼다.
+  // 건마다 달라지는 문구는 여기가 아니라 화면의 "추가 항목"에 쓴다.
+  mediaScope: Object.freeze({
+    presets: Object.freeze([
+      Object.freeze({
+        id: "meta-ecom-own",
+        label: "메타 · 이커머스(독립몰)",
+        heading: "이커머스(독립몰)",
+        items: Object.freeze([
+          Object.freeze({ status: "confirmed", text: "독립몰 전환 설정 세팅 진행 후 Google Marketing Platform(GA4·GTM 등)으로 전환 측정 고도화" }),
+          Object.freeze({ status: "confirmed", text: "메타 픽셀 및 전환 API(CAPI) 연동 확인" }),
+          Object.freeze({ status: "confirmed", text: "GMC 및 카탈로그 세팅" }),
+          Object.freeze({ status: "confirmed", text: "광고 집행은 입금 후 24시간(영업일 기준 2일)입니다." }),
+          Object.freeze({ status: "draft", text: "픽셀·CAPI 이벤트 중복 제거 확인" }),
+          Object.freeze({ status: "draft", text: "도메인 인증" }),
+          Object.freeze({ status: "draft", text: "상품 피드 연동 및 오류 점검" })
+        ])
+      }),
+      Object.freeze({
+        id: "meta-ecom-mall",
+        label: "메타 · 이커머스(독립몰 아님)",
+        heading: "이커머스(독립몰 아님: 스마트스토어 등)",
+        items: Object.freeze([
+          Object.freeze({ status: "confirmed", text: "광고 집행은 입금 후 24시간(영업일 기준 2일)입니다." }),
+          Object.freeze({ status: "draft", text: "자사 픽셀·CAPI를 설치할 수 없는 구조임을 안내하고 전환 측정 방식 협의" }),
+          Object.freeze({ status: "draft", text: "스토어 유입 구분을 위한 UTM 파라미터 설정" }),
+          Object.freeze({ status: "draft", text: "최적화 기준 이벤트(링크 클릭·랜딩 조회 등) 선정" }),
+          Object.freeze({ status: "draft", text: "스토어 관리자 매출 데이터와의 대조 방식·주기 협의" })
+        ])
+      }),
+      Object.freeze({
+        id: "meta-cpa",
+        label: "메타 · CPA 사업자",
+        heading: "CPA 사업자",
+        items: Object.freeze([
+          Object.freeze({ status: "draft", text: "전환(리드) 이벤트 정의: 상담 신청·전화·폼 제출 중 성과 기준 확정" }),
+          Object.freeze({ status: "draft", text: "메타 픽셀 및 전환 API(CAPI) 리드 이벤트 연동 확인" }),
+          Object.freeze({ status: "draft", text: "랜딩페이지·폼 점검" }),
+          Object.freeze({ status: "draft", text: "무효·중복 DB 처리 기준 협의" }),
+          Object.freeze({ status: "draft", text: "리드 품질 피드백 반영 방식 협의" }),
+          Object.freeze({ status: "draft", text: "광고 집행은 입금 후 24시간(영업일 기준 2일)입니다." })
+        ])
+      })
+    ])
+  }),
+
   preamble:
     "“{{clientName}}”(이하 “갑”이라 한다)와 “{{agencyName}}”(이하 “을”이라 한다)는 “을”이 “갑”의 “{{brandName}}”(이하 “본 사업”이라 한다)의 온라인 광고를 대행함에 있어 신의∙성실의 원칙에 따라 광고대행 계약(이하 ‘본 계약’이라 한다)을 이행하기로 하고 아래와 같이 계약을 체결한다.",
 

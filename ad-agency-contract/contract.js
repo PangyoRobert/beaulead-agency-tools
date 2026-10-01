@@ -128,6 +128,19 @@
     };
   }
 
+  /** 매체 행마다 고른 세부 업무 프리셋 중 켜진 항목 + 추가 항목. 고른 게 없으면 그 매체는 건너뛴다. */
+  function scopeBlocks(rows, config) {
+    const presets = (config.mediaScope && config.mediaScope.presets) || [];
+    return (rows || []).map((row) => {
+      const preset = presets.find((item) => item.id === row.scopeId);
+      if (!preset) return null;
+      const on = new Set(row.scopeOn || []);
+      const picked = preset.items.filter((_, index) => on.has(index)).map((item) => item.text);
+      const extra = text(row.scopeExtra).split(/\n+/).map((line) => line.trim()).filter(Boolean);
+      return { media: text(row.media), heading: preset.heading, items: [...picked, ...extra] };
+    }).filter((block) => block && block.items.length);
+  }
+
   function percent(rate) {
     return `${Number(Number(rate).toFixed(2))}%`;
   }
@@ -136,7 +149,7 @@
     return input.amountMode === "schedule";
   }
 
-  function validate(input) {
+  function validate(input, config) {
     const issues = [];
     REQUIRED.forEach(([key, label]) => {
       if (!text(input[key])) issues.push({ level: "error", field: key, message: `${label}을(를) 입력해 주세요.` });
@@ -171,6 +184,17 @@
         const rate = Number(row.feeRate);
         if (!Number.isFinite(rate) || rate < 0 || rate > 100) {
           issues.push({ level: "error", field: "scheduleRows", message: `견적서1 ${n}행: 수수료율은 0~100% 사이여야 합니다.` });
+        }
+        const preset = config && config.mediaScope && config.mediaScope.presets.find((item) => item.id === row.scopeId);
+        if (preset) {
+          const on = new Set(row.scopeOn || []);
+          const drafts = preset.items.filter((item, index) => on.has(index) && item.status === "draft").length;
+          if (!on.size && !text(row.scopeExtra)) {
+            issues.push({ level: "warning", field: "scheduleRows", message: `견적서1 ${n}행: 세부 업무 유형을 골랐지만 선택된 항목이 없어 견적서에 나오지 않습니다.` });
+          }
+          if (drafts) {
+            issues.push({ level: "warning", field: "scheduleRows", message: `견적서1 ${n}행: 초안·미확정 항목 ${drafts}개가 켜져 있습니다. 확정된 문구인지 확인한 뒤 인쇄해 주세요.` });
+          }
         }
       });
     } else if (!text(input.totalAmountText)) {
@@ -309,9 +333,9 @@
       articles,
       closing: config.closing,
       attachment: usesSchedule(input)
-        ? { name: config.attachment.name, title: config.attachment.title, note: config.attachment.note, ...schedule(input.scheduleRows, config.vatRate) }
+        ? { name: config.attachment.name, title: config.attachment.title, note: config.attachment.note, ...schedule(input.scheduleRows, config.vatRate), scopes: scopeBlocks(input.scheduleRows, config) }
         : null,
-      issues: validate(input)
+      issues: validate(input, config)
     };
   }
 
@@ -339,6 +363,7 @@
     won,
     percent,
     schedule,
+    scopeBlocks,
     validate,
     fill,
     build,
