@@ -9,7 +9,8 @@
       "slug": "video-quote",
       "kind": "tool",
       "status": "live",
-      "public": true,
+      "$public": "2026-10-02 비공개. 사용자 요청으로 배포에서 내렸다. 페이지 파일은 그대로 두었으므로 다시 열려면 public 을 true 로 올리고 sync_registry 를 돌린다.",
+      "public": false,
       "name": "영상 제작 견적기",
       "card": {
         "kicker": "External Demo",
@@ -84,7 +85,8 @@
       "slug": "youtube-creator-quote",
       "kind": "tool",
       "status": "live",
-      "public": true,
+      "$public": "2026-10-02 비공개. 사용자 요청으로 배포에서 내렸다. 페이지 파일은 그대로 두었으므로 다시 열려면 public 을 true 로 올리고 sync_registry 를 돌린다.",
+      "public": false,
       "name": "카페24·유튜브 쇼핑 크리에이터 제휴 견적기",
       "card": {
         "kicker": "External Calculator",

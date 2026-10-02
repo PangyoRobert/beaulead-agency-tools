@@ -18,13 +18,13 @@
 
 <!-- registry:structure:start — data/tools.json 에서 생성한다. 직접 고치지 말 것. -->
 - `/index.html` — 에이전시 메인 홈페이지와 GNB
-- `/video-quote/` — 영상 제작 견적기
+- `/video-quote/` — 영상 제작 견적기 (저장소에만 있음 — 배포 제외)
 - `/development-quote/` — 홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적기 (저장소에만 있음 — 배포 제외)
 - `/google-ads-training-quote/` — Google Ads 교육 상품 예상 견적기 (저장소에만 있음 — 배포 제외)
 - `/viral-marketing-quote/` — 바이럴 마케팅 서비스 견적 (저장소에만 있음 — 배포 제외)
 - `/fnb-seeding-guide/` — F&B 로컬 시딩 컨설팅 가이드
 - `/wellness-experience-cases/` — 웰니스 경험 설계 사례
-- `/youtube-creator-quote/` — 카페24·유튜브 쇼핑 크리에이터 제휴 견적기
+- `/youtube-creator-quote/` — 카페24·유튜브 쇼핑 크리에이터 제휴 견적기 (저장소에만 있음 — 배포 제외)
 - `/youtube-view-quote/` — 유튜브 조회수 보장형 광고 상품 가격표 (저장소에만 있음 — 배포 제외)
 - `/keyword-volume-plan/` — 네이버 월간 검색량 조회 화면기획서
 - `/ad-agency-contract/` — 디지털 광고 대행 계약서 작성기
