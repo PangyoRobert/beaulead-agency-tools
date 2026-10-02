@@ -83,7 +83,10 @@ def main() -> int:
         any("새어나갔다" in e for e in build_site.audit(leaked_shipped)),
     )
 
-    (build_site.OUTPUT / "video-quote" / "index.html").unlink()
+    # 루트 허브에 카드가 걸린 공개 도구 하나를 지워 깨진 링크를 만든다. 특정 슬러그를 박아두면
+    # 그 도구를 비공개로 내릴 때마다 이 테스트가 깨지므로 레지스트리에서 고른다.
+    linked = next(e for e in data["entries"] if e["public"] and e.get("card"))
+    (build_site.OUTPUT / linked["slug"] / "index.html").unlink()
     check(
         "깨진 링크를 잡는다",
         any("빌드 결과에 없다" in e for e in build_site.audit(leaked_shipped)),
