@@ -175,7 +175,8 @@
       "slug": "ad-agency-contract",
       "kind": "tool",
       "status": "live",
-      "public": true,
+      "$public": "2026-10-06 비공개. 사용자 요청으로 배포에서 내렸다. 페이지 파일은 그대로 두었으므로 다시 열려면 public 을 true 로 올리고 sync_registry 를 돌린다.",
+      "public": false,
       "name": "디지털 광고 대행 계약서 작성기",
       "card": {
         "kicker": "Contract Builder",
