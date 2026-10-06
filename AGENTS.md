@@ -24,6 +24,7 @@
 - `/viral-marketing-quote/` — 바이럴 마케팅 서비스 견적 (저장소에만 있음 — 배포 제외)
 - `/viral-menu/` — 바이럴 마케팅 서비스 메뉴
 - `/technical-seo-quote/` — Technical SEO 작업 견적
+- `/cafe24-maintenance/` — 카페24 자사몰 유지보수 안내
 - `/cafe24-mall-standard/` — 카페24 자사몰 개발·기획 8주 진행안
 - `/fnb-seeding-guide/` — F&B 로컬 시딩 컨설팅 가이드
 - `/wellness-experience-cases/` — 웰니스 경험 설계 사례

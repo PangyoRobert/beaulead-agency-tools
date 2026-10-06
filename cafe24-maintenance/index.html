@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="카페24 자사몰 월 단위 유지보수에 포함되는 업무, 별도로 산정하는 작업과 별도 비용을 안내하는 페이지">
+  <title>카페24 자사몰 유지보수 안내 · Beaulead Agency Tools</title>
+  <link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/cafe24-maintenance/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Beaulead">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/cafe24-maintenance/">
+  <meta property="og:title" content="카페24 자사몰 유지보수 안내 · Beaulead Agency Tools">
+  <meta property="og:description" content="카페24 자사몰 월 단위 유지보수에 포함되는 업무, 별도로 산정하는 작업과 별도 비용을 안내하는 페이지">
+  <meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="카페24 자사몰 유지보수 안내 · Beaulead Agency Tools">
+  <meta name="twitter:description" content="카페24 자사몰 월 단위 유지보수에 포함되는 업무, 별도로 산정하는 작업과 별도 비용을 안내하는 페이지">
+  <meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+  <link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+  <link rel="stylesheet" href="../shared/tokens.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: var(--bl-surface-raised);
+      --panel: var(--bl-surface-default);
+      --line: var(--bl-rule-on-light);
+      --text: var(--bl-text-default);
+      --muted: var(--bl-text-body-on-light);
+      --blue: var(--bl-brand-accent);
+      --radius: 20px;
+      --mono: var(--bl-font-mono);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; color: var(--text); font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); }
+    a { color: inherit; }
+    .color-bar { position: fixed; z-index: 40; top: 0; right: 0; left: 0; height: 4px; background: var(--blue); }
+    .topbar { position: sticky; z-index: 30; top: 0; display: flex; min-height: 68px; padding: 14px max(20px, calc((100vw - 1360px) / 2)); align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: var(--panel); }
+    .brand { font-weight: 700; letter-spacing: -0.05em; text-decoration: none; }
+    .brand::after { color: var(--blue); content: "."; }
+    .back { color: var(--muted); font-size: 0.875rem; font-weight: 600; text-decoration: none; }
+    .back:hover, .back:focus-visible { color: var(--text); }
+    main { width: min(1100px, calc(100% - 40px)); margin: 0 auto; padding: 42px 0 72px; }
+    .page-head { display: flex; justify-content: space-between; gap: 32px; margin-bottom: 24px; align-items: end; }
+    .eyebrow { margin: 0 0 11px; color: var(--blue); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-family: var(--mono); }
+    h1 { margin: 0; font-size: clamp(2.1rem, 5vw, 4rem); line-height: 1.02; letter-spacing: -0.06em; word-break: keep-all; }
+    .intro { max-width: 560px; margin: 14px 0 0; color: var(--muted); line-height: 1.6; word-break: keep-all; }
+    .vat-pill { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 0.8rem; white-space: nowrap; font-family: var(--mono); }
+    .name-field { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-bottom: 26px; color: var(--muted); font-size: 0.85rem; }
+    .name-field input { min-width: 220px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--text); font: inherit; }
+    .name-field input:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+    .summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .stat { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+    .stat dt { margin: 0 0 6px; color: var(--muted); font-size: 0.8rem; font-weight: 700; }
+    .stat dd { margin: 0; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.04em; }
+    .stat small { display: block; margin-top: 4px; color: var(--muted); font-size: 0.8rem; font-family: var(--mono); font-weight: 400; letter-spacing: 0; }
+    section { margin-top: 40px; }
+    h2 { margin: 0 0 14px; font-size: 1.3rem; letter-spacing: -0.03em; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .card { padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+    .card h3 { margin: 0 0 10px; font-size: 1.1rem; letter-spacing: -0.03em; }
+    .card ul { margin: 0; padding-left: 20px; color: var(--muted); line-height: 1.7; word-break: keep-all; }
+    .card dl { margin: 0; }
+    .card dt { margin: 14px 0 2px; font-weight: 700; font-size: 0.95rem; }
+    .card dt:first-child { margin-top: 0; }
+    .card dl + dl { margin-top: 14px; }
+    .card dd { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.6; word-break: keep-all; }
+    .free { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .est { margin: 12px 0 0; color: var(--muted); font-size: 0.85rem; }
+    .footnote { margin: 34px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; }
+    @media (max-width: 860px) { .summary, .grid { grid-template-columns: 1fr; } }
+    @media (max-width: 620px) { main { width: min(100% - 24px, 1100px); padding-top: 28px; } .page-head { display: block; } .vat-pill { display: inline-block; margin-top: 16px; } }
+    @media print {
+      @page { margin: 14mm; }
+      *, *::before, *::after { background: transparent !important; color: #241815 !important; border-color: #E0E0E0 !important; box-shadow: none !important; }
+      html, body { background: #FFFFFF !important; }
+      .color-bar, .topbar, .back, .name-field { display: none !important; }
+      main { width: 100%; padding: 0; }
+      .card, .stat { break-inside: avoid; border-radius: 0; }
+      .eyebrow { color: #0F62FE !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="color-bar" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="../">BEAULEAD</a>
+    <a class="back" href="../#tools">← Agency Tools</a>
+  </header>
+
+  <main>
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Maintenance Plan</p>
+        <h1><span data-client-name></span><br>카페24 자사몰 유지보수</h1>
+        <p class="intro">월 단위 유지보수에 포함되는 업무와 별도로 산정하는 작업, 별도 비용을 한 장에 정리했습니다.</p>
+      </div>
+      <span class="vat-pill">VAT 10% 별도</span>
+    </div>
+
+    <label class="name-field" for="client-name">업체명
+      <input id="client-name" type="text" maxlength="40" autocomplete="off">
+    </label>
+
+    <dl class="summary" id="summary"></dl>
+
+    <section aria-labelledby="h-included"><h2 id="h-included">월 유지보수에 포함되는 업무</h2><div class="grid" id="included"></div></section>
+    <section aria-labelledby="h-separate"><h2 id="h-separate"></h2><div class="grid" id="separate"></div></section>
+    <section aria-labelledby="h-costs"><h2 id="h-costs"></h2><div class="grid" id="costs"></div></section>
+    <section aria-labelledby="h-client"><h2 id="h-client"></h2><div class="grid" id="client"></div></section>
+
+    <p class="footnote">표기된 금액은 공급가이며 부가세 10%가 별도로 부과됩니다. 문의는 <a href="mailto:robert@beaulead.co.kr">robert@beaulead.co.kr</a>로 주십시오.</p>
+  </main>
+
+  <script src="./maintenance-config.js"></script>
+  <script>
+    (function renderPage() {
+      const CONFIG = window.CAFE24_MAINTENANCE_CONFIG;
+      const won = new Intl.NumberFormat("ko-KR");
+
+      // 금액은 config 의 공급가에서만 파생한다.
+      function withVat(supplyPrice) {
+        return Math.round(supplyPrice * (1 + CONFIG.vatRate));
+      }
+
+      // 입력값은 textContent 로만 그린다. 저장하거나 밖으로 보내지 않는다.
+      function element(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      }
+
+      function list(items) {
+        const ul = element("ul");
+        items.forEach(function (item) { ul.append(element("li", null, item)); });
+        return ul;
+      }
+
+      function card(title, body) {
+        const node = element("article", "card");
+        node.append(element("h3", null, title));
+        body.forEach(function (child) { node.append(child); });
+        return node;
+      }
+
+      function stat(label, value, sub) {
+        const wrap = element("div", "stat");
+        const dd = element("dd", null, value);
+        if (sub) dd.append(element("small", null, sub));
+        wrap.append(element("dt", null, label), dd);
+        return wrap;
+      }
+
+      const plan = CONFIG.plan;
+      const summary = document.getElementById("summary");
+      summary.append(
+        stat("월 유지보수비", won.format(plan.monthlyFeeSupplyPrice) + "원", "VAT 포함 " + won.format(withVat(plan.monthlyFeeSupplyPrice)) + "원"),
+        stat("월 포함 횟수", plan.includedCountPerMonth + "회 이내"),
+        stat("계약 방식", plan.contract)
+      );
+
+      const included = document.getElementById("included");
+      CONFIG.included.forEach(function (group) { included.append(card(group.name, [list(group.items)])); });
+
+      document.getElementById("h-separate").textContent = CONFIG.separate.name;
+      document.getElementById("separate").append(
+        card("월 유지보수비와 별개로 산정", [list(CONFIG.separate.items)]),
+        card(CONFIG.limits.name, [list(CONFIG.limits.items)])
+      );
+
+      document.getElementById("h-costs").textContent = CONFIG.extraFees.name;
+      const costs = element("dl");
+      CONFIG.extraFees.items.forEach(function (item) {
+        costs.append(element("dt", null, item.label), element("dd", null, item.note));
+      });
+      const costCard = card("비용이 따로 드는 항목", [costs]);
+      const free = list(CONFIG.extraFees.free);
+      free.className = "free";
+      costCard.append(free);
+      document.getElementById("costs").append(costCard);
+
+      const client = CONFIG.client;
+      document.getElementById("h-client").textContent = "구축·운영 현황";
+      const status = element("dl");
+      status.append(element("dt", null, "스킨"), element("dd", null, client.skin));
+      const integrations = element("dl");
+      integrations.append(element("dt", null, "연동"));
+      client.integrations.forEach(function (item) { integrations.append(element("dd", null, item)); });
+      const history = card("지금까지의 작업", [list(client.history.types), element("p", "est", client.history.monthlyEstimate)]);
+      document.getElementById("client").append(card("구축 내용", [status, integrations]), history);
+
+      // 업체명은 화면에서만 바뀐다.
+      const input = document.getElementById("client-name");
+      const slots = document.querySelectorAll("[data-client-name]");
+      function applyName() {
+        const name = input.value.trim() || client.name;
+        slots.forEach(function (slot) { slot.textContent = name; });
+      }
+      input.placeholder = client.name;
+      input.addEventListener("input", applyName);
+      applyName();
+    })();
+  </script>
+</body>
+</html>
