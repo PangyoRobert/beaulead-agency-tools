@@ -58,6 +58,18 @@
       }
     },
     {
+      "slug": "viral-menu",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "바이럴 마케팅 서비스 메뉴",
+      "card": {
+        "kicker": "Service Menu",
+        "title": ["Viral", "Menu"],
+        "description": "리뷰콘텐츠 체험단·SNS 콘텐츠·커뮤니티 인터랙션 8개 캠페인의 서비스 소개와 단가를 분류별로 안내하는 메뉴 페이지입니다."
+      }
+    },
+    {
       "slug": "fnb-seeding-guide",
       "kind": "tool",
       "status": "live",
