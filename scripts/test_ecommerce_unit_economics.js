@@ -137,6 +137,161 @@ assert.throws(() => calculator.calculateAll(inputFrom({ unitPrice: 0 }), config)
 assert.throws(() => calculator.calculateAll(inputFrom(), { bundles: [] }), /vatRate/, "설정에 vatRate 가 없으면 던진다");
 checks += 2;
 
+// --- 쉬운 말 풀이: 용어 사전 ---------------------------------------------------------
+const explain = require("../ecommerce-unit-economics/explain.js");
+const G = config.glossary;
+// 쉬운 말에 새어 나오면 안 되는 전문용어. 전문용어는 pro(작은 글씨 병기)와 detail(말뜻을 설명하는 곳)에만 둔다.
+const JARGON = ["CM1", "ROAS", "CPA", "PG", "VAT", "LTV", "공헌이익", "번들", "손익분기", "한계", "마진", "법칙"];
+const noJargon = (text) => JARGON.filter((word) => text.includes(word));
+
+check([...config.glossaryOrder].sort(), Object.keys(G).sort(), "표시 순서와 용어 사전의 항목이 정확히 같다");
+check(new Set(config.glossaryOrder).size, config.glossaryOrder.length, "표시 순서에 중복이 없다");
+Object.entries(G).forEach(([term, g]) => {
+  ["plain", "pro", "short", "detail", "example"].forEach((field) => {
+    assert.ok(typeof g[field] === "string" && g[field].trim().length > 0, `${term}.${field} 가 비어 있다`);
+    checks += 1;
+  });
+  assert.equal(typeof g.caution, "string", `${term}.caution 은 문자열(없으면 빈 문자열)`);
+  checks += 1;
+  // 쉬운 말·한 줄 풀이·예시·주의에는 전문용어가 없어야 한다
+  ["plain", "short", "example", "caution"].forEach((field) => {
+    check(noJargon(g[field]), [], `${term}.${field} 에 전문용어가 새어 나왔다: ${g[field]}`);
+  });
+  assert.ok(g.example.startsWith("예)"), `${term}.example 은 "예)" 로 시작한다`);
+  checks += 1;
+  assert.ok(g.plain !== g.pro, `${term}: 쉬운 말과 전문용어 표기가 같다`);
+  checks += 1;
+});
+config.bundles.forEach((b) => {
+  check(noJargon(b.plainLabel), [], `${b.id}.plainLabel 에 전문용어가 있다`);
+  assert.ok(b.proLabel && b.plainLabel, `${b.id}: 쉬운 이름과 병기 이름이 모두 있다`);
+  checks += 1;
+});
+// 가장 중요한 오해 방지 문구가 빠지지 않는다
+assert.match(G.cm1.caution, /순이익이 아니에요/, "남는 돈은 순이익이 아니라는 주의");
+assert.match(G.maxCpa.caution, /첫 구매/, "최대 광고비는 첫 구매 기준이라는 주의");
+assert.match(G.beRoas.caution, /부가세/, "광고비는 부가세 뺀 금액이라는 주의");
+checks += 3;
+
+// 예시 숫자는 glossaryExample 로 실제 계산한 값과 같아야 한다 — 글과 계산이 어긋나면 여기서 잡는다
+const ex = config.glossaryExample;
+const exInput = inputFrom({
+  unitPrice: ex.unitPrice, unitCogs: ex.unitCogs, shippingPerBox: ex.shippingPerBox, pgRate: ex.pgRatePercent / 100,
+  targetMinMargin: 0, cpaByBundle: { single: ex.cpa }
+});
+const exRes = Object.fromEntries(calculator.calculateAll(exInput, config).map((b) => [b.id, b]));
+const exTarget = Object.fromEntries(calculator.calculateAll({ ...exInput, targetMinMargin: ex.targetMinMargin }, config).map((b) => [b.id, b]));
+const W = explain.won;
+const hasAll = (term, tokens) => tokens.forEach((token) => {
+  assert.ok(G[term].example.includes(token), `${term}.example 에 "${token}" 가 있어야 한다: ${G[term].example}`);
+  checks += 1;
+});
+hasAll("vatPrice", [W(11000), W(11000 - 11000 / 1.1)]);
+close(11000 / 1.1, 10000, "예시: 11,000원의 공급가는 10,000원");
+hasAll("supply", [W(ex.unitPrice / 1.1)]);
+hasAll("cogs", [W(ex.unitCogs)]);
+hasAll("shipping", [W(ex.shippingPerBox)]);
+hasAll("pg", [W(ex.unitPrice * ex.pgRatePercent / 100), W(ex.unitPrice)]);
+hasAll("cm1", [W(exRes.single.supplySales), W(exRes.single.pgFee), W(exRes.single.cm1), W(ex.unitCogs), W(ex.shippingPerBox)]);
+hasAll("cm1Rate", [explain.pct1(exRes.single.cm1Rate), W(exRes.single.supplySales), W(exRes.single.cm1)]);
+hasAll("beRoas", [explain.pct1(exRes.single.beRoas), (exRes.single.beRoas * 100).toFixed(1) + "원", W(exRes.single.cm1)]);
+hasAll("maxCpa", [W(exRes.single.maxCpa), W(exTarget.single.maxCpa), W(ex.targetMinMargin)]);
+close(300000 / 100, ex.cpa, "예시: 광고비 30만 원 ÷ 주문 100건 = 3,000원");
+hasAll("cpa", ["30만 원", "100건", W(ex.cpa)]);
+hasAll("finalMargin", [W(exRes.single.cm1), W(ex.cpa), W(exRes.single.finalMargin)]);
+hasAll("targetMin", [W(exRes.single.cm1), W(ex.targetMinMargin), W(exTarget.single.maxCpa)]);
+hasAll("bundle", [W(exRes.b2p1.grossSales), W(exRes.b2p1.totalCogs)]);
+hasAll("discountRate", [explain.pct1(exRes.b2p1.discountRate)]);
+hasAll("cogsRate", [W(exRes.single.supplySales), W(ex.unitCogs), explain.pct1(exRes.single.cogsRate)]);
+hasAll("shippingPerUnit", [W(ex.shippingPerBox), W(exRes.b2p1.shippingPerUnit)]);
+hasAll("shippingSaving", [W(ex.shippingPerBox), W(exRes.b2p1.shippingPerUnit), W(exRes.b2p1.shippingSavingPerUnit)]);
+hasAll("rule1", [W(config.thresholds.aovFloor), W(config.thresholds.marginFloor), W(vat[2].grossSales)]);
+hasAll("rule3", [config.thresholds.cm1RatePercent + "%"]);
+hasAll("aovFloor", [W(config.thresholds.aovFloor)]);
+hasAll("marginFloor", [W(config.thresholds.marginFloor)]);
+check(exRes.single.finalMargin > 0, true, "예시의 최종 마진은 양수");
+
+// --- 문장 요약 ----------------------------------------------------------------------
+const labelOf = (id) => config.bundles.find((b) => b.id === id).plainLabel;
+const textsOf = (lines) => lines.map((line) => line.text);
+const defaultIn = inputFrom();
+const single = vat[0];
+check(
+  textsOf(explain.summary(single, defaultIn, labelOf("single"))),
+  [
+    "“1개만 판매” 구성이라면 손님이 29,900원을 내요. 부가세를 빼면 27,182원이에요.",
+    "여기서 상품값 3,000원, 카드·결제 수수료 897원, 택배·포장비 3,500원을 빼면, 광고비를 쓰기 전에 19,785원이 남아요.",
+    "그래서 주문 1건에 광고비를 19,785원까지 쓰면 딱 본전이에요.",
+    "광고비 100원을 쓸 때 결제금액이 151.1원 이상 나오면 본전이에요."
+  ],
+  "단품 한눈에 보기 문장"
+);
+const b2 = explain.summary(vat[2], defaultIn, labelOf("b2p1"));
+assert.ok(b2[0].text.includes("2개 사면 1개 더 (총 3개)") && b2[0].text.includes("59,800원"), "2+1 문장: 구성 이름과 결제금액");
+assert.ok(b2[1].text.includes("40,070원이 남아요"), "2+1 문장: 남는 돈");
+assert.ok(b2[3].text.includes("149.2원 이상"), "2+1 문장: 본전 광고 효율");
+checks += 3;
+// 숫자는 계산 결과에서 그대로 온다(문장이 따로 계산하지 않는다)
+const sentenceNumbers = (lines) => lines.map((l) => l.text).join(" ");
+close(Number(sentenceNumbers(b2).match(/결제금액이 ([\d.]+)원 이상/)[1]), Math.round(vat[2].beRoas * 1000) / 10, "문장의 효율 숫자 = 계산값(소수 첫째 자리)", 1e-9);
+
+// 광고비를 넣으면 마지막 줄이 붙는다 (남는 경우 / 손해인 경우)
+const withCpa = explain.summary(calculator.calculateAll(inputFrom({ cpaByBundle: { single: 15000 } }), config)[0], inputFrom({ cpaByBundle: { single: 15000 } }), labelOf("single"));
+check(withCpa[withCpa.length - 1], { text: "입력하신 주문 1건당 광고비 15,000원을 쓰면, 광고비까지 쓰고도 4,785원이 남아요.", tone: "ok" }, "광고비를 넣었을 때 남는 경우");
+const lossCpa = calculator.calculateAll(inputFrom({ cpaByBundle: { single: 25000 } }), config)[0];
+check(explain.summary(lossCpa, inputFrom({ cpaByBundle: { single: 25000 } }), labelOf("single")).pop(), { text: "입력하신 주문 1건당 광고비 25,000원을 쓰면, 5,215원 손해예요.", tone: "bad" }, "광고비를 넣었을 때 손해인 경우");
+
+// 광고비를 쓰기 전부터 손해이면 본전·최대 광고비 문장을 내지 않는다
+const lossLines = explain.summary(loss[0], inputFrom({ unitCogs: 30000 }), labelOf("single"));
+check(lossLines.length, 2, "손해 구성은 두 줄만");
+assert.match(lossLines[1].text, /광고비를 쓰기 전부터 손해예요/, "손해 문구");
+assert.ok(!lossLines.some((l) => /본전이에요/.test(l.text)), "손해 구성에는 본전 문장이 없다");
+checks += 2;
+// 남기고 싶은 돈이 너무 커서 여유가 없을 때
+const tooHigh = explain.summary(targetTooHigh[0], inputFrom({ targetMinMargin: 99999 }), labelOf("single"));
+assert.ok(tooHigh.some((l) => /광고비를 쓸 여유가 없어요/.test(l.text)), "목표 마진이 너무 크면 여유 없음 문장");
+checks += 1;
+// 목표 최소 마진이 있으면 조건을 밝힌다
+assert.match(explain.summary(withTarget[0], inputFrom({ targetMinMargin: 5000 }), labelOf("single"))[2].text, /최소 5,000원은 남기는 조건/, "목표 마진 조건 문구");
+checks += 1;
+
+// 문장 전체에 전문용어가 없다
+const allSentences = [
+  ...explain.summary(single, defaultIn, labelOf("single")), ...b2, ...withCpa, ...lossLines, ...tooHigh
+].map((l) => l.text).join(" ");
+check(noJargon(allSentences), [], "생성 문장에 전문용어가 없다");
+
+// 문장의 조사: 금액은 모두 "원" 으로 끝나므로 받침이 있다(을/이)
+assert.ok(!/원를|원가 |원는/.test(allSentences), "조사 오류(원를/원는)가 없다");
+checks += 1;
+
+// --- 계산 과정 ----------------------------------------------------------------------
+const stepsOf = (b, input) => explain.steps(b, input, config.vatRate);
+const s = stepsOf(single, defaultIn);
+check(s.length, 8, "계산 과정은 8단계");
+check(s.map((x) => x.formula), [
+  "29,900원 × 1개 = 29,900원",
+  "29,900원 ÷ (1 + 10%) = 27,182원",
+  "3,000원 × 1개 = 3,000원",
+  "29,900원 × 3% = 897원",
+  "3,500원",
+  "27,182원 − 3,000원 − 897원 − 3,500원 = 19,785원",
+  "29,900원 ÷ 19,785원 = 151.1%",
+  "19,785원 − 0원 = 19,785원"
+], "단품 계산 과정");
+check(stepsOf(vat[2], defaultIn)[2].formula, "3,000원 × 3개 = 9,000원", "덤으로 주는 물건까지 상품값에 들어간다");
+check(stepsOf(loss[0], inputFrom({ unitCogs: 30000 }))[6].formula, "계산할 수 없어요 (남는 돈이 0원 이하)", "손해 구성의 본전 광고 효율");
+// 화면에 적힌(반올림된) 숫자로 직접 계산해도 1원 안팎으로만 어긋난다 — 화면의 "1원쯤 차이" 안내가 맞는지 확인
+vat.forEach((b) => {
+  const shown = Math.round(b.supplySales) - Math.round(b.totalCogs) - Math.round(b.pgFee) - Math.round(b.shipping);
+  assert.ok(Math.abs(shown - Math.round(b.cm1)) <= 2, `${b.label}: 반올림 숫자로 계산한 값이 ${shown}, 표시된 값은 ${Math.round(b.cm1)}`);
+  checks += 1;
+});
+
+// 금액 표시
+check([explain.won(-0.4), explain.won(0), explain.won(1234567.5), explain.won(-18424.4)], ["0원", "0원", "1,234,568원", "−18,424원"], "금액 표기(0 이 되는 음수에는 마이너스를 붙이지 않는다)");
+check([explain.pct1(0.4720000001), explain.pctPlain(0.03), explain.pctPlain(0.025)], ["47.2%", "3%", "2.5%"], "비율 표기");
+
 // --- 페이지 정적 검사: 공개 저장소 안전·전제 문구 ---------------------------------
 const pagePath = path.join(__dirname, "..", "ecommerce-unit-economics", "index.html");
 if (fs.existsSync(pagePath)) {
@@ -156,6 +311,30 @@ if (fs.existsSync(pagePath)) {
   checks += 4;
   // 숫자를 화면 코드에 다시 적지 않는다: 기본값 29900 같은 값은 설정에만 있다
   assert.ok(!/29,?900|\b3000\b|\b3500\b/.test(html), "index.html 에 기본값 숫자를 하드코딩하지 않는다");
+  checks += 1;
+
+  // 화면에 직접 적힌 글(스크립트 밖)에는 전문용어가 단독으로 나오지 않는다. 괄호 안 병기는 허용한다.
+  const body = html.split("<body>")[1].split("</body>")[0];
+  let visible = body.replace(/<script[\s\S]*?<\/script>/g, " ").replace(/<[^>]+>/g, " ");
+  for (let i = 0; i < 4; i += 1) visible = visible.replace(/\([^()]*\)/g, "");
+  check(noJargon(visible), [], "index.html 에 직접 적힌 글에 전문용어가 단독으로 나오지 않는다");
+  // 괄호 병기로는 남아 있어야 하는 것(부가세(VAT))
+  assert.match(body, /부가세\(VAT\)/, "부가세(VAT) 병기");
+  checks += 1;
+
+  // 화면이 가리키는 용어는 전부 용어 사전에 있다 (data-term, term: "...")
+  const referenced = [...html.matchAll(/data-term="(\w+)"/g), ...html.matchAll(/term: "(\w+)"/g)].map((m) => m[1]);
+  assert.ok(referenced.length >= 25, `화면이 용어를 충분히 연결한다(${referenced.length}개)`);
+  checks += 1;
+  referenced.forEach((term) => {
+    assert.ok(G[term], `화면이 사전에 없는 용어 "${term}" 를 가리킨다`);
+    checks += 1;
+  });
+  // 사전의 모든 용어가 화면의 어딘가에서 입력 칸이나 표 줄로 쓰이거나 풀이 목록에 나온다
+  check(config.glossaryOrder.every((term) => G[term]), true, "풀이 목록의 모든 용어가 사전에 있다");
+
+  // 풀이는 주소(해시)를 읽지 않고 그 자리에서 연다
+  assert.match(html, /details\.open = true/, "ⓘ 는 풀이를 그 자리에서 연다");
   checks += 1;
 }
 
