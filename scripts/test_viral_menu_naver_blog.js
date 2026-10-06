@@ -25,6 +25,8 @@ assert.equal(byId["power-blog"].unitPrice, 250000);
 assert.equal(byId["general-blog"].unitPrice, 20000);
 assert.equal(byId.kin.unitPrice, null, "지식인 상위노출은 개별 문의");
 assert.equal(byId.press.unitPrice, null, "언론송출은 개별 문의");
+assert.equal(byId.influencer.options.highInvolvement.unitPrice, 400000, "고관여 키워드 인플루언서 체험단 1인 단가");
+assert.equal(byId["power-blog"].options.highInvolvement.unitPrice, 350000, "고관여 키워드 파워블로그 체험단 1인 단가");
 assert.equal(byId.influencer.options.retrieval.addPerPerson, 20000);
 assert.equal(byId["power-blog"].options.retrieval.addPerPerson, 20000);
 assert.equal(byId["general-blog"].options.retrieval, undefined, "일반 블로그 체험단은 회수형 진행 불가");
@@ -81,8 +83,10 @@ const page = render(configSource);
 assert.doesNotMatch(page.text(), /undefined|NaN|null/, "첫 화면에 undefined·NaN 이 보인다");
 assert.match(page.totals(), /공급가 합계0원부가세 \(10%\)0원합계 \(VAT 포함\)0원/);
 
-// 확인되지 않은 고관여 단가(null)는 계산기에서 고를 수 없다.
-assert.equal(page.checkbox("influencer", "가구/병원/피부과 등 고관여 방문 키워드"), undefined);
+// 고관여 단가가 있으므로 계산기에서 고를 수 있다.
+assert.ok(page.checkbox("influencer", "가구/병원/피부과 등 고관여 방문 키워드"));
+assert.ok(page.checkbox("power-blog", "가구/병원/피부과 등 고관여 방문 키워드"));
+assert.doesNotMatch(page.text(), /…/, "잘린 문장 표시(…)가 남아 있다");
 
 // 대표 시나리오: 인플루언서 3명(회수형), 파워블로그 2명, 일반 블로그 10명.
 page.count("influencer").value = "3";
@@ -112,18 +116,23 @@ for (const [input, expected] of [["-3", "0원"], ["2.7", "500,000원"], ["abc", 
   assert.doesNotMatch(page.text(), /undefined|NaN/);
 }
 
-// 고관여 단가가 채워지면 기본 단가 대신 쓰이고, 회수형 추가금은 그 위에 붙는다(확정 전 동작 고정용 가상 단가).
-const withHigh = configSource.replace(
-  'highInvolvement: Object.freeze({ label: "가구/병원/피부과 등 고관여 방문 키워드", unitPrice: null }),\n          retrieval: Object.freeze({ label: "회수형 체험단", addPerPerson: 20000 }),\n          clip',
-  'highInvolvement: Object.freeze({ label: "가구/병원/피부과 등 고관여 방문 키워드", unitPrice: 111000 }),\n          retrieval: Object.freeze({ label: "회수형 체험단", addPerPerson: 20000 }),\n          clip'
-);
-assert.notEqual(withHigh, configSource, "가상 단가 치환이 적용되지 않았다");
-const high = render(withHigh);
+// 고관여 단가는 기본 단가 대신 쓰이고, 회수형 추가금은 그 위에 붙는다.
+const high = render(configSource);
 high.count("influencer").value = "1";
 high.checkbox("influencer", "가구/병원/피부과 등 고관여 방문 키워드").checked = true;
 high.checkbox("influencer", "회수형 체험단").checked = true;
+high.count("power-blog").value = "1";
+high.checkbox("power-blog", "가구/병원/피부과 등 고관여 방문 키워드").checked = true;
 high.fire();
-assert.match(high.totals(), /공급가 합계131,000원/);
+// (400,000 + 20,000) + 350,000 = 770,000 / 부가세 77,000 / 합계 847,000
+assert.match(high.totals(), /공급가 합계770,000원/);
+assert.match(high.totals(), /부가세 \(10%\)77,000원/);
+assert.match(high.totals(), /합계 \(VAT 포함\)847,000원/);
+
+// 단가를 비우면(null) 계산기에서 그 옵션을 고를 수 없다.
+const noHigh = configSource.replace("unitPrice: 400000 }", "unitPrice: null }");
+assert.notEqual(noHigh, configSource, "null 치환이 적용되지 않았다");
+assert.equal(render(noHigh).checkbox("influencer", "가구/병원/피부과 등 고관여 방문 키워드"), undefined);
 
 // 대조 실험: 화면 코드가 기대하는 키가 빠진 옛 설정이면 검사가 실제로 걸려야 한다.
 const broken = configSource.replace(/unitPrice: 300000/, "price: 300000");

@@ -151,7 +151,7 @@
   // 옛 설정이 섞여 undefined·NaN 이 보인다(2026-10-06 cafe24-maintenance 사고).
   //
   // 금액은 전부 공급가(원, VAT 별도)다. unitPrice 가 null 이면 "개별 문의"이고 계산기에 나오지 않는다.
-  // 옵션 highInvolvement.unitPrice 가 null 이면 아직 확인되지 않은 단가라 계산기에서 고를 수 없다.
+  // 옵션 highInvolvement.unitPrice 는 고관여 키워드 체험단의 1인 단가(기본 단가 대신 적용)다. null 이면 계산기에서 고를 수 없다.
   // 공개 저장소이므로 원가·매체비·마진은 넣지 않는다.
   window.NAVER_BLOG_QUOTE_CONFIG = Object.freeze({
     vatRate: 0.1,
@@ -164,7 +164,7 @@
         content: Object.freeze(["브랜드 및 제품에 맞는 카테고리의 네이버 인플루언서 체험단 진행", "블로그 포스팅 + 키워드챌린지 등록"]),
         goal: "네이버 인플루언서(키워드챌린지) 영역 + VIEW탭 노출 최적화 체험단",
         options: Object.freeze({
-          highInvolvement: Object.freeze({ label: "가구/병원/피부과 등 고관여 방문 키워드", unitPrice: null }),
+          highInvolvement: Object.freeze({ label: "가구/병원/피부과 등 고관여 방문 키워드", unitPrice: 400000 }),
           retrieval: Object.freeze({ label: "회수형 체험단", addPerPerson: 20000 }),
           clip: Object.freeze({ label: "네이버 클립 진행", note: "추가 비용 발생 (별도 문의)" })
         }),
@@ -179,7 +179,7 @@
         content: Object.freeze(["블로그탭 노출 최적화 블로그 체험단"]),
         goal: "블로그탭 노출 최적화",
         options: Object.freeze({
-          highInvolvement: Object.freeze({ label: "가구/병원/피부과 등 고관여 방문 키워드", unitPrice: null }),
+          highInvolvement: Object.freeze({ label: "가구/병원/피부과 등 고관여 방문 키워드", unitPrice: 350000 }),
           retrieval: Object.freeze({ label: "회수형 체험단", addPerPerson: 20000 })
         }),
         notes: Object.freeze([]),
@@ -204,8 +204,8 @@
         content: Object.freeze(["네이버 지식인 탭 상위노출 보장 진행"]),
         goal: "지식인 영역 상위노출",
         options: Object.freeze({}),
-        // 원본 이미지에서 두 문장 모두 끝이 잘려 보이는 부분까지만 옮겼다. 원문 확인 후 채운다.
-        notes: Object.freeze(["URL 삽입 시, 홍보성 및 상업성의 글로 신고 및 삭제될 우려 …", "이미지의 경우, 1~2장 정도 삽입 가능하며 키워드에 따라 …"]),
+        // 원본 이미지에서 두 문장 모두 끝이 잘려 있어, 담당자 승인(2026-10-06)으로 앞부분을 이어 완성했다.
+        notes: Object.freeze(["URL 삽입 시, 홍보성 및 상업성의 글로 신고 및 삭제될 우려가 있습니다.", "이미지의 경우, 1~2장 정도 삽입 가능하며 키워드에 따라 이미지 삽입 개수가 달라질 수 있습니다."]),
         restrictions: Object.freeze([])
       }),
       Object.freeze({
