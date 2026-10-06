@@ -5,7 +5,7 @@
 ## Structure
 
 <!-- registry:structure:start — data/tools.json 에서 생성합니다. 직접 고치지 마세요. -->
-- `video-quote/` — 영상 제작 견적기 (저장소에만 있음 — 배포 제외)
+- `video-quote/` — 영상 제작 견적기 (배포됨 — 홈 카드 없음, 링크로만 접근)
 - `development-quote/` — 홈페이지·랜딩 수정 및 상세페이지 개발 예상 견적기 (저장소에만 있음 — 배포 제외)
 - `google-ads-training-quote/` — Google Ads 교육 상품 예상 견적기 (저장소에만 있음 — 배포 제외)
 - `viral-marketing-quote/` — 바이럴 마케팅 서비스 견적 (저장소에만 있음 — 배포 제외)
@@ -15,8 +15,8 @@
 - `cafe24-mall-standard/` — 카페24 자사몰 개발·기획 8주 진행안
 - `fnb-seeding-guide/` — F&B 로컬 시딩 컨설팅 가이드
 - `wellness-experience-cases/` — 웰니스 경험 설계 사례
-- `youtube-creator-quote/` — 카페24·유튜브 쇼핑 크리에이터 제휴 견적기 (저장소에만 있음 — 배포 제외)
-- `youtube-view-quote/` — 유튜브 조회수 보장형 광고 상품 가격표 (저장소에만 있음 — 배포 제외)
+- `youtube-creator-quote/` — 카페24·유튜브 쇼핑 크리에이터 제휴 견적기 (배포됨 — 홈 카드 없음, 링크로만 접근)
+- `youtube-view-quote/` — 유튜브 조회수 보장형 광고 상품 가격표 (배포됨 — 홈 카드 없음, 링크로만 접근)
 - `keyword-volume-plan/` — 네이버 월간 검색량 조회 화면기획서 (배포됨 — 홈 카드 없음, 링크로만 접근)
 - `ad-agency-contract/` — 디지털 광고 대행 계약서 작성기 (저장소에만 있음 — 배포 제외)
 - `lead-cpa-guide/` — 업종별 리드 단가 참고표

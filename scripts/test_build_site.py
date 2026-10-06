@@ -85,7 +85,10 @@ def main() -> int:
 
     # 루트 허브에 카드가 걸린 공개 도구 하나를 지워 깨진 링크를 만든다. 특정 슬러그를 박아두면
     # 그 도구를 비공개로 내릴 때마다 이 테스트가 깨지므로 레지스트리에서 고른다.
-    linked = next(e for e in data["entries"] if e["public"] and e.get("card"))
+    # listed=false 는 카드가 있어도 홈에 링크가 없어 깨진 링크가 안 생기므로 제외한다.
+    linked = next(
+        e for e in data["entries"] if e["public"] and e.get("card") and e.get("listed", True)
+    )
     (build_site.OUTPUT / linked["slug"] / "index.html").unlink()
     check(
         "깨진 링크를 잡는다",
