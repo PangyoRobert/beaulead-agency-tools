@@ -83,7 +83,7 @@ python3 scripts/build_site.py --manifest
 cd _site && python3 -m http.server 8000
 ```
 
-공개 범위를 바꿀 때는 워크플로가 아니라 `data/tools.json`의 `public`을 고친다. 단 **배포되지 않는 것과 비공개인 것은 다르다** — 공개 저장소라 커밋한 파일은 GitHub에서 그대로 읽힌다.
+공개 범위를 바꿀 때는 워크플로가 아니라 `data/tools.json`의 `public`을 고친다. 배포는 하되 홈 카드만 숨길 때는 `listed: false`를 쓴다(URL을 아는 사람은 접근하고 검색엔진에는 노출될 수 있다). 단 **배포되지 않는 것과 비공개인 것은 다르다** — 공개 저장소라 커밋한 파일은 GitHub에서 그대로 읽힌다.
 
 배포 후 확인할 주소:
 
