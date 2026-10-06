@@ -84,7 +84,15 @@
     summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
     details ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
     .ask { color: var(--muted); font-family: inherit; font-weight: 400; }
-    .team-note { margin: 10px 0 0; color: var(--muted); font-size: 0.82rem; }
+    .team-intro { margin: 0 0 8px; line-height: 1.65; word-break: keep-all; }
+    .glossary { margin: 0 0 16px; padding-left: 18px; color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .team-card { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); }
+    .team-card h3 { margin: 0; font-size: 1.05rem; letter-spacing: -0.02em; }
+    .team-who { margin: 4px 0 12px; color: var(--muted); font-size: 0.88rem; line-height: 1.55; word-break: keep-all; }
+    .team-price { margin: 0; font-family: var(--mono); font-size: 1.35rem; font-weight: 700; }
+    .team-price.ask { font-family: inherit; font-size: 1.1rem; color: var(--muted); }
+    .team-extra { margin: 6px 0 0; color: var(--muted); font-size: 0.84rem; line-height: 1.5; word-break: keep-all; }
     .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
     .two ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
     .two h3 { margin: 0 0 8px; font-size: 1rem; }
@@ -198,30 +206,34 @@
         return wrap;
       }
 
-      function teamTable(tier) {
-        const wrap = element("div", "table-wrap");
-        const table = element("table");
-        table.setAttribute("aria-label", tier.name + " 투입 인원별 가격");
-        const head = element("thead");
-        const hr = element("tr");
-        hr.append(cell("th", "투입 구성"));
-        if (tier.teamMonths) hr.append(cell("th", "소요 기간 (월)", "num"));
-        hr.append(cell("th", "가격 (원)", "num"));
-        head.append(hr);
-        const body = element("tbody");
+      function teamCards(tier) {
+        const guide = CONFIG.teamGuide;
+        const box = element("div", "team");
+        box.append(element("p", "team-intro", guide.intro));
+        const words = element("ul", "glossary");
+        guide.glossary.forEach(function (line) { words.append(element("li", null, line)); });
+        box.append(words);
+
+        const grid = element("div", "team-grid");
         [1, 2, 3].forEach(function (n) {
           const price = tier.teamPrices[n];
-          // 시트에 값이 없는 칸은 만들어 채우지 않고 "별도 협의"로 둔다.
+          // 시트에 값이 없는 칸은 만들어 채우지 않고 "별도 협의"로 둔다. 소형의 3명 구성은 시트에 아예 없다.
           if (price === null && n === 3 && !tier.teamMonths) return;
-          const tr = element("tr");
-          tr.append(cell("td", CONFIG.teamLabels[n]));
-          if (tier.teamMonths) tr.append(cell("td", tier.teamMonths[n], "num"));
-          tr.append(price === null ? cell("td", "별도 협의", "num ask") : cell("td", won.format(price), "num"));
-          body.append(tr);
+          const info = guide.teams[n];
+          const card = element("article", "team-card");
+          card.append(element("h3", null, info.title), element("p", "team-who", info.who));
+          if (price === null) {
+            card.append(element("p", "team-price ask", "별도 협의"), element("p", "team-extra", "금액이 아직 정해지지 않았습니다. 문의해 주세요."));
+          } else {
+            card.append(element("p", "team-price", won.format(price) + "원"));
+            const base = tier.teamPrices[1];
+            if (n > 1 && base !== null) card.append(element("p", "team-extra", "혼자 맡길 때보다 " + won.format(price - base) + "원 더 듭니다."));
+          }
+          if (tier.teamMonths) card.append(element("p", "team-extra", "걸리는 기간: 약 " + tier.teamMonths[n] + "개월"));
+          grid.append(card);
         });
-        table.append(head, body);
-        wrap.append(table);
-        return wrap;
+        box.append(grid);
+        return box;
       }
 
       function show(tier) {
@@ -230,7 +242,7 @@
         const facts = element("dl", "facts");
         facts.append(fact("대상 규모", tier.pages), fact("예상 기간", tier.duration), fact("기술 복잡도", tier.complexity), fact("대표 사례", tier.cases.join(" · ")));
         panel.append(facts);
-        panel.append(element("h2", null, "투입 인원별 가격"), teamTable(tier));
+        panel.append(element("h2", null, "투입 인원별 가격"), teamCards(tier));
         panel.append(element("h2", null, "작업 항목 및 비용"), itemsTable(tier));
         document.querySelectorAll(".tab").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.tier === tier.id)); });
       }
