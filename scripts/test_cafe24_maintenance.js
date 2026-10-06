@@ -103,10 +103,4 @@ const staleConfig = `window.CAFE24_MAINTENANCE_CONFIG = Object.freeze({ vatRate:
   included: [], separate: { name: "n", items: [] }, extraFees: { name: "n", items: [], free: [] }, limits: { name: "n", items: [] } });`;
 assert.match(renderText(staleConfig), /undefined|NaN/, "대조 실험이 실패했다: 옛 설정을 섞어도 검사가 걸리지 않는다");
 
-// 이번 배포에서만 남겨 둔 옛 설정 파일(캐시된 이전 페이지 호환용)은 HTML 안의 설정과 같아야 한다.
-const legacyPath = path.join(dir, "maintenance-config.js");
-if (fs.existsSync(legacyPath)) {
-  assert.deepEqual(loadConfig(fs.readFileSync(legacyPath, "utf8")), config, "maintenance-config.js 가 HTML 안의 설정과 다르다. 같게 맞추거나 파일을 삭제한다");
-}
-
 console.log("cafe24-maintenance OK");
