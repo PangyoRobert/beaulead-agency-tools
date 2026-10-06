@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="판매가·원가·물류비·PG 수수료를 넣으면 번들 구성(단품·1+1·2+1·3+1·4+1)별 광고 전 공헌이익과 손익분기 ROAS, 한계 CPA를 바로 계산하는 자사몰 손익 시뮬레이터">
-<title>번들 프로모션 손익 시뮬레이터 · Beaulead Agency Tools</title>
+<meta name="description" content="상품값·택배비·카드 수수료를 넣으면, 1+1·2+1 같은 묶음 판매에서 광고비를 쓰기 전에 얼마가 남고 주문 1건에 광고비를 얼마까지 써도 본전인지 바로 계산해 주는 자사몰 손익 시뮬레이터">
+<title>묶음 판매(번들) 손익 시뮬레이터 · Beaulead Agency Tools</title>
 <link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/ecommerce-unit-economics/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Beaulead">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/ecommerce-unit-economics/">
-<meta property="og:title" content="번들 프로모션 손익 시뮬레이터 · Beaulead Agency Tools">
-<meta property="og:description" content="번들 구성별 광고 전 공헌이익, 손익분기 ROAS, 한계 CPA를 바로 계산하는 자사몰 손익 시뮬레이터">
+<meta property="og:title" content="묶음 판매(번들) 손익 시뮬레이터 · Beaulead Agency Tools">
+<meta property="og:description" content="묶음 판매에서 광고비를 쓰기 전에 얼마가 남고, 주문 1건에 광고비를 얼마까지 써도 본전인지 바로 계산해 주는 자사몰 손익 시뮬레이터">
 <meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="번들 프로모션 손익 시뮬레이터 · Beaulead Agency Tools">
-<meta name="twitter:description" content="번들 구성별 광고 전 공헌이익, 손익분기 ROAS, 한계 CPA를 바로 계산하는 자사몰 손익 시뮬레이터">
+<meta name="twitter:title" content="묶음 판매(번들) 손익 시뮬레이터 · Beaulead Agency Tools">
+<meta name="twitter:description" content="묶음 판매에서 광고비를 쓰기 전에 얼마가 남고, 주문 1건에 광고비를 얼마까지 써도 본전인지 바로 계산해 주는 자사몰 손익 시뮬레이터">
 <meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
 <link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
@@ -30,7 +30,7 @@
 :root{color-scheme:light;--bg:var(--bl-surface-raised);--panel:var(--bl-surface-default);--ink:var(--bl-text-default);--muted:var(--bl-text-body-on-light);--line:var(--bl-rule-on-light);--brand:var(--bl-brand-accent);--ok:rgba(36,161,72,.15);--bad:rgba(218,30,40,.15);--warn:rgba(241,194,27,.25)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;min-width:320px;background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
-a{color:inherit}button,input{font:inherit}
+a{color:inherit}button,input,select{font:inherit}
 :focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 header{background:var(--bl-surface-inverse);color:var(--bl-text-inverse);padding:20px 5vw;display:flex;justify-content:space-between;gap:16px}
 header a{color:inherit;text-decoration:none;font-weight:800;letter-spacing:.06em}
@@ -40,126 +40,155 @@ main{max-width:1180px;margin:auto;padding:52px 28px 80px}
 h1{font-size:clamp(32px,4.6vw,56px);letter-spacing:-.05em;line-height:1.12;margin:14px 0 18px}
 h2{font-size:22px;letter-spacing:-.03em;margin:44px 0 6px}
 .lead{max-width:760px;font-size:16px;color:var(--muted);word-break:keep-all}
-.notice{margin:24px 0 8px;border-left:4px solid var(--brand);background:var(--panel);padding:18px 22px;font-size:13px;word-break:keep-all}
-.notice strong{display:block;margin-bottom:6px;font-size:14px}
-.notice ul{margin:8px 0 0;padding-left:18px}.notice li{margin-bottom:5px}
-.sub{font-size:13px;color:var(--muted);margin:0 0 14px;word-break:keep-all}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.field{display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px 16px}
-.field label{font-size:13px;font-weight:700}
+.notice{margin:24px 0 8px;border-left:4px solid var(--brand);background:var(--panel);padding:18px 22px;font-size:14px;word-break:keep-all}
+.notice strong{display:block;margin-bottom:6px;font-size:15px}
+.notice ul{margin:8px 0 0;padding-left:18px}.notice li{margin-bottom:6px}
+.sub{font-size:14px;color:var(--muted);margin:0 0 14px;word-break:keep-all}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px 16px}
+.fhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.field label{font-size:14px}
+.plain{font-weight:700}
+.pro{display:block;font-size:11px;color:var(--muted);font-weight:400;line-height:1.4}
 .field .hint{font-size:12px;color:var(--muted);word-break:keep-all}
 .field .row{display:flex;align-items:center;gap:8px}
 .field input,.cpa-input{width:100%;padding:10px 12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;font-size:15px;font-variant-numeric:tabular-nums;text-align:right}
 .unit{font-size:13px;color:var(--muted);white-space:nowrap}
+a.info{flex:none;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--line);border-radius:50%;font-size:12px;font-weight:700;text-decoration:none;color:var(--brand);background:var(--panel);margin-left:6px}
+a.info:hover{border-color:var(--brand)}
+.lbl{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lbl a.info{margin-left:0}
 .actions{display:flex;gap:10px;margin:16px 0 0;flex-wrap:wrap}
 button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer}
 button:hover{border-color:var(--brand)}
 .issues{margin:18px 0;padding:14px 18px;border:1px solid var(--line);background:var(--bad);border-radius:12px;font-size:14px}
 .issues ul{margin:6px 0 0;padding-left:18px}
 .assume{margin:6px 0 14px;padding:10px 14px;background:var(--warn);border-radius:10px;font-size:13px;font-weight:700;word-break:keep-all}
+.pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 12px;font-size:14px}
+.pick select{padding:9px 12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;font-size:14px}
+.glance{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:12px;background:var(--panel);overflow:hidden}
+.glance li{padding:13px 18px;border-bottom:1px solid var(--line);font-size:15px;word-break:keep-all}
+.glance li:last-child{border-bottom:0}
+.glance li.ok{background:var(--ok)}.glance li.bad{background:var(--bad)}
+.stand{margin:10px 0 0;font-size:13px;color:var(--muted);word-break:keep-all}
 .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:780px}
 th,td{padding:10px 14px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;vertical-align:top}
 thead th{background:var(--bl-surface-raised);font-size:13px;position:sticky;top:0}
-th[scope=row]{text-align:left;font-weight:600;color:var(--ink);white-space:nowrap;position:sticky;left:0;background:var(--panel)}
-tr.section th,tr.section td{background:var(--bl-surface-raised);font-size:11px;letter-spacing:.06em;text-align:left;color:var(--muted);font-weight:800}
-tr.key th,tr.key td{font-weight:800;font-size:14px}
-td .note{display:block;font-size:11px;color:var(--muted);font-weight:400}
+th[scope=row]{text-align:left;font-weight:400;color:var(--ink);min-width:190px;max-width:240px;position:sticky;left:0;background:var(--panel)}
+tr.section th,tr.section td{background:var(--bl-surface-raised);font-size:11px;letter-spacing:.04em;text-align:left;color:var(--muted);font-weight:800}
+tr.key th .plain,tr.key td{font-weight:800;font-size:14px}
+td .note{display:block;font-size:11px;color:var(--muted);font-weight:400;word-break:keep-all}
 td.ok{background:var(--ok)}td.bad{background:var(--bad)}td.warn{background:var(--warn)}
 .cpa-input{padding:6px 8px;font-size:13px;min-width:96px}
-.formula{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
-.formula li{padding:11px 16px;border-bottom:1px solid var(--line);font-size:13px;word-break:keep-all}
-.formula li:last-child{border-bottom:0}.formula b{display:inline-block;min-width:150px}
-.excluded{margin:0;padding-left:20px;font-size:13px;color:var(--muted);word-break:keep-all}.excluded li{margin-bottom:6px}
+.steps{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:12px;background:var(--panel);counter-reset:step}
+.steps li{padding:11px 16px 11px 48px;border-bottom:1px solid var(--line);font-size:14px;position:relative;counter-increment:step;word-break:keep-all}
+.steps li:last-child{border-bottom:0}
+.steps li::before{content:counter(step);position:absolute;left:14px;top:12px;width:22px;height:22px;border-radius:50%;background:var(--bl-surface-raised);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.steps b{display:block;font-size:13px}
+.steps span{font-variant-numeric:tabular-nums}
+details.term{border:1px solid var(--line);border-radius:12px;background:var(--panel);margin:0 0 10px}
+details.term summary{cursor:pointer;padding:13px 52px 13px 18px;list-style:none;position:relative}
+details.term summary::-webkit-details-marker{display:none}
+details.term summary::after{content:"＋";position:absolute;right:20px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px}
+details.term[open] summary::after{content:"－"}
+.term-body{padding:2px 18px 16px;font-size:14px;word-break:keep-all}
+.term-body p{margin:8px 0}
+.term-body .ex{background:var(--bl-surface-raised);border-radius:8px;padding:10px 12px}
+.term-body .caution{background:var(--warn);border-radius:8px;padding:10px 12px;font-weight:600}
+.excluded{margin:0;padding-left:20px;font-size:14px;color:var(--muted);word-break:keep-all}.excluded li{margin-bottom:6px}
 .foot{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.7}
-.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .scroll-hint{display:none}
 [hidden]{display:none!important}
 @media(max-width:900px){.scroll-hint{display:block}}
-@media(max-width:640px){main{padding:36px 18px}header{padding:16px}.formula b{display:block}}
-@media print{header,.actions{display:none!important}main{padding:0}.table-wrap{overflow:visible}body{background:var(--panel)}}
+@media(max-width:640px){main{padding:36px 18px}header{padding:16px}}
+@media print{header,.actions,.pick{display:none!important}main{padding:0}.table-wrap{overflow:visible}body{background:var(--panel)}details.term{break-inside:avoid}}
 </style>
 </head>
 <body>
 <header><a href="../">BEAULEAD ↗</a><span class="back"><a href="../#tools">← 전체 도구</a></span></header>
 <main>
 <div class="eyebrow">UNIT ECONOMICS · BUNDLE SIMULATOR</div>
-<h1>번들 프로모션<br>손익 시뮬레이터</h1>
-<p class="lead">판매가와 원가, 물류비, PG 수수료를 넣으면 단품과 번들 구성(1+1, 2+1, 3+1, 4+1)별로 광고 전 공헌이익, 손익분기 ROAS, 광고비로 쓸 수 있는 한계 CPA를 바로 계산합니다. 자사몰 기준입니다.</p>
+<h1>묶음 판매<br>손익 시뮬레이터</h1>
+<p class="lead">상품값, 택배비, 카드 수수료를 넣으면 "1개 사면 1개 더" 같은 묶음 판매에서 광고비를 쓰기 전에 얼마가 남는지, 주문 1건에 광고비를 얼마까지 써도 본전인지 바로 계산해 줍니다. 자사몰 기준입니다. 모르는 말 옆의 ⓘ를 누르면 쉬운 설명과 예시가 나옵니다.</p>
 
 <div class="notice" id="notice">
 <strong>이 화면을 읽기 전에 확인해 주세요</strong>
 <ul>
-<li><b>화면의 숫자는 가상 예시입니다.</b> 실제 상품이나 고객사의 값이 아니며, 현장에서 바로 보여주려고 미리 채워 두었습니다. 고객의 실제 숫자로 바꿔 쓰세요.</li>
-<li><b>반품·취소 미반영(0% 가정)</b>입니다. 실제 손익은 이보다 낮을 수 있습니다.</li>
-<li><b>금액 기준(VAT):</b> 판매가는 소비자가 내는 금액(VAT 포함)이고, 원가·물류비·광고 CPA는 공급가(VAT 제외)로 넣습니다. 공헌이익은 공급가 매출에서 계산합니다.</li>
-<li>입력한 값은 이 브라우저 안에서만 계산합니다. 저장하거나 어디로도 보내지 않으며, 새로고침하면 가상 예시값으로 돌아갑니다.</li>
+<li><b>화면의 숫자는 가상 예시예요.</b> 실제 상품이나 고객사의 값이 아니고, 현장에서 바로 보여주려고 미리 채워 두었어요. 고객의 실제 숫자로 바꿔서 쓰세요.</li>
+<li><b>반품·취소 미반영(0% 가정)</b>이에요. 환불이나 취소가 생기면 실제로 남는 돈은 이보다 줄 수 있어요.</li>
+<li><b>"남는 돈"은 순이익이 아니에요.</b> 인건비·임대료 같은 고정비는 빼지 않았어요.</li>
+<li><b>금액 기준:</b> 판매가는 손님이 내는 금액(부가세(VAT) 포함)으로, 상품값·택배비·광고비는 부가세를 뺀 금액으로 넣어요. 남는 돈은 부가세를 뺀 매출에서 계산해요.</li>
+<li>입력한 값은 이 브라우저 안에서만 계산해요. 저장하거나 어디로도 보내지 않고, 새로고침하면 가상 예시값으로 돌아가요.</li>
 </ul>
 </div>
 
 <h2 id="h-input">1. 기본 정보 입력</h2>
-<p class="sub">판매가·원가·물류비는 단품 1개 기준입니다. 물류비는 박스 하나에 드는 포장·택배비로, 번들에 몇 개를 담아도 같다고 봅니다.</p>
+<p class="sub">판매가·상품값·택배비는 물건 1개(박스 1개) 기준이에요. 칸마다 ⓘ를 누르면 설명이 열려요.</p>
 <div class="grid" role="group" aria-labelledby="h-input">
-<div class="field"><label for="unitPrice">단품 판매가 (VAT 포함)</label><div class="row"><input id="unitPrice" data-money inputmode="decimal"><span class="unit">원</span></div></div>
-<div class="field"><label for="unitCogs">단품 원가 (공급가)</label><div class="row"><input id="unitCogs" data-money inputmode="decimal"><span class="unit">원</span></div></div>
-<div class="field"><label for="shippingPerBox">박스당 물류비 (공급가)</label><div class="row"><input id="shippingPerBox" data-money inputmode="decimal"><span class="unit">원</span></div><span class="hint">포장·택배비 포함, 박스 1개당</span></div>
-<div class="field"><label for="pgRate">PG 수수료율</label><div class="row"><input id="pgRate" type="number" step="0.1" min="0" inputmode="decimal"><span class="unit">%</span></div><span class="hint">결제금액(VAT 포함)에 곱합니다</span></div>
-<div class="field"><label for="targetMinMargin">목표 최소 마진 (공급가)</label><div class="row"><input id="targetMinMargin" data-money inputmode="decimal"><span class="unit">원</span></div><span class="hint">0이면 본전까지 허용. 한계 CPA 계산에 씁니다</span></div>
-<div class="field"><label for="consumptionMonths">소진 주기</label><div class="row"><input id="consumptionMonths" type="number" step="0.5" min="0" inputmode="decimal"><span class="unit">개월 / 1개</span></div><span class="hint">참고용. 총 소진 개월 표시에만 씁니다</span></div>
+<div class="field" data-term="vatPrice"><div class="row"><input id="unitPrice" data-money inputmode="decimal"><span class="unit">원</span></div></div>
+<div class="field" data-term="cogs"><div class="row"><input id="unitCogs" data-money inputmode="decimal"><span class="unit">원</span></div></div>
+<div class="field" data-term="shipping"><div class="row"><input id="shippingPerBox" data-money inputmode="decimal"><span class="unit">원</span></div></div>
+<div class="field" data-term="pg"><div class="row"><input id="pgRate" type="number" step="0.1" min="0" inputmode="decimal"><span class="unit">%</span></div></div>
+<div class="field" data-term="targetMin"><div class="row"><input id="targetMinMargin" data-money inputmode="decimal"><span class="unit">원</span></div></div>
+<div class="field" data-term="consumption"><div class="row"><input id="consumptionMonths" type="number" step="0.5" min="0" inputmode="decimal"><span class="unit">개월 / 1개</span></div></div>
 </div>
 
-<h2 id="h-threshold">2. 판정 기준값 (변경 가능)</h2>
-<p class="sub">뷰리드 기획 기준값입니다. 시장 표준이나 실측치가 아니므로 고객 상황에 맞게 바꿔서 쓰세요.</p>
+<h2 id="h-threshold">2. 기준 점검에 쓰는 최소선 (바꿀 수 있어요)</h2>
+<p class="sub">뷰리드 기획 기준값이에요. 시장 표준이나 실측치가 아니라서, 고객 상황에 맞게 바꿔서 쓰세요.</p>
 <div class="grid" role="group" aria-labelledby="h-threshold">
-<div class="field"><label for="aovFloor">결제금액 하한 (VAT 포함)</label><div class="row"><input id="aovFloor" data-money inputmode="decimal"><span class="unit">원</span></div><span class="hint">제1법칙</span></div>
-<div class="field"><label for="marginFloor">CM1 하한 (공급가)</label><div class="row"><input id="marginFloor" data-money inputmode="decimal"><span class="unit">원</span></div><span class="hint">제1법칙. 결제금액 하한과 둘 중 하나만 넘으면 통과</span></div>
-<div class="field"><label for="cm1RateFloor">CM1율 하한</label><div class="row"><input id="cm1RateFloor" type="number" step="1" min="0" max="100" inputmode="decimal"><span class="unit">%</span></div><span class="hint">제3법칙</span></div>
+<div class="field" data-term="aovFloor"><div class="row"><input id="aovFloor" data-money inputmode="decimal"><span class="unit">원</span></div></div>
+<div class="field" data-term="marginFloor"><div class="row"><input id="marginFloor" data-money inputmode="decimal"><span class="unit">원</span></div></div>
+<div class="field" data-term="cm1RateFloor"><div class="row"><input id="cm1RateFloor" type="number" step="1" min="0" max="100" inputmode="decimal"><span class="unit">%</span></div></div>
 </div>
 <div class="actions"><button type="button" id="reset">가상 예시값으로 되돌리기</button></div>
 
-<h2 id="h-result">3. 번들 구성별 손익</h2>
-<p class="sub">광고 CPA는 비워 두어도 됩니다. 비워 두면 광고비로 쓸 수 있는 한계선(한계 CPA)만 보여줍니다.</p>
-<div class="assume" id="assume">반품·취소 미반영(0% 가정) · 금액은 공급가(VAT 제외) 기준, 결제금액만 VAT 포함 · 가상 예시값</div>
+<h2 id="h-glance">3. 한눈에 보기</h2>
+<p class="sub">숫자표가 어렵다면 이 문장부터 읽어 보세요. 입력을 바꾸면 문장도 바로 바뀌어요.</p>
+<div class="pick"><label for="explainBundle">어떤 구성으로 설명할까요?</label><select id="explainBundle"></select></div>
+<ul class="glance" id="glance" aria-live="polite"></ul>
+<p class="stand">※ 남는 돈은 순이익이 아니에요. 인건비·임대료 같은 고정비를 빼지 않았고, 반품·취소 미반영(0% 가정)이에요.</p>
+
+<h2 id="h-result">4. 묶음 구성별 비교표</h2>
+<p class="sub">광고비(주문 1건당)는 비워 두어도 돼요. 비워 두면 "최대 광고비"만 보여줘요.</p>
+<div class="assume" id="assume">반품·취소 미반영(0% 가정) · 상품값·택배비·광고비는 부가세 뺀 금액 기준, 결제금액만 부가세 포함 · 가상 예시값</div>
 <div class="issues" id="issues" role="alert" hidden></div>
-<p class="sub scroll-hint">← 표를 옆으로 밀어 다른 번들 구성을 확인하세요</p>
+<p class="sub scroll-hint">← 표를 옆으로 밀어 다른 구성을 확인하세요</p>
 <div class="table-wrap" id="result-wrap" aria-live="polite">
 <table id="result" aria-labelledby="h-result"><thead></thead><tbody></tbody></table>
 </div>
 
-<h2>4. 계산식</h2>
-<p class="sub">입력이 같으면 결과가 항상 같은 계산만 씁니다. 사람의 구매 행동을 가정하는 값은 넣지 않았습니다.</p>
-<ul class="formula">
-<li><b>번들 판매가(결제금액)</b>단품 판매가 × 유료 수량</li>
-<li><b>공급가</b>결제금액 ÷ (1 + VAT율 <span data-vat-rate></span>)</li>
-<li><b>광고 전 공헌이익(CM1)</b>공급가 − 총 원가 − PG 수수료 − 물류비 (PG 수수료 = 결제금액 × PG 수수료율)</li>
-<li><b>CM1율</b>CM1 ÷ 공급가</li>
-<li><b>손익분기 ROAS</b>결제금액 ÷ CM1 (광고 매체가 보고하는 구매 전환 가치와 같은 기준, 광고비는 VAT 제외)</li>
-<li><b>한계 CPA</b>CM1 − 목표 최소 마진. 0 이하면 "한계선 없음"</li>
-<li><b>최종 마진</b>CM1 − 입력한 광고 CPA</li>
-<li><b>제1법칙</b>결제금액 ≥ 결제금액 하한 <u>또는</u> CM1 ≥ CM1 하한</li>
-<li><b>제3법칙</b>CM1율 ≥ CM1율 하한</li>
-</ul>
+<h2 id="h-steps">5. 이렇게 계산했어요</h2>
+<p class="sub" id="steps-sub">위에서 고른 구성의 계산 과정이에요. 지금 입력한 숫자로 한 줄씩 보여줘요.</p>
+<ol class="steps" id="steps"></ol>
+<p class="stand">원 단위로 반올림해서 보여줘요. 그래서 계산기로 직접 더하고 빼 보면 1원쯤 차이가 날 수 있어요.</p>
 
-<h2>5. 이 계산이 다루지 않는 것</h2>
+<h2 id="h-glossary">6. 이 화면에서 쓰는 말, 쉽게 풀어 보기</h2>
+<p class="sub">제목을 누르면 열려요. 큰 글씨가 쉬운 말이고, 작은 글씨가 실무에서 쓰는 말이에요. 나중에 다른 곳에서 그 말을 들어도 이어서 이해할 수 있어요.</p>
+<div id="glossary"></div>
+
+<h2>7. 이 계산이 다루지 않는 것</h2>
 <ul class="excluded">
-<li>반품·취소 (0%로 가정합니다)</li>
-<li>재구매·고객 생애가치(LTV) 기반의 CAC 한계선. 한계 CPA는 <b>첫 구매만으로 본전</b>이 되는 선입니다.</li>
-<li>번들 가격이 오르면 전환율과 CPA가 달라지는 효과. 번들마다 CPA를 직접 입력해서 비교하세요.</li>
-<li>쿠폰·적립금·플랫폼 수수료와 소진 주기에 따른 대량 구매 제한 판정</li>
+<li>반품·취소 (0%로 가정해요)</li>
+<li>같은 손님이 다시 사 주는 것(재구매)과 손님 한 명이 평생 쓰는 돈(LTV). "최대 광고비"는 <b>첫 구매만으로 본전</b>이 되는 선이에요.</li>
+<li>묶음 가격이 오르면 사는 사람이 줄어서 광고비가 달라지는 효과. 구성마다 주문 1건당 광고비를 직접 넣어서 비교하세요.</li>
+<li>쿠폰·적립금, 인건비·임대료 같은 고정비, 쇼핑몰 입점 수수료</li>
 </ul>
 
-<p class="foot">단위: 원(KRW). 표시는 원 단위 반올림이고 계산은 반올림 전 값으로 합니다. 문의는 <a href="mailto:robert@beaulead.co.kr">robert@beaulead.co.kr</a>로 주십시오.</p>
+<p class="foot">단위: 원(KRW). 표시는 원 단위 반올림이고 계산은 반올림 전 값으로 해요. 문의는 <a href="mailto:robert@beaulead.co.kr">robert@beaulead.co.kr</a>로 주십시오.</p>
 </main>
 <script src="../shared/money-input.js"></script>
 <script src="./economics-config.js"></script>
 <script src="./calculator.js"></script>
+<script src="./explain.js"></script>
 <script>
 (function () {
   const CONFIG = window.ECOMMERCE_ECONOMICS_CONFIG;
   const CALC = window.ECOMMERCE_ECONOMICS_CALCULATOR;
+  const EX = window.ECOMMERCE_ECONOMICS_EXPLAIN;
   const MONEY = window.MONEY_INPUT;
+  const G = CONFIG.glossary;
   const $ = (id) => document.getElementById(id);
-  const won = new Intl.NumberFormat("ko-KR");
 
   const f = {
     unitPrice: $("unitPrice"), unitCogs: $("unitCogs"), shippingPerBox: $("shippingPerBox"), pgRate: $("pgRate"),
@@ -168,8 +197,11 @@ td.ok{background:var(--ok)}td.bad{background:var(--bad)}td.warn{background:var(-
   };
   const cpaInputs = {};
   const hint = document.querySelector(".scroll-hint");
+  const bundleById = {};
+  CONFIG.bundles.forEach((b) => { bundleById[b.id] = b; });
+  let latest = null;
 
-  // 빈 칸을 0 으로 읽으면 원가가 비었을 때 공헌이익이 조용히 커진다. 빈 칸은 NaN 으로 두어 검증이 막게 한다.
+  // 빈 칸을 0 으로 읽으면 상품값이 비었을 때 남는 돈이 조용히 커진다. 빈 칸은 NaN 으로 두어 검증이 막게 한다.
   const money = (input) => (input.value.trim() === "" ? NaN : MONEY.read(input));
   const plain = (input) => (input.value.trim() === "" ? NaN : Number(input.value));
 
@@ -184,10 +216,6 @@ td.ok{background:var(--ok)}td.bad{background:var(--bad)}td.warn{background:var(-
     };
   }
 
-  const fmtWon = (n) => (n < 0 ? "−" : "") + won.format(Math.abs(Math.round(n))) + "원";
-  const fmtPct = (n) => (n * 100).toFixed(1) + "%";
-  const fmtRoas = (n) => n.toFixed(2);
-
   function el(tag, props, children) {
     const node = document.createElement(tag);
     Object.entries(props || {}).forEach(([key, value]) => {
@@ -199,62 +227,122 @@ td.ok{background:var(--ok)}td.bad{background:var(--bad)}td.warn{background:var(-
     return node;
   }
 
-  // 표의 줄 정의. value(b) 는 { text, note?, tone? } 를 돌려준다. tone: ok | bad | warn
+  // 쉬운 말(크게) + 전문용어(작게) + 풀이 바로가기(ⓘ)
+  const termSpans = (term) => [el("span", { class: "plain", text: G[term].plain }), el("span", { class: "pro", text: G[term].pro })];
+  const infoLink = (term) => el("a", { class: "info", href: "#g-" + term, "data-term": term, "aria-label": G[term].plain + " 쉬운 설명 보기", text: "ⓘ" });
+
+  // 풀이 열기: 주소를 바꾸지 않고 그 자리에서 열고 이동한다.
+  function openTerm(term) {
+    const details = $("g-" + term);
+    if (!details) return;
+    details.open = true;
+    const calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    details.scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "center" });
+    details.querySelector("summary").focus({ preventScroll: true });
+  }
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest && event.target.closest("a.info");
+    if (!link) return;
+    event.preventDefault();
+    openTerm(link.dataset.term);
+  });
+
+  // 입력 칸: 라벨·병기·ⓘ·한 줄 설명을 용어 사전에서 채운다.
+  function buildFields() {
+    document.querySelectorAll(".field[data-term]").forEach((field) => {
+      const term = field.dataset.term;
+      const input = field.querySelector("input");
+      const label = el("label", { for: input.id }, termSpans(term));
+      field.prepend(el("div", { class: "fhead" }, [label, infoLink(term)]));
+      field.append(el("span", { class: "hint", text: G[term].short }));
+    });
+  }
+
+  const won = EX.won;
+  const pct1 = EX.pct1;
+
+  // 표의 줄 정의. value(b) 는 { text, note?, tone? }. tone: ok | bad | warn
   const plainText = (text) => ({ text });
   const ROWS = [
     { section: "구성" },
-    { label: "유료 결제 수량", value: (b) => plainText(String(b.paidQty)) },
-    { label: "무료 증정 수량", value: (b) => plainText(String(b.freeQty)) },
-    { label: "총 수량", value: (b) => plainText(String(b.totalQty)) },
-    { label: "번들 판매가 (결제금액, VAT 포함)", value: (b) => plainText(fmtWon(b.grossSales)) },
-    { label: "공급가 (VAT 제외)", value: (b) => plainText(fmtWon(b.supplySales)) },
-    { label: "실질 할인율", value: (b) => plainText(fmtPct(b.discountRate)) },
-    { section: "비용 (공급가 기준)" },
-    { label: "총 원가", value: (b) => plainText(fmtWon(b.totalCogs)) },
-    { label: "PG 수수료", value: (b) => plainText(fmtWon(b.pgFee)) },
-    { label: "물류비 (박스당 고정)", value: (b) => plainText(fmtWon(b.shipping)) },
-    { label: "개당 배송비 부담액", value: (b) => plainText(fmtWon(b.shippingPerUnit)) },
-    { section: "공헌이익" },
-    { label: "광고 전 공헌이익 (CM1)", key: true, value: (b) => ({ text: fmtWon(b.cm1), tone: b.cm1 > 0 ? null : "bad" }) },
-    { label: "CM1율", value: (b) => plainText(fmtPct(b.cm1Rate)) },
-    { label: "손익분기 ROAS", value: (b) => (b.beRoas === null ? { text: "산출 불가", note: "CM1이 0 이하", tone: "bad" } : plainText(fmtRoas(b.beRoas))) },
-    { label: "한계 CPA (광고비 상한)", key: true, value: (b) => (b.maxCpa === null ? { text: "한계선 없음", note: "목표 마진을 낼 수 없음", tone: "bad" } : plainText(fmtWon(b.maxCpa))) },
-    { section: "광고 CPA를 넣었을 때 (선택, 공급가 기준)" },
-    { label: "광고 CPA 입력", cpa: true },
-    { label: "최종 마진 (CM1 − CPA)", key: true, value: (b) => (b.finalMargin === null ? { text: "—", note: "CPA 미입력" } : { text: fmtWon(b.finalMargin), tone: b.finalMargin >= 0 ? null : "bad" }) },
-    { section: "기준값 판정" },
+    { label: "값을 받는 개수", value: (b) => plainText(String(b.paidQty)) },
+    { label: "덤으로 주는 개수", value: (b) => plainText(String(b.freeQty)) },
+    { label: "보내는 물건 총 개수", value: (b) => plainText(String(b.totalQty)) },
+    { term: "vatPrice", value: (b) => plainText(won(b.grossSales)) },
+    { term: "supply", value: (b) => plainText(won(b.supplySales)) },
+    { term: "discountRate", value: (b) => plainText(pct1(b.discountRate)) },
+    { section: "들어가는 돈 (부가세 뺀 금액 기준)" },
+    { term: "cogs", value: (b) => plainText(won(b.totalCogs)) },
+    { term: "pg", value: (b) => plainText(won(b.pgFee)) },
+    { term: "shipping", value: (b) => plainText(won(b.shipping)) },
+    { term: "shippingPerUnit", value: (b) => plainText(won(b.shippingPerUnit)) },
+    { section: "남는 돈과 광고비 한도" },
+    { term: "cm1", key: true, value: (b) => ({ text: won(b.cm1), tone: b.cm1 > 0 ? null : "bad" }) },
+    { term: "cm1Rate", value: (b) => plainText(pct1(b.cm1Rate)) },
     {
-      label: "제1법칙 · 결제금액 또는 CM1 하한",
+      term: "beRoas",
+      value: (b) => (b.beRoas === null
+        ? { text: "계산할 수 없어요", note: "남는 돈이 0원 이하", tone: "bad" }
+        : { text: pct1(b.beRoas), note: "광고비 100원당 결제금액 " + (b.beRoas * 100).toFixed(1) + "원" })
+    },
+    {
+      term: "maxCpa",
+      key: true,
+      value: (b) => (b.maxCpa === null ? { text: "여유가 없어요", note: "남기고 싶은 돈을 낼 수 없어요", tone: "bad" } : plainText(won(b.maxCpa)))
+    },
+    { section: "광고비를 직접 넣어 보기 (선택, 부가세 뺀 금액)" },
+    { term: "cpa", cpa: true },
+    {
+      term: "finalMargin",
+      key: true,
+      value: (b) => (b.finalMargin === null
+        ? { text: "—", note: "광고비를 넣으면 보여줘요" }
+        : { text: won(b.finalMargin), tone: b.finalMargin >= 0 ? null : "bad" })
+    },
+    { section: "기준 점검" },
+    {
+      term: "rule1",
       value: (b) => {
-        if (!b.rule1.pass) return { text: "미통과", tone: "bad" };
-        const by = b.rule1.byAov && b.rule1.byMargin ? "결제금액·CM1 모두 충족" : b.rule1.byAov ? "결제금액 충족" : "CM1 충족";
-        return { text: "통과", note: by, tone: "ok" };
+        if (!b.rule1.pass) return { text: "기준에 못 미침", tone: "bad" };
+        const by = b.rule1.byAov && b.rule1.byMargin ? "결제금액·남는 돈 모두 충족" : b.rule1.byAov ? "결제금액 기준 충족" : "남는 돈 기준 충족";
+        return { text: "기준 충족", note: by, tone: "ok" };
       }
     },
-    { label: "제3법칙 · CM1율 하한", value: (b) => (b.rule3.pass ? { text: "통과", tone: "ok" } : { text: "미통과", tone: "bad" }) },
+    { term: "rule3", value: (b) => (b.rule3.pass ? { text: "기준 충족", tone: "ok" } : { text: "기준에 못 미침", tone: "bad" }) },
     { section: "참고" },
-    { label: "원가율 (총 원가 ÷ 공급가)", value: (b) => plainText(fmtPct(b.cogsRate)) },
-    { label: "단품 대비 개당 배송비 절감", value: (b) => plainText(fmtWon(b.shippingSavingPerUnit)) },
-    { label: "총 소진 개월 (소진 주기 × 총 수량)", value: (b) => plainText(String(Math.round(b.consumptionMonths * 10) / 10) + "개월") }
+    { term: "cogsRate", value: (b) => plainText(pct1(b.cogsRate)) },
+    { term: "shippingSaving", value: (b) => plainText(won(b.shippingSavingPerUnit)) },
+    { term: "consumption", value: (b) => plainText(String(Math.round(b.consumptionMonths * 10) / 10) + "개월") }
   ];
 
   const table = $("result");
   const slots = [];
 
+  function rowHeader(row) {
+    if (row.term) {
+      const g = G[row.term];
+      return el("th", { scope: "row" }, [
+        el("span", { class: "lbl" }, [el("span", { class: "plain", text: g.plain }), infoLink(row.term)]),
+        el("span", { class: "pro", text: g.pro })
+      ]);
+    }
+    return el("th", { scope: "row" }, [el("span", { class: "plain", text: row.label })]);
+  }
+
   function buildTable() {
     const head = el("tr", {}, [el("th", { scope: "col", text: "구분", style: "text-align:left" })]);
-    CONFIG.bundles.forEach((b) => head.append(el("th", { scope: "col", text: b.label })));
+    CONFIG.bundles.forEach((b) => head.append(el("th", { scope: "col" }, [el("span", { class: "plain", text: b.plainLabel }), el("span", { class: "pro", text: b.proLabel })])));
     table.tHead.append(head);
     ROWS.forEach((row) => {
       if (row.section) {
         table.tBodies[0].append(el("tr", { class: "section" }, [el("th", { scope: "colgroup", colspan: String(CONFIG.bundles.length + 1), text: row.section })]));
         return;
       }
-      const tr = el("tr", { class: row.key ? "key" : "" }, [el("th", { scope: "row", text: row.label })]);
+      const tr = el("tr", { class: row.key ? "key" : "" }, [rowHeader(row)]);
       CONFIG.bundles.forEach((b) => {
         const td = el("td");
         if (row.cpa) {
-          const input = el("input", { class: "cpa-input", id: "cpa-" + b.id, "data-money": "", inputmode: "decimal", "aria-label": b.label + " 광고 CPA", placeholder: "비움" });
+          const input = el("input", { class: "cpa-input", id: "cpa-" + b.id, "data-money": "", inputmode: "decimal", "aria-label": b.plainLabel + " 주문 1건당 광고비", placeholder: "비움" });
           cpaInputs[b.id] = input;
           td.append(input);
           input.addEventListener("input", update);
@@ -268,6 +356,42 @@ td.ok{background:var(--ok)}td.bad{background:var(--bad)}td.warn{background:var(-
     MONEY.upgrade(table);
   }
 
+  function buildGlossary() {
+    const box = $("glossary");
+    CONFIG.glossaryOrder.forEach((term) => {
+      const g = G[term];
+      const body = el("div", { class: "term-body" }, [
+        el("p", {}, [el("b", { text: "한 줄로 " }), document.createTextNode(g.short)]),
+        el("p", {}, [el("b", { text: "자세히 " }), document.createTextNode(g.detail)]),
+        el("p", { class: "ex", text: g.example })
+      ]);
+      if (g.caution) body.append(el("p", { class: "caution", text: "주의: " + g.caution }));
+      box.append(el("details", { class: "term", id: "g-" + term }, [el("summary", {}, termSpans(term)), body]));
+    });
+  }
+
+  function buildPicker() {
+    const select = $("explainBundle");
+    CONFIG.bundles.forEach((b) => select.append(el("option", { value: b.id, text: b.plainLabel })));
+    select.addEventListener("change", renderExplain);
+  }
+
+  function renderExplain() {
+    const glance = $("glance");
+    const steps = $("steps");
+    if (!latest) {
+      glance.replaceChildren(el("li", { text: "입력을 확인해 주세요." }));
+      steps.replaceChildren();
+      return;
+    }
+    const id = $("explainBundle").value;
+    const b = latest.byId[id];
+    const plainLabel = bundleById[id].plainLabel;
+    glance.replaceChildren(...EX.summary(b, latest.input, plainLabel).map((line) => el("li", { class: line.tone || "", text: line.text })));
+    $("steps-sub").textContent = "고른 구성 “" + plainLabel + "”의 계산 과정이에요. 지금 입력한 숫자로 한 줄씩 보여줘요.";
+    steps.replaceChildren(...EX.steps(b, latest.input, CONFIG.vatRate).map((step) => el("li", {}, [el("b", { text: step.label }), el("span", { text: step.formula })])));
+  }
+
   function update() {
     const input = readInput();
     const issues = CALC.validateInput(input);
@@ -277,6 +401,8 @@ td.ok{background:var(--ok)}td.bad{background:var(--bad)}td.warn{background:var(-
       box.replaceChildren(el("strong", { text: "입력을 확인해 주세요" }), el("ul", {}, issues.map((text) => el("li", { text }))));
       $("result-wrap").hidden = true;
       hint.hidden = true;
+      latest = null;
+      renderExplain();
       return;
     }
     box.hidden = true;
@@ -284,11 +410,13 @@ td.ok{background:var(--ok)}td.bad{background:var(--bad)}td.warn{background:var(-
     hint.hidden = false;
     const byId = {};
     CALC.calculateAll(input, CONFIG).forEach((b) => { byId[b.id] = b; });
+    latest = { input, byId };
     slots.forEach(({ row, bundleId, td }) => {
       const cell = row.value(byId[bundleId]);
       td.className = cell.tone || "";
       td.replaceChildren(document.createTextNode(cell.text), ...(cell.note ? [el("span", { class: "note", text: cell.note })] : []));
     });
+    renderExplain();
   }
 
   function applyDefaults() {
@@ -306,9 +434,11 @@ td.ok{background:var(--ok)}td.bad{background:var(--bad)}td.warn{background:var(-
     Object.values(cpaInputs).forEach((input) => { input.value = ""; });
   }
 
-  document.querySelectorAll("[data-vat-rate]").forEach((node) => { node.textContent = fmtPct(CONFIG.vatRate); });
   MONEY.upgrade();
+  buildFields();
   buildTable();
+  buildGlossary();
+  buildPicker();
   applyDefaults();
   Object.values(f).forEach((input) => input.addEventListener("input", update));
   $("reset").addEventListener("click", () => { applyDefaults(); update(); });
