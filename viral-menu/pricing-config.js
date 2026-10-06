@@ -29,6 +29,8 @@ window.VIRAL_MENU_CONFIG = Object.freeze({
         Object.freeze({
           id: "short-form",
           name: "숏폼",
+          detailUrl: "./short-form/",
+          detailLabel: "상세 보기 →",
           nameEn: "SHORT FORM (IG/TT/YT)",
           summary: Object.freeze([
             "유튜브·인스타그램·틱톡과 같은 영상콘텐츠 플랫폼의 이용률이 급증하면서 마케팅 캠페인 중 필수로 자리잡은 마케팅입니다.",
