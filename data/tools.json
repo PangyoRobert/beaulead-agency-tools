@@ -70,6 +70,18 @@
       }
     },
     {
+      "slug": "cafe24-mall-standard",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "카페24 자사몰 개발·기획 8주 진행안",
+      "card": {
+        "kicker": "Delivery Plan",
+        "title": ["Cafe24 Mall", "8-Week Plan"],
+        "description": "카페24 자사몰 개발·기획의 주차별 진행 일정과 투입 인력, 최소 비용을 안내하는 페이지입니다."
+      }
+    },
+    {
       "slug": "fnb-seeding-guide",
       "kind": "tool",
       "status": "live",
