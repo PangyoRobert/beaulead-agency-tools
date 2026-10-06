@@ -47,7 +47,9 @@
 
 ## 공개 상태
 
-`data/tools.json`에서 `public: false`로 시작했습니다. 현장에서 값을 바꿔 보며 검수한 뒤 공개합니다.
+2026-10-06 `data/tools.json`에 `public: false`로 등록해 시작했고, 같은 날 공개(`public: true`)로
+전환했습니다. 다시 내리려면 `public`을 `false`로 되돌리고 `python3 scripts/sync_registry.py --write`를
+실행합니다.
 
 ## 검증
 
