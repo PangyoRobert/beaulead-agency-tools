@@ -1,14 +1,14 @@
-// 카페24 자사몰 유지보수 안내 페이지의 단일 원본.
+// 카페24 자사몰 유지보수 현황표 페이지의 단일 원본.
 // 업체별 값(업체명·스킨·연동·작업 이력)은 전부 `client` 블록 한 곳에만 있다. 본문과 문구에는
 // 업체명을 직접 쓰지 않고 index.html 이 이 값을 참조한다. 새 업체는 `client` 만 바꾼다.
 //
 // 공개 저장소이므로 실제 업체명·내부 단가·원가·마진은 이 파일에 넣지 않는다.
-// 기본값은 가공 이름이다. 화면에서 업체명을 입력하면 그 자리만 바뀌고 어디에도 저장되지 않는다.
+// 업체명 기본값은 비어 있다(제목만 보인다). 화면에서 업체명을 입력하면 제목 앞에만 붙고 어디에도 저장되지 않는다.
 window.CAFE24_MAINTENANCE_CONFIG = Object.freeze({
   vatRate: 0.1,
 
   client: Object.freeze({
-    name: "○○스포츠",
+    name: "",
     skin: "카페24 디자인센터 유료 템플릿을 복사한 뒤 커스텀",
     integrations: Object.freeze([
       "카페24 앱스토어 앱 (리뷰 관리, 어필리에이트, 채널톡)",
@@ -25,10 +25,14 @@ window.CAFE24_MAINTENANCE_CONFIG = Object.freeze({
     })
   }),
 
+  // 6개월 단위 계약만 안내한다. 금액은 6개월 총액의 공급가이고 부가세는 별도다.
+  // 분할 납부는 termMonths 를 installmentCount 로 나눈 기간(3개월)씩이다.
   plan: Object.freeze({
-    monthlyFeeSupplyPrice: 500000,
-    includedCountPerMonth: 3,
-    contract: "월 단위"
+    termMonths: 6,
+    totalSupplyPrice: 1000000,
+    installmentCount: 2,
+    includedCount: 18,
+    contract: "6개월 단위"
   }),
 
   included: Object.freeze([

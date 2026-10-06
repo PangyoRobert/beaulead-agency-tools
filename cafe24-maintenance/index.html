@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="카페24 자사몰 월 단위 유지보수에 포함되는 업무, 별도로 산정하는 작업과 별도 비용을 안내하는 페이지">
-  <title>카페24 자사몰 유지보수 안내 · Beaulead Agency Tools</title>
+  <meta name="description" content="카페24 자사몰 6개월 단위 유지보수에 포함되는 업무, 별도로 산정하는 작업과 별도 비용을 안내하는 페이지">
+  <title>카페24 자사몰 유지보수 현황표 · Beaulead Agency Tools</title>
   <link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/cafe24-maintenance/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Beaulead">
   <meta property="og:locale" content="ko_KR">
   <meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/cafe24-maintenance/">
-  <meta property="og:title" content="카페24 자사몰 유지보수 안내 · Beaulead Agency Tools">
-  <meta property="og:description" content="카페24 자사몰 월 단위 유지보수에 포함되는 업무, 별도로 산정하는 작업과 별도 비용을 안내하는 페이지">
+  <meta property="og:title" content="카페24 자사몰 유지보수 현황표 · Beaulead Agency Tools">
+  <meta property="og:description" content="카페24 자사몰 6개월 단위 유지보수에 포함되는 업무, 별도로 산정하는 작업과 별도 비용을 안내하는 페이지">
   <meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="카페24 자사몰 유지보수 안내 · Beaulead Agency Tools">
-  <meta name="twitter:description" content="카페24 자사몰 월 단위 유지보수에 포함되는 업무, 별도로 산정하는 작업과 별도 비용을 안내하는 페이지">
+  <meta name="twitter:title" content="카페24 자사몰 유지보수 현황표 · Beaulead Agency Tools">
+  <meta name="twitter:description" content="카페24 자사몰 6개월 단위 유지보수에 포함되는 업무, 별도로 산정하는 작업과 별도 비용을 안내하는 페이지">
   <meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
   <link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
@@ -99,9 +99,9 @@
   <main>
     <div class="page-head">
       <div>
-        <p class="eyebrow">Maintenance Plan</p>
-        <h1><span data-client-name></span><br>카페24 자사몰 유지보수</h1>
-        <p class="intro">월 단위 유지보수에 포함되는 업무와 별도로 산정하는 작업, 별도 비용을 한 장에 정리했습니다.</p>
+        <p class="eyebrow">Maintenance Status</p>
+        <h1><span id="client-line" hidden><span data-client-name></span><br></span>카페24 자사몰 유지보수 현황표</h1>
+        <p class="intro">6개월 단위 유지보수에 포함되는 업무와 별도로 산정하는 작업, 별도 비용을 한 장에 정리했습니다.</p>
       </div>
       <span class="vat-pill">VAT 10% 별도</span>
     </div>
@@ -112,7 +112,7 @@
 
     <dl class="summary" id="summary"></dl>
 
-    <section aria-labelledby="h-included"><h2 id="h-included">월 유지보수에 포함되는 업무</h2><div class="grid" id="included"></div></section>
+    <section aria-labelledby="h-included"><h2 id="h-included">유지보수에 포함되는 업무</h2><div class="grid" id="included"></div></section>
     <section aria-labelledby="h-separate"><h2 id="h-separate"></h2><div class="grid" id="separate"></div></section>
     <section aria-labelledby="h-costs"><h2 id="h-costs"></h2><div class="grid" id="costs"></div></section>
     <section aria-labelledby="h-client"><h2 id="h-client"></h2><div class="grid" id="client"></div></section>
@@ -152,20 +152,25 @@
         return node;
       }
 
-      function stat(label, value, sub) {
+      function stat(label, value, subs) {
         const wrap = element("div", "stat");
         const dd = element("dd", null, value);
-        if (sub) dd.append(element("small", null, sub));
+        (subs || []).forEach(function (sub) { dd.append(element("small", null, sub)); });
         wrap.append(element("dt", null, label), dd);
         return wrap;
       }
 
       const plan = CONFIG.plan;
       const summary = document.getElementById("summary");
+      const eachMonths = plan.termMonths / plan.installmentCount;
+      const eachSupply = plan.totalSupplyPrice / plan.installmentCount;
       summary.append(
-        stat("월 유지보수비", won.format(plan.monthlyFeeSupplyPrice) + "원", "VAT 포함 " + won.format(withVat(plan.monthlyFeeSupplyPrice)) + "원"),
-        stat("월 포함 횟수", plan.includedCountPerMonth + "회 이내"),
-        stat("계약 방식", plan.contract)
+        stat(plan.termMonths + "개월 유지보수비", won.format(plan.totalSupplyPrice) + "원", [
+          "VAT 포함 " + won.format(withVat(plan.totalSupplyPrice)) + "원",
+          eachMonths + "개월씩 " + plan.installmentCount + "회 분할 납부 (회당 " + won.format(eachSupply) + "원, VAT 포함 " + won.format(withVat(eachSupply)) + "원)"
+        ]),
+        stat("포함 횟수", plan.termMonths + "개월간 " + plan.includedCount + "회 이내"),
+        stat("계약 기간", plan.contract)
       );
 
       const included = document.getElementById("included");
@@ -173,7 +178,7 @@
 
       document.getElementById("h-separate").textContent = CONFIG.separate.name;
       document.getElementById("separate").append(
-        card("월 유지보수비와 별개로 산정", [list(CONFIG.separate.items)]),
+        card("유지보수비와 별개로 산정", [list(CONFIG.separate.items)]),
         card(CONFIG.limits.name, [list(CONFIG.limits.items)])
       );
 
@@ -201,11 +206,13 @@
       // 업체명은 화면에서만 바뀐다.
       const input = document.getElementById("client-name");
       const slots = document.querySelectorAll("[data-client-name]");
+      const line = document.getElementById("client-line");
       function applyName() {
         const name = input.value.trim() || client.name;
         slots.forEach(function (slot) { slot.textContent = name; });
+        line.hidden = !name;
       }
-      input.placeholder = client.name;
+      input.placeholder = "업체명 (선택)";
       input.addEventListener("input", applyName);
       applyName();
     })();

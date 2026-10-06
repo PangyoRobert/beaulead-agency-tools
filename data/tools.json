@@ -90,11 +90,11 @@
       "kind": "tool",
       "status": "live",
       "public": true,
-      "name": "카페24 자사몰 유지보수 안내",
+      "name": "카페24 자사몰 유지보수 현황표",
       "card": {
-        "kicker": "Maintenance Plan",
-        "title": ["Cafe24 Mall", "Maintenance"],
-        "description": "카페24 자사몰 월 단위 유지보수에 포함되는 업무와 별도 산정 작업, 별도 비용을 안내하는 페이지입니다."
+        "kicker": "Maintenance Status",
+        "title": ["Cafe24 Mall", "Maintenance Status"],
+        "description": "카페24 자사몰 6개월 단위 유지보수에 포함되는 업무와 별도 산정 작업, 별도 비용을 안내하는 페이지입니다."
       }
     },
     {
