@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="네이버 인플루언서·파워블로그·일반 블로그 체험단 단가와 진행 프로세스를 확인하고 인원별 예상 견적을 계산하는 페이지">
+  <title>네이버 블로그 체험단 견적 · Beaulead Agency Tools</title>
+  <link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/viral-menu/naver-blog/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Beaulead">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/viral-menu/naver-blog/">
+  <meta property="og:title" content="네이버 블로그 체험단 견적 · Beaulead Agency Tools">
+  <meta property="og:description" content="네이버 인플루언서·파워블로그·일반 블로그 체험단 단가와 진행 프로세스를 확인하고 인원별 예상 견적을 계산하는 페이지">
+  <meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="네이버 블로그 체험단 견적 · Beaulead Agency Tools">
+  <meta name="twitter:description" content="네이버 인플루언서·파워블로그·일반 블로그 체험단 단가와 진행 프로세스를 확인하고 인원별 예상 견적을 계산하는 페이지">
+  <meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <link rel="icon" href="../../shared/brand/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../shared/brand/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../shared/brand/favicon-16.png">
+  <link rel="apple-touch-icon" href="../../shared/brand/apple-touch-icon.png">
+  <link rel="stylesheet" href="../../shared/tokens.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: var(--bl-surface-raised);
+      --panel: var(--bl-surface-default);
+      --line: var(--bl-rule-on-light);
+      --text: var(--bl-text-default);
+      --muted: var(--bl-text-body-on-light);
+      --blue: var(--bl-brand-accent);
+      --radius: 20px;
+      --mono: var(--bl-font-mono);
+      --tint-danger: rgba(218, 30, 40, 0.15);
+      --tint-accent: rgba(15, 98, 254, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; color: var(--text); font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); }
+    a { color: inherit; }
+    .color-bar { position: fixed; z-index: 40; top: 0; right: 0; left: 0; height: 4px; background: var(--blue); }
+    .topbar { position: sticky; z-index: 30; top: 0; display: flex; min-height: 68px; padding: 14px max(20px, calc((100vw - 1360px) / 2)); align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: var(--panel); }
+    .brand { font-weight: 700; letter-spacing: -0.05em; text-decoration: none; }
+    .brand::after { color: var(--blue); content: "."; }
+    .back { color: var(--muted); font-size: 0.875rem; font-weight: 600; text-decoration: none; }
+    .back:hover, .back:focus-visible { color: var(--text); }
+    main { width: min(1360px, calc(100% - 40px)); margin: 0 auto; padding: 42px 0 72px; }
+    .page-head { display: flex; justify-content: space-between; gap: 32px; margin-bottom: 28px; align-items: end; }
+    .eyebrow { margin: 0 0 11px; color: var(--blue); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-family: var(--mono); }
+    h1 { margin: 0; font-size: clamp(2.1rem, 5vw, 4.2rem); line-height: 1; letter-spacing: -0.06em; word-break: keep-all; }
+    .intro { max-width: 600px; margin: 14px 0 0; color: var(--muted); line-height: 1.6; word-break: keep-all; }
+    .vat-pill { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 0.8rem; white-space: nowrap; font-family: var(--mono); }
+    section { margin-top: 40px; }
+    h2 { margin: 0 0 14px; font-size: 1.3rem; letter-spacing: -0.03em; }
+    .panel { padding: clamp(18px, 2.2vw, 28px); border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 14px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; line-height: 1.55; word-break: keep-all; }
+    thead th { color: var(--muted); font-size: 0.8rem; font-weight: 700; border-bottom-width: 2px; }
+    tbody th { font-weight: 700; }
+    td.price { font-family: var(--mono); font-weight: 600; white-space: nowrap; }
+    td ul, td ol { margin: 0; padding-left: 18px; }
+    .restrict { display: inline-block; margin: 2px 0; padding: 1px 8px; border-radius: 6px; background: var(--tint-danger); color: var(--text); font-weight: 700; }
+    .calc-row { display: grid; grid-template-columns: minmax(180px, 1.3fr) 120px minmax(220px, 2fr) minmax(150px, 1fr); gap: 12px 20px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .calc-row:last-of-type { border-bottom: 0; }
+    .calc-name strong { display: block; font-size: 1rem; }
+    .calc-name small { color: var(--muted); font-family: var(--mono); font-size: 0.8rem; }
+    .calc-row label.count { display: flex; flex-direction: column; gap: 4px; color: var(--muted); font-size: 0.78rem; font-weight: 700; }
+    .calc-row input[type="number"] { width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--text); font: inherit; font-family: var(--mono); }
+    .calc-row input:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+    .opts { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: 0.85rem; }
+    .opts label { display: inline-flex; gap: 6px; align-items: center; }
+    .line-total { text-align: right; font-family: var(--mono); font-weight: 700; }
+    .line-total small { display: block; color: var(--muted); font-weight: 400; font-size: 0.78rem; }
+    .totals { display: grid; gap: 6px; max-width: 420px; margin: 18px 0 0 auto; font-family: var(--mono); }
+    .totals div { display: flex; justify-content: space-between; gap: 16px; }
+    .totals .grand { padding-top: 8px; border-top: 1px solid var(--line); font-size: 1.15rem; font-weight: 700; }
+    .flags { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--tint-accent); font-size: 0.85rem; line-height: 1.6; }
+    .flags:empty { display: none; }
+    .process { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+    .process li { counter-increment: step; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); font-size: 0.88rem; }
+    .process li::before { margin-right: 6px; color: var(--blue); font-family: var(--mono); font-weight: 700; content: counter(step); }
+    .process li.cond { background: var(--tint-danger); border-color: transparent; font-weight: 700; }
+    .recruit { margin: 14px 0 0; color: var(--muted); line-height: 1.6; word-break: keep-all; }
+    .footnote { margin: 34px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; }
+    @media (max-width: 860px) { .calc-row { grid-template-columns: 1fr 1fr; } .calc-name, .opts { grid-column: 1 / -1; } }
+    @media (max-width: 620px) { main { width: min(100% - 24px, 1360px); padding-top: 28px; } .page-head { display: block; } .vat-pill { display: inline-block; margin-top: 16px; } }
+    @media print {
+      @page { margin: 14mm; }
+      *, *::before, *::after { background: transparent !important; color: #241815 !important; border-color: #E0E0E0 !important; box-shadow: none !important; }
+      html, body { background: #FFFFFF !important; }
+      .color-bar, .topbar, .back { display: none !important; }
+      main { width: 100%; padding: 0; }
+      table { min-width: 0; }
+      .panel { break-inside: avoid; border-radius: 0; }
+      .eyebrow { color: #0F62FE !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="color-bar" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="../../">BEAULEAD</a>
+    <a class="back" href="../">← 바이럴 마케팅 메뉴</a>
+  </header>
+
+  <main>
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Naver Blog Quote</p>
+        <h1>네이버 블로그<br>체험단 견적</h1>
+        <p class="intro">캠페인별 단가와 진행 조건을 확인하고, 인원을 입력하면 예상 견적이 계산됩니다.</p>
+      </div>
+      <span class="vat-pill">VAT 10% 별도</span>
+    </div>
+
+    <section aria-labelledby="h-menu">
+      <h2 id="h-menu">캠페인별 단가</h2>
+      <div class="panel table-wrap"><table id="menu-table"></table></div>
+    </section>
+
+    <section aria-labelledby="h-calc">
+      <h2 id="h-calc">예상 견적 계산</h2>
+      <div class="panel">
+        <div id="calc"></div>
+        <div class="totals" id="totals" aria-live="polite"></div>
+        <p class="flags" id="flags"></p>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-process">
+      <h2 id="h-process">체험단 진행 프로세스</h2>
+      <div class="panel">
+        <ol class="process" id="process"></ol>
+        <p class="recruit" id="recruit"></p>
+      </div>
+    </section>
+
+    <p class="footnote">표기된 금액은 모두 공급가이며 부가세 10%가 별도로 부과됩니다. 계산 결과는 예상 견적입니다. 문의는 <a href="mailto:robert@beaulead.co.kr">robert@beaulead.co.kr</a>로 주십시오.</p>
+  </main>
+
+  <script id="naver-blog-config">
+  // 네이버 블로그 체험단 견적의 단일 원본. 단가·조건·문구는 여기에만 있고 아래 화면 코드는 읽어서 그리기만 한다.
+  // 설정을 별도 .js 파일로 두지 않는다. 파일마다 따로 캐시되면(GitHub Pages max-age=600) 새 화면 코드에
+  // 옛 설정이 섞여 undefined·NaN 이 보인다(2026-10-06 cafe24-maintenance 사고).
+  //
+  // 금액은 전부 공급가(원, VAT 별도)다. unitPrice 가 null 이면 "개별 문의"이고 계산기에 나오지 않는다.
+  // 옵션 highInvolvement.unitPrice 는 고관여 키워드 체험단의 1인 단가(기본 단가 대신 적용)다. null 이면 계산기에서 고를 수 없다.
+  // 공개 저장소이므로 원가·매체비·마진은 넣지 않는다.
+  window.NAVER_BLOG_QUOTE_CONFIG = Object.freeze({
+    vatRate: 0.1,
+    campaigns: Object.freeze([
+      Object.freeze({
+        id: "influencer",
+        name: "네이버 인플루언서 체험단",
+        type: "네이버 인플루언서 체험단",
+        unitPrice: 300000,
+        content: Object.freeze(["브랜드 및 제품에 맞는 카테고리의 네이버 인플루언서 체험단 진행", "블로그 포스팅 + 키워드챌린지 등록"]),
+        goal: "네이버 인플루언서(키워드챌린지) 영역 + VIEW탭 노출 최적화 체험단",
+        options: Object.freeze({
+          highInvolvement: Object.freeze({ label: "가구/병원/피부과 등 고관여 방문 키워드", unitPrice: 400000 }),
+          retrieval: Object.freeze({ label: "회수형 체험단", addPerPerson: 20000 }),
+          clip: Object.freeze({ label: "네이버 클립 진행", note: "추가 비용 발생 (별도 문의)" })
+        }),
+        notes: Object.freeze(["키챌 키워드 3개 등록"]),
+        restrictions: Object.freeze([])
+      }),
+      Object.freeze({
+        id: "power-blog",
+        name: "네이버 파워블로그 체험단",
+        type: "네이버 파워블로그 체험단",
+        unitPrice: 250000,
+        content: Object.freeze(["블로그탭 노출 최적화 블로그 체험단"]),
+        goal: "블로그탭 노출 최적화",
+        options: Object.freeze({
+          highInvolvement: Object.freeze({ label: "가구/병원/피부과 등 고관여 방문 키워드", unitPrice: 350000 }),
+          retrieval: Object.freeze({ label: "회수형 체험단", addPerPerson: 20000 })
+        }),
+        notes: Object.freeze([]),
+        restrictions: Object.freeze([])
+      }),
+      Object.freeze({
+        id: "general-blog",
+        name: "네이버 블로그 체험단",
+        type: "일반 블로그 체험단",
+        unitPrice: 20000,
+        content: Object.freeze(["일 방문자 수 200명 이상 개런티 체험단 진행"]),
+        goal: "제품, 서비스, 오프라인 매장 관련 리뷰콘텐츠 시딩",
+        options: Object.freeze({}),
+        notes: Object.freeze(["네이버 플레이스 영수증 체험단 별도 문의"]),
+        restrictions: Object.freeze(["원고 컨펌 진행 불가", "특정 카테고리 지정 불가", "리스트업 시 셀렉 진행 불가", "회수형 체험단 진행 불가"])
+      }),
+      Object.freeze({
+        id: "kin",
+        name: "지식인 상위노출",
+        type: "지식인 상위노출",
+        unitPrice: null,
+        content: Object.freeze(["네이버 지식인 탭 상위노출 보장 진행"]),
+        goal: "지식인 영역 상위노출",
+        options: Object.freeze({}),
+        // 원본 이미지에서 두 문장 모두 끝이 잘려 있어, 담당자 승인(2026-10-06)으로 앞부분을 이어 완성했다.
+        notes: Object.freeze(["URL 삽입 시, 홍보성 및 상업성의 글로 신고 및 삭제될 우려가 있습니다.", "이미지의 경우, 1~2장 정도 삽입 가능하며 키워드에 따라 이미지 삽입 개수가 달라질 수 있습니다."]),
+        restrictions: Object.freeze([])
+      }),
+      Object.freeze({
+        id: "press",
+        name: "언론송출",
+        type: "언론송출",
+        unitPrice: null,
+        content: Object.freeze(["네이버 언론사 뉴스기사 송출 진행"]),
+        goal: "언론송출을 통한 브랜드 신뢰도 상승 제고",
+        options: Object.freeze({}),
+        notes: Object.freeze(["개별 문의"]),
+        restrictions: Object.freeze([])
+      })
+    ]),
+    process: Object.freeze([
+      Object.freeze({ step: "체험단 진행 내용 조율" }),
+      Object.freeze({ step: "섭외 조건 협의" }),
+      Object.freeze({ step: "체험단 인원 섭외" }),
+      Object.freeze({ step: "가이드라인 확인" }),
+      Object.freeze({ step: "블로거 측 원고 작성 및 전달", condition: "파워블로그 이상 진행 시" }),
+      Object.freeze({ step: "광고주 컨펌" }),
+      Object.freeze({ step: "업로드 진행" }),
+      Object.freeze({ step: "게재보고" }),
+      Object.freeze({ step: "최종보고서 전달" })
+    ]),
+    recruit: "모집 조건 전달 및 조율: 성별, 일 방문자 수 및 팔로워 수, 포스팅 컨셉, 그 외 특이 사항 등을 전달해주시면 내부적으로 검토하여 모집 조건을 조율합니다.",
+    maxCount: 9999
+  });
+  </script>
+  <script>
+    (function renderPage() {
+      const CONFIG = window.NAVER_BLOG_QUOTE_CONFIG;
+      const won = new Intl.NumberFormat("ko-KR");
+      const fmt = function (n) { return won.format(n) + "원"; };
+
+      // 금액은 config 의 공급가에서만 파생한다. 부가세는 공급가 합계에 한 번 붙이고 원 단위 반올림한다.
+      function vatOf(supply) { return Math.round(supply * CONFIG.vatRate); }
+
+      // 화면 텍스트는 textContent 로만 그린다. 입력값은 저장하거나 밖으로 보내지 않는다.
+      function element(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      }
+
+      // 비고에 보이는 문장은 옵션에서 파생한다. 같은 내용을 두 군데 적어 어긋나지 않게 한다.
+      function remarks(c) {
+        const lines = [];
+        const o = c.options;
+        if (o.highInvolvement) {
+          lines.push(o.highInvolvement.label + " 진행 체험단 — " + (o.highInvolvement.unitPrice === null ? "별도 단가 (문의)" : fmt(o.highInvolvement.unitPrice)));
+        }
+        if (o.retrieval) lines.push(o.retrieval.label + "의 경우 단가 + " + fmt(o.retrieval.addPerPerson));
+        if (o.clip) lines.push(o.clip.label + " 시 " + o.clip.note);
+        return lines.concat(c.notes);
+      }
+
+      // ── 단가표 ──
+      const table = document.getElementById("menu-table");
+      const thead = element("thead");
+      const headRow = element("tr");
+      ["마케팅 캠페인", "구분", "단가 (VAT 별도)", "내용", "마케팅 목표", "비고"].forEach(function (h) {
+        const th = element("th", null, h); th.setAttribute("scope", "col"); headRow.append(th);
+      });
+      thead.append(headRow);
+      const tbody = element("tbody");
+      CONFIG.campaigns.forEach(function (c) {
+        const tr = element("tr");
+        const name = element("th", null, c.name); name.setAttribute("scope", "row");
+        const content = element("td"); c.content.forEach(function (line, i) { if (i) content.append(element("br")); content.append(element("span", null, line)); });
+        const remarkCell = element("td");
+        const rs = remarks(c);
+        if (rs.length || c.restrictions.length) {
+          const ol = element("ol");
+          c.restrictions.forEach(function (r) { const li = element("li"); li.append(element("span", "restrict", r)); ol.append(li); });
+          rs.forEach(function (r) { ol.append(element("li", null, r)); });
+          remarkCell.append(ol);
+        }
+        tr.append(name, element("td", null, c.type), element("td", "price", c.unitPrice === null ? "개별 문의" : won.format(c.unitPrice)), content, element("td", null, c.goal), remarkCell);
+        tbody.append(tr);
+      });
+      table.append(thead, tbody);
+
+      // ── 계산기 ── (단가가 있는 캠페인만)
+      const calc = document.getElementById("calc");
+      const rows = [];
+      CONFIG.campaigns.filter(function (c) { return c.unitPrice !== null; }).forEach(function (c) {
+        const row = element("div", "calc-row");
+        const name = element("div", "calc-name");
+        name.append(element("strong", null, c.name), element("small", null, "1인 " + fmt(c.unitPrice)));
+
+        const countLabel = element("label", "count", "인원");
+        const count = element("input");
+        count.type = "number"; count.min = "0"; count.max = String(CONFIG.maxCount); count.step = "1"; count.value = "0";
+        count.inputMode = "numeric"; count.id = "count-" + c.id;
+        countLabel.setAttribute("for", count.id);
+        countLabel.append(count);
+
+        const opts = element("div", "opts");
+        const checks = {};
+        ["highInvolvement", "retrieval", "clip"].forEach(function (key) {
+          const opt = c.options[key];
+          if (!opt) return;
+          if (key === "highInvolvement" && opt.unitPrice === null) return; // 확인되지 않은 단가는 고르지 못하게 한다
+          const label = element("label");
+          const box = element("input"); box.type = "checkbox";
+          label.append(box, element("span", null, opt.label));
+          opts.append(label);
+          checks[key] = box;
+        });
+        if (!opts.children.length) opts.append(element("span", null, c.restrictions.length ? "옵션 없음 (회수형 진행 불가)" : "옵션 없음"));
+
+        const total = element("div", "line-total", fmt(0));
+        row.append(name, countLabel, opts, total);
+        calc.append(row);
+        rows.push({ c: c, count: count, checks: checks, total: total });
+      });
+
+      function people(input) {
+        const n = Math.floor(Number(input.value));
+        if (!Number.isFinite(n) || n < 0) return 0;
+        return Math.min(n, CONFIG.maxCount);
+      }
+
+      const totals = document.getElementById("totals");
+      const flags = document.getElementById("flags");
+      function line(label, value, cls) {
+        const div = element("div", cls); div.append(element("span", null, label), element("span", null, value)); return div;
+      }
+
+      function update() {
+        let supply = 0;
+        const notes = [];
+        rows.forEach(function (r) {
+          const n = people(r.count);
+          const o = r.c.options;
+          let unit = r.checks.highInvolvement && r.checks.highInvolvement.checked ? o.highInvolvement.unitPrice : r.c.unitPrice;
+          if (r.checks.retrieval && r.checks.retrieval.checked) unit += o.retrieval.addPerPerson;
+          const amount = unit * n;
+          supply += amount;
+          r.total.textContent = fmt(amount);
+          r.total.append(element("small", null, fmt(unit) + " × " + n + "명"));
+          if (n > 0 && r.checks.clip && r.checks.clip.checked) notes.push(r.c.name + ": " + o.clip.label + " " + o.clip.note);
+        });
+        const vat = vatOf(supply);
+        totals.replaceChildren(line("공급가 합계", fmt(supply)), line("부가세 (10%)", fmt(vat)), line("합계 (VAT 포함)", fmt(supply + vat), "grand"));
+        flags.textContent = notes.join(" / ");
+      }
+      calc.addEventListener("input", update);
+      calc.addEventListener("change", update);
+      update();
+
+      // ── 프로세스 ──
+      const process = document.getElementById("process");
+      CONFIG.process.forEach(function (p) {
+        process.append(element("li", p.condition ? "cond" : null, p.condition ? p.step + " (" + p.condition + ")" : p.step));
+      });
+      document.getElementById("recruit").textContent = CONFIG.recruit;
+    })();
+  </script>
+</body>
+</html>

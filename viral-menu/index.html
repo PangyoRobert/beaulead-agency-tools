@@ -70,6 +70,8 @@
     .price-row small { display: block; color: var(--muted); font-size: 0.78rem; font-family: var(--mono); font-weight: 400; }
     .price-detail { color: var(--muted); font-size: 0.8rem; }
     .price-ask { margin: 0; color: var(--muted); font-size: 0.88rem; }
+    .detail-link { align-self: flex-start; color: var(--blue); font-size: 0.88rem; font-weight: 700; text-decoration: none; }
+    .detail-link:hover, .detail-link:focus-visible { text-decoration: underline; }
     .footnote { margin: 34px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; }
     @media (max-width: 860px) { .campaign-grid { grid-template-columns: 1fr; } }
     @media (max-width: 620px) { main { width: min(100% - 24px, 1360px); padding-top: 28px; } .page-head { display: block; } .vat-pill { display: inline-block; margin-top: 16px; } }
@@ -158,6 +160,12 @@
             box.append(element("p", "price-ask", "단가 문의"));
           }
           card.append(box);
+          // 하위 상세 페이지가 있으면 링크를 단다. 옛 설정이 캐시돼 detailUrl 이 없어도 링크만 빠지고 깨지지 않는다.
+          if (campaign.detailUrl) {
+            const link = element("a", "detail-link", "단가·견적 보기 →");
+            link.href = campaign.detailUrl;
+            card.append(link);
+          }
           grid.append(card);
         });
         section.append(grid);

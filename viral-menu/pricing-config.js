@@ -18,6 +18,7 @@ window.VIRAL_MENU_CONFIG = Object.freeze({
         Object.freeze({
           id: "naver-blog",
           name: "네이버 블로그",
+          detailUrl: "./naver-blog/",
           nameEn: "NAVER BLOG",
           summary: Object.freeze([
             "국내 소비자 검색엔진 이용률 1위 포털로써 플랫폼 내 다양한 바이럴 마케팅 활동을 통해",
