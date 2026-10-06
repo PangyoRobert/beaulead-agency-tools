@@ -4,13 +4,18 @@
 
 ## 1. 작업 시작
 
-최신 `main`을 기준으로 하나의 목적만 가진 브랜치를 만든다.
+최신 `main`을 기준으로 하나의 목적만 가진 브랜치를 만든다. **세션(에이전트)마다 별도 워크트리에서 작업한다.** 같은 폴더에서 여러 세션이 `git switch`를 하면 서로의 브랜치와 커밋 안 된 변경이 뒤섞인다(2026-10-06 실제 사례: 한 세션 작업 중 다른 세션이 브랜치를 바꿔 커밋 안 된 파일이 딸려갔다).
 
 ```sh
-git switch main
-git pull --ff-only origin main
-git switch -c feature/video-quote-client-preview
+git fetch origin
+git worktree add ../beaulead-agency-tools-<짧은-이름> -b feature/video-quote-client-preview origin/main
+cd ../beaulead-agency-tools-<짧은-이름>
 ```
+
+- 원래 체크아웃(`beaulead-agency-tools`)은 `main`에 둔 채 건드리지 않는다. 브랜치 전환·커밋·작업 파일 생성을 거기서 하지 않는다.
+- 워크트리 폴더 이름은 `beaulead-agency-tools-<짧은-이름>` 형식이다. 이미 있는 워크트리는 `git worktree list`로 확인하고, 다른 세션의 것은 쓰지 않는다.
+- `git stash`는 모든 워크트리가 공유한다. 작업을 잠시 치울 때는 `git stash` 대신 임시 WIP 커밋을 쓴다.
+- PR 병합 후 `git worktree remove ../beaulead-agency-tools-<짧은-이름>`으로 정리한다.
 
 브랜치 이름은 다음 패턴을 사용한다.
 
