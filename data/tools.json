@@ -187,8 +187,7 @@
       "slug": "ecommerce-unit-economics",
       "kind": "tool",
       "status": "live",
-      "public": false,
-      "$public": "2026-10-06 비공개로 시작. 현장에서 값을 바꿔 보며 검수한 뒤 공개한다. 공개하려면 public 을 true 로 올리고 sync_registry 를 돌린다.",
+      "public": true,
       "name": "번들 프로모션 손익 시뮬레이터",
       "card": {
         "kicker": "Profit Simulator",
