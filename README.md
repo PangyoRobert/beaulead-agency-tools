@@ -17,7 +17,7 @@
 - `wellness-experience-cases/` — 웰니스 경험 설계 사례
 - `youtube-creator-quote/` — 카페24·유튜브 쇼핑 크리에이터 제휴 견적기 (저장소에만 있음 — 배포 제외)
 - `youtube-view-quote/` — 유튜브 조회수 보장형 광고 상품 가격표 (저장소에만 있음 — 배포 제외)
-- `keyword-volume-plan/` — 네이버 월간 검색량 조회 화면기획서
+- `keyword-volume-plan/` — 네이버 월간 검색량 조회 화면기획서 (저장소에만 있음 — 배포 제외)
 - `ad-agency-contract/` — 디지털 광고 대행 계약서 작성기 (저장소에만 있음 — 배포 제외)
 - `lead-cpa-guide/` — 업종별 리드 단가 참고표
 - `ecommerce-unit-economics/` — 번들 프로모션 손익 시뮬레이터
