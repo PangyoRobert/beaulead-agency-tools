@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="웹사이트 규모(소형·중형·대형)별 Technical SEO 작업 항목, 투입 시간과 예상 비용을 안내하는 견적 페이지">
+  <title>Technical SEO 견적 · Beaulead Agency Tools</title>
+  <link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/technical-seo-quote/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Beaulead">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/technical-seo-quote/">
+  <meta property="og:title" content="Technical SEO 견적 · Beaulead Agency Tools">
+  <meta property="og:description" content="웹사이트 규모(소형·중형·대형)별 Technical SEO 작업 항목, 투입 시간과 예상 비용을 안내하는 견적 페이지">
+  <meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Technical SEO 견적 · Beaulead Agency Tools">
+  <meta name="twitter:description" content="웹사이트 규모(소형·중형·대형)별 Technical SEO 작업 항목, 투입 시간과 예상 비용을 안내하는 견적 페이지">
+  <meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+  <link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+  <link rel="stylesheet" href="../shared/tokens.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: var(--bl-surface-raised);
+      --panel: var(--bl-surface-default);
+      --line: var(--bl-rule-on-light);
+      --text: var(--bl-text-default);
+      --muted: var(--bl-text-body-on-light);
+      --blue: var(--bl-brand-accent);
+      --radius: 20px;
+      --mono: var(--bl-font-mono);
+      --tint-accent: rgba(15, 98, 254, 0.12);
+      --tint-warning: rgba(241, 194, 27, 0.15);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; color: var(--text); font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); }
+    a { color: inherit; }
+    .color-bar { position: fixed; z-index: 40; top: 0; right: 0; left: 0; height: 4px; background: var(--blue); }
+    .topbar { position: sticky; z-index: 30; top: 0; display: flex; min-height: 68px; padding: 14px max(20px, calc((100vw - 1080px) / 2)); align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: rgba(244, 244, 244, 0.92); backdrop-filter: blur(16px); }
+    .brand { font-weight: 700; letter-spacing: -0.05em; text-decoration: none; }
+    .brand::after { color: var(--blue); content: "."; }
+    .back { color: var(--muted); font-size: 0.875rem; font-weight: 600; text-decoration: none; }
+    .back:hover, .back:focus-visible { color: var(--text); }
+    main { width: min(1080px, calc(100% - 40px)); margin: 0 auto; padding: 42px 0 72px; }
+    .eyebrow { margin: 0 0 11px; color: var(--blue); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-family: var(--mono); }
+    h1 { margin: 0; font-size: clamp(2.2rem, 5vw, 4.2rem); line-height: 1; letter-spacing: -0.06em; }
+    .intro { max-width: 600px; margin: 14px 0 0; color: var(--muted); line-height: 1.6; word-break: keep-all; }
+    .draft { display: inline-block; margin-top: 16px; padding: 4px 12px; border-radius: 999px; background: var(--tint-warning); font-size: 0.8rem; font-weight: 700; }
+
+    .tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 32px 0 0; padding: 0; }
+    .tab { padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); color: var(--text); font: inherit; text-align: left; cursor: pointer; }
+    .tab:hover { border-color: var(--blue); }
+    .tab:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+    .tab[aria-selected="true"] { border-color: var(--blue); background: var(--tint-accent); }
+    .tab strong { display: block; font-size: 1.05rem; letter-spacing: -0.02em; }
+    .tab span { display: block; margin-top: 2px; color: var(--muted); font-family: var(--mono); font-size: 0.78rem; }
+
+    .panel { margin-top: 16px; padding: clamp(22px, 3vw, 34px); border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+    .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 0; }
+    .facts > div { padding: 16px; border-radius: 14px; background: var(--bg); }
+    .facts dt { margin: 0 0 4px; color: var(--muted); font-size: 0.78rem; font-weight: 700; }
+    .facts dd { margin: 0; font-size: 1rem; font-weight: 700; line-height: 1.4; word-break: keep-all; }
+    h2 { margin: 36px 0 12px; font-size: 1.3rem; letter-spacing: -0.03em; }
+    .panel > h2:first-child { margin-top: 0; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; word-break: keep-all; }
+    th { color: var(--muted); font-size: 0.78rem; font-weight: 700; }
+    td.num, th.num { text-align: right; font-family: var(--mono); white-space: nowrap; }
+    tfoot td { border-bottom: 0; font-weight: 700; }
+    .item-name { font-weight: 700; }
+    .item-sum { display: block; color: var(--muted); font-size: 0.85rem; }
+    details { margin-top: 6px; }
+    summary { color: var(--blue); font-size: 0.82rem; font-weight: 700; cursor: pointer; }
+    summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+    details ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+    .ask { color: var(--muted); font-family: inherit; font-weight: 400; }
+    .team-note { margin: 10px 0 0; color: var(--muted); font-size: 0.82rem; }
+    .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .two ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+    .two h3 { margin: 0 0 8px; font-size: 1rem; }
+    .footnote { margin: 28px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; }
+    @media (max-width: 760px) { .two { grid-template-columns: 1fr; } .tabs { grid-template-columns: 1fr; } }
+    @media (max-width: 620px) { main { width: min(100% - 24px, 1080px); padding-top: 28px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } }
+    @media print {
+      @page { margin: 14mm; }
+      *, *::before, *::after { background: transparent !important; color: #241815 !important; border-color: #E0E0E0 !important; }
+      html, body { background: #FFFFFF !important; }
+      .color-bar, .topbar, .tabs { display: none !important; }
+      main { width: 100%; padding: 0; }
+      details > ul { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="color-bar" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="../">BEAULEAD</a>
+    <a class="back" href="../#tools">← Agency Tools</a>
+  </header>
+
+  <main>
+    <p class="eyebrow">Technical SEO Quote</p>
+    <h1>Technical SEO<br>작업 견적</h1>
+    <p class="intro">웹사이트 규모에 따라 작업 항목과 투입 시간이 달라집니다. 규모를 고르면 항목별 작업 내용과 예상 비용을 확인할 수 있습니다.</p>
+    <span class="draft" id="version"></span>
+
+    <div class="tabs" role="tablist" aria-label="웹사이트 규모" id="tabs"></div>
+    <section class="panel" id="panel" role="tabpanel" tabindex="0"></section>
+
+    <section class="panel" aria-labelledby="notes-title">
+      <h2 id="notes-title">견적 산정 기준</h2>
+      <div class="two">
+        <div><h3>포함된 시간</h3><ul id="inclusions"></ul></div>
+        <div><h3>포함되지 않은 시간</h3><ul id="exclusions"></ul></div>
+        <div><h3>리스크 버퍼</h3><ul id="risk"></ul></div>
+        <div><h3>비용을 좌우하는 요인</h3><ul id="drivers"></ul></div>
+      </div>
+    </section>
+
+    <p class="footnote">표기된 금액은 초안 기준 예상 비용이며 사이트 상태와 범위에 따라 달라질 수 있습니다. 문의는 <a href="mailto:robert@beaulead.co.kr">robert@beaulead.co.kr</a>로 주십시오.</p>
+  </main>
+
+  <script src="./pricing-config.js"></script>
+  <script>
+    (function renderPage() {
+      const CONFIG = window.TECHNICAL_SEO_QUOTE_CONFIG;
+      const won = new Intl.NumberFormat("ko-KR");
+
+      function element(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      }
+      function fill(id, lines) {
+        const list = document.getElementById(id);
+        lines.forEach(function (line) { list.append(element("li", null, line)); });
+      }
+      function cell(tag, text, className) { return element(tag, className, text); }
+
+      document.getElementById("version").textContent = "초안 · " + CONFIG.version;
+      fill("inclusions", CONFIG.inclusions);
+      fill("exclusions", CONFIG.exclusions);
+      fill("risk", CONFIG.riskBuffer);
+      fill("drivers", CONFIG.costDrivers);
+
+      const tabs = document.getElementById("tabs");
+      const panel = document.getElementById("panel");
+
+      function fact(label, value) {
+        const box = element("div");
+        box.append(element("dt", null, label), element("dd", null, value));
+        return box;
+      }
+
+      function itemsTable(tier) {
+        const wrap = element("div", "table-wrap");
+        const table = element("table");
+        table.setAttribute("aria-label", tier.name + " 작업 항목");
+        const head = element("thead");
+        const hr = element("tr");
+        hr.append(cell("th", "작업 항목"), cell("th", "시간 (h)", "num"), cell("th", "비용 (원)", "num"));
+        head.append(hr);
+        const body = element("tbody");
+        tier.items.forEach(function (item) {
+          const tr = element("tr");
+          const name = element("td");
+          name.append(element("span", "item-name", item.name), element("span", "item-sum", item.summary));
+          const details = element("details");
+          details.append(element("summary", null, "세부 작업 " + item.tasks.length + "개"));
+          const ul = element("ul");
+          item.tasks.forEach(function (t, i) {
+            const role = tier.taskRoles ? "[" + tier.taskRoles[i] + "] " : "";
+            ul.append(element("li", null, role + t));
+          });
+          details.append(ul);
+          name.append(details);
+          tr.append(name, cell("td", String(item.hours), "num"), cell("td", won.format(item.cost), "num"));
+          body.append(tr);
+        });
+        const foot = element("tfoot");
+        const fr = element("tr");
+        fr.append(cell("td", "총 작업 시간 / 비용"), cell("td", String(tier.totalHours), "num"), cell("td", won.format(tier.totalCost), "num"));
+        foot.append(fr);
+        table.append(head, body, foot);
+        wrap.append(table);
+        return wrap;
+      }
+
+      function teamTable(tier) {
+        const wrap = element("div", "table-wrap");
+        const table = element("table");
+        table.setAttribute("aria-label", tier.name + " 투입 인원별 가격");
+        const head = element("thead");
+        const hr = element("tr");
+        hr.append(cell("th", "투입 구성"));
+        if (tier.teamMonths) hr.append(cell("th", "소요 기간 (월)", "num"));
+        hr.append(cell("th", "가격 (원)", "num"));
+        head.append(hr);
+        const body = element("tbody");
+        [1, 2, 3].forEach(function (n) {
+          const price = tier.teamPrices[n];
+          // 시트에 값이 없는 칸은 만들어 채우지 않고 "별도 협의"로 둔다.
+          if (price === null && n === 3 && !tier.teamMonths) return;
+          const tr = element("tr");
+          tr.append(cell("td", CONFIG.teamLabels[n]));
+          if (tier.teamMonths) tr.append(cell("td", tier.teamMonths[n], "num"));
+          tr.append(price === null ? cell("td", "별도 협의", "num ask") : cell("td", won.format(price), "num"));
+          body.append(tr);
+        });
+        table.append(head, body);
+        wrap.append(table);
+        return wrap;
+      }
+
+      function show(tier) {
+        panel.replaceChildren();
+        panel.setAttribute("aria-label", tier.name);
+        const facts = element("dl", "facts");
+        facts.append(fact("대상 규모", tier.pages), fact("예상 기간", tier.duration), fact("기술 복잡도", tier.complexity), fact("대표 사례", tier.cases.join(" · ")));
+        panel.append(facts);
+        panel.append(element("h2", null, "투입 인원별 가격"), teamTable(tier));
+        panel.append(element("h2", null, "작업 항목 및 비용"), itemsTable(tier));
+        document.querySelectorAll(".tab").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.tier === tier.id)); });
+      }
+
+      CONFIG.tiers.forEach(function (tier, index) {
+        const button = element("button", "tab");
+        button.type = "button";
+        button.setAttribute("role", "tab");
+        button.dataset.tier = tier.id;
+        button.setAttribute("aria-selected", "false");
+        button.append(element("strong", null, tier.name), element("span", null, tier.pages));
+        button.addEventListener("click", function () { show(tier); });
+        button.addEventListener("keydown", function (e) {
+          const move = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+          if (!move) return;
+          const next = tabs.children[(index + move + CONFIG.tiers.length) % CONFIG.tiers.length];
+          next.focus();
+          next.click();
+        });
+        tabs.append(button);
+      });
+      show(CONFIG.tiers[0]);
+    })();
+  </script>
+</body>
+</html>

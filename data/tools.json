@@ -70,6 +70,22 @@
       }
     },
     {
+      "slug": "technical-seo-quote",
+      "kind": "tool",
+      "status": "live",
+      "$public": "2026-10-06 공개. 시트 초안(2026-01-15) 기준. 시간당 단가·1MM 가정은 싣지 않는다. 대형 1명·2명 가격은 시트가 비어 '별도 협의'로 표시한다.",
+      "public": true,
+      "name": "Technical SEO 작업 견적",
+      "card": {
+        "kicker": "Service Quote",
+        "title": [
+          "Technical SEO",
+          "Quote"
+        ],
+        "description": "소형·중형·대형 사이트 규모별 Technical SEO 작업 항목과 투입 시간, 투입 인원별 예상 비용을 안내하는 견적 페이지입니다."
+      }
+    },
+    {
       "slug": "cafe24-mall-standard",
       "kind": "tool",
       "status": "live",
