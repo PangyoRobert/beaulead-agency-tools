@@ -142,6 +142,46 @@ def main() -> int:
         ],
     )
 
+    print("listed (홈 카드만 숨김)")
+    unlisted = copy.deepcopy(data)
+    target = next(e for e in unlisted["entries"] if e["card"] and e["public"])
+    target["listed"] = False
+    href = f'href="./{target["slug"]}/"'
+    check("listed=false 면 카드가 빠진다", href not in registry.render_cards(unlisted))
+    check("listed=false 여도 public 은 그대로라 배포 대상이다", target["public"] is True)
+    check(
+        "listed=false 항목은 문서 목록에 '링크로만 접근' 표시가 붙는다",
+        "링크로만 접근" in registry.render_agents(unlisted).split("\n")[
+            [e["slug"] for e in unlisted["entries"]].index(target["slug"]) + 1
+        ],
+    )
+    check("listed=false 는 검증을 통과한다", not registry.validate(unlisted))
+    other = [
+        e
+        for e in unlisted["entries"]
+        if e is not target and e["card"] and e["public"] and e.get("listed", True)
+    ]
+    check(
+        "다른 항목의 카드는 그대로다",
+        all(f'href="./{e["slug"]}/"' in registry.render_cards(unlisted) for e in other),
+    )
+    check(
+        "listed 가 없으면 true 로 본다(기존 항목 동작 불변)",
+        registry.render_cards(data) == registry.render_cards(copy.deepcopy(data)),
+    )
+
+    bad_type = copy.deepcopy(data)
+    bad_type["entries"][0]["listed"] = "no"
+    check("listed 가 bool 이 아니면 잡는다", any("listed" in e for e in registry.validate(bad_type)))
+
+    contradiction = copy.deepcopy(data)
+    off = next(e for e in contradiction["entries"] if not e["public"])
+    off["listed"] = False
+    check(
+        "public=false 와 listed=false 를 같이 쓰면 잡는다",
+        any("listed" in e for e in registry.validate(contradiction)),
+    )
+
     if failures:
         print(f"\n{len(failures)} 개 실패:")
         for failure in failures:

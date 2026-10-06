@@ -20,6 +20,7 @@
 | `kind` | `tool` \| `page` \| `support` | `tool`은 에이전시 도구, `page`는 카드 없는 공개 페이지(`work/`), `support`는 도구가 아닌 디렉토리(`shared/`, `docs/`, `scripts/`, `data/`). |
 | `status` | `live` \| `planned` | `live`는 페이지가 실제로 있는 상태, `planned`는 디렉토리만 잡아둔 상태. |
 | `public` | boolean | GitHub Pages로 공개되어야 하는지. 배포 allowlist와 sitemap 생성이 이 값을 읽도록 설계했다(아직 미연결). |
+| `listed` | boolean (선택, 기본 `true`) | `false`면 배포는 되지만 루트 홈의 카드만 숨긴다(URL을 아는 사람만 접근). `public`이 `true`일 때만 의미가 있고, `public: false`와 같이 쓰면 검증이 실패한다. 숨겨도 검색엔진 색인과 저장소 열람은 막지 못한다. |
 | `name` | string | 문서 목록에 쓰는 한국어 이름. |
 | `card` | object \| null | 루트 허브에 카드를 내보낼 때만 채운다. `status`가 `live`일 때만 허용된다. |
 

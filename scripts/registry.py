@@ -61,6 +61,13 @@ def validate(registry: dict) -> list[str]:
             errors.append(f"{where}: name 이 비어 있다")
         if not isinstance(entry.get("public"), bool):
             errors.append(f"{where}: public 은 true/false 여야 한다")
+        # listed 는 선택값이고 없으면 true 다. 홈 카드만 숨기고 URL 은 살려 둘 때 false.
+        if "listed" in entry and not isinstance(entry["listed"], bool):
+            errors.append(f"{where}: listed 는 true/false 여야 한다")
+        if entry.get("listed") is False and entry.get("public") is False:
+            errors.append(
+                f"{where}: public 이 false 면 배포에서 이미 빠진다. listed 는 public 이 true 일 때만 의미가 있다"
+            )
 
         directory = ROOT / slug
         if not directory.is_dir():
@@ -102,8 +109,14 @@ def tools_with_cards(registry: dict) -> list[dict]:
     `public` 을 함께 보는 이유: 배포에서 뺀 디렉토리의 카드가 남으면 허브에
     404 로 가는 링크가 생긴다. `public` 하나만 내리면 나머지가 따라오도록
     둔다 — 카드를 따로 지우게 하면 둘이 어긋난다.
+
+    `listed` 가 false 면 배포는 되지만 카드만 뺀다(링크로만 접근). 없으면 true 다.
     """
-    return [e for e in registry["entries"] if e.get("card") and e.get("public")]
+    return [
+        e
+        for e in registry["entries"]
+        if e.get("card") and e.get("public") and e.get("listed", True)
+    ]
 
 
 def render_cards(registry: dict) -> str:
@@ -131,6 +144,8 @@ def _doc_line(entry: dict, *, prefix: str, planned_suffix: str) -> str:
     elif not entry["public"]:
         # 문서만 보고 "사이트에 있다" 고 읽으면 안 된다. 커밋돼 있어도 안 나간다.
         suffix = " (저장소에만 있음 — 배포 제외)"
+    elif not entry.get("listed", True):
+        suffix = " (배포됨 — 홈 카드 없음, 링크로만 접근)"
     else:
         suffix = ""
     return f"- `{prefix}{entry['slug']}/` — {entry['name']}{suffix}"

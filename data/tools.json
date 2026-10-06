@@ -163,8 +163,9 @@
       "slug": "keyword-volume-plan",
       "kind": "tool",
       "status": "live",
-      "$public": "2026-10-06 비공개. 사용자 요청으로 배포에서 내렸다. 페이지 파일은 그대로 두었으므로 다시 열려면 public 을 true 로 올리고 sync_registry 를 돌린다.",
-      "public": false,
+      "$public": "2026-10-06 홈 카드만 숨김. 사용자 요청으로 배포(URL)는 유지한다. 카드를 다시 보이려면 listed 줄을 지우고 sync_registry 를 돌린다.",
+      "public": true,
+      "listed": false,
       "name": "네이버 월간 검색량 조회 화면기획서",
       "card": {
         "kicker": "Screen Specification",
