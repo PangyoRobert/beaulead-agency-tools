@@ -227,6 +227,18 @@
       }
     },
     {
+      "slug": "meta-media-buying-exam",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "메타 미디어 바잉 프로페셔널 50제",
+      "card": {
+        "kicker": "Certification Practice",
+        "title": ["Meta Media Buying", "Professional 50Q"],
+        "description": "메타 공인 미디어 바잉 프로페셔널(410-101) 6대 핵심 영역 실전 50문제와 상세 해설을 제공하는 인터랙티브 모의고사 도구입니다."
+      }
+    },
+    {
       "slug": "ad-quote",
       "kind": "tool",
       "status": "planned",
