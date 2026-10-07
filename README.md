@@ -22,6 +22,7 @@
 - `lead-cpa-guide/` — 업종별 리드 단가 참고표
 - `ecommerce-unit-economics/` — 묶음 판매(번들) 손익 시뮬레이터
 - `meta-ad-price-history/` — 메타 광고단가 공시 이력 (저장소에만 있음 — 배포 제외)
+- `meta-media-buying-exam/` — 메타 미디어 바잉 프로페셔널 50제
 - `ad-quote/` — 광고 운영 견적 (예정)
 - `content-quote/` — 콘텐츠 제작 견적 (예정)
 - `media-plan/` — 미디어 플랜 (예정)

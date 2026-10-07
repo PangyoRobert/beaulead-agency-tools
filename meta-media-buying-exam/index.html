@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="메타 공인 미디어 바잉 프로페셔널(Meta Certified Media Buying Professional 410-101) 핵심 6대 영역 실전 50문제와 상세 해설을 제공하는 인터랙티브 모의고사 도구입니다.">
+<title>메타 미디어 바잉 프로페셔널 50제 · Beaulead Agency Tools</title>
+<link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/meta-media-buying-exam/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Beaulead">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/meta-media-buying-exam/">
+<meta property="og:title" content="메타 미디어 바잉 프로페셔널 50제 · Beaulead Agency Tools">
+<meta property="og:description" content="메타 공인 미디어 바잉 프로페셔널(410-101) 핵심 6개 영역 실전 50제 및 상세 해설. 모의고사 및 연습 모드 지원.">
+<meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="메타 미디어 바잉 프로페셔널 50제 · Beaulead Agency Tools">
+<meta name="twitter:description" content="메타 공인 미디어 바잉 프로페셔널(410-101) 50문항 실전 모의고사 및 해설.">
+<meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+<link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root {
+  color-scheme: light;
+  --bg: var(--bl-surface-raised);
+  --panel: var(--bl-surface-default);
+  --ink: var(--bl-text-default);
+  --body: var(--bl-text-body-on-light);
+  --muted: var(--bl-text-muted);
+  --line: var(--bl-rule-on-light);
+  --brand: var(--bl-brand-accent);
+  --dark: var(--bl-surface-inverse);
+  --dark-body: var(--bl-on-dark-body);
+  --dark-label: var(--bl-on-dark-label);
+  --success: var(--bl-state-success);
+  --warning: var(--bl-state-warning);
+  --danger: var(--bl-state-danger);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--bl-font-primary);
+  line-height: 1.65;
+}
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
+.skip {
+  position: fixed;
+  left: 16px;
+  top: -80px;
+  z-index: 100;
+  background: var(--panel);
+  padding: 10px 14px;
+  font-weight: 800;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(36, 24, 21, 0.15);
+}
+.skip:focus { top: 16px; }
+header {
+  background: var(--dark);
+  color: var(--bl-text-inverse);
+  padding: 20px 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+header a { color: inherit; text-decoration: none; font-weight: 800; letter-spacing: .06em; }
+.back { color: var(--dark-body); font-size: 14px; }
+main { max-width: 1200px; margin: auto; padding: 48px 24px 96px; }
+
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+  gap: 28px;
+  align-items: end;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--line);
+}
+.eyebrow {
+  font-family: var(--bl-font-mono);
+  font-size: 12px;
+  letter-spacing: .13em;
+  font-weight: 700;
+  color: var(--brand);
+  text-transform: uppercase;
+}
+h1 {
+  font-size: clamp(32px, 5vw, 56px);
+  letter-spacing: -.055em;
+  line-height: 1.1;
+  margin: 12px 0 18px;
+  word-break: keep-all;
+}
+.lead {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(16px, 1.8vw, 19px);
+  color: var(--body);
+  word-break: keep-all;
+}
+.principle {
+  background: var(--dark);
+  color: var(--bl-text-inverse);
+  border-radius: 20px;
+  padding: 26px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.principle span {
+  font-family: var(--bl-font-mono);
+  font-size: 11px;
+  color: var(--dark-body);
+  letter-spacing: .12em;
+}
+.principle strong {
+  display: block;
+  font-size: 22px;
+  line-height: 1.35;
+  letter-spacing: -.03em;
+  word-break: keep-all;
+}
+.principle .badge-exam {
+  display: inline-block;
+  background: var(--brand);
+  color: var(--bl-text-inverse);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  width: fit-content;
+  margin-top: 10px;
+}
+
+/* Control Hub & Sticky Bar */
+.control-hub {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--bg);
+  padding: 16px 0 14px;
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+}
+.control-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.mode-toggle {
+  display: inline-flex;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+}
+.mode-btn {
+  border: none;
+  background: transparent;
+  color: var(--body);
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--bl-font-primary);
+  transition: all .15s ease;
+}
+.mode-btn.active {
+  background: var(--dark);
+  color: var(--bl-text-inverse);
+}
+.timer-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-family: var(--bl-font-mono);
+  font-size: 15px;
+  font-weight: 700;
+}
+.timer-box.warning {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.stats-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--body);
+}
+.progress-track {
+  width: 140px;
+  height: 8px;
+  background: var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--brand);
+  width: 0%;
+  transition: width .2s ease;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 14px 0 6px;
+  scrollbar-width: thin;
+}
+.filter-btn {
+  white-space: nowrap;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--body);
+  cursor: pointer;
+  font-family: var(--bl-font-primary);
+}
+.filter-btn:hover { border-color: var(--brand); color: var(--brand); }
+.filter-btn.active {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--bl-text-inverse);
+}
+
+/* Layout: Question Area + Nav Sidebar */
+.exam-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 28px;
+  margin-top: 28px;
+  align-items: start;
+}
+
+/* Question List & Card */
+.question-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.question-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 28px;
+  position: relative;
+  transition: box-shadow .2s ease, border-color .2s ease;
+}
+.question-card.bookmarked {
+  border-color: var(--warning);
+}
+.q-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.q-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.badge-no {
+  font-family: var(--bl-font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brand);
+  background: rgba(15, 98, 254, 0.1);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.badge-domain {
+  font-size: 12px;
+  color: var(--body);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.bookmark-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--muted);
+  transition: color .15s, border-color .15s;
+}
+.bookmark-btn.active {
+  color: var(--warning);
+  border-color: var(--warning);
+  background: rgba(241, 194, 27, 0.12);
+}
+.q-title {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.55;
+  margin: 0 0 20px;
+  word-break: keep-all;
+}
+
+/* Options */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.option-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  cursor: pointer;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink);
+  transition: border-color .15s, background .15s;
+  word-break: keep-all;
+}
+.option-label:hover {
+  border-color: var(--brand);
+}
+.option-label input {
+  margin-top: 3px;
+  accent-color: var(--brand);
+  cursor: pointer;
+}
+.option-label.selected {
+  border-color: var(--brand);
+  background: rgba(15, 98, 254, 0.08);
+}
+.option-label.correct {
+  border-color: var(--success) !important;
+  background: rgba(36, 161, 72, 0.12) !important;
+}
+.option-label.incorrect {
+  border-color: var(--danger) !important;
+  background: rgba(218, 30, 40, 0.12) !important;
+}
+
+/* Explanation Box (Practice mode or after submit) */
+.explanation-box {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--bg);
+  border-left: 4px solid var(--brand);
+  display: none;
+}
+.explanation-box.show {
+  display: block;
+}
+.explanation-box.correct-box {
+  border-left-color: var(--success);
+}
+.explanation-box.incorrect-box {
+  border-left-color: var(--danger);
+}
+.exp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.exp-result {
+  font-size: 14px;
+  font-weight: 800;
+}
+.exp-result.pass { color: var(--success); }
+.exp-result.fail { color: var(--danger); }
+.exp-concept {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand);
+  background: rgba(15, 98, 254, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.exp-text {
+  font-size: 14px;
+  color: var(--body);
+  margin: 0;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+/* Navigator Sidebar */
+.nav-sidebar {
+  position: sticky;
+  top: 96px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px;
+}
+.sidebar-title {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  margin: 0 0 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.grid-nav {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+.nav-num {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--body);
+  border-radius: 6px;
+  padding: 6px 0;
+  font-size: 12px;
+  font-family: var(--bl-font-mono);
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all .15s;
+}
+.nav-num:hover { border-color: var(--brand); color: var(--brand); }
+.nav-num.answered {
+  background: var(--dark);
+  color: var(--bl-text-inverse);
+  border-color: var(--dark);
+}
+.nav-num.correct-nav {
+  background: var(--success);
+  color: var(--bl-text-inverse);
+  border-color: var(--success);
+}
+.nav-num.incorrect-nav {
+  background: var(--danger);
+  color: var(--bl-text-inverse);
+  border-color: var(--danger);
+}
+.nav-num.bookmarked-nav {
+  border-color: var(--warning);
+  box-shadow: inset 0 -3px 0 var(--warning);
+}
+
+.sidebar-actions {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.btn-primary {
+  background: var(--brand);
+  color: var(--bl-text-inverse);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: var(--bl-font-primary);
+  width: 100%;
+}
+.btn-secondary {
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--bl-font-primary);
+  width: 100%;
+}
+.btn-secondary:hover { border-color: var(--brand); }
+
+/* Scoreboard Modal / Result Section */
+.result-banner {
+  display: none;
+  background: var(--dark);
+  color: var(--bl-text-inverse);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 28px;
+}
+.result-banner.show { display: block; }
+.result-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 28px;
+  align-items: center;
+}
+.score-circle {
+  text-align: center;
+  border-right: 1px solid var(--bl-rule-on-dark);
+  padding-right: 24px;
+}
+.score-num {
+  font-size: 52px;
+  font-weight: 900;
+  letter-spacing: -.05em;
+  line-height: 1;
+  font-family: var(--bl-font-mono);
+}
+.score-pass {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 800;
+}
+.score-pass.passed { background: var(--success); color: var(--bl-text-inverse); }
+.score-pass.failed { background: var(--danger); color: var(--bl-text-inverse); }
+.domain-results {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.domain-row {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+.domain-row-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  color: var(--dark-body);
+}
+.bar-track {
+  height: 6px;
+  background: var(--bl-rule-on-dark);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  background: var(--brand);
+}
+
+/* Exam Info Card */
+.exam-info {
+  margin-top: 48px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 28px;
+}
+.exam-info h2 {
+  font-size: 22px;
+  margin: 0 0 16px;
+  letter-spacing: -.03em;
+}
+.domains-table-wrap {
+  overflow-x: auto;
+}
+table.domain-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+table.domain-table th, table.domain-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+table.domain-table th {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Responsive */
+@media(max-width: 960px) {
+  .hero { grid-template-columns: 1fr; }
+  .exam-layout { grid-template-columns: 1fr; }
+  .nav-sidebar { position: static; order: -1; margin-bottom: 24px; }
+  .grid-nav { grid-template-columns: repeat(10, 1fr); }
+  .result-grid { grid-template-columns: 1fr; }
+  .score-circle { border-right: none; border-bottom: 1px solid var(--bl-rule-on-dark); padding-bottom: 20px; padding-right: 0; }
+  .domain-results { grid-template-columns: 1fr; }
+}
+@media(max-width: 640px) {
+  main { padding: 32px 16px 64px; }
+  .grid-nav { grid-template-columns: repeat(5, 1fr); }
+  .control-row { flex-direction: column; align-items: stretch; }
+  .timer-box { justify-content: center; }
+}
+
+/* Print Style */
+@media print {
+  header, .skip, .control-hub, .nav-sidebar, .bookmark-btn, .sidebar-actions { display: none !important; }
+  main { max-width: none; padding: 0; }
+  body { background: var(--panel); }
+  .question-card { border: 1px solid var(--line); break-inside: avoid; margin-bottom: 20px; }
+  .explanation-box { display: block !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<header>
+  <a href="../">BEAULEAD ↗</a>
+  <span class="back"><a href="../">← 홈</a></span>
+</header>
+
+<main id="main">
+  <!-- Hero -->
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Meta Certification 410-101</div>
+      <h1>메타 미디어 바잉<br>프로페셔널 실전 50제.</h1>
+      <p class="lead">메타 공인 미디어 바잉 프로페셔널(Meta Certified Media Buying Professional) 자격 인증의 6대 핵심 영역을 아우르는 50개 실전 시나리오 객관식 모의고사입니다. 즉시 해설을 확인하는 [연습 모드]와 90분 타이머 기반의 [실전 모의고사 모드]를 모두 지원합니다.</p>
+    </div>
+    <aside class="principle">
+      <div>
+        <span>EXAM SYLLABUS</span>
+        <strong>비즈니스 목표부터<br>CAPI 기여 측정까지<br>6대 영역 전수 대비.</strong>
+      </div>
+      <div class="badge-exam">합격 기준: 700점 / 1,000점 (70%)</div>
+    </aside>
+  </div>
+
+  <!-- Result Banner (Hidden initially) -->
+  <section id="resultBanner" class="result-banner" aria-live="polite">
+    <div class="result-grid">
+      <div class="score-circle">
+        <div style="font-size: 13px; color: var(--dark-body); margin-bottom: 4px;">최종 환산 점수</div>
+        <div id="scoreDisplay" class="score-num">0</div>
+        <div style="font-size: 12px; color: var(--dark-body); margin-top: 4px;">/ 1000점 만점</div>
+        <div id="passBadge" class="score-pass passed">합격</div>
+      </div>
+      <div>
+        <h3 style="margin: 0 0 10px; font-size: 18px;">영역별 성취도 분석</h3>
+        <p style="margin: 0 0 14px; font-size: 13px; color: var(--dark-body);">총 50문항 중 <span id="correctCountText" style="font-weight: 800; color: var(--bl-text-inverse);">0</span>문항 정답 (정답률 <span id="accuracyText">0%</span>)</p>
+        <div id="domainResultsList" class="domain-results">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Control Hub -->
+  <div class="control-hub">
+    <div class="control-row">
+      <div class="mode-toggle" role="radiogroup" aria-label="학습 모드 선택">
+        <button id="modePracticeBtn" class="mode-btn active" role="radio" aria-checked="true">연습 모드 (즉시 해설)</button>
+        <button id="modeExamBtn" class="mode-btn" role="radio" aria-checked="false">모의고사 모드 (90분)</button>
+      </div>
+
+      <div id="timerContainer" class="timer-box" style="display: none;">
+        <span>남은 시간:</span>
+        <span id="timerText">90:00</span>
+      </div>
+
+      <div class="stats-summary">
+        <span>진행률: <strong id="progressText">0/50</strong> (<span id="progressPct">0%</span>)</span>
+        <div class="progress-track" aria-hidden="true">
+          <div id="progressBar" class="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Domain & State Filter -->
+    <div class="filter-bar" role="tablist" aria-label="문항 필터">
+      <button class="filter-btn active" data-filter="all">전체 (50제)</button>
+      <button class="filter-btn" data-filter="1">1. 캠페인 계획 (8)</button>
+      <button class="filter-btn" data-filter="2">2. 타겟팅·오디언스 (8)</button>
+      <button class="filter-btn" data-filter="3">3. 크리에이티브 (8)</button>
+      <button class="filter-btn" data-filter="4">4. 입찰·예산 (9)</button>
+      <button class="filter-btn" data-filter="5">5. 측정·CAPI (9)</button>
+      <button class="filter-btn" data-filter="6">6. 분석·트러블슈팅 (8)</button>
+      <button class="filter-btn" data-filter="incorrect">오답만 모아보기</button>
+      <button class="filter-btn" data-filter="bookmarked">북마크 (★)</button>
+    </div>
+  </div>
+
+  <!-- Main Question Area + Navigator -->
+  <div class="exam-layout">
+    <!-- Questions Feed -->
+    <div id="questionsContainer" class="question-feed">
+      <!-- Generated by JS -->
+    </div>
+
+    <!-- Sticky Nav Sidebar -->
+    <aside class="nav-sidebar" aria-label="문항 바로가기">
+      <div class="sidebar-title">
+        <span>문항 네비게이터</span>
+        <span id="sideAnsweredCount" style="font-size: 13px; font-weight: 600; color: var(--muted);">0/50</span>
+      </div>
+      <div id="gridNav" class="grid-nav">
+        <!-- 1~50 grid populated by JS -->
+      </div>
+
+      <div class="sidebar-actions">
+        <button id="submitExamBtn" class="btn-primary" style="display: none;">시험 제출 및 채점하기</button>
+        <button id="resetExamBtn" class="btn-secondary">풀이 초기화</button>
+        <button id="printExamBtn" class="btn-secondary" onclick="window.print()">시험지 인쇄 (A4)</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Syllabus Overview Section -->
+  <section class="exam-info">
+    <h2>시험 개요 및 출제 기준표</h2>
+    <div class="domains-table-wrap">
+      <table class="domain-table">
+        <thead>
+          <tr>
+            <th>도메인</th>
+            <th>영역명</th>
+            <th>문항 수</th>
+            <th>주요 평가 내용</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Domain 1</td>
+            <td><strong>캠페인 계획 및 비즈니스 목표 설정</strong></td>
+            <td>8문항</td>
+            <td>비즈니스 목표와 캠페인 목표 매핑, 풀퍼널 전략, KPI 설정(CPA vs ROAS), 로컬 매장 방문 유도</td>
+          </tr>
+          <tr>
+            <td>Domain 2</td>
+            <td><strong>타겟팅 및 잠재고객 전략</strong></td>
+            <td>8문항</td>
+            <td>픽셀 맞춤 타겟, CRM 고객 리스트, 고가치 유사 타겟(1~5%), 타겟 중복(Overlap) 해결, Advantage+ 잠재고객</td>
+          </tr>
+          <tr>
+            <td>Domain 3</td>
+            <td><strong>크리에이티브 및 광고 포맷</strong></td>
+            <td>8문항</td>
+            <td>모바일 퍼스트(9:16), Advantage+ 크리에이티브, 카탈로그 광고(DPA), 릴스 세이프존, 파트너십 광고, 광고 정책</td>
+          </tr>
+          <tr>
+            <td>Domain 4</td>
+            <td><strong>바잉 옵션, 입찰 및 예산 최적화</strong></td>
+            <td>9문항</td>
+            <td>경매 총 가치 공식, 도달 및 빈도(R&F), 입찰 전략 4종, Advantage 캠페인 예산(CBO), 머신러닝 탈출 요건</td>
+          </tr>
+          <tr>
+            <td>Domain 5</td>
+            <td><strong>측정, 픽셀, CAPI 및 기여도</strong></td>
+            <td>9문항</td>
+            <td>픽셀과 전환 API(CAPI) 중복 제거, EMQ 매칭 점수, 7일 클릭/1일 조회 기여, AEM, 아웃바운드 CTR, 전환 리프트</td>
+          </tr>
+          <tr>
+            <td>Domain 6</td>
+            <td><strong>분석, 최적화 및 트러블슈팅</strong></td>
+            <td>8문항</td>
+            <td>노출 미발생(Zero Delivery) 진단, 광고 피로도 대응, 품질 순위와 CPM 급등, ASC 운영, GA4와의 데이터 괴리</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script src="questions-data.js"></script>
+<script>
+(function() {
+  const data = window.META_EXAM_DATA;
+  if (!data) return;
+
+  const questions = data.QUESTIONS;
+  const domains = data.DOMAINS;
+
+  // State
+  let mode = 'practice'; // 'practice' or 'exam'
+  let currentFilter = 'all';
+  let userAnswers = {}; // { [qId]: selectedOptionIndex }
+  let bookmarks = {}; // { [qId]: true }
+  let examSubmitted = false;
+  let timerSeconds = 90 * 60; // 90 minutes
+  let timerInterval = null;
+
+  // DOM Elements
+  const container = document.getElementById('questionsContainer');
+  const gridNav = document.getElementById('gridNav');
+  const progressBar = document.getElementById('progressBar');
+  const progressText = document.getElementById('progressText');
+  const progressPct = document.getElementById('progressPct');
+  const sideAnsweredCount = document.getElementById('sideAnsweredCount');
+  const modePracticeBtn = document.getElementById('modePracticeBtn');
+  const modeExamBtn = document.getElementById('modeExamBtn');
+  const timerContainer = document.getElementById('timerContainer');
+  const timerText = document.getElementById('timerText');
+  const submitExamBtn = document.getElementById('submitExamBtn');
+  const resetExamBtn = document.getElementById('resetExamBtn');
+  const resultBanner = document.getElementById('resultBanner');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const passBadge = document.getElementById('passBadge');
+  const correctCountText = document.getElementById('correctCountText');
+  const accuracyText = document.getElementById('accuracyText');
+  const domainResultsList = document.getElementById('domainResultsList');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  // Load Saved State from Session/Local
+  try {
+    const saved = localStorage.getItem('meta_exam_answers_v1');
+    if (saved) userAnswers = JSON.parse(saved);
+    const savedBm = localStorage.getItem('meta_exam_bookmarks_v1');
+    if (savedBm) bookmarks = JSON.parse(savedBm);
+  } catch (e) {
+    // ignore
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem('meta_exam_answers_v1', JSON.stringify(userAnswers));
+      localStorage.setItem('meta_exam_bookmarks_v1', JSON.stringify(bookmarks));
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  // Timer helpers
+  function startTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timerSeconds--;
+      if (timerSeconds <= 0) {
+        clearInterval(timerInterval);
+        timerSeconds = 0;
+        alert('시험 시간이 종료되었습니다! 답안을 자동 제출합니다.');
+        submitExam();
+      }
+      updateTimerDisplay();
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+  }
+
+  function updateTimerDisplay() {
+    const m = Math.floor(timerSeconds / 60);
+    const s = timerSeconds % 60;
+    timerText.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    if (timerSeconds < 300) {
+      timerContainer.classList.add('warning');
+    } else {
+      timerContainer.classList.remove('warning');
+    }
+  }
+
+  // Render Navigator Grid
+  function renderNavGrid() {
+    gridNav.innerHTML = '';
+    questions.forEach((q, idx) => {
+      const btn = document.createElement('a');
+      btn.href = `#q-${q.id}`;
+      btn.className = 'nav-num';
+      btn.id = `nav-${q.id}`;
+      btn.textContent = q.id;
+
+      const answered = userAnswers[q.id] !== undefined;
+      const isBookmarked = bookmarks[q.id];
+
+      if (isBookmarked) btn.classList.add('bookmarked-nav');
+
+      if (mode === 'practice' || examSubmitted) {
+        if (answered) {
+          if (userAnswers[q.id] === q.correctAnswer) {
+            btn.classList.add('correct-nav');
+          } else {
+            btn.classList.add('incorrect-nav');
+          }
+        }
+      } else {
+        if (answered) {
+          btn.classList.add('answered');
+        }
+      }
+
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const card = document.getElementById(`q-${q.id}`);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.focus();
+        }
+      });
+      gridNav.appendChild(btn);
+    });
+  }
+
+  // Render Questions List
+  function renderQuestions() {
+    container.innerHTML = '';
+
+    const filtered = questions.filter(q => {
+      if (currentFilter === 'all') return true;
+      if (currentFilter === 'incorrect') {
+        return userAnswers[q.id] !== undefined && userAnswers[q.id] !== q.correctAnswer;
+      }
+      if (currentFilter === 'bookmarked') {
+        return bookmarks[q.id];
+      }
+      return q.domain.toString() === currentFilter;
+    });
+
+    if (filtered.length === 0) {
+      const emptyBox = document.createElement('div');
+      emptyBox.className = 'question-card';
+      emptyBox.innerHTML = '<p style="text-align: center; color: var(--muted); margin: 30px 0;">해당 필터 조건에 일치하는 문항이 없습니다.</p>';
+      container.appendChild(emptyBox);
+      return;
+    }
+
+    filtered.forEach(q => {
+      const card = document.createElement('article');
+      card.className = `question-card ${bookmarks[q.id] ? 'bookmarked' : ''}`;
+      card.id = `q-${q.id}`;
+      card.tabIndex = -1;
+
+      const answered = userAnswers[q.id] !== undefined;
+      const showExp = (mode === 'practice' && answered) || examSubmitted;
+      const isCorrect = userAnswers[q.id] === q.correctAnswer;
+
+      let optionsHtml = '';
+      q.options.forEach((optText, optIdx) => {
+        let labelClass = 'option-label';
+        let isChecked = userAnswers[q.id] === optIdx;
+
+        if (isChecked) labelClass += ' selected';
+        if (showExp) {
+          if (optIdx === q.correctAnswer) {
+            labelClass += ' correct';
+          } else if (isChecked) {
+            labelClass += ' incorrect';
+          }
+        }
+
+        const disabledAttr = examSubmitted ? 'disabled' : '';
+
+        optionsHtml += `
+          <label class="${labelClass}" data-qid="${q.id}" data-opt="${optIdx}">
+            <input type="radio" name="q_${q.id}" value="${optIdx}" ${isChecked ? 'checked' : ''} ${disabledAttr}>
+            <span><strong>${['①', '②', '③', '④'][optIdx]}</strong> ${optText}</span>
+          </label>
+        `;
+      });
+
+      card.innerHTML = `
+        <div class="q-header">
+          <div class="q-badges">
+            <span class="badge-no">Q${q.id}</span>
+            <span class="badge-domain">영역 ${q.domain}: ${q.domainTitle}</span>
+          </div>
+          <button class="bookmark-btn ${bookmarks[q.id] ? 'active' : ''}" data-qid="${q.id}" aria-label="문항 북마크">
+            ${bookmarks[q.id] ? '★ 북마크됨' : '☆ 북마크'}
+          </button>
+        </div>
+        <h3 class="q-title">${q.question}</h3>
+        <div class="options-list">
+          ${optionsHtml}
+        </div>
+        <div class="explanation-box ${showExp ? 'show' : ''} ${isCorrect ? 'correct-box' : 'incorrect-box'}">
+          <div class="exp-head">
+            <span class="exp-result ${isCorrect ? 'pass' : 'fail'}">
+              ${isCorrect ? '✓ 정답입니다!' : '✗ 오답입니다 (정답: ' + ['①', '②', '③', '④'][q.correctAnswer] + ')'}
+            </span>
+          </div>
+          <div class="exp-concept">출제 핵심: ${q.keyConcept}</div>
+          <p class="exp-text">${q.explanation}</p>
+        </div>
+      `;
+
+      // Event handlers for options
+      card.querySelectorAll('.option-label').forEach(label => {
+        label.addEventListener('click', function(e) {
+          if (examSubmitted) return;
+          const qId = parseInt(this.getAttribute('data-qid'), 10);
+          const optIdx = parseInt(this.getAttribute('data-opt'), 10);
+          selectOption(qId, optIdx);
+        });
+      });
+
+      // Event handler for bookmark
+      const bmBtn = card.querySelector('.bookmark-btn');
+      bmBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const qId = parseInt(this.getAttribute('data-qid'), 10);
+        toggleBookmark(qId);
+      });
+
+      container.appendChild(card);
+    });
+
+    updateProgress();
+    renderNavGrid();
+  }
+
+  function selectOption(qId, optIdx) {
+    userAnswers[qId] = optIdx;
+    saveState();
+    renderQuestions();
+  }
+
+  function toggleBookmark(qId) {
+    if (bookmarks[qId]) {
+      delete bookmarks[qId];
+    } else {
+      bookmarks[qId] = true;
+    }
+    saveState();
+    renderQuestions();
+  }
+
+  function updateProgress() {
+    const count = Object.keys(userAnswers).length;
+    const pct = Math.round((count / questions.length) * 100);
+    progressBar.style.width = `${pct}%`;
+    progressText.textContent = `${count}/${questions.length}`;
+    progressPct.textContent = `${pct}%`;
+    sideAnsweredCount.textContent = `${count}/${questions.length}`;
+  }
+
+  function switchMode(newMode) {
+    mode = newMode;
+    if (mode === 'practice') {
+      modePracticeBtn.classList.add('active');
+      modePracticeBtn.setAttribute('aria-checked', 'true');
+      modeExamBtn.classList.remove('active');
+      modeExamBtn.setAttribute('aria-checked', 'false');
+      timerContainer.style.display = 'none';
+      submitExamBtn.style.display = 'none';
+      stopTimer();
+    } else {
+      modeExamBtn.classList.add('active');
+      modeExamBtn.setAttribute('aria-checked', 'true');
+      modePracticeBtn.classList.remove('active');
+      modePracticeBtn.setAttribute('aria-checked', 'false');
+      timerContainer.style.display = 'inline-flex';
+      submitExamBtn.style.display = 'block';
+      if (!examSubmitted) {
+        startTimer();
+      }
+    }
+    renderQuestions();
+  }
+
+  function submitExam() {
+    const unansweredCount = questions.length - Object.keys(userAnswers).length;
+    if (unansweredCount > 0 && timerSeconds > 0) {
+      const confirmSubmit = confirm(`아직 풀지 않은 문제가 ${unansweredCount}건 있습니다. 정말 제출하고 채점하시겠습니까?`);
+      if (!confirmSubmit) return;
+    }
+
+    stopTimer();
+    examSubmitted = true;
+    submitExamBtn.style.display = 'none';
+
+    // Calculate score
+    let correctCount = 0;
+    const domainStats = {};
+    for (let d = 1; d <= 6; d++) {
+      domainStats[d] = { correct: 0, total: domains[d].count };
+    }
+
+    questions.forEach(q => {
+      if (userAnswers[q.id] === q.correctAnswer) {
+        correctCount++;
+        domainStats[q.domain].correct++;
+      }
+    });
+
+    // Score out of 1000
+    const score = Math.round((correctCount / questions.length) * 1000);
+    const passed = score >= 700;
+
+    scoreDisplay.textContent = score;
+    passBadge.textContent = passed ? '합격 (Pass)' : '불합격 (Fail - 기준 700점)';
+    passBadge.className = `score-pass ${passed ? 'passed' : 'failed'}`;
+    correctCountText.textContent = correctCount;
+    accuracyText.textContent = `${Math.round((correctCount / questions.length) * 100)}%`;
+
+    // Populate Domain results
+    domainResultsList.innerHTML = '';
+    for (let d = 1; d <= 6; d++) {
+      const stat = domainStats[d];
+      const dPct = Math.round((stat.correct / stat.total) * 100);
+      const row = document.createElement('div');
+      row.className = 'domain-row';
+      row.innerHTML = `
+        <div class="domain-row-head">
+          <span>${domains[d].title}</span>
+          <strong>${stat.correct}/${stat.total} (${dPct}%)</strong>
+        </div>
+        <div class="bar-track" aria-hidden="true">
+          <div class="bar-fill" style="width: ${dPct}%;"></div>
+        </div>
+      `;
+      domainResultsList.appendChild(row);
+    }
+
+    resultBanner.classList.add('show');
+    resultBanner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    renderQuestions();
+  }
+
+  function resetExam() {
+    const confirmed = confirm('모든 답안과 풀이 기록을 초기화하시겠습니까?');
+    if (!confirmed) return;
+    userAnswers = {};
+    bookmarks = {};
+    examSubmitted = false;
+    timerSeconds = 90 * 60;
+    saveState();
+    resultBanner.classList.remove('show');
+    if (mode === 'exam') {
+      submitExamBtn.style.display = 'block';
+      startTimer();
+    }
+    renderQuestions();
+  }
+
+  // Filter click handlers
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      currentFilter = this.getAttribute('data-filter');
+      renderQuestions();
+    });
+  });
+
+  // Mode click handlers
+  modePracticeBtn.addEventListener('click', () => switchMode('practice'));
+  modeExamBtn.addEventListener('click', () => switchMode('exam'));
+
+  // Actions
+  submitExamBtn.addEventListener('click', submitExam);
+  resetExamBtn.addEventListener('click', resetExam);
+
+  // Initial Render
+  switchMode('practice');
+  renderQuestions();
+})();
+</script>
+</body>
+</html>
