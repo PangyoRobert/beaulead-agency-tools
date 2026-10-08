@@ -61,7 +61,7 @@
     .source dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; font-size: 0.9rem; }
     .source dt { color: var(--muted); font-weight: 700; }
     .source dd { margin: 0; word-break: keep-all; }
-    .caveats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .caveats { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
     .caveats .panel { background: var(--panel); }
     .caveats ul { margin: 8px 0 0; padding-left: 18px; line-height: 1.65; font-size: 0.9rem; word-break: keep-all; }
     .caveats ul ul { margin-top: 4px; }
@@ -77,8 +77,14 @@
     .na { color: var(--muted); }
     .flag { display: inline-block; margin-top: 4px; padding: 1px 8px; border-radius: 6px; background: var(--tint-warning); font-size: 0.78rem; font-weight: 700; }
     .code { display: block; color: var(--muted); font-family: var(--mono); font-size: 0.75rem; }
+    .comp { min-width: 980px; }
+    .comp td { min-width: 112px; }
+    .bar-cell .val { display: block; font-family: var(--mono); font-weight: 600; }
+    .bar-track { display: block; height: 8px; margin-top: 6px; border-radius: 4px; background: var(--bl-surface-raised); }
+    .bar-fill { display: block; height: 100%; border-radius: 4px; background: var(--blue); }
+    .comp-legend { margin: 12px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.6; word-break: keep-all; }
+    .comp-legend b { color: var(--text); }
     .footnote { margin: 30px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.6; }
-    @media (max-width: 960px) { .caveats { grid-template-columns: 1fr; } }
     @media (max-width: 620px) { main { width: min(100% - 24px, 1200px); padding-top: 28px; } .source dl { grid-template-columns: 1fr; } }
     @media print {
       @page { margin: 14mm; }
@@ -86,7 +92,7 @@
       html, body { background: #FFFFFF !important; }
       .color-bar, .topbar, .back { display: none !important; }
       main { width: 100%; padding: 0; }
-      table { min-width: 0; }
+      table, .comp { min-width: 0; }
       .panel { break-inside: avoid; border-radius: 0; }
       .eyebrow { color: #0F62FE !important; }
     }
@@ -119,6 +125,15 @@
       <div id="groups"></div>
     </section>
 
+    <section aria-labelledby="h-comp">
+      <h2 id="h-comp">제조원가 구성 (공장 원가 = 100)</h2>
+      <div class="panel">
+        <p class="group-note" id="comp-note"></p>
+        <div class="table-wrap"><table class="comp" id="comp-table"></table></div>
+        <p class="comp-legend" id="comp-legend"></p>
+      </div>
+    </section>
+
     <p class="footnote" id="footnote"></p>
   </main>
 
@@ -136,7 +151,8 @@
         id: "manufacturing",
         title: "제조업",
         basis: "원가 = 제조원가",
-        note: "원재료비, 생산 인건비, 공장 감가상각까지 포함한 제조원가 기준입니다. 공장을 가진 제조사 중심이라, 생산을 맡기는 브랜드사(D2C·OEM)의 원가율보다 높게 나옵니다.",
+        note: "원재료비, 생산 인건비, 공장 감가상각까지 포함한 제조원가 기준입니다. 공장을 가진 제조사 중심이라, 생산을 맡기는 브랜드사(D2C·OEM)의 원가율보다 높게 나옵니다. 원재료비만 본 '재료비율(매출 대비)'을 함께 보여 주며, 공장 원가의 항목별 구성은 아래 '제조원가 구성'에 있습니다.",
+        showMaterialRatio: true,
         industries: Object.freeze([
           Object.freeze({ code: "C10", name: "식료품" }),
           Object.freeze({ code: "C106", name: "떡·빵·과자류", parent: "식료품" }),
@@ -205,9 +221,30 @@
           "브랜드사 원가율과 다릅니다. 공장을 가진 제조사 중심 통계라, 생산을 맡기는 브랜드사(D2C)의 원가율보다 훨씬 높게 나옵니다. 예: 기타 화학제품 71% vs 화장품 브랜드사 25~30%(언론·증권사 자료 기준).",
           "통신판매업도 한 가지 모델이 아닙니다. 직매입 판매자와 중개 플랫폼(수수료 매출)이 섞여 있어 원가율 구조가 다릅니다."
         ])
+      }),
+      Object.freeze({
+        title: "4. 재료비율·제조원가 구성",
+        items: Object.freeze([
+          "재료비율(매출 대비 원재료비)과 제조원가 구성은 제조업에서만 제공합니다. 유통은 원가가 사 온 상품이라 원재료비 항목이 거의 잡히지 않고(통신판매업 1.19%), 외식은 식자재가 이 항목에 다 잡히지 않는 것으로 보여(음식점 15.92%) 제외했습니다.",
+          "재료비에 부재료(포장재 등)가 포함되는지는 공식 해설에서 확인되지 않았습니다.",
+          "제조원가 구성은 그해 생산에 쓴 비용(당기총제조비용) 기준이라, 그해 팔린 제품의 원가(매출원가)와 재고 변동만큼 차이가 납니다. 매출원가율에서 재료비율을 뺀 값도 대략적인 값입니다.",
+          "생산직 복리후생비는 '그 외 공장 경비'에 들어 있어 생산 인건비(노무비)에 포함되지 않습니다.",
+          "브랜드사의 원가(위탁생산 매입가)에는 제조사의 원재료비뿐 아니라 인건비·공장비·제조사 마진까지 들어 있어, 재료비율과도 매출원가율과도 같지 않습니다."
+        ])
       })
     ]),
-    footnote: "출처: 한국은행 「기업경영분석」(경제통계시스템 ECOS, 통계표 501Y006 손익 지표, 계정항목 매출원가대매출액). 업종은 제11차 한국표준산업분류 기준입니다. 브랜드사·제조사 비교(상장사 공시 기준)는 추후 추가 예정입니다."
+    composition: Object.freeze({
+      note: "제조업 11개 업종의 공장 원가(당기총제조비용)를 100으로 놓고 항목별 비중을 계산했습니다. 한 행을 따라 읽으면 그 업종의 원가 구성이, 한 열을 따라 읽으면 업종 간 차이가 보입니다.",
+      columns: Object.freeze([
+        Object.freeze({ key: "materials", label: "원재료비", desc: "재료비" }),
+        Object.freeze({ key: "labor", label: "생산 인건비", desc: "노무비" }),
+        Object.freeze({ key: "depreciation", label: "감가상각비", desc: "공장 설비·건물의 감가상각" }),
+        Object.freeze({ key: "outsourcing", label: "외주가공비", desc: "생산 공정 일부를 외부 업체에 맡긴 비용" }),
+        Object.freeze({ key: "energy", label: "전력·가스·수도", desc: "전력비 + 가스수도비" }),
+        Object.freeze({ key: "otherOverhead", label: "그 외 공장 경비", desc: "경비에서 위 항목을 뺀 나머지(복리후생비·수선비·임차료·포장비 등)" })
+      ])
+    }),
+    footnote: "출처: 한국은행 「기업경영분석」(경제통계시스템 ECOS, 통계표 501Y006 손익 지표의 매출원가대매출액·재료비대매출액, 501Y003 제조원가명세서). 업종은 제11차 한국표준산업분류 기준입니다. 브랜드사·제조사 비교(상장사 공시 기준)는 추후 추가 예정입니다."
   });
   </script>
   <script id="cost-ratio-data">
@@ -455,6 +492,148 @@
         "L": null,
         "M": null
       }
+    },
+    "materialToSales": {
+      "C10": 50.43,
+      "C106": 33.56,
+      "C107": 34.44,
+      "C108": 38.89,
+      "C11": 32.81,
+      "C112": 35.9,
+      "C14": 29.41,
+      "C15": 35.69,
+      "C204": 41.69,
+      "C21": 21.9,
+      "C32": 37.68
+    },
+    "composition": {
+      "C10": {
+        "totalManufacturingCost": 108562763.0,
+        "materials": 81200132.0,
+        "labor": 8645313.0,
+        "overhead": 18717318.0,
+        "welfare": 1047466.0,
+        "electricity": 1600313.0,
+        "gasWater": 1325028.0,
+        "depreciation": 2533654.0,
+        "outsourcing": 2757251.0
+      },
+      "C106": {
+        "totalManufacturingCost": 8905682.0,
+        "materials": 5326296.0,
+        "labor": 1476095.0,
+        "overhead": 2103291.0,
+        "welfare": 181495.0,
+        "electricity": 213187.0,
+        "gasWater": 127364.0,
+        "depreciation": 374229.0,
+        "outsourcing": 142406.0
+      },
+      "C107": {
+        "totalManufacturingCost": 1735557.0,
+        "materials": 880701.0,
+        "labor": 214691.0,
+        "overhead": 640166.0,
+        "welfare": 20099.0,
+        "electricity": 21424.0,
+        "gasWater": 22411.0,
+        "depreciation": 39442.0,
+        "outsourcing": 40432.0
+      },
+      "C108": {
+        "totalManufacturingCost": 29340939.0,
+        "materials": 20061822.0,
+        "labor": 2644763.0,
+        "overhead": 6634355.0,
+        "welfare": 349829.0,
+        "electricity": 437841.0,
+        "gasWater": 650892.0,
+        "depreciation": 973769.0,
+        "outsourcing": 1284089.0
+      },
+      "C11": {
+        "totalManufacturingCost": 7974180.0,
+        "materials": 4749101.0,
+        "labor": 870404.0,
+        "overhead": 2354676.0,
+        "welfare": 164928.0,
+        "electricity": 194069.0,
+        "gasWater": 144212.0,
+        "depreciation": 514064.0,
+        "outsourcing": 540066.0
+      },
+      "C112": {
+        "totalManufacturingCost": 5130067.0,
+        "materials": 3112690.0,
+        "labor": 477954.0,
+        "overhead": 1539424.0,
+        "welfare": 76953.0,
+        "electricity": 128894.0,
+        "gasWater": 67304.0,
+        "depreciation": 284687.0,
+        "outsourcing": 518264.0
+      },
+      "C14": {
+        "totalManufacturingCost": 31748504.0,
+        "materials": 17043448.0,
+        "labor": 999024.0,
+        "overhead": 13706032.0,
+        "welfare": 79893.0,
+        "electricity": 195734.0,
+        "gasWater": 6801.0,
+        "depreciation": 138107.0,
+        "outsourcing": 11192364.0
+      },
+      "C15": {
+        "totalManufacturingCost": 7283900.0,
+        "materials": 4112662.0,
+        "labor": 326008.0,
+        "overhead": 2845230.0,
+        "welfare": 31789.0,
+        "electricity": 37052.0,
+        "gasWater": 18058.0,
+        "depreciation": 45697.0,
+        "outsourcing": 2297949.0
+      },
+      "C204": {
+        "totalManufacturingCost": 50642329.0,
+        "materials": 31172605.0,
+        "labor": 3599216.0,
+        "overhead": 15870508.0,
+        "welfare": 547463.0,
+        "electricity": 679429.0,
+        "gasWater": 644570.0,
+        "depreciation": 1534867.0,
+        "outsourcing": 5803602.0
+      },
+      "C21": {
+        "totalManufacturingCost": 20773094.0,
+        "materials": 9800618.0,
+        "labor": 3098146.0,
+        "overhead": 7874329.0,
+        "welfare": 413062.0,
+        "electricity": 332044.0,
+        "gasWater": 374078.0,
+        "depreciation": 1505273.0,
+        "outsourcing": 2443300.0
+      },
+      "C32": {
+        "totalManufacturingCost": 7860142.0,
+        "materials": 4935674.0,
+        "labor": 841171.0,
+        "overhead": 2083297.0,
+        "welfare": 86572.0,
+        "electricity": 72083.0,
+        "gasWater": 7236.0,
+        "depreciation": 121804.0,
+        "outsourcing": 957332.0
+      }
+    },
+    "compositionSource": {
+      "table": "501Y003",
+      "name": "제조원가명세서",
+      "unit": "백만원",
+      "year": "2024"
     }
   };
   </script>
@@ -482,6 +661,7 @@
         ["지표", "매출원가 대 매출액 = 매출원가 ÷ 매출액 × 100"],
         ["기준 연도", latest + "년 (최근 " + years.length + "년 추이 " + years[0] + "~" + latest + ")"],
         ["대상", "국내 비금융 영리법인(법인세 신고 기준), 개인사업자 제외"],
+        ["원가 구성", "제조원가명세서(" + DATA.compositionSource.year + "년, 당기총제조비용 = 재료비 + 노무비 + 경비)"],
         ["값을 받은 날", DATA.source.fetchedAt]
       ].forEach(function (pair) { source.append(element("dt", null, pair[0]), element("dd", null, pair[1])); });
 
@@ -509,8 +689,10 @@
         wrap.append(element("h3", null, g.title), element("span", "basis", g.basis), element("p", "group-note", g.note));
         const table = element("table");
         const thead = element("thead"); const hr = element("tr");
-        const heads = ["업종"].concat(CONFIG.sizes.map(function (s) { return latest + " " + s.label; }), years.map(function (y) { return y; }));
-        heads.forEach(function (h, i) { const th = element("th", i ? "num" : null, i > CONFIG.sizes.length ? h + " 전체" : h); th.setAttribute("scope", "col"); hr.append(th); });
+        const sizeHeads = CONFIG.sizes.map(function (s) { return latest + " " + s.label; });
+        const extraHeads = g.showMaterialRatio ? [latest + " 재료비율 (매출 대비)"] : [];
+        const heads = ["업종"].concat(sizeHeads, extraHeads, years.map(function (y) { return y + " 전체"; }));
+        heads.forEach(function (h, i) { const th = element("th", i ? "num" : null, h); th.setAttribute("scope", "col"); hr.append(th); });
         thead.append(hr);
         const tbody = element("tbody");
         g.industries.forEach(function (ind) {
@@ -526,6 +708,7 @@
             const val = series ? series[latest] : null;
             tr.append(element("td", "num" + (i === 0 ? " main" : "") + (val === null ? " na" : ""), pct(val)));
           });
+          if (g.showMaterialRatio) tr.append(element("td", "num", pct(DATA.materialToSales[ind.code])));
           years.forEach(function (y) {
             const val = v.A ? v.A[y] : null;
             tr.append(element("td", "num" + (val === null ? " na" : ""), pct(val)));
@@ -536,6 +719,51 @@
         const scroller = element("div", "table-wrap"); scroller.append(table);
         wrap.append(scroller);
         groups.append(wrap);
+      });
+
+      // ── 제조원가 구성 (공장 원가 = 100). 금액은 데이터 원본(백만원), 비중은 여기서 계산한다. ──
+      const comp = CONFIG.composition;
+      const manufacturing = CONFIG.groups.find(function (g) { return g.showMaterialRatio; });
+      document.getElementById("comp-note").textContent = comp.note;
+      function parts(c) {
+        return {
+          materials: c.materials, labor: c.labor, depreciation: c.depreciation, outsourcing: c.outsourcing,
+          energy: c.electricity + c.gasWater,
+          otherOverhead: c.overhead - c.depreciation - c.outsourcing - c.electricity - c.gasWater
+        };
+      }
+      const compTable = document.getElementById("comp-table");
+      const chead = element("thead"); const chr = element("tr");
+      ["업종"].concat(comp.columns.map(function (col) { return col.label; })).forEach(function (h, i) {
+        const th = element("th", i ? "num" : null, h); th.setAttribute("scope", "col"); chr.append(th);
+      });
+      chead.append(chr);
+      const cbody = element("tbody");
+      manufacturing.industries.forEach(function (ind) {
+        const c = DATA.composition[ind.code];
+        const p = parts(c);
+        const tr = element("tr");
+        const name = element("th"); name.setAttribute("scope", "row");
+        name.append(element("span", null, (ind.parent ? "└ " : "") + ind.name), element("span", "code", ind.code));
+        tr.append(name);
+        comp.columns.forEach(function (col) {
+          const share = p[col.key] / c.totalManufacturingCost * 100;
+          const td = element("td", "num bar-cell");
+          td.setAttribute("title", ind.name + " · " + col.label + " " + share.toFixed(1) + "% (공장 원가 대비)");
+          const track = element("span", "bar-track"); track.setAttribute("aria-hidden", "true");
+          const fill = element("span", "bar-fill");
+          fill.style.width = Math.max(0, Math.min(100, share)).toFixed(1) + "%";
+          track.append(fill);
+          td.append(element("span", "val", share.toFixed(1) + "%"), track);
+          tr.append(td);
+        });
+        cbody.append(tr);
+      });
+      compTable.append(chead, cbody);
+      const legend = document.getElementById("comp-legend");
+      legend.append(element("span", null, "막대 길이 = 그 항목이 공장 원가에서 차지하는 비중(%). 항목 설명: "));
+      comp.columns.forEach(function (col, i) {
+        legend.append(element("b", null, col.label), element("span", null, " " + col.desc + (i < comp.columns.length - 1 ? " · " : ".")));
       });
 
       document.getElementById("footnote").textContent = CONFIG.footnote + " '—'는 공식 통계에서 해당 기업 규모의 값을 제공하지 않는 칸입니다.";
