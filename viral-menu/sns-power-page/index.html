@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SNS 파워페이지 진행 프로세스와 콘텐츠 제작·구매·방문촬영 비용, 채널별 진행 단가를 안내하는 페이지">
+  <title>SNS 파워페이지 · Beaulead Agency Tools</title>
+  <link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/viral-menu/sns-power-page/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Beaulead">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/viral-menu/sns-power-page/">
+  <meta property="og:title" content="SNS 파워페이지 · Beaulead Agency Tools">
+  <meta property="og:description" content="SNS 파워페이지 진행 프로세스와 콘텐츠 제작·구매·방문촬영 비용, 채널별 진행 단가를 안내하는 페이지">
+  <meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SNS 파워페이지 · Beaulead Agency Tools">
+  <meta name="twitter:description" content="SNS 파워페이지 진행 프로세스와 콘텐츠 제작·구매·방문촬영 비용, 채널별 진행 단가를 안내하는 페이지">
+  <meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+  <link rel="icon" href="../../shared/brand/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../shared/brand/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../shared/brand/favicon-16.png">
+  <link rel="apple-touch-icon" href="../../shared/brand/apple-touch-icon.png">
+  <link rel="stylesheet" href="../../shared/tokens.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: var(--bl-surface-raised);
+      --panel: var(--bl-surface-default);
+      --line: var(--bl-rule-on-light);
+      --text: var(--bl-text-default);
+      --muted: var(--bl-text-body-on-light);
+      --blue: var(--bl-brand-accent);
+      --radius: 20px;
+      --mono: var(--bl-font-mono);
+      --tint-accent: rgba(15, 98, 254, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; color: var(--text); font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); }
+    a { color: inherit; }
+    .color-bar { position: fixed; z-index: 40; top: 0; right: 0; left: 0; height: 4px; background: var(--blue); }
+    .topbar { position: sticky; z-index: 30; top: 0; display: flex; min-height: 68px; padding: 14px max(20px, calc((100vw - 1360px) / 2)); align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: var(--panel); }
+    .brand { font-weight: 700; letter-spacing: -0.05em; text-decoration: none; }
+    .brand::after { color: var(--blue); content: "."; }
+    .back { color: var(--muted); font-size: 0.875rem; font-weight: 600; text-decoration: none; }
+    .back:hover, .back:focus-visible { color: var(--text); }
+    main { width: min(1360px, calc(100% - 40px)); margin: 0 auto; padding: 42px 0 72px; }
+    .eyebrow { margin: 0 0 11px; color: var(--blue); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-family: var(--mono); }
+    h1 { margin: 0; font-size: clamp(2.1rem, 5vw, 4.2rem); line-height: 1; letter-spacing: -0.06em; word-break: keep-all; }
+    .intro { max-width: 640px; margin: 14px 0 0; color: var(--muted); line-height: 1.6; word-break: keep-all; }
+    .jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 0; padding: 0; list-style: none; }
+    .jump a { display: inline-block; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); font-size: 0.88rem; font-weight: 600; text-decoration: none; }
+    .jump a:hover, .jump a:focus-visible { border-color: var(--blue); outline: none; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 28px 0 0; }
+    .stats > div { padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); }
+    .stats dt { margin: 0 0 4px; color: var(--muted); font-size: 0.78rem; font-weight: 700; }
+    .stats dd { margin: 0; font-family: var(--mono); font-size: 1.5rem; font-weight: 700; }
+    .part { margin-top: 56px; padding-top: 24px; border-top: 2px solid var(--text); }
+    .part > h2 { margin: 0; font-size: 1.6rem; letter-spacing: -0.04em; }
+    section { margin-top: 32px; }
+    h3 { margin: 0 0 12px; font-size: 1.15rem; letter-spacing: -0.03em; }
+    .panel { padding: clamp(18px, 2.2vw, 28px); border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+    .notice { border-color: var(--blue); }
+    ol.plain, ul.plain { margin: 0; padding-left: 20px; line-height: 1.8; word-break: keep-all; }
+    ol.plain > li + li, ul.plain > li + li { margin-top: 6px; }
+    ol.plain ul, .sub-list { margin: 6px 0 0; padding-left: 18px; color: var(--muted); font-size: 0.92rem; line-height: 1.7; }
+    .em { padding: 1px 6px; border-radius: 6px; background: var(--tint-accent); font-weight: 700; }
+    .lead { margin: 0 0 8px; font-weight: 700; }
+    .sub { margin: 8px 0 0; color: var(--muted); font-size: 0.9rem; line-height: 1.6; word-break: keep-all; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; line-height: 1.55; word-break: keep-all; }
+    thead th { color: var(--muted); font-size: 0.8rem; font-weight: 700; border-bottom-width: 2px; }
+    tbody th { font-weight: 700; }
+    .num { font-family: var(--mono); font-weight: 600; text-align: right; white-space: nowrap; }
+    .center { text-align: center; }
+    .na { color: var(--muted); }
+    .cost-title { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
+    .unit { margin: 0 0 8px; color: var(--muted); font-size: 0.8rem; text-align: right; }
+    .steps { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+    .steps li { counter-increment: step; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); font-size: 0.88rem; }
+    .steps li::before { margin-right: 6px; color: var(--blue); font-family: var(--mono); font-weight: 700; content: counter(step); }
+    .formula { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 12px; padding: 0; list-style: none; }
+    .formula li { padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); font-weight: 700; }
+    .formula li.op { padding: 0 2px; border: 0; background: transparent; color: var(--muted); }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; padding: 0; list-style: none; }
+    .chip { padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--text); font: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+    .chip:hover { border-color: var(--blue); }
+    .chip:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+    .chip[aria-pressed="true"] { border-color: var(--blue); background: var(--tint-accent); }
+    .chip small { margin-left: 4px; color: var(--muted); font-family: var(--mono); }
+    .channels { min-width: 780px; }
+    .channels tbody tr.first td, .channels tbody tr.first th { border-top: 1px solid var(--line); }
+    .channels td.group { border-left: 1px solid var(--line); }
+    .ref-link { color: var(--blue); font-weight: 700; }
+    .legend { margin: 10px 0 0; color: var(--muted); font-size: 0.8rem; }
+    .stamp { margin: 0 0 8px; color: var(--muted); font-family: var(--mono); font-size: 0.8rem; text-align: right; }
+    @media (max-width: 620px) { main { width: min(100% - 24px, 1360px); padding-top: 28px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } }
+    @media print {
+      @page { margin: 14mm; }
+      *, *::before, *::after { background: transparent !important; color: #241815 !important; border-color: #E0E0E0 !important; box-shadow: none !important; }
+      html, body { background: #FFFFFF !important; }
+      .color-bar, .topbar, .back, .jump, .filters { display: none !important; }
+      main { width: 100%; padding: 0; }
+      .channels { min-width: 0; }
+      .panel { break-inside: avoid; border-radius: 0; }
+      .eyebrow { color: #0F62FE !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="color-bar" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="../../">BEAULEAD</a>
+    <a class="back" href="../">← 바이럴 마케팅 메뉴</a>
+  </header>
+
+  <main>
+    <p class="eyebrow">SNS Power Page</p>
+    <h1>SNS 파워페이지</h1>
+    <p class="intro">검증된 SNS 파워페이지에 브랜드 콘텐츠를 게재하는 상품입니다. 진행 프로세스와 제작·구매·촬영 비용, 채널별 진행 단가를 정리했습니다.</p>
+
+    <ul class="jump" aria-label="페이지 안 바로가기">
+      <li><a href="#h-process">진행 프로세스</a></li>
+      <li><a href="#h-cost">비용 구성</a></li>
+      <li><a href="#h-notes">참고 사항</a></li>
+      <li><a href="#h-channels">채널 리스트</a></li>
+    </ul>
+
+    <dl class="stats" id="stats"></dl>
+
+    <div class="part" aria-labelledby="h-process">
+      <h2 id="h-process">진행 프로세스</h2>
+      <section aria-label="진행 프로세스 단계">
+        <div class="panel notice">
+          <ol class="plain" id="process"></ol>
+        </div>
+      </section>
+    </div>
+
+    <div class="part" aria-labelledby="h-cost">
+      <h2 id="h-cost">비용 구성</h2>
+
+      <section aria-labelledby="h-formula">
+        <h3 id="h-formula">총비용은 이렇게 더해집니다</h3>
+        <div class="panel">
+          <ul class="formula" id="formula" aria-label="총비용 구성"></ul>
+          <ul class="plain" id="formula-notes"></ul>
+        </div>
+      </section>
+
+      <section aria-labelledby="h-make">
+        <h3 id="h-make">콘텐츠 제작비용</h3>
+        <div class="panel table-wrap"><table id="make-table"></table></div>
+      </section>
+
+      <section aria-labelledby="h-buy">
+        <h3 id="h-buy">콘텐츠 구매 비용</h3>
+        <div class="panel table-wrap"><table id="buy-table"></table></div>
+        <p class="sub" id="buy-note"></p>
+      </section>
+
+      <section aria-labelledby="h-visit">
+        <h3 id="h-visit">방문 촬영비</h3>
+        <div class="panel">
+          <div class="table-wrap"><table id="visit-table"></table></div>
+          <ul class="plain" id="visit-examples" style="margin-top:14px"></ul>
+          <p class="sub" id="visit-note"></p>
+        </div>
+      </section>
+
+      <section aria-labelledby="h-revise">
+        <h3 id="h-revise">참고사항 (수정·저작권)</h3>
+        <div class="panel"><ul class="plain" id="revise"></ul></div>
+      </section>
+
+      <section aria-labelledby="h-flow">
+        <h3 id="h-flow">제작 진행 프로세스</h3>
+        <div class="panel">
+          <ol class="steps" id="make-steps"></ol>
+          <ul class="plain" id="make-flow-notes" style="margin-top:14px"></ul>
+        </div>
+      </section>
+    </div>
+
+    <div class="part" aria-labelledby="h-notes">
+      <h2 id="h-notes">참고 사항</h2>
+      <section aria-label="참고 사항 목록">
+        <div class="panel"><ul class="plain" id="notes"></ul></div>
+      </section>
+    </div>
+
+    <div class="part" aria-labelledby="h-channels">
+      <h2 id="h-channels">채널 리스트</h2>
+      <section aria-label="채널 리스트 안내">
+        <div class="panel notice"><ul class="plain" id="list-notes"></ul></div>
+      </section>
+
+      <section aria-labelledby="h-channel-table">
+        <h3 id="h-channel-table">채널별 진행 단가</h3>
+        <div class="panel">
+          <p class="stamp" id="stamp"></p>
+          <ul class="filters" id="filters" aria-label="구분 필터"></ul>
+          <p class="unit">* 단위: 만원 (팔로워 수 제외)</p>
+          <div class="table-wrap"><table class="channels" id="channel-table"></table></div>
+          <p class="legend" id="legend"></p>
+        </div>
+      </section>
+    </div>
+
+    <p class="sub" style="margin-top:34px">문의는 <a href="mailto:robert@beaulead.co.kr">robert@beaulead.co.kr</a>로 주십시오.</p>
+  </main>
+
+  <script id="sns-power-page-config">
+  // SNS 파워페이지 상세 페이지의 단일 원본. 문구·단가는 여기에만 있고 아래 화면 코드는 읽어서 그리기만 한다.
+  // 설정을 별도 .js 파일로 두지 않는다(파일마다 따로 캐시되면 새 화면 코드에 옛 설정이 섞인다. 2026-10-06 사고).
+  //
+  // 원본은 사용자가 준 기획 이미지 9장(2026-10-06)이고 문구는 그대로 옮겼다. 채널 리스트는 2026.07 기준.
+  // 채널 단가 단위는 "만원". 제작·구매·촬영비는 "원".
+  // 채널 리스트 값의 의미:
+  //   accounts[].individual : 개별단가. null 이면 원본이 "-" 로 비운 칸.
+  //   together              : 동시비용(여러 플랫폼 동시 진행). 있을 때만 단가 칸이 둘로 나뉜다.
+  //   flat                  : 원본에서 개별단가·동시비용 칸을 합쳐 하나로 적은 단가.
+  //   accounts[].url        : 아직 비워 둔다(이미지에서 주소를 정확히 옮길 수 없다). https:// 로 시작하면 "바로가기" 링크가 생긴다.
+  window.SNS_POWER_PAGE_CONFIG = (function () {
+    const IG = "IG";
+    const FB = "FB";
+    function accounts(list) {
+      return Object.freeze(list.map(function (a) {
+        return Object.freeze({ platform: a[0], followers: a[1], individual: a[2] === undefined ? null : a[2], url: "" });
+      }));
+    }
+    // 단가가 하나로 합쳐진 채널
+    function flat(category, name, list, price) {
+      return Object.freeze({ category: category, name: name, accounts: accounts(list), flat: price, together: null });
+    }
+    // 개별단가와 동시비용이 따로 있는 채널
+    function bundle(category, name, list, together) {
+      return Object.freeze({ category: category, name: name, accounts: accounts(list), flat: null, together: together });
+    }
+    const TIP = "정보/꿀팁";
+    const STAR = "연예 & 아이돌";
+    const TRAVEL = "여행";
+    const POPUP = "팝업/전시";
+
+    return Object.freeze({
+      updated: "2026.07",
+
+      process: Object.freeze([
+        Object.freeze({ text: "브랜드 제품 및 서비스 톤앤매너에 맞는 파워페이지 제안 및 조율 ( 예산 제시 必 )", items: Object.freeze([]) }),
+        Object.freeze({ text: "세금계산서 발행 후 및 업로드 구좌 부킹", items: Object.freeze([]) }),
+        Object.freeze({
+          text: "콘텐츠 제작 및 컨펌",
+          items: Object.freeze([
+            Object.freeze({ text: "사회적 문제가 되는 소재 및 저작권, 광고법 위반등의 이슈가 있는 콘텐츠는 게재 불가 및 게재 후 삭제될 수 있습니다" }),
+            Object.freeze({ text: "채널 별 톤앤매너와 맞지 않을 경우, 게재가 어려울 수 있습니다" }),
+            Object.freeze({ text: "콘텐츠 컨셉안 조율 > 제작 기획안 컨펌 > 콘텐츠 제작 및 컨펌 > 발행 및 게재보고 > 인사이트 및 최종보고" }),
+            Object.freeze({ text: "인사이트 최대 2회 제공 가능 ( 페이지 사 마다 1회 제공한 페이지도 있음 )", em: true })
+          ])
+        }),
+        Object.freeze({
+          text: "게재일 게시",
+          items: Object.freeze([
+            Object.freeze({ text: "※ 팔로워 수는 변동 가능성이 있습니다." }),
+            Object.freeze({ text: "※ 리스트 외 채널도 진행 가능합니다. 진행을 원하시는 채널 전달주시면 진행 가능 여부 및 단가 확인해드리겠습니다." })
+          ])
+        })
+      ]),
+
+      // 원본의 "진행 단가는 단순 업로드 비용이며 콘텐츠 제작 필요 시 별도 비용" 과 "콘텐츠 발행 必" 를 한눈에 보이게 푼 구성.
+      formula: Object.freeze({
+        parts: Object.freeze(["채널 업로드 단가", "콘텐츠 제작비용", "방문 촬영비 (필요 시)"]),
+        notes: Object.freeze([
+          "채널 리스트의 진행 단가는 단순 업로드 비용입니다. 콘텐츠 제작이 필요하면 제작 비용이 별도로 추가됩니다.",
+          "콘텐츠 제작비용은 콘텐츠 발행이 필수 조건입니다.",
+          "방문 촬영은 단독으로 진행하지 않으며 콘텐츠 업로드 조건의 소재 촬영일 때만 진행합니다."
+        ])
+      }),
+
+      makeCosts: Object.freeze([
+        Object.freeze({ group: "1. 카드뉴스 콘텐츠 제작비용", label: "SNS 파워 페이지 - 카드뉴스", price: 300000, remark: "콘텐츠 발행 必", em: true }),
+        Object.freeze({ group: "2. 숏폼 콘텐츠 제작비용", label: "숏폼 콘텐츠 제작", price: 400000, remark: "콘텐츠 발행 必", em: true, note: "* 후시녹음 진행 불가 / TTS 진행 시 20만원 비용 추가" })
+      ]),
+
+      buyCosts: Object.freeze({
+        rows: Object.freeze([
+          Object.freeze({ label: "카드뉴스 최종본 ( 최종 업로드 콘텐츠 )", price: 400000, remark: "PSD 파일제공 불가" }),
+          Object.freeze({ label: "숏폼 클린본+최종본 ( 최종 업로드 콘텐츠 )", price: 600000, remark: "최종본만 제공" })
+        ]),
+        note: "* 얼굴 노출 콘텐츠 시 협의 필요"
+      }),
+
+      visit: Object.freeze({
+        rows: Object.freeze([
+          Object.freeze({ label: "경기도 부천 근처 ( YT 오피스 근처 )", price: 50000 }),
+          Object.freeze({ label: "인천 / 서울", price: 250000 }),
+          Object.freeze({ label: "그 외 지역", price: "개별 문의" })
+        ]),
+        examples: Object.freeze([
+          "EX. 성수 팝업 릴스 촬영 시 : 65만원 ( 릴스 제작 비용 40만원 + 방문촬영 비용 25만원 )",
+          "EX. 와트 회사 근처 올리브영 카드뉴스 촬영 시 : 35만원 ( 카드뉴스 제작 비용 30만원 + 부천 근처 5만원 )"
+        ]),
+        note: "* 단순 방문촬영만 진행하지 않으며 콘텐츠 업로드 조건으로 소재 촬영 조건으로만 진행합니다."
+      }),
+
+      revise: Object.freeze([
+        Object.freeze({ text: "수정가능범위 : 2회 ( 기획안 외 컨셉 자체에 대한 수정 요청 시 콘텐츠 제작 비용 추가 발생 )", em: true }),
+        Object.freeze({ text: "* 수정 초과 1회 당 30,000원 비용 발생" }),
+        Object.freeze({ text: "* 제작된 모든 콘텐츠의 저작권은 Y-TRIBE 소유 입니다.", em: true })
+      ]),
+
+      makeProcess: Object.freeze(["콘텐츠 컨셉안 조율", "제작 기획안 컨펌", "콘텐츠 제작", "최종본 전달"]),
+      makeFlowNotes: Object.freeze([
+        Object.freeze({ text: "수정 필요 시 2회 까지 가능, 추가 시 별도 비용 추가" }),
+        Object.freeze({ text: "SNS파워페이지, 돋보기 콘텐츠 외 광고배너 이미지 제작 가능 ( 디자인 제작 가이드라인 난이도에 따라 단가 상이, 개별 문의 必 )", em: true })
+      ]),
+
+      notes: Object.freeze([
+        "공정위 지침에 따라 첫장 이미지 상단에 '유료광고' 표기하거나 본문(멘션)에 맨앞에 #광고 표기 됩니다.",
+        "인스타그램의 경우 카드 뉴스는 10장까지 업로드 가능합니다.",
+        "인스타그램은 이미지 + 영상(59초 이하) 형식 가능 합니다.",
+        "이미지 사이즈는 1080 X 1080 OR 1080 X 1350 OR 1080 X 1440 으로 제작해주시면 됩니다. (인스타그램의 경우 이미지 + 영상 형식으로 진행을 원할 경우 동일사이즈로 전달 or 제작 필요 )",
+        "인스타그램은 링크 삽입은 가능하나 ( 텍스트로만 기재 가능, 스토리 진행 시 별도 비용 추가), 링크 연결이 안되서 보통 인스타그램 계정을 태그 해드리는 방향으로 추천 드립니다. ( 페이스북의 경우 고정 댓글로 삽입진행 )",
+        "B&A 소재를 진행희망 시 논의가 필요합니다. ( 업로드 반려될 수도 있으며 스폰서드 집행이 어렵습니다. )",
+        "명품 및 브랜드 \"로고\" 진행 시 모자이크 및 블러 처리되어 진행 됩니다.",
+        "과한 자극적인 이미지 ( EX. 여드름, 탈모, 각질 등 ) 는 타인에게 혐오를 줄 수 있는 콘텐츠는 반려될 수 있습니다.",
+        "타 브랜드 비교, 비하 발언 진행이 어려울 수 있습니다.",
+        "콘텐츠 제작 작업 난이도에 따라 가능여부와 비용이 상이할 수 있습니다.",
+        "게재일정 확정 후 가부킹 진행되며, 취소 및 환불이 불가합니다."
+      ]),
+
+      listNotes: Object.freeze([
+        "아래 리스트는 현존 하는 SNS파워페이지 리스트 중 가장 효율 나오는 페이지만 리스트업 하였습니다.",
+        "진행 단가는 단순 업로드 비용이며 콘텐츠 제작 필요 시 별도 비용 추가됩니다.",
+        "아래 외 추가적인 페이지 진행 희망 시 문의주시면 피드백드리도록하겠습니다."
+      ]),
+
+      channels: Object.freeze([
+        // ── 정보/꿀팁 ──
+        flat(TIP, "자취생으로살아남기(life)", [[IG, 603000]], "150~"),
+        flat(TIP, "자취생으로살아남기(guide)", [[IG, 321000]], "120~"),
+        flat(TIP, "인싸요정", [[IG, 267000]], 120),
+        flat(TIP, "쉬는시간", [[IG, 88000]], 30),
+        flat(TIP, "언니시간", [[IG, 65000]], 30),
+        flat(TIP, "텅장주의", [[IG, 92000]], 30),
+        flat(TIP, "팁끌모아", [[IG, 71000]], 30),
+        flat(TIP, "뿌언니", [[IG, 113000]], 40),
+        flat(TIP, "쉬는 날 뭐해", [[IG, 157000]], 40),
+        flat(TIP, "두나", [[IG, 19000]], 35),
+        flat(TIP, "요즘MZ 밈미이", [[IG, 70000]], 40),
+        flat(TIP, "유잼인생", [[IG, 13000]], 20),
+        bundle(TIP, "20대 뭐 하지?", [[FB, 1390000, 70], [IG, 667000, 70]], 90),
+        bundle(TIP, "청춘을 즐겨라", [[FB, 42000, null], [IG, 194000, 50]], 55),
+        flat(TIP, "즐거운 생활", [[IG, 201000]], 45),
+        flat(TIP, "인생 치트키", [[IG, 109000]], 40),
+        flat(TIP, "유용한 폴더", [[IG, 118000]], 40),
+        flat(TIP, "소비생활", [[IG, 64000]], 40),
+        flat(TIP, "나는야 대학생", [[IG, 60000]], 40),
+        flat(TIP, "쿠다영", [[IG, 36000]], 40),
+        flat(TIP, "이십이", [[IG, 52000]], 40),
+        flat(TIP, "요즘애들", [[IG, 44000]], 35),
+        flat(TIP, "코덕씨", [[IG, 32000]], 35),
+        flat(TIP, "꿀언니", [[IG, 89000]], 45),
+        flat(TIP, "언니랑놀자", [[IG, 87000]], 45),
+        flat(TIP, "언니의꿀팁", [[IG, 439000]], 60),
+        flat(TIP, "언니리스트", [[IG, 244000]], 60),
+        flat(TIP, "오늘뭐입지?", [[IG, 265000]], 60),
+        flat(TIP, "꿀팁갤러리", [[IG, 147000]], 50),
+        flat(TIP, "꿀팁리스트", [[IG, 164000]], 50),
+        flat(TIP, "인싸노트", [[IG, 56000]], 40),
+        flat(TIP, "피드코리아", [[IG, 103000]], 45),
+        flat(TIP, "피드뷰티", [[IG, 73000]], 45),
+        flat(TIP, "데이트코스", [[IG, 203000]], 70),
+        flat(TIP, "오늘뭐하지", [[IG, 100000]], 50),
+        flat(TIP, "남녀생활백서", [[IG, 425000]], 50),
+        flat(TIP, "꿀팁저장소", [[IG, 347000]], 70),
+        flat(TIP, "꿀정보통", [[IG, 145000]], 50),
+        flat(TIP, "일상의 모든 것", [[IG, 541000]], 60),
+        flat(TIP, "언니의 모든 것", [[IG, 209000]], 50),
+        flat(TIP, "여자들의 필수꿀팁", [[IG, 119000]], 50),
+        flat(TIP, "예뻐지는 꿀팁", [[IG, 102000]], 50),
+        flat(TIP, "꿀팁 알려주는 언니", [[IG, 77000]], 45),
+        flat(TIP, "꿀팁정보특공대", [[IG, 75000]], 45),
+        flat(TIP, "오늘의 꿀팁", [[IG, 221000]], 55),
+        flat(TIP, "모두의 꿀팁", [[IG, 207000]], 55),
+        flat(TIP, "너를 위한 꿀팁", [[IG, 153000]], 50),
+        flat(TIP, "꿀팁을담아서공유", [[IG, 154000]], 50),
+        flat(TIP, "여자들의 생활정보", [[IG, 102000]], 50),
+        flat(TIP, "언니의 비밀노트", [[IG, 114000]], 50),
+        flat(TIP, "갓생백과", [[IG, 52000]], 40),
+        flat(TIP, "여자들이 예뻐지는 공간", [[IG, 81000]], 50),
+        flat(TIP, "꿀팁으로살아남기", [[IG, 78000]], 30),
+        flat(TIP, "꿀팁이슈", [[IG, 104000]], 50),
+        flat(TIP, "청춘백과", [[IG, 74000]], 50),
+        // ── 연예 & 아이돌 ──
+        flat(STAR, "아이돌 이슈", [[IG, 285000]], 60),
+        flat(STAR, "입덕할래", [[IG, 191000]], 45),
+        // ── 여행 ──
+        flat(TRAVEL, "지금부터 여행", [[IG, 99000]], 50),
+        flat(TRAVEL, "여행을 즐겨라", [[IG, 95000]], 40),
+        flat(TRAVEL, "오늘의숙소", [[IG, 10000]], 35),
+        flat(TRAVEL, "숙소기록", [[IG, 182000]], 80),
+        flat(TRAVEL, "감성여행", [[FB, 40000], [IG, 30000]], 50),
+        flat(TRAVEL, "펜션가볼만한곳", [[FB, 16000], [IG, 14000]], 50),
+        // ── 장소 ──
+        flat("장소", "오늘어디가지?", [[IG, 22000]], 30),
+        // ── 팝업/전시 ──
+        flat(POPUP, "팝업인서울", [[IG, 56000]], 40),
+        flat(POPUP, "팝업인부산", [[IG, 11000]], 30),
+        flat(POPUP, "팝업을 즐겨라", [[IG, 10000]], 40),
+        // ── 축제 ──
+        flat("축제", "축제를 즐겨라", [[IG, 43000]], 40),
+        // ── 팝업/전시 (계속) ──
+        flat(POPUP, "팝스", [[IG, 87000]], 55),
+        flat(POPUP, "팝업플레이", [[IG, 46000]], 50),
+        // ── 팝업 (피드/릴스 단가가 따로 있다) ──
+        flat("팝업", "썸데이", [[IG, 55000]], "피드 80 / 릴스 100"),
+        flat("팝업", "트렌드하이", [[IG, 12000]], "피드 30 / 릴스 50"),
+        flat("팝업", "팝가", [[IG, 105000]], "피드 50 / 릴스 80"),
+        flat("팝업", "팝업요정 당니", [[IG, 37000]], "피드 40 / 릴스 60"),
+        flat("팝업/뷰티", "뷰파", [[IG, 14000]], "피드 30 / 릴스 50"),
+        // ── 카페 ──
+        flat("카페", "카페를 즐겨라", [[IG, 33000]], 50)
+      ])
+    });
+  })();
+  </script>
+  <script>
+    (function renderPage() {
+      const CONFIG = window.SNS_POWER_PAGE_CONFIG;
+      const won = new Intl.NumberFormat("ko-KR");
+
+      // 텍스트는 textContent 로만 그린다.
+      function element(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      }
+      function noteItem(note) {
+        const li = element("li");
+        li.append(note.em ? element("span", "em", note.text) : element("span", null, note.text));
+        return li;
+      }
+      function bullets(id, list) {
+        const target = document.getElementById(id);
+        list.forEach(function (n) { target.append(noteItem(typeof n === "string" ? { text: n } : n)); });
+      }
+      function headRow(labels) {
+        const thead = element("thead"); const tr = element("tr");
+        labels.forEach(function (h) { const th = element("th", null, h); th.setAttribute("scope", "col"); tr.append(th); });
+        thead.append(tr); return thead;
+      }
+      function money(value) { return typeof value === "number" ? won.format(value) : String(value); }
+      function priceCell(value) { return value === null ? element("td", "num na", "—") : element("td", "num", money(value)); }
+      function costTable(id, rows, withGroup) {
+        const table = document.getElementById(id);
+        const tbody = element("tbody");
+        rows.forEach(function (r) {
+          const tr = element("tr");
+          const th = element("th", null, r.label); th.setAttribute("scope", "row");
+          tr.append(th, element("td", "num", money(r.price)));
+          if (withGroup !== false) {
+            const remark = element("td");
+            remark.append(r.remark ? (r.em ? element("span", "em", r.remark) : element("span", null, r.remark)) : element("span"));
+            tr.append(remark);
+          }
+          tbody.append(tr);
+        });
+        return tbody;
+      }
+      // https:// 주소만 링크로 만든다. 비어 있으면 칸을 비워 둔다.
+      function linkCell(url) {
+        const td = element("td");
+        if (typeof url === "string" && url.indexOf("https://") === 0) {
+          const a = element("a", "ref-link", "바로가기");
+          a.href = url; a.target = "_blank"; a.rel = "noopener noreferrer";
+          td.append(a);
+        }
+        return td;
+      }
+
+      // 요약 숫자는 채널 리스트에서 센다.
+      const channels = CONFIG.channels;
+      const categories = [];
+      channels.forEach(function (c) { if (categories.indexOf(c.category) === -1) categories.push(c.category); });
+      const accountCount = channels.reduce(function (s, c) { return s + c.accounts.length; }, 0);
+      const stats = document.getElementById("stats");
+      [["채널 수", String(channels.length)], ["계정 수", String(accountCount)], ["카테고리", String(categories.length)], ["리스트 기준", CONFIG.updated]].forEach(function (s) {
+        const box = element("div"); box.append(element("dt", null, s[0]), element("dd", null, s[1])); stats.append(box);
+      });
+
+      // 진행 프로세스
+      const process = document.getElementById("process");
+      CONFIG.process.forEach(function (step) {
+        const li = element("li");
+        li.append(element("strong", null, step.text));
+        if (step.items.length) {
+          const ul = element("ul");
+          step.items.forEach(function (n) { ul.append(noteItem(n)); });
+          li.append(ul);
+        }
+        process.append(li);
+      });
+
+      // 비용 구성
+      const formula = document.getElementById("formula");
+      CONFIG.formula.parts.forEach(function (p, i) {
+        if (i > 0) formula.append(element("li", "op", "+"));
+        formula.append(element("li", null, p));
+      });
+      bullets("formula-notes", CONFIG.formula.notes);
+
+      // 원본에서 카드뉴스·숏폼 제작비용은 표 제목이 따로 있는 별개의 표다. 한 표 안에서 구분 칸으로 나눠 그린다.
+      const make = document.getElementById("make-table");
+      const makeBody = element("tbody");
+      CONFIG.makeCosts.forEach(function (r) {
+        const tr = element("tr");
+        const group = element("th", null, r.group); group.setAttribute("scope", "row");
+        const remark = element("td"); remark.append(r.em ? element("span", "em", r.remark) : element("span", null, r.remark));
+        tr.append(group, element("td", null, r.label), element("td", "num", money(r.price)), remark);
+        makeBody.append(tr);
+      });
+      make.append(headRow(["구분", "내용", "단가 (단위: 원)", "비고"]), makeBody);
+      const makePanel = make.parentNode;
+      CONFIG.makeCosts.filter(function (r) { return r.note; }).forEach(function (r) { makePanel.append(element("p", "sub", r.note)); });
+
+      document.getElementById("buy-table").append(headRow(["구분", "단가 (단위: 원)", "비고"]), costTable("buy-table", CONFIG.buyCosts.rows));
+      document.getElementById("buy-note").textContent = CONFIG.buyCosts.note;
+
+      document.getElementById("visit-table").append(headRow(["구분", "단가 (단위: 원)"]), costTable("visit-table", CONFIG.visit.rows, false));
+      bullets("visit-examples", CONFIG.visit.examples);
+      document.getElementById("visit-note").textContent = CONFIG.visit.note;
+
+      bullets("revise", CONFIG.revise);
+      const steps = document.getElementById("make-steps");
+      CONFIG.makeProcess.forEach(function (s) { steps.append(element("li", null, s)); });
+      bullets("make-flow-notes", CONFIG.makeFlowNotes);
+
+      bullets("notes", CONFIG.notes);
+      bullets("list-notes", CONFIG.listNotes);
+
+      // 채널 리스트
+      document.getElementById("stamp").textContent = "* " + CONFIG.updated;
+      const hasLinks = channels.some(function (c) { return c.accounts.some(function (a) { return typeof a.url === "string" && a.url.indexOf("https://") === 0; }); });
+      const table = document.getElementById("channel-table");
+      const header = ["구분", "플랫폼", "채널명"];
+      if (hasLinks) header.push("채널 링크");
+      header.push("팔로워 수", "개별단가", "동시비용");
+      table.append(headRow(header));
+      const tbody = element("tbody");
+      table.append(tbody);
+
+      function drawRows(category) {
+        tbody.textContent = "";
+        channels.forEach(function (c) {
+          if (category !== null && c.category !== category) return;
+          const span = c.accounts.length;
+          c.accounts.forEach(function (a, i) {
+            const tr = element("tr", i === 0 ? "first" : "");
+            if (i === 0) {
+              const cat = element("td", null, c.category); cat.setAttribute("rowspan", String(span));
+              tr.append(cat);
+            }
+            tr.append(element("td", null, a.platform));
+            if (i === 0) {
+              const name = element("th", null, c.name); name.setAttribute("scope", "row"); name.setAttribute("rowspan", String(span));
+              tr.append(name);
+            }
+            if (hasLinks) tr.append(linkCell(a.url));
+            tr.append(element("td", "num", won.format(a.followers)));
+            if (c.flat !== null) {
+              if (i === 0) {
+                const cell = element("td", "num center group", money(c.flat));
+                cell.setAttribute("colspan", "2"); cell.setAttribute("rowspan", String(span));
+                tr.append(cell);
+              }
+            } else {
+              tr.append(priceCell(a.individual));
+              if (i === 0) {
+                const cell = element("td", "num group", money(c.together)); cell.setAttribute("rowspan", String(span));
+                tr.append(cell);
+              }
+            }
+            tbody.append(tr);
+          });
+        });
+      }
+
+      const filters = document.getElementById("filters");
+      const chips = [];
+      function select(category) {
+        chips.forEach(function (chip) { chip.node.setAttribute("aria-pressed", String(chip.category === category)); });
+        drawRows(category);
+      }
+      [{ label: "전체", category: null, count: channels.length }].concat(categories.map(function (cat) {
+        return { label: cat, category: cat, count: channels.filter(function (c) { return c.category === cat; }).length };
+      })).forEach(function (f) {
+        const li = element("li");
+        const button = element("button", "chip", f.label);
+        button.type = "button";
+        button.setAttribute("aria-pressed", "false");
+        button.append(element("small", null, String(f.count)));
+        button.addEventListener("click", function () { select(f.category); });
+        chips.push({ node: button, category: f.category });
+        li.append(button); filters.append(li);
+      });
+      select(null);
+
+      document.getElementById("legend").textContent = "— : 원본에서 단가를 비워 둔 칸입니다. 개별단가·동시비용 칸이 하나로 합쳐진 채널은 한 가지 단가만 안내합니다.";
+    })();
+  </script>
+</body>
+</html>

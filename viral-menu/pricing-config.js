@@ -68,6 +68,8 @@ window.VIRAL_MENU_CONFIG = Object.freeze({
         Object.freeze({
           id: "sns-power-page",
           name: "SNS 파워페이지",
+          detailUrl: "./sns-power-page/",
+          detailLabel: "상세 보기 →",
           nameEn: "SNS Power Page",
           summary: Object.freeze([
             "검증된 SNS 파워페이지를 통해 브랜드의 첫인상을 강하게 각인시키고, 바이럴 효과를 극대화합니다.",
