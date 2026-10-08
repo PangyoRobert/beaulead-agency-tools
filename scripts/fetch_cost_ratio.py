@@ -6,8 +6,13 @@
 
 출처: 한국은행 기업경영분석(ECOS).
 - 501Y006 손익 지표, 계정항목 612 매출원가대매출액(%) — 14개 업종 × 기업규모 A=종합, L=대기업, M=중소기업 × 2020~2024
-- 501Y006 손익 지표, 계정항목 617 재료비대매출액(%) — 제조업 11개 업종, 종합, 최신 연도
+- 501Y006 손익 지표(전 항목) — 제조업 11개 업종, 종합, 최신 연도. 재료비·변동비·고정비 대 매출액,
+  손익분기점률, 영업이익률, 세전순이익률
 - 501Y003 제조원가명세서(백만원) — 제조업 11개 업종, 종합, 최신 연도. 재료비·노무비·경비와 경비 세부 항목
+- 501Y002 손익계산서(백만원) — 제조업 11개 업종, 종합, 최신 연도. 매출액·매출원가·판관비·영업손익 등
+  매출 = 매출원가 + 판관비 + 영업손익 이고, 매출원가 − 당기총제조비용 = 상품 매입원가·재고 변동 등(세부 미상)
+- 501Y006 손익 지표, 계정항목 612 — 도매업·소매 업태 6개, 종합, 최신 연도. 소비자가 대비 대략 범위 계산용
+  (소매점 매입원가율 = 소매업 매출원가율)
 
 인증키는 환경변수 ECOS_API_KEY 또는 저장소 루트의 `.env`(커밋되지 않는 파일)에서만 읽는다.
 키를 출력하거나 파일에 쓰지 않는다.
@@ -51,6 +56,27 @@ COST_ITEMS = {  # 501Y003 계정항목 코드 → 데이터 키
     "313040": "depreciation",            # 감가상각비
     "313090": "outsourcing",             # 외주가공비
 }
+
+INCOME_ITEMS = {  # 501Y002 계정항목 코드 → 데이터 키
+    "210000": "sales",                # 매출액
+    "220000": "cogs",                 # 매출원가
+    "241000": "sga",                  # 판매비와관리비
+    "241090": "advertising",          # 광고선전비(판관비 안)
+    "240000": "operatingIncome",      # 영업손익
+    "253000": "nonOperatingIncome",   # 영업외수익
+    "254000": "nonOperatingExpense",  # 영업외비용
+}
+
+RATIO_ITEMS = {  # 501Y006 계정항목 코드 → 데이터 키(%)
+    "617": "materialToSales",     # 재료비대매출액
+    "6134": "variableToSales",    # 변동비대매출액 (한국은행 정의: 총비용 − 고정비)
+    "6144": "fixedToSales",       # 고정비대매출액 (판관비 전부 + 영업외비용 + 노무비 ½ 등)
+    "6284": "breakEven",          # 손익분기점률
+    "611": "operatingMargin",     # 매출액영업이익률
+    "6091": "pretaxMargin",       # 매출액세전순이익률
+}
+
+CHANNELS = ("G46", "G4711", "G4712", "G479", "G4791", "G4718")  # 도매, 대형마트·면세점, 기타 종합소매, 일반 소매, 통신판매, 백화점
 
 INDUSTRIES = (
     "C10", "C106", "C107", "C108", "C11", "C112", "C14",
@@ -109,14 +135,22 @@ def manufacturing_codes() -> list[str]:
     return [code for code in INDUSTRIES if code.startswith("C")]
 
 
-def collect_manufacturing(key: str) -> tuple[dict, dict]:
-    composition, material_to_sales = {}, {}
+def pick(key: str, table: str, code: str, items: dict[str, str]) -> dict[str, float]:
+    # 계정항목을 비우면 그 통계표의 전 항목이 한 번에 온다(호출 1번).
+    rows = {row["ITEM_CODE3"]: row["DATA_VALUE"] for row in fetch_rows(key, table, code)}
+    missing = [item for item in items if rows.get(item) in (None, "")]
+    if missing:
+        raise RuntimeError(f"{table}/{code}: 항목 없음 {missing}")
+    return {name: float(rows[item]) for item, name in items.items()}
+
+
+def collect_manufacturing(key: str) -> tuple[dict, dict, dict]:
+    composition, income, ratios = {}, {}, {}
     for code in manufacturing_codes():
-        # 계정항목을 비우면 제조원가명세서 20개 항목이 한 번에 온다.
-        rows = {row["ITEM_CODE3"]: row["DATA_VALUE"] for row in fetch_rows(key, "501Y003", code)}
-        composition[code] = {name: float(rows[item]) for item, name in COST_ITEMS.items()}
-        material_to_sales[code] = float(fetch_rows(key, "501Y006", code, "617")[0]["DATA_VALUE"])
-    return composition, material_to_sales
+        composition[code] = pick(key, "501Y003", code, COST_ITEMS)
+        income[code] = pick(key, "501Y002", code, INCOME_ITEMS)
+        ratios[code] = pick(key, "501Y006", code, RATIO_ITEMS)
+    return composition, income, ratios
 
 
 def collect() -> dict:
@@ -126,7 +160,11 @@ def collect() -> dict:
         values[industry] = {size: fetch_series(key, industry, size) for size in SIZES}
         if values[industry]["A"] is None:
             raise RuntimeError(f"{industry}: 종합(A) 값이 없다. 업종 코드를 확인한다.")
-    composition, material_to_sales = collect_manufacturing(key)
+    composition, income, ratios = collect_manufacturing(key)
+    channels = {}
+    for code in CHANNELS:
+        rows = fetch_rows(key, "501Y006", code, ITEM)
+        channels[code] = {"name": rows[0]["ITEM_NAME1"], "cogsRatio": float(rows[0]["DATA_VALUE"])}
     kst = timezone(timedelta(hours=9))
     return {
         "source": {
@@ -139,10 +177,15 @@ def collect() -> dict:
             "fetchedAt": datetime.now(kst).strftime("%Y-%m-%d"),
         },
         "values": values,
-        # 제조업만: 매출 대비 재료비(%), 제조원가명세서 금액(백만원). 연도는 source.years 의 마지막 해.
-        "materialToSales": material_to_sales,
+        # 제조업만, 연도는 source.years 의 마지막 해. 금액은 백만원, 비율은 %.
+        "materialToSales": {code: r["materialToSales"] for code, r in ratios.items()},
+        "ratios": ratios,
         "composition": composition,
+        "income": income,
         "compositionSource": {"table": "501Y003", "name": "제조원가명세서", "unit": "백만원", "year": str(END)},
+        "incomeSource": {"table": "501Y002", "name": "손익계산서", "unit": "백만원", "year": str(END)},
+        # 도매·소매 업태의 매출원가율(%) = 그 단계에서 상품을 사 온 값의 비율. 연도는 최신 연도.
+        "channels": channels,
     }
 
 
@@ -167,7 +210,7 @@ def main() -> int:
     filled = sum(v is not None for sizes in data["values"].values() for v in sizes.values())
     print(f"{len(INDUSTRIES)} industries x {len(SIZES)} sizes = {len(INDUSTRIES) * len(SIZES)} series, "
           f"{filled} with data; years {START}-{END}; fetched {data['source']['fetchedAt']}")
-    print(f"manufacturing composition + material-to-sales: {len(data['composition'])} industries ({END})")
+    print(f"manufacturing cost statement + income statement + ratios: {len(data['composition'])} industries ({END})")
     if args.dry_run:
         print(json.dumps(data["values"], ensure_ascii=False)[:2000])
         return 0
