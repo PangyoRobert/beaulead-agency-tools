@@ -4,11 +4,12 @@
 // 번들마다 같은 CPA 를 가정하는 최종 마진, 반품·취소율. 이 계산은 **반품·취소를 반영하지
 // 않는다(0% 가정)**. 화면도 결과 옆에 그 전제를 항상 적는다.
 //
-// 금액 기준
-// - 판매가(unitPrice)는 소비자가 내는 결제금액이라 VAT 를 포함한다.
-// - 원가·물류비·광고비(CPA)는 공급가(VAT 제외)로 입력한다.
-// - PG 수수료는 결제금액(VAT 포함)에 곱한다. 카드사는 결제 총액에 수수료를 매긴다.
-// - 공헌이익(CM1)은 공급가 매출에서 비용을 뺀다. VAT 는 매출이 아니라 대신 걷어 내는 돈이다.
+// 금액 기준: 모든 금액은 부가세(VAT)를 포함한 금액이다 (2026-10-08 사용자 결정).
+// - 판매가는 소비자가 내는 결제금액, 상품값·물류비·광고비(CPA)는 영수증·광고 관리자에 보이는 금액
+//   그대로 넣는다. 부가세를 따로 빼는 환산은 하지 않는다.
+// - PG 수수료는 결제금액에 곱한다.
+// - 이 방식은 사용자 시트의 계산과 같다. 부가세를 따로 빼지 않으므로, 모든 금액에 부가세가 들어
+//   있을 때 남는 돈(CM1)은 부가세를 뺀 값보다 대체로 약 10% 크게 나온다(납부할 부가세만큼).
 (function attachEcommerceEconomicsCalculator(root, factory) {
   const calculator = factory();
   if (typeof module === "object" && module.exports) module.exports = calculator;
@@ -44,17 +45,16 @@
     return Array.from(new Set(issues));
   }
 
-  function calculateBundle(input, bundle, vatRate) {
+  function calculateBundle(input, bundle) {
     const totalQty = bundle.paidQty + bundle.freeQty;
     const grossSales = input.unitPrice * bundle.paidQty;
-    const supplySales = grossSales / (1 + vatRate);
     const totalCogs = input.unitCogs * totalQty;
     const pgFee = grossSales * input.pgRate;
     const shipping = input.shippingPerBox;
     const shippingPerUnit = shipping / totalQty;
 
-    const cm1 = supplySales - totalCogs - pgFee - shipping;
-    const cm1Rate = cm1 / supplySales;
+    const cm1 = grossSales - totalCogs - pgFee - shipping;
+    const cm1Rate = cm1 / grossSales;
     // 공헌이익이 0 이하면 광고비를 한 푼도 쓸 수 없다. 음수 한계선을 내보내지 않는다.
     const beRoas = cm1 > 0 ? grossSales / cm1 : null;
     const maxCpaRaw = cm1 - input.targetMinMargin;
@@ -75,11 +75,9 @@
       freeQty: bundle.freeQty,
       totalQty,
       grossSales,
-      supplySales,
-      vatAmount: grossSales - supplySales,
       discountRate: bundle.freeQty / totalQty,
       totalCogs,
-      cogsRate: totalCogs / supplySales,
+      cogsRate: totalCogs / grossSales,
       pgFee,
       shipping,
       shippingPerUnit,
@@ -101,10 +99,10 @@
   function calculateAll(input, config) {
     const issues = validateInput(input);
     if (issues.length) throw new Error(issues.join(" "));
-    if (!config || !isNumber(config.vatRate) || config.vatRate < 0 || !Array.isArray(config.bundles)) {
-      throw new Error("설정에 vatRate 와 bundles 가 필요합니다.");
+    if (!config || !Array.isArray(config.bundles)) {
+      throw new Error("설정에 bundles 가 필요합니다.");
     }
-    return Object.freeze(config.bundles.map((bundle) => calculateBundle(input, bundle, config.vatRate)));
+    return Object.freeze(config.bundles.map((bundle) => calculateBundle(input, bundle)));
   }
 
   return Object.freeze({ validateInput, calculateAll });

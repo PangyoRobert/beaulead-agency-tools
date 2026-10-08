@@ -118,13 +118,13 @@ details.term[open] summary::after{content:"－"}
 <li><b>화면의 숫자는 가상 예시예요.</b> 실제 상품이나 고객사의 값이 아니고, 현장에서 바로 보여주려고 미리 채워 두었어요. 고객의 실제 숫자로 바꿔서 쓰세요.</li>
 <li><b>반품·취소 미반영(0% 가정)</b>이에요. 환불이나 취소가 생기면 실제로 남는 돈은 이보다 줄 수 있어요.</li>
 <li><b>"남는 돈"은 순이익이 아니에요.</b> 인건비·임대료 같은 고정비는 빼지 않았어요.</li>
-<li><b>금액 기준:</b> 판매가는 손님이 내는 금액(부가세(VAT) 포함)으로, 상품값·택배비·광고비는 부가세를 뺀 금액으로 넣어요. 남는 돈은 부가세를 뺀 매출에서 계산해요.</li>
+<li><b>금액 기준: 모든 금액을 부가세(VAT)를 포함한 금액으로 넣어요.</b> 가격표·영수증·광고 관리자에 보이는 그대로 넣으면 돼요. 부가세를 따로 빼지 않아서, 남는 돈이 부가세를 뺐을 때보다 대체로 약 10% 크게 나와요.</li>
 <li>입력한 값은 이 브라우저 안에서만 계산해요. 저장하거나 어디로도 보내지 않고, 새로고침하면 가상 예시값으로 돌아가요.</li>
 </ul>
 </div>
 
 <h2 id="h-input">1. 기본 정보 입력</h2>
-<p class="sub">판매가·상품값·택배비는 물건 1개(박스 1개) 기준이에요. 칸마다 ⓘ를 누르면 설명이 열려요.</p>
+<p class="sub">판매가·상품값·택배비는 물건 1개(박스 1개) 기준이고, 모두 부가세를 포함한 금액으로 넣어요. 칸마다 ⓘ를 누르면 설명이 열려요.</p>
 <div class="grid" role="group" aria-labelledby="h-input">
 <div class="field" data-term="vatPrice"><div class="row"><input id="unitPrice" data-money inputmode="decimal"><span class="unit">원</span></div></div>
 <div class="field" data-term="cogs"><div class="row"><input id="unitCogs" data-money inputmode="decimal"><span class="unit">원</span></div></div>
@@ -151,7 +151,7 @@ details.term[open] summary::after{content:"－"}
 
 <h2 id="h-result">4. 묶음 구성별 비교표</h2>
 <p class="sub">광고비(주문 1건당)는 비워 두어도 돼요. 비워 두면 "최대 광고비"만 보여줘요.</p>
-<div class="assume" id="assume">반품·취소 미반영(0% 가정) · 상품값·택배비·광고비는 부가세 뺀 금액 기준, 결제금액만 부가세 포함 · 가상 예시값</div>
+<div class="assume" id="assume">반품·취소 미반영(0% 가정) · 모든 금액은 부가세 포함 · 가상 예시값</div>
 <div class="issues" id="issues" role="alert" hidden></div>
 <p class="sub scroll-hint">← 표를 옆으로 밀어 다른 구성을 확인하세요</p>
 <div class="table-wrap" id="result-wrap" aria-live="polite">
@@ -173,6 +173,7 @@ details.term[open] summary::after{content:"－"}
 <li>같은 손님이 다시 사 주는 것(재구매)과 손님 한 명이 평생 쓰는 돈(LTV). "최대 광고비"는 <b>첫 구매만으로 본전</b>이 되는 선이에요.</li>
 <li>묶음 가격이 오르면 사는 사람이 줄어서 광고비가 달라지는 효과. 구성마다 주문 1건당 광고비를 직접 넣어서 비교하세요.</li>
 <li>쿠폰·적립금, 인건비·임대료 같은 고정비, 쇼핑몰 입점 수수료</li>
+<li>부가세를 따로 빼는 계산. 모든 금액을 부가세 포함으로 보기 때문에, 부가세를 낸 뒤 실제로 남는 돈은 이 화면의 숫자보다 적을 수 있어요.</li>
 </ul>
 
 <p class="foot">단위: 원(KRW). 표시는 원 단위 반올림이고 계산은 반올림 전 값으로 해요. 문의는 <a href="mailto:robert@beaulead.co.kr">robert@beaulead.co.kr</a>로 주십시오.</p>
@@ -269,9 +270,8 @@ details.term[open] summary::after{content:"－"}
     { label: "덤으로 주는 개수", value: (b) => plainText(String(b.freeQty)) },
     { label: "보내는 물건 총 개수", value: (b) => plainText(String(b.totalQty)) },
     { term: "vatPrice", value: (b) => plainText(won(b.grossSales)) },
-    { term: "supply", value: (b) => plainText(won(b.supplySales)) },
     { term: "discountRate", value: (b) => plainText(pct1(b.discountRate)) },
-    { section: "들어가는 돈 (부가세 뺀 금액 기준)" },
+    { section: "들어가는 돈 (부가세 포함 금액 기준)" },
     { term: "cogs", value: (b) => plainText(won(b.totalCogs)) },
     { term: "pg", value: (b) => plainText(won(b.pgFee)) },
     { term: "shipping", value: (b) => plainText(won(b.shipping)) },
@@ -290,7 +290,7 @@ details.term[open] summary::after{content:"－"}
       key: true,
       value: (b) => (b.maxCpa === null ? { text: "여유가 없어요", note: "남기고 싶은 돈을 낼 수 없어요", tone: "bad" } : plainText(won(b.maxCpa)))
     },
-    { section: "광고비를 직접 넣어 보기 (선택, 부가세 뺀 금액)" },
+    { section: "광고비를 직접 넣어 보기 (선택, 부가세 포함 금액)" },
     { term: "cpa", cpa: true },
     {
       term: "finalMargin",
@@ -389,7 +389,7 @@ details.term[open] summary::after{content:"－"}
     const plainLabel = bundleById[id].plainLabel;
     glance.replaceChildren(...EX.summary(b, latest.input, plainLabel).map((line) => el("li", { class: line.tone || "", text: line.text })));
     $("steps-sub").textContent = "고른 구성 “" + plainLabel + "”의 계산 과정이에요. 지금 입력한 숫자로 한 줄씩 보여줘요.";
-    steps.replaceChildren(...EX.steps(b, latest.input, CONFIG.vatRate).map((step) => el("li", {}, [el("b", { text: step.label }), el("span", { text: step.formula })])));
+    steps.replaceChildren(...EX.steps(b, latest.input).map((step) => el("li", {}, [el("b", { text: step.label }), el("span", { text: step.formula })])));
   }
 
   function update() {

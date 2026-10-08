@@ -30,7 +30,7 @@
   function summary(b, input, plainLabel) {
     const lines = [];
     lines.push({
-      text: `“${plainLabel}” 구성이라면 손님이 ${won(b.grossSales)}을 내요. 부가세를 빼면 ${won(b.supplySales)}이에요.`,
+      text: `“${plainLabel}” 구성이라면 손님이 ${won(b.grossSales)}을 내요.`,
       tone: null
     });
 
@@ -78,16 +78,15 @@
   }
 
   /** "이렇게 계산했어요" 단계. 반환: [{ label, formula }]. 화면에 보이는 반올림 값으로 적는다. */
-  function steps(b, input, vatRate) {
-    const list = [
+  function steps(b, input) {
+    return [
       { label: "손님이 내는 금액 (부가세 포함)", formula: `${won(input.unitPrice)} × ${b.paidQty}개 = ${won(b.grossSales)}` },
-      { label: "부가세 뺀 금액", formula: `${won(b.grossSales)} ÷ (1 + ${pctPlain(vatRate)}) = ${won(b.supplySales)}` },
       { label: "상품값 (덤으로 주는 것까지)", formula: `${won(input.unitCogs)} × ${b.totalQty}개 = ${won(b.totalCogs)}` },
       { label: "카드·결제 수수료", formula: `${won(b.grossSales)} × ${pctPlain(input.pgRate)} = ${won(b.pgFee)}` },
       { label: "택배·포장비 (박스 1개)", formula: won(b.shipping) },
       {
         label: "광고비 쓰기 전에 남는 돈",
-        formula: `${won(b.supplySales)} − ${won(b.totalCogs)} − ${won(b.pgFee)} − ${won(b.shipping)} = ${won(b.cm1)}`
+        formula: `${won(b.grossSales)} − ${won(b.totalCogs)} − ${won(b.pgFee)} − ${won(b.shipping)} = ${won(b.cm1)}`
       },
       {
         label: "본전 되는 광고 효율",
@@ -98,7 +97,6 @@
         formula: b.maxCpa === null ? "한계선 없음 (남기고 싶은 돈을 낼 수 없어요)" : `${won(b.cm1)} − ${won(input.targetMinMargin)} = ${won(b.maxCpa)}`
       }
     ];
-    return list;
   }
 
   return Object.freeze({ won, pct1, pctPlain, summary, steps });

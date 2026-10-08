@@ -38,15 +38,15 @@ function inputFrom(overrides = {}) {
 }
 
 // --- 설정 구조 -------------------------------------------------------------
-check(config.vatRate, 0.1, "VAT 10%");
+// 모든 금액은 부가세 포함으로 본다(2026-10-08 사용자 결정). 부가세를 따로 빼는 환산 설정이 없어야 한다.
+check(config.vatRate, undefined, "부가세 환산 설정(vatRate)은 없다");
 check(config.bundles.map((b) => b.id), ["single", "b1p1", "b2p1", "b3p1", "b4p1"], "번들 5종과 순서");
 check(config.bundles.map((b) => [b.paidQty, b.freeQty]), [[1, 0], [1, 1], [2, 1], [3, 1], [4, 1]], "유료/무료 수량");
 check(config.thresholds, { aovFloor: 40000, marginFloor: 25000, cm1RatePercent: 60 }, "기준값은 사용자 시트와 같다");
 assert.ok(Object.isFrozen(config) && Object.isFrozen(config.defaults) && Object.isFrozen(config.bundles), "설정은 동결");
 
-// --- 사용자 시트 재현: VAT 0% 로 두면 시트의 숫자와 같아야 한다 ------------------
-const sheetConfig = { ...config, vatRate: 0 };
-const sheet = calculator.calculateAll(inputFrom({ cpaByBundle: { single: 15000, b1p1: 15000, b2p1: 15000, b3p1: 15000, b4p1: 15000 } }), sheetConfig);
+// --- 사용자 시트 재현: 부가세를 따로 빼지 않으므로 시트의 숫자와 같아야 한다 -------------
+const sheet = calculator.calculateAll(inputFrom({ cpaByBundle: { single: 15000, b1p1: 15000, b2p1: 15000, b3p1: 15000, b4p1: 15000 } }), config);
 [22503, 19503, 45506, 71509, 97512].forEach((expected, i) => close(sheet[i].cm1, expected, `시트 CM1 ${sheet[i].label}`));
 [29900, 29900, 59800, 89700, 119600].forEach((expected, i) => close(sheet[i].grossSales, expected, `시트 번들 판매가 ${sheet[i].label}`));
 [0, 0.5, 1 / 3, 0.25, 0.2].forEach((expected, i) => close(sheet[i].discountRate, expected, `시트 실질 할인율 ${sheet[i].label}`));
@@ -59,52 +59,43 @@ const sheet = calculator.calculateAll(inputFrom({ cpaByBundle: { single: 15000, 
 // 시트의 제1·제3법칙 결과: 단품·1+1 은 불가, 2+1 이상은 통과 / 제3법칙은 전부 통과.
 check(sheet.map((b) => b.rule1.pass), [false, false, true, true, true], "시트 제1법칙 결과");
 check(sheet.map((b) => b.rule3.pass), [true, true, true, true, true], "시트 제3법칙 결과");
+// 공급가·부가세 금액은 더 이상 계산하지 않는다
+check(sheet.every((b) => !("supplySales" in b) && !("vatAmount" in b)), true, "공급가·부가세 금액 필드가 없다");
 
-// --- VAT 10% 기준(이 페이지의 기준): 손계산 값으로 고정 -----------------------
-// 공급가 = 결제금액 / 1.1. 예) 단품 29,900 / 1.1 = 27,181.8182
-// 단품 CM1 = 27,181.8182 - 3,000 - 897 - 3,500 = 19,784.8182
+// 이 페이지의 기본 계산(CPA 없음) — 이하 테스트의 기준
 const vat = calculator.calculateAll(inputFrom(), config);
-[19784.818182, 16784.818182, 40069.636364, 63354.454545, 86639.272727].forEach((expected, i) =>
-  close(vat[i].cm1, expected, `VAT 기준 CM1 ${vat[i].label}`)
-);
-[27181.818182, 27181.818182, 54363.636364, 81545.454545, 108727.272727].forEach((expected, i) =>
-  close(vat[i].supplySales, expected, `VAT 기준 공급가 ${vat[i].label}`)
-);
-// VAT 를 매출로 세던 시트보다 CM1 이 낮다: 단품 22,503 -> 19,784.82
-assert.ok(vat[0].cm1 < sheet[0].cm1, "VAT 를 빼면 CM1 이 낮아진다");
-checks += 1;
-close(vat[0].vatAmount, 29900 - 27181.818182, "VAT 금액 = 결제금액 - 공급가");
-// BE ROAS 는 결제금액(VAT 포함) / CM1 이다. 광고 매체가 보고하는 구매 전환 가치와 같은 기준.
-close(vat[0].beRoas, 29900 / 19784.818182, "VAT 기준 BE ROAS 단품");
-close(vat[2].beRoas, 59800 / 40069.636364, "VAT 기준 BE ROAS 2+1");
-// 제1법칙: 단품·1+1 은 결제 4만 미만이고 CM1 도 2.5만 미만이라 미통과, 2+1 부터 결제금액으로 통과
-check(vat.map((b) => b.rule1.pass), [false, false, true, true, true], "VAT 기준 제1법칙");
+// BE ROAS 는 결제금액 / CM1. CM1율은 CM1 / 결제금액이다(시트와 같다).
+close(vat[0].beRoas, 29900 / 22503, "BE ROAS 단품");
+close(vat[2].beRoas, 59800 / 45506, "BE ROAS 2+1");
+check(vat.map((b) => b.rule1.pass), [false, false, true, true, true], "제1법칙");
 check(vat.map((b) => b.rule1.byAov), [false, false, true, true, true], "제1법칙 결제금액 조건");
 check(vat.map((b) => b.rule1.byMargin), [false, false, true, true, true], "제1법칙 CM1 조건");
-// 제3법칙: 1+1 의 CM1율 = 16,784.82 / 27,181.82 = 0.6175 로 60% 를 간신히 넘는다
-close(vat[1].cm1Rate, 16784.818182 / 27181.818182, "1+1 CM1율");
-check(vat.map((b) => b.rule3.pass), [true, true, true, true, true], "VAT 기준 제3법칙");
+check(vat.map((b) => b.rule3.pass), [true, true, true, true, true], "제3법칙");
+// 부가세를 따로 빼지 않는 것이 시트와 같은 판정을 낳는다: 33,000원 단품은 CM1 25,510원이라 제1법칙 충족
+const edge = calculator.calculateAll(inputFrom({ unitPrice: 33000 }), config)[0];
+close(edge.cm1, 33000 - 3000 - 990 - 3500, "33,000원 단품 CM1 = 25,510");
+check(edge.rule1.pass, true, "시트와 같이 CM1 2.5만원 이상이면 제1법칙 충족");
 
 // 기준값을 올리면 판정이 바뀐다(기준값은 입력이다)
-const strict = calculator.calculateAll(inputFrom({ thresholds: { aovFloor: 40000, marginFloor: 25000, cm1RateFloor: 0.75 } }), config);
-check(strict.map((b) => b.rule3.pass), [false, false, false, true, true], "CM1율 하한 75% 면 단품·1+1·2+1 미통과");
+const strict = calculator.calculateAll(inputFrom({ thresholds: { aovFloor: 40000, marginFloor: 25000, cm1RateFloor: 0.78 } }), config);
+check(strict.map((b) => b.rule3.pass), [false, false, false, true, true], "CM1율 하한 78% 면 단품·1+1·2+1 미통과");
 // 제1법칙은 둘 중 하나만 만족해도 통과(or). 결제금액 하한을 높이면 CM1 조건만 남는다.
 const marginOnly = calculator.calculateAll(inputFrom({ thresholds: { aovFloor: 1e9, marginFloor: 25000, cm1RateFloor: 0.6 } }), config);
 check(marginOnly.map((b) => b.rule1.pass), [false, false, true, true, true], "결제금액 조건을 막아도 CM1 2.5만 이상이면 통과");
 
 // --- 한계 CPA ---------------------------------------------------------------
-close(vat[0].maxCpa, 19784.818182, "목표 최소 마진 0 이면 한계 CPA = CM1");
+close(vat[0].maxCpa, 22503, "목표 최소 마진 0 이면 한계 CPA = CM1");
 const withTarget = calculator.calculateAll(inputFrom({ targetMinMargin: 5000 }), config);
-close(withTarget[2].maxCpa, 40069.636364 - 5000, "한계 CPA = CM1 - 목표 최소 마진");
+close(withTarget[2].maxCpa, 45506 - 5000, "한계 CPA = CM1 - 목표 최소 마진");
 const targetTooHigh = calculator.calculateAll(inputFrom({ targetMinMargin: 99999 }), config);
 check(targetTooHigh.map((b) => b.maxCpa), [null, null, null, null, null], "목표 마진이 CM1 이상이면 한계선 없음(null)");
 
 // --- 최종 마진은 CPA 를 넣은 번들만 ---------------------------------------------
 const partial = calculator.calculateAll(inputFrom({ cpaByBundle: { b2p1: 15000, single: null } }), config);
 check(partial.map((b) => b.cpa), [null, null, 15000, null, null], "입력한 번들만 CPA 가 있다");
-close(partial[2].finalMargin, 40069.636364 - 15000, "최종 마진 = CM1 - CPA");
+close(partial[2].finalMargin, 45506 - 15000, "최종 마진 = CM1 - CPA");
 check(partial.filter((b) => b.finalMargin === null).length, 4, "CPA 를 안 넣은 번들은 최종 마진을 계산하지 않는다");
-close(calculator.calculateAll(inputFrom({ cpaByBundle: { single: 0 } }), config)[0].finalMargin, 19784.818182, "CPA 0 은 입력으로 센다(비움과 다르다)");
+close(calculator.calculateAll(inputFrom({ cpaByBundle: { single: 0 } }), config)[0].finalMargin, 22503, "CPA 0 은 입력으로 센다(비움과 다르다)");
 
 // --- 극단값 ------------------------------------------------------------------
 const loss = calculator.calculateAll(inputFrom({ unitCogs: 30000 }), config);
@@ -134,7 +125,7 @@ assert.ok(calculator.validateInput(inputFrom({ thresholds: { aovFloor: 1, margin
 assert.ok(calculator.validateInput(null).length > 0, "입력 없음");
 checks += 11;
 assert.throws(() => calculator.calculateAll(inputFrom({ unitPrice: 0 }), config), /판매가/, "잘못된 입력은 계산하지 않고 던진다");
-assert.throws(() => calculator.calculateAll(inputFrom(), { bundles: [] }), /vatRate/, "설정에 vatRate 가 없으면 던진다");
+assert.throws(() => calculator.calculateAll(inputFrom(), {}), /bundles/, "설정에 bundles 가 없으면 던진다");
 checks += 2;
 
 // --- 쉬운 말 풀이: 용어 사전 ---------------------------------------------------------
@@ -183,6 +174,13 @@ assert.ok(!/광고 관리자[^.]*같은 기준/.test(JSON.stringify(G)), "광고
 });
 checks += 1;
 
+// "진짜 이익"과 "순이익이 아니다"가 서로 부딪히지 않고 같은 풀이 안에서 이어진다(2026-10-08 사용자 결정)
+assert.match(G.cm1.detail, /진짜 이익이에요\. 다만[^.]*순이익은 아니에요/, "진짜 이익이지만 순이익은 아니라는 한 흐름");
+// 부가세를 따로 빼지 않는다는 부작용을 숨기지 않는다
+assert.match(G.vatPrice.caution, /약 10%/, "부가세를 안 빼서 남는 돈이 대체로 약 10% 크게 나온다는 주의");
+assert.match(G.cm1.caution, /부가세도 따로 빼지 않아서/, "남는 돈 풀이에도 같은 주의");
+checks += 3;
+
 // 예시 숫자는 glossaryExample 로 실제 계산한 값과 같아야 한다 — 글과 계산이 어긋나면 여기서 잡는다
 const ex = config.glossaryExample;
 const exInput = inputFrom({
@@ -196,14 +194,13 @@ const hasAll = (term, tokens) => tokens.forEach((token) => {
   assert.ok(G[term].example.includes(token), `${term}.example 에 "${token}" 가 있어야 한다: ${G[term].example}`);
   checks += 1;
 });
-hasAll("vatPrice", [W(11000), W(11000 - 11000 / 1.1)]);
-close(11000 / 1.1, 10000, "예시: 11,000원의 공급가는 10,000원");
-hasAll("supply", [W(ex.unitPrice / 1.1)]);
+hasAll("vatPrice", [W(11000)]);
+check("supply" in G, false, "공급가 용어는 없다(부가세를 따로 빼지 않는다)");
 hasAll("cogs", [W(ex.unitCogs)]);
 hasAll("shipping", [W(ex.shippingPerBox)]);
 hasAll("pg", [W(ex.unitPrice * ex.pgRatePercent / 100), W(ex.unitPrice)]);
-hasAll("cm1", [W(exRes.single.supplySales), W(exRes.single.pgFee), W(exRes.single.cm1), W(ex.unitCogs), W(ex.shippingPerBox)]);
-hasAll("cm1Rate", [explain.pct1(exRes.single.cm1Rate), W(exRes.single.supplySales), W(exRes.single.cm1)]);
+hasAll("cm1", [W(exRes.single.grossSales), W(exRes.single.pgFee), W(exRes.single.cm1), W(ex.unitCogs), W(ex.shippingPerBox)]);
+hasAll("cm1Rate", [explain.pct1(exRes.single.cm1Rate), W(exRes.single.grossSales), W(exRes.single.cm1)]);
 hasAll("beRoas", [explain.pct1(exRes.single.beRoas), (exRes.single.beRoas * 100).toFixed(1) + "원", W(exRes.single.cm1)]);
 hasAll("maxCpa", [W(exRes.single.maxCpa), W(exTarget.single.maxCpa), W(ex.targetMinMargin)]);
 close(300000 / 100, ex.cpa, "예시: 광고비 30만 원 ÷ 주문 100건 = 3,000원");
@@ -212,7 +209,7 @@ hasAll("finalMargin", [W(exRes.single.cm1), W(ex.cpa), W(exRes.single.finalMargi
 hasAll("targetMin", [W(exRes.single.cm1), W(ex.targetMinMargin), W(exTarget.single.maxCpa)]);
 hasAll("bundle", [W(exRes.b2p1.grossSales), W(exRes.b2p1.totalCogs)]);
 hasAll("discountRate", [explain.pct1(exRes.b2p1.discountRate)]);
-hasAll("cogsRate", [W(exRes.single.supplySales), W(ex.unitCogs), explain.pct1(exRes.single.cogsRate)]);
+hasAll("cogsRate", [W(exRes.single.grossSales), W(ex.unitCogs), explain.pct1(exRes.single.cogsRate)]);
 hasAll("shippingPerUnit", [W(ex.shippingPerBox), W(exRes.b2p1.shippingPerUnit)]);
 hasAll("shippingSaving", [W(ex.shippingPerBox), W(exRes.b2p1.shippingPerUnit), W(exRes.b2p1.shippingSavingPerUnit)]);
 hasAll("rule1", [W(config.thresholds.aovFloor), W(config.thresholds.marginFloor), W(vat[2].grossSales)]);
@@ -229,17 +226,17 @@ const single = vat[0];
 check(
   textsOf(explain.summary(single, defaultIn, labelOf("single"))),
   [
-    "“1개만 판매” 구성이라면 손님이 29,900원을 내요. 부가세를 빼면 27,182원이에요.",
-    "여기서 상품값 3,000원, 카드·결제 수수료 897원, 택배·포장비 3,500원을 빼면, 광고비를 쓰기 전에 19,785원이 남아요.",
-    "그래서 주문 1건에 광고비를 19,785원까지 쓰면 딱 본전이에요.",
-    "광고비 100원을 쓸 때 결제금액이 151.1원 이상 나오면 본전이에요."
+    "“1개만 판매” 구성이라면 손님이 29,900원을 내요.",
+    "여기서 상품값 3,000원, 카드·결제 수수료 897원, 택배·포장비 3,500원을 빼면, 광고비를 쓰기 전에 22,503원이 남아요.",
+    "그래서 주문 1건에 광고비를 22,503원까지 쓰면 딱 본전이에요.",
+    "광고비 100원을 쓸 때 결제금액이 132.9원 이상 나오면 본전이에요."
   ],
   "단품 한눈에 보기 문장"
 );
 const b2 = explain.summary(vat[2], defaultIn, labelOf("b2p1"));
 assert.ok(b2[0].text.includes("2개 사면 1개 더 (총 3개)") && b2[0].text.includes("59,800원"), "2+1 문장: 구성 이름과 결제금액");
-assert.ok(b2[1].text.includes("40,070원이 남아요"), "2+1 문장: 남는 돈");
-assert.ok(b2[3].text.includes("149.2원 이상"), "2+1 문장: 본전 광고 효율");
+assert.ok(b2[1].text.includes("45,506원이 남아요"), "2+1 문장: 남는 돈");
+assert.ok(b2[3].text.includes("131.4원 이상"), "2+1 문장: 본전 광고 효율");
 checks += 3;
 // 숫자는 계산 결과에서 그대로 온다(문장이 따로 계산하지 않는다)
 const sentenceNumbers = (lines) => lines.map((l) => l.text).join(" ");
@@ -247,9 +244,9 @@ close(Number(sentenceNumbers(b2).match(/결제금액이 ([\d.]+)원 이상/)[1])
 
 // 광고비를 넣으면 마지막 줄이 붙는다 (남는 경우 / 손해인 경우)
 const withCpa = explain.summary(calculator.calculateAll(inputFrom({ cpaByBundle: { single: 15000 } }), config)[0], inputFrom({ cpaByBundle: { single: 15000 } }), labelOf("single"));
-check(withCpa[withCpa.length - 1], { text: "입력하신 주문 1건당 광고비 15,000원을 쓰면, 광고비까지 쓰고도 4,785원이 남아요.", tone: "ok" }, "광고비를 넣었을 때 남는 경우");
+check(withCpa[withCpa.length - 1], { text: "입력하신 주문 1건당 광고비 15,000원을 쓰면, 광고비까지 쓰고도 7,503원이 남아요.", tone: "ok" }, "광고비를 넣었을 때 남는 경우");
 const lossCpa = calculator.calculateAll(inputFrom({ cpaByBundle: { single: 25000 } }), config)[0];
-check(explain.summary(lossCpa, inputFrom({ cpaByBundle: { single: 25000 } }), labelOf("single")).pop(), { text: "입력하신 주문 1건당 광고비 25,000원을 쓰면, 5,215원 손해예요.", tone: "bad" }, "광고비를 넣었을 때 손해인 경우");
+check(explain.summary(lossCpa, inputFrom({ cpaByBundle: { single: 25000 } }), labelOf("single")).pop(), { text: "입력하신 주문 1건당 광고비 25,000원을 쓰면, 2,497원 손해예요.", tone: "bad" }, "광고비를 넣었을 때 손해인 경우");
 
 // 광고비를 쓰기 전부터 손해이면 본전·최대 광고비 문장을 내지 않는다
 const lossLines = explain.summary(loss[0], inputFrom({ unitCogs: 30000 }), labelOf("single"));
@@ -276,24 +273,23 @@ assert.ok(!/원를|원가 |원는/.test(allSentences), "조사 오류(원를/원
 checks += 1;
 
 // --- 계산 과정 ----------------------------------------------------------------------
-const stepsOf = (b, input) => explain.steps(b, input, config.vatRate);
+const stepsOf = (b, input) => explain.steps(b, input);
 const s = stepsOf(single, defaultIn);
-check(s.length, 8, "계산 과정은 8단계");
+check(s.length, 7, "계산 과정은 7단계");
 check(s.map((x) => x.formula), [
   "29,900원 × 1개 = 29,900원",
-  "29,900원 ÷ (1 + 10%) = 27,182원",
   "3,000원 × 1개 = 3,000원",
   "29,900원 × 3% = 897원",
   "3,500원",
-  "27,182원 − 3,000원 − 897원 − 3,500원 = 19,785원",
-  "29,900원 ÷ 19,785원 = 151.1%",
-  "19,785원 − 0원 = 19,785원"
+  "29,900원 − 3,000원 − 897원 − 3,500원 = 22,503원",
+  "29,900원 ÷ 22,503원 = 132.9%",
+  "22,503원 − 0원 = 22,503원"
 ], "단품 계산 과정");
-check(stepsOf(vat[2], defaultIn)[2].formula, "3,000원 × 3개 = 9,000원", "덤으로 주는 물건까지 상품값에 들어간다");
-check(stepsOf(loss[0], inputFrom({ unitCogs: 30000 }))[6].formula, "계산할 수 없어요 (남는 돈이 0원 이하)", "손해 구성의 본전 광고 효율");
+check(stepsOf(vat[2], defaultIn)[1].formula, "3,000원 × 3개 = 9,000원", "덤으로 주는 물건까지 상품값에 들어간다");
+check(stepsOf(loss[0], inputFrom({ unitCogs: 30000 }))[5].formula, "계산할 수 없어요 (남는 돈이 0원 이하)", "손해 구성의 본전 광고 효율");
 // 화면에 적힌(반올림된) 숫자로 직접 계산해도 1원 안팎으로만 어긋난다 — 화면의 "1원쯤 차이" 안내가 맞는지 확인
 vat.forEach((b) => {
-  const shown = Math.round(b.supplySales) - Math.round(b.totalCogs) - Math.round(b.pgFee) - Math.round(b.shipping);
+  const shown = Math.round(b.grossSales) - Math.round(b.totalCogs) - Math.round(b.pgFee) - Math.round(b.shipping);
   assert.ok(Math.abs(shown - Math.round(b.cm1)) <= 2, `${b.label}: 반올림 숫자로 계산한 값이 ${shown}, 표시된 값은 ${Math.round(b.cm1)}`);
   checks += 1;
 });
