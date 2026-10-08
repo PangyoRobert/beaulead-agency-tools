@@ -4,8 +4,10 @@
     python3 scripts/fetch_cost_ratio.py            # 받아서 cost-ratio-benchmark/index.html 에 반영
     python3 scripts/fetch_cost_ratio.py --dry-run  # 받기만 하고 결과를 출력(파일은 그대로)
 
-출처: 한국은행 기업경영분석, ECOS 통계표 501Y006(손익 지표, 제11차 한국표준산업분류),
-계정항목 612(매출원가대매출액, %). 기업규모 A=종합, L=대기업, M=중소기업.
+출처: 한국은행 기업경영분석(ECOS).
+- 501Y006 손익 지표, 계정항목 612 매출원가대매출액(%) — 14개 업종 × 기업규모 A=종합, L=대기업, M=중소기업 × 2020~2024
+- 501Y006 손익 지표, 계정항목 617 재료비대매출액(%) — 제조업 11개 업종, 종합, 최신 연도
+- 501Y003 제조원가명세서(백만원) — 제조업 11개 업종, 종합, 최신 연도. 재료비·노무비·경비와 경비 세부 항목
 
 인증키는 환경변수 ECOS_API_KEY 또는 저장소 루트의 `.env`(커밋되지 않는 파일)에서만 읽는다.
 키를 출력하거나 파일에 쓰지 않는다.
@@ -37,6 +39,18 @@ TABLE = "501Y006"
 ITEM = "612"
 SIZES = ("A", "L", "M")  # 종합, 대기업, 중소기업
 START, END = 2020, 2024
+
+COST_ITEMS = {  # 501Y003 계정항목 코드 → 데이터 키
+    "310000": "totalManufacturingCost",  # 당기총제조비용 = 재료비 + 노무비 + 경비
+    "311000": "materials",               # 재료비
+    "312000": "labor",                   # 노무비(생산 인건비)
+    "313000": "overhead",                # 경비
+    "313010": "welfare",                 # 복리후생비(경비 안)
+    "313020": "electricity",             # 전력비
+    "313030": "gasWater",                # 가스수도비
+    "313040": "depreciation",            # 감가상각비
+    "313090": "outsourcing",             # 외주가공비
+}
 
 INDUSTRIES = (
     "C10", "C106", "C107", "C108", "C11", "C112", "C14",
@@ -80,6 +94,31 @@ def fetch_series(key: str, industry: str, size: str) -> dict[str, float] | None:
     return series
 
 
+def fetch_rows(key: str, table: str, industry: str, item: str = "") -> list[dict]:
+    parts = [urllib.parse.quote(key), "json", "kr", "1", "100", table, "A",
+             str(END), str(END), industry, "A"] + ([item] if item else [])
+    with urllib.request.urlopen(f"{API}/{'/'.join(parts)}", timeout=120) as response:
+        body = json.load(response)
+    rows = body.get("StatisticSearch", {}).get("row")
+    if not rows:
+        raise RuntimeError(f"{table}/{industry}/{item or '*'}: 값이 없다 {body.get('RESULT')}")
+    return rows
+
+
+def manufacturing_codes() -> list[str]:
+    return [code for code in INDUSTRIES if code.startswith("C")]
+
+
+def collect_manufacturing(key: str) -> tuple[dict, dict]:
+    composition, material_to_sales = {}, {}
+    for code in manufacturing_codes():
+        # 계정항목을 비우면 제조원가명세서 20개 항목이 한 번에 온다.
+        rows = {row["ITEM_CODE3"]: row["DATA_VALUE"] for row in fetch_rows(key, "501Y003", code)}
+        composition[code] = {name: float(rows[item]) for item, name in COST_ITEMS.items()}
+        material_to_sales[code] = float(fetch_rows(key, "501Y006", code, "617")[0]["DATA_VALUE"])
+    return composition, material_to_sales
+
+
 def collect() -> dict:
     key = api_key()
     values: dict[str, dict[str, dict[str, float] | None]] = {}
@@ -87,6 +126,7 @@ def collect() -> dict:
         values[industry] = {size: fetch_series(key, industry, size) for size in SIZES}
         if values[industry]["A"] is None:
             raise RuntimeError(f"{industry}: 종합(A) 값이 없다. 업종 코드를 확인한다.")
+    composition, material_to_sales = collect_manufacturing(key)
     kst = timezone(timedelta(hours=9))
     return {
         "source": {
@@ -99,6 +139,10 @@ def collect() -> dict:
             "fetchedAt": datetime.now(kst).strftime("%Y-%m-%d"),
         },
         "values": values,
+        # 제조업만: 매출 대비 재료비(%), 제조원가명세서 금액(백만원). 연도는 source.years 의 마지막 해.
+        "materialToSales": material_to_sales,
+        "composition": composition,
+        "compositionSource": {"table": "501Y003", "name": "제조원가명세서", "unit": "백만원", "year": str(END)},
     }
 
 
@@ -123,6 +167,7 @@ def main() -> int:
     filled = sum(v is not None for sizes in data["values"].values() for v in sizes.values())
     print(f"{len(INDUSTRIES)} industries x {len(SIZES)} sizes = {len(INDUSTRIES) * len(SIZES)} series, "
           f"{filled} with data; years {START}-{END}; fetched {data['source']['fetchedAt']}")
+    print(f"manufacturing composition + material-to-sales: {len(data['composition'])} industries ({END})")
     if args.dry_run:
         print(json.dumps(data["values"], ensure_ascii=False)[:2000])
         return 0
