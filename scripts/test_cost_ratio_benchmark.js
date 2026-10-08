@@ -95,7 +95,7 @@ assert.deepEqual(config.groups.map((g) => [g.id, g.basis]), [
   ["food-service", "원가 = 식자재 등"],
 ]);
 const byCode = Object.fromEntries(config.groups.flatMap((g) => g.industries.map((i) => [i.code, i])));
-assert.match(byCode.C204.flag, /화장품 단독 아님/);
+assert.match(byCode.C204.flag, /화장품 원가로 쓰면 안 됨/);
 
 // 주의사항은 전부 병기한다(2026-10-08 담당자 요청). 사용자가 지정한 문단은 문구 그대로.
 const caveatText = JSON.stringify(config.caveats);
@@ -114,7 +114,7 @@ for (const must of [
   "한계이익", "판관비 전부(광고선전비·판매수수료 포함)", "실제 공헌이익률이 이 값보다 낮습니다",
   "손익분기점 매출 = (고정비 − 영업외수익) ÷ 공헌이익률", "영업외비용이 포함돼",
   "경향을 보는 대략 범위", "모든 상품의 평균", "수출·기업 납품", "할인·판촉", "백화점은 입점 수수료",
-  "'참고'로만 표시", "의약품은 약값이 제도로 정해지고",
+  "'참고'로만 표시", "의약품은 약값이 제도로 정해지고", "기타 화학제품(화장품 포함)도 소비자가 계산에서 뺐습니다",
 ]) {
   assert.ok(caveatText.includes(must), `주의사항 누락: ${must}`);
 }
@@ -166,7 +166,10 @@ assert.doesNotMatch(text, /공장 원가 = 100/, "옛 '공장 원가 = 100' 표�
 const consumerText = fixed.get("consumer-table").textContent;
 assert.match(consumerText, /식료품C1067\.4%32\.9% ~ 47\.2%24\.6% ~ 35\.3%\(참고\) 36\.4%/);
 assert.match(consumerText, /의료용 물질·의약품C21—약값이 제도로 정해지고/);
-assert.equal(created.filter((e) => e.className === "range-fill").length, 10, "의약품을 뺀 10개 업종 범위 막대");
+assert.equal(created.filter((e) => e.className === "range-fill").length, 9, "의약품·기타 화학제품을 뺀 9개 업종 범위 막대");
+// 화장품(기타 화학제품)은 소비자가 범위에서 이유와 함께 제외하고, 업계 실무 기준을 함께 적는다(2026-10-08 담당자 요청).
+assert.match(consumerText, /기타 화학제품C204—화장품 단독 값이 아니고.*소비자 정가의 8~12%/);
+assert.match(fixed.get("groups").textContent, /화장품 원가로 쓰면 안 됨: .*페인트·잉크·농약/);
 const channelText = fixed.get("channel-table").textContent;
 assert.match(channelText, /온라인 판매 \(통신판매업\)G4791 통신 판매업59\.40%참고/);
 assert.match(channelText, /백화점G47111 백화점33\.19%제외/);
