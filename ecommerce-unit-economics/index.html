@@ -49,12 +49,12 @@ h2{font-size:22px;letter-spacing:-.03em;margin:44px 0 6px}
 .fhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .field label{font-size:14px}
 .plain{font-weight:700}
-.pro{display:block;font-size:11px;color:var(--muted);font-weight:400;line-height:1.4}
+.pro{display:block;font-size:12px;color:var(--muted);font-weight:400;line-height:1.4}
 .field .hint{font-size:12px;color:var(--muted);word-break:keep-all}
 .field .row{display:flex;align-items:center;gap:8px}
 .field input,.cpa-input{width:100%;padding:10px 12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;font-size:15px;font-variant-numeric:tabular-nums;text-align:right}
 .unit{font-size:13px;color:var(--muted);white-space:nowrap}
-a.info{flex:none;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--line);border-radius:50%;font-size:12px;font-weight:700;text-decoration:none;color:var(--brand);background:var(--panel);margin-left:6px}
+a.info{flex:none;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border:1px solid var(--line);border-radius:50%;font-size:12px;font-weight:700;text-decoration:none;color:var(--brand);background:var(--panel);margin-left:6px}
 a.info:hover{border-color:var(--brand)}
 .lbl{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .lbl a.info{margin-left:0}
@@ -110,7 +110,7 @@ details.term[open] summary::after{content:"－"}
 <main>
 <div class="eyebrow">UNIT ECONOMICS · BUNDLE SIMULATOR</div>
 <h1>묶음 판매<br>손익 시뮬레이터</h1>
-<p class="lead">상품값, 택배비, 카드 수수료를 넣으면 "1개 사면 1개 더" 같은 묶음 판매에서 광고비를 쓰기 전에 얼마가 남는지, 주문 1건에 광고비를 얼마까지 써도 본전인지 바로 계산해 줍니다. 자사몰 기준입니다. 모르는 말 옆의 ⓘ를 누르면 쉬운 설명과 예시가 나옵니다.</p>
+<p class="lead">상품값, 택배비, 카드 수수료를 넣으면 "1개 사면 1개 더" 같은 묶음 판매에서 광고비를 쓰기 전에 얼마가 남는지, 주문 1건에 광고비를 얼마까지 써도 본전인지 바로 계산해 줍니다. 자사몰 기준입니다. 모르는 말 옆의 ⓘ를 누르면 쉬운 설명이 나옵니다.</p>
 
 <div class="notice" id="notice">
 <strong>이 화면을 읽기 전에 확인해 주세요</strong>
@@ -118,13 +118,13 @@ details.term[open] summary::after{content:"－"}
 <li><b>화면의 숫자는 가상 예시예요.</b> 실제 상품이나 고객사의 값이 아니고, 현장에서 바로 보여주려고 미리 채워 두었어요. 고객의 실제 숫자로 바꿔서 쓰세요.</li>
 <li><b>반품·취소 미반영(0% 가정)</b>이에요. 환불이나 취소가 생기면 실제로 남는 돈은 이보다 줄 수 있어요.</li>
 <li><b>"남는 돈"은 순이익이 아니에요.</b> 인건비·임대료 같은 고정비는 빼지 않았어요.</li>
-<li><b>금액 기준: 모든 금액을 부가세(VAT)를 포함한 금액으로 넣어요.</b> 가격표·영수증·광고 관리자에 보이는 그대로 넣으면 돼요. 부가세를 따로 빼지 않아서, 남는 돈이 부가세를 뺐을 때보다 대체로 약 10% 크게 나와요.</li>
+<li><b>금액 기준: 모든 금액을 부가세(VAT)를 포함한 금액으로 넣어요.</b> 판매가·상품값·택배비는 가격표·영수증에 보이는 그대로 넣으면 돼요. 광고비는 광고 관리자 숫자가 부가세를 포함하는지 먼저 확인하고 포함 금액으로 맞춰 넣으세요. 부가세를 따로 빼지 않아서, 남는 돈이 부가세를 뺐을 때보다 대체로 약 10% 크게 나와요.</li>
 <li>입력한 값은 이 브라우저 안에서만 계산해요. 저장하거나 어디로도 보내지 않고, 새로고침하면 가상 예시값으로 돌아가요.</li>
 </ul>
 </div>
 
 <h2 id="h-input">1. 기본 정보 입력</h2>
-<p class="sub">판매가·상품값·택배비는 물건 1개(박스 1개) 기준이고, 모두 부가세를 포함한 금액으로 넣어요. 칸마다 ⓘ를 누르면 설명이 열려요.</p>
+<p class="sub">판매가·상품값·택배비는 물건 1개(박스 1개) 기준이고, 모두 부가세를 포함한 금액으로 넣어요. ⓘ가 있는 칸은 누르면 설명이 열려요.</p>
 <div class="grid" role="group" aria-labelledby="h-input">
 <div class="field" data-term="vatPrice"><div class="row"><input id="unitPrice" data-money inputmode="decimal"><span class="unit">원</span></div></div>
 <div class="field" data-term="cogs"><div class="row"><input id="unitCogs" data-money inputmode="decimal"><span class="unit">원</span></div></div>
@@ -164,7 +164,7 @@ details.term[open] summary::after{content:"－"}
 <p class="stand">원 단위로 반올림해서 보여줘요. 그래서 계산기로 직접 더하고 빼 보면 1원쯤 차이가 날 수 있어요.</p>
 
 <h2 id="h-glossary">6. 이 화면에서 쓰는 말, 쉽게 풀어 보기</h2>
-<p class="sub">제목을 누르면 열려요. 큰 글씨가 쉬운 말이고, 작은 글씨가 실무에서 쓰는 말이에요. 나중에 다른 곳에서 그 말을 들어도 이어서 이해할 수 있어요.</p>
+<p class="sub">제목을 누르면 열려요. 큰 글씨가 쉬운 말이고, 작은 글씨가 실무에서 쓰는 말이에요.</p>
 <div id="glossary"></div>
 
 <h2>7. 이 계산이 다루지 않는 것</h2>
@@ -189,6 +189,7 @@ details.term[open] summary::after{content:"－"}
   const EX = window.ECOMMERCE_ECONOMICS_EXPLAIN;
   const MONEY = window.MONEY_INPUT;
   const G = CONFIG.glossary;
+  const explained = new Set(CONFIG.glossaryOrder);
   const $ = (id) => document.getElementById(id);
 
   const f = {
@@ -254,7 +255,7 @@ details.term[open] summary::after{content:"－"}
       const term = field.dataset.term;
       const input = field.querySelector("input");
       const label = el("label", { for: input.id }, termSpans(term));
-      field.prepend(el("div", { class: "fhead" }, [label, infoLink(term)]));
+      field.prepend(el("div", { class: "fhead" }, explained.has(term) ? [label, infoLink(term)] : [label]));
       field.append(el("span", { class: "hint", text: G[term].short }));
     });
   }
@@ -322,7 +323,7 @@ details.term[open] summary::after{content:"－"}
     if (row.term) {
       const g = G[row.term];
       return el("th", { scope: "row" }, [
-        el("span", { class: "lbl" }, [el("span", { class: "plain", text: g.plain }), infoLink(row.term)]),
+        el("span", { class: "lbl" }, explained.has(row.term) ? [el("span", { class: "plain", text: g.plain }), infoLink(row.term)] : [el("span", { class: "plain", text: g.plain })]),
         el("span", { class: "pro", text: g.pro })
       ]);
     }
@@ -360,11 +361,8 @@ details.term[open] summary::after{content:"－"}
     const box = $("glossary");
     CONFIG.glossaryOrder.forEach((term) => {
       const g = G[term];
-      const body = el("div", { class: "term-body" }, [
-        el("p", {}, [el("b", { text: "한 줄로 " }), document.createTextNode(g.short)]),
-        el("p", {}, [el("b", { text: "자세히 " }), document.createTextNode(g.detail)]),
-        el("p", { class: "ex", text: g.example })
-      ]);
+      const body = el("div", { class: "term-body" }, [el("p", { text: g.short })]);
+      if (g.example) body.append(el("p", { class: "ex", text: g.example }));
       if (g.caution) body.append(el("p", { class: "caution", text: "주의: " + g.caution }));
       box.append(el("details", { class: "term", id: "g-" + term }, [el("summary", {}, termSpans(term)), body]));
     });

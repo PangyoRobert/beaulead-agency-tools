@@ -128,58 +128,65 @@ assert.throws(() => calculator.calculateAll(inputFrom({ unitPrice: 0 }), config)
 assert.throws(() => calculator.calculateAll(inputFrom(), {}), /bundles/, "설정에 bundles 가 없으면 던진다");
 checks += 2;
 
-// --- 쉬운 말 풀이: 용어 사전 ---------------------------------------------------------
+// --- 쉬운 말 풀이: 용어 사전 (간결판, 2026-10-08) -------------------------------------------
 const explain = require("../ecommerce-unit-economics/explain.js");
 const G = config.glossary;
-// 쉬운 말에 새어 나오면 안 되는 전문용어. 전문용어는 pro(작은 글씨 병기)와 detail(말뜻을 설명하는 곳)에만 둔다.
+// 쉬운 말에 새어 나오면 안 되는 전문용어. 전문용어는 pro(작은 글씨 병기)에만 둔다.
 const JARGON = ["CM1", "ROAS", "CPA", "PG", "VAT", "LTV", "공헌이익", "번들", "손익분기", "한계", "마진", "법칙"];
 const noJargon = (text) => JARGON.filter((word) => text.includes(word));
 
-check([...config.glossaryOrder].sort(), Object.keys(G).sort(), "표시 순서와 용어 사전의 항목이 정확히 같다");
-check(new Set(config.glossaryOrder).size, config.glossaryOrder.length, "표시 순서에 중복이 없다");
+// ⓘ 와 「용어 풀이」 목록에 나오는 항목은 11개다. 나머지 11개는 이름·한 줄 힌트로만 쓴다.
+check(config.glossaryOrder.length, 11, "풀이 항목은 11개");
+check(new Set(config.glossaryOrder).size, 11, "풀이 순서에 중복이 없다");
+config.glossaryOrder.forEach((term) => { assert.ok(G[term], `풀이 항목 ${term} 가 사전에 없다`); checks += 1; });
+check(Object.keys(G).filter((k) => !config.glossaryOrder.includes(k)).length, 11, "풀이 없이 이름·힌트만 쓰는 항목은 11개");
 Object.entries(G).forEach(([term, g]) => {
-  ["plain", "pro", "short", "detail", "example"].forEach((field) => {
+  ["plain", "pro", "short"].forEach((field) => {
     assert.ok(typeof g[field] === "string" && g[field].trim().length > 0, `${term}.${field} 가 비어 있다`);
     checks += 1;
   });
-  assert.equal(typeof g.caution, "string", `${term}.caution 은 문자열(없으면 빈 문자열)`);
+  // 자세한 설명(detail)은 두지 않는다 — 너무 길면 현장에서 오히려 효율이 떨어진다(사용자 피드백)
+  assert.ok(!("detail" in g), `${term}: 자세한 설명(detail)은 두지 않는다`);
   checks += 1;
+  ["example", "caution"].forEach((field) => {
+    if (field in g) { assert.ok(typeof g[field] === "string" && g[field].trim().length > 0, `${term}.${field} 는 있으면 비어 있지 않다`); checks += 1; }
+  });
   // 쉬운 말·한 줄 풀이·예시·주의에는 전문용어가 없어야 한다
   ["plain", "short", "example", "caution"].forEach((field) => {
-    check(noJargon(g[field]), [], `${term}.${field} 에 전문용어가 새어 나왔다: ${g[field]}`);
+    if (g[field]) check(noJargon(g[field]), [], `${term}.${field} 에 전문용어가 새어 나왔다: ${g[field]}`);
   });
-  assert.ok(g.example.startsWith("예)"), `${term}.example 은 "예)" 로 시작한다`);
-  checks += 1;
+  if (g.example) { assert.ok(g.example.startsWith("예)"), `${term}.example 은 "예)" 로 시작한다`); checks += 1; }
   assert.ok(g.plain !== g.pro, `${term}: 쉬운 말과 전문용어 표기가 같다`);
   checks += 1;
+  // 짧게 유지한다: 항목마다 글자 수 상한
+  const size = (g.short || "").length + (g.example || "").length + (g.caution || "").length;
+  assert.ok((g.short || "").length <= 110 && (g.example || "").length <= 110 && (g.caution || "").length <= 110 && size <= 230, `${term}: 풀이가 너무 길다(${size}자)`);
+  checks += 1;
 });
+// 풀이 본문 전체 분량 상한(이전 3,736자 → 간결판 약 1,150자). 다시 길어지면 여기서 걸린다.
+const bodyTotal = config.glossaryOrder.reduce((n, t) => n + (G[t].short || "").length + (G[t].example || "").length + (G[t].caution || "").length, 0);
+assert.ok(bodyTotal <= 1300, `풀이 본문 합계가 ${bodyTotal}자 — 1,300자를 넘으면 너무 길다`);
+checks += 1;
 config.bundles.forEach((b) => {
   check(noJargon(b.plainLabel), [], `${b.id}.plainLabel 에 전문용어가 있다`);
   assert.ok(b.proLabel && b.plainLabel, `${b.id}: 쉬운 이름과 병기 이름이 모두 있다`);
   checks += 1;
 });
-// 가장 중요한 오해 방지 문구가 빠지지 않는다
-assert.match(G.cm1.caution, /순이익이 아니에요/, "남는 돈은 순이익이 아니라는 주의");
-assert.match(G.maxCpa.caution, /첫 구매/, "최대 광고비는 첫 구매 기준이라는 주의");
-assert.match(G.beRoas.caution, /부가세/, "광고비는 부가세 뺀 금액이라는 주의");
-checks += 3;
-// 확인되지 않은 주장은 쓰지 않는다: 광고 관리자의 ROAS·광고비는 플랫폼마다 기준이 달라서,
-// 이 페이지의 숫자가 광고 관리자 숫자와 "같은 기준"이라고 말하면 안 된다. 경고는 남아 있어야 한다.
-assert.ok(!/광고 관리자[^.]*같은 기준/.test(JSON.stringify(G)), "광고 관리자와 같은 기준이라는 단정 문구가 없다");
-["beRoas", "cpa"].forEach((term) => {
-  const text = G[term].detail + G[term].caution;
-  assert.match(text, /플랫폼마다/, `${term}: 플랫폼마다 기준이 다르다는 경고`);
-  assert.match(text, /광고 관리자/, `${term}: 광고 관리자 숫자를 확인하라는 안내`);
-  checks += 2;
-});
-checks += 1;
 
-// "진짜 이익"과 "순이익이 아니다"가 서로 부딪히지 않고 같은 풀이 안에서 이어진다(2026-10-08 사용자 결정)
-assert.match(G.cm1.detail, /진짜 이익이에요\. 다만[^.]*순이익은 아니에요/, "진짜 이익이지만 순이익은 아니라는 한 흐름");
-// 부가세를 따로 빼지 않는다는 부작용을 숨기지 않는다
-assert.match(G.vatPrice.caution, /약 10%/, "부가세를 안 빼서 남는 돈이 대체로 약 10% 크게 나온다는 주의");
-assert.match(G.cm1.caution, /부가세도 따로 빼지 않아서/, "남는 돈 풀이에도 같은 주의");
-checks += 3;
+// 가장 중요한 오해 방지 문구 4가지가 빠지지 않는다
+assert.match(G.cm1.caution, /진짜 이익이지만[^.]*순이익은 아니에요/, "진짜 이익이지만 순이익은 아니다(사용자 결정)");
+assert.match(G.vatPrice.caution, /약 10%/, "부가세를 안 빼서 남는 돈이 대체로 약 10% 크게 나온다");
+assert.match(G.maxCpa.caution, /첫 구매/, "최대 광고비는 첫 구매 기준이다");
+assert.match(G.beRoas.caution, /플랫폼마다/, "플랫폼마다 기준이 다르다");
+assert.match(G.beRoas.caution, /광고 관리자/, "광고 관리자 숫자는 기준부터 확인한다");
+assert.match(G.cpa.short, /플랫폼마다/, "광고비 입력도 플랫폼마다 달라 먼저 확인한다");
+assert.match(G.cpa.short, /광고 관리자/, "광고 관리자 숫자 확인 안내");
+checks += 7;
+// 확인되지 않은 주장은 쓰지 않는다: 광고 관리자의 ROAS·광고비는 플랫폼마다 기준이 달라서
+// "같은 기준"이라 하거나 "광고 관리자에 보이는 그대로 넣으라"고 단정하면 안 된다.
+assert.ok(!/광고 관리자[^.]*같은 기준/.test(JSON.stringify(G)), "광고 관리자와 같은 기준이라는 단정 문구가 없다");
+assert.ok(!JSON.stringify(G).includes("광고 관리자에 보이는"), "광고 관리자에 보이는 그대로라는 단정 문구가 없다");
+checks += 2;
 
 // 예시 숫자는 glossaryExample 로 실제 계산한 값과 같아야 한다 — 글과 계산이 어긋나면 여기서 잡는다
 const ex = config.glossaryExample;
@@ -191,31 +198,18 @@ const exRes = Object.fromEntries(calculator.calculateAll(exInput, config).map((b
 const exTarget = Object.fromEntries(calculator.calculateAll({ ...exInput, targetMinMargin: ex.targetMinMargin }, config).map((b) => [b.id, b]));
 const W = explain.won;
 const hasAll = (term, tokens) => tokens.forEach((token) => {
-  assert.ok(G[term].example.includes(token), `${term}.example 에 "${token}" 가 있어야 한다: ${G[term].example}`);
+  assert.ok((G[term].example || "").includes(token), `${term}.example 에 "${token}" 가 있어야 한다: ${G[term].example}`);
   checks += 1;
 });
-hasAll("vatPrice", [W(11000)]);
-check("supply" in G, false, "공급가 용어는 없다(부가세를 따로 빼지 않는다)");
-hasAll("cogs", [W(ex.unitCogs)]);
-hasAll("shipping", [W(ex.shippingPerBox)]);
-hasAll("pg", [W(ex.unitPrice * ex.pgRatePercent / 100), W(ex.unitPrice)]);
-hasAll("cm1", [W(exRes.single.grossSales), W(exRes.single.pgFee), W(exRes.single.cm1), W(ex.unitCogs), W(ex.shippingPerBox)]);
+check(Object.keys(G).filter((k) => G[k].example).sort(), ["bundle", "cm1", "cm1Rate", "beRoas", "cpa", "maxCpa"].sort(), "예시는 핵심 6개에만 둔다");
+hasAll("cm1", [W(exRes.single.grossSales), W(ex.unitCogs), W(exRes.single.pgFee), W(ex.shippingPerBox), W(exRes.single.cm1)]);
 hasAll("cm1Rate", [explain.pct1(exRes.single.cm1Rate), W(exRes.single.grossSales), W(exRes.single.cm1)]);
-hasAll("beRoas", [explain.pct1(exRes.single.beRoas), (exRes.single.beRoas * 100).toFixed(1) + "원", W(exRes.single.cm1)]);
+hasAll("beRoas", [explain.pct1(exRes.single.beRoas), (exRes.single.beRoas * 100).toFixed(1) + "원", W(exRes.single.grossSales), W(exRes.single.cm1)]);
 hasAll("maxCpa", [W(exRes.single.maxCpa), W(exTarget.single.maxCpa), W(ex.targetMinMargin)]);
 close(300000 / 100, ex.cpa, "예시: 광고비 30만 원 ÷ 주문 100건 = 3,000원");
 hasAll("cpa", ["30만 원", "100건", W(ex.cpa)]);
-hasAll("finalMargin", [W(exRes.single.cm1), W(ex.cpa), W(exRes.single.finalMargin)]);
-hasAll("targetMin", [W(exRes.single.cm1), W(ex.targetMinMargin), W(exTarget.single.maxCpa)]);
 hasAll("bundle", [W(exRes.b2p1.grossSales), W(exRes.b2p1.totalCogs)]);
-hasAll("discountRate", [explain.pct1(exRes.b2p1.discountRate)]);
-hasAll("cogsRate", [W(exRes.single.grossSales), W(ex.unitCogs), explain.pct1(exRes.single.cogsRate)]);
-hasAll("shippingPerUnit", [W(ex.shippingPerBox), W(exRes.b2p1.shippingPerUnit)]);
-hasAll("shippingSaving", [W(ex.shippingPerBox), W(exRes.b2p1.shippingPerUnit), W(exRes.b2p1.shippingSavingPerUnit)]);
-hasAll("rule1", [W(config.thresholds.aovFloor), W(config.thresholds.marginFloor), W(vat[2].grossSales)]);
-hasAll("rule3", [config.thresholds.cm1RatePercent + "%"]);
-hasAll("aovFloor", [W(config.thresholds.aovFloor)]);
-hasAll("marginFloor", [W(config.thresholds.marginFloor)]);
+check("supply" in G, false, "공급가 용어는 없다(부가세를 따로 빼지 않는다)");
 check(exRes.single.finalMargin > 0, true, "예시의 최종 마진은 양수");
 
 // --- 문장 요약 ----------------------------------------------------------------------
@@ -338,6 +332,11 @@ if (fs.existsSync(pagePath)) {
   });
   // 사전의 모든 용어가 화면의 어딘가에서 입력 칸이나 표 줄로 쓰이거나 풀이 목록에 나온다
   check(config.glossaryOrder.every((term) => G[term]), true, "풀이 목록의 모든 용어가 사전에 있다");
+
+  // ⓘ 는 풀이가 있는 항목에만 단다, 광고 관리자 단정 문구는 화면에도 없다
+  assert.match(html, /explained\.has\(/, "ⓘ 는 풀이가 있는 항목에만 단다");
+  assert.ok(!html.includes("광고 관리자에 보이는"), "화면 안내에 광고 관리자에 보이는 그대로라는 단정이 없다");
+  checks += 2;
 
   // 풀이는 주소(해시)를 읽지 않고 그 자리에서 연다
   assert.match(html, /details\.open = true/, "ⓘ 는 풀이를 그 자리에서 연다");
