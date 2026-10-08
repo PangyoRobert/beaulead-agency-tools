@@ -87,6 +87,18 @@
       }
     },
     {
+      "slug": "cost-ratio-benchmark",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "업종별 매출원가율 벤치마크",
+      "card": {
+        "kicker": "Cost Ratio Benchmark",
+        "title": ["Cost Ratio", "Benchmark"],
+        "description": "한국은행 기업경영분석 기준 업종별 매출원가율과 최근 5년 추이를 원가 기준별로 정리하고, 읽을 때의 주의사항을 함께 안내합니다."
+      }
+    },
+    {
       "slug": "cafe24-maintenance",
       "kind": "tool",
       "status": "live",
