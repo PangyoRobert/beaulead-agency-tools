@@ -172,6 +172,16 @@ assert.match(G.cm1.caution, /순이익이 아니에요/, "남는 돈은 순이�
 assert.match(G.maxCpa.caution, /첫 구매/, "최대 광고비는 첫 구매 기준이라는 주의");
 assert.match(G.beRoas.caution, /부가세/, "광고비는 부가세 뺀 금액이라는 주의");
 checks += 3;
+// 확인되지 않은 주장은 쓰지 않는다: 광고 관리자의 ROAS·광고비는 플랫폼마다 기준이 달라서,
+// 이 페이지의 숫자가 광고 관리자 숫자와 "같은 기준"이라고 말하면 안 된다. 경고는 남아 있어야 한다.
+assert.ok(!/광고 관리자[^.]*같은 기준/.test(JSON.stringify(G)), "광고 관리자와 같은 기준이라는 단정 문구가 없다");
+["beRoas", "cpa"].forEach((term) => {
+  const text = G[term].detail + G[term].caution;
+  assert.match(text, /플랫폼마다/, `${term}: 플랫폼마다 기준이 다르다는 경고`);
+  assert.match(text, /광고 관리자/, `${term}: 광고 관리자 숫자를 확인하라는 안내`);
+  checks += 2;
+});
+checks += 1;
 
 // 예시 숫자는 glossaryExample 로 실제 계산한 값과 같아야 한다 — 글과 계산이 어긋나면 여기서 잡는다
 const ex = config.glossaryExample;
