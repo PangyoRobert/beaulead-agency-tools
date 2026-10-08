@@ -84,6 +84,31 @@
     .bar-fill { display: block; height: 100%; border-radius: 4px; background: var(--blue); }
     .comp-legend { margin: 12px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.6; word-break: keep-all; }
     .comp-legend b { color: var(--text); }
+    .neg { color: var(--bl-text-default); }
+    .neg .val::after { content: " ▼"; font-size: 0.7em; }
+    .profit .bar-fill { background: var(--bl-brand-primary); }
+    .example { margin: 0 0 14px; padding: 12px 14px; border-radius: 12px; background: var(--bl-surface-raised); font-size: 0.92rem; line-height: 1.7; word-break: keep-all; }
+    .example b { font-family: var(--mono); }
+    .plain { margin: 0 0 12px; padding: 10px 14px; border-left: 4px solid var(--blue); border-radius: 0 10px 10px 0; background: var(--tint-accent); font-size: 0.92rem; line-height: 1.65; word-break: keep-all; }
+    .plain b { font-weight: 700; }
+    .glossary { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 22px; margin: 0; }
+    .glossary div { padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .glossary dt { font-weight: 700; }
+    .glossary dd { margin: 4px 0 0; color: var(--muted); font-size: 0.9rem; line-height: 1.6; word-break: keep-all; }
+    .formula { margin: 0 0 14px; padding: 14px 16px; border: 1px dashed var(--line); border-radius: 12px; font-size: 0.95rem; line-height: 1.7; word-break: keep-all; }
+    .formula b { font-weight: 700; }
+    .status { display: inline-block; padding: 1px 8px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; background: var(--bl-surface-raised); }
+    .status.use { background: var(--tint-accent); }
+    .status.ref, .status.out { background: var(--tint-warning); }
+    .range-cell { min-width: 220px; }
+    .range-track { position: relative; display: block; height: 10px; margin-top: 6px; border-radius: 5px; background: var(--bl-surface-raised); }
+    .range-fill { position: absolute; top: 0; bottom: 0; border-radius: 5px; background: var(--blue); }
+    .range-fill.ref { background: var(--bl-text-muted); }
+    .defense { margin: 14px 0 0; padding-left: 20px; line-height: 1.7; font-size: 0.92rem; word-break: keep-all; }
+    .faq details { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .faq summary { cursor: pointer; font-weight: 700; line-height: 1.5; word-break: keep-all; }
+    .faq summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .faq p { margin: 8px 0 0; color: var(--muted); line-height: 1.7; word-break: keep-all; }
     .footnote { margin: 30px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.6; }
     @media (max-width: 620px) { main { width: min(100% - 24px, 1200px); padding-top: 28px; } .source dl { grid-template-columns: 1fr; } }
     @media print {
@@ -95,6 +120,7 @@
       table, .comp { min-width: 0; }
       .panel { break-inside: avoid; border-radius: 0; }
       .eyebrow { color: #0F62FE !important; }
+      .faq details { break-inside: avoid; }
     }
   </style>
 </head>
@@ -110,6 +136,11 @@
     <h1>업종별<br>매출원가율 벤치마크</h1>
     <p class="intro">매출액 대비 매출원가 비율(매출원가 ÷ 매출액 × 100)을 한국은행 기업경영분석 공식 통계로 정리했습니다. 원가의 뜻이 다른 업종끼리는 섞지 않도록 원가 기준별로 나눠 보여 줍니다. 아래 주의사항을 먼저 읽어 주세요.</p>
 
+    <section aria-labelledby="h-glossary">
+      <h2 id="h-glossary">처음 보는 분을 위한 용어 풀이</h2>
+      <div class="panel"><dl class="glossary" id="glossary"></dl></div>
+    </section>
+
     <section aria-labelledby="h-source">
       <h2 id="h-source">출처와 기준</h2>
       <div class="panel source"><dl id="source"></dl></div>
@@ -122,16 +153,49 @@
 
     <section aria-labelledby="h-data">
       <h2 id="h-data">업종별 매출원가율</h2>
+      <p class="plain" id="data-plain"></p>
       <div id="groups"></div>
     </section>
 
     <section aria-labelledby="h-comp">
-      <h2 id="h-comp">제조원가 구성 (공장 원가 = 100)</h2>
+      <h2 id="h-comp">매출 100으로 보는 원가 구조 (제조업)</h2>
       <div class="panel">
+        <p class="plain" id="comp-plain"></p>
         <p class="group-note" id="comp-note"></p>
         <div class="table-wrap"><table class="comp" id="comp-table"></table></div>
         <p class="comp-legend" id="comp-legend"></p>
       </div>
+    </section>
+
+    <section aria-labelledby="h-cm">
+      <h2 id="h-cm">공헌이익(한계이익)으로 보는 수익 구조 (제조업)</h2>
+      <div class="panel">
+        <p class="plain" id="cm-plain"></p>
+        <p class="group-note" id="cm-note"></p>
+        <p class="example" id="cm-example"></p>
+        <div class="table-wrap"><table class="comp" id="cm-table"></table></div>
+        <p class="comp-legend" id="cm-legend"></p>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-consumer">
+      <h2 id="h-consumer">소비자가 기준으로 보면 (대략 범위)</h2>
+      <div class="panel">
+        <p class="plain" id="consumer-plain"></p>
+        <p class="formula" id="consumer-formula"></p>
+        <h3>유통 단계별 매입원가율 (2024)</h3>
+        <div class="table-wrap"><table class="comp" id="channel-table"></table></div>
+        <h3 style="margin-top:22px">업종별 소비자가 대비 범위</h3>
+        <div class="table-wrap"><table class="comp" id="consumer-table"></table></div>
+        <p class="comp-legend" id="consumer-legend"></p>
+        <h3 style="margin-top:22px">이 범위를 믿을 수 있는 이유</h3>
+        <ol class="defense" id="defense"></ol>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-faq">
+      <h2 id="h-faq">자주 묻는 질문</h2>
+      <div class="panel faq" id="faq"></div>
     </section>
 
     <p class="footnote" id="footnote"></p>
@@ -151,7 +215,7 @@
         id: "manufacturing",
         title: "제조업",
         basis: "원가 = 제조원가",
-        note: "원재료비, 생산 인건비, 공장 감가상각까지 포함한 제조원가 기준입니다. 공장을 가진 제조사 중심이라, 생산을 맡기는 브랜드사(D2C·OEM)의 원가율보다 높게 나옵니다. 원재료비만 본 '재료비율(매출 대비)'을 함께 보여 주며, 공장 원가의 항목별 구성은 아래 '제조원가 구성'에 있습니다.",
+        note: "원재료비, 생산 인건비, 공장 감가상각까지 포함한 제조원가 기준입니다. 공장을 가진 제조사 중심이라, 생산을 맡기는 브랜드사(D2C·OEM)의 원가율보다 높게 나옵니다. 원재료비만 본 '재료비율(매출 대비)'을 함께 보여 주며, 원가가 이익까지 어떻게 이어지는지는 아래 '매출 100으로 보는 원가 구조'와 '공헌이익' 표에 있습니다.",
         showMaterialRatio: true,
         industries: Object.freeze([
           Object.freeze({ code: "C10", name: "식료품" }),
@@ -223,28 +287,128 @@
         ])
       }),
       Object.freeze({
-        title: "4. 재료비율·제조원가 구성",
+        title: "4. 원재료비·원가 구조 (제조업)",
         items: Object.freeze([
-          "재료비율(매출 대비 원재료비)과 제조원가 구성은 제조업에서만 제공합니다. 유통은 원가가 사 온 상품이라 원재료비 항목이 거의 잡히지 않고(통신판매업 1.19%), 외식은 식자재가 이 항목에 다 잡히지 않는 것으로 보여(음식점 15.92%) 제외했습니다.",
+          "재료비율(매출 대비 원재료비)과 원가 구조는 제조업에서만 제공합니다. 유통은 원가가 사 온 상품이라 원재료비 항목이 거의 잡히지 않고(통신판매업 1.19%), 외식은 식자재가 이 항목에 다 잡히지 않는 것으로 보여(음식점 15.92%) 제외했습니다.",
+          "이 페이지의 기본 숫자는 매출 대비입니다. 공장 원가 안에서의 비중은 이보다 크게 나옵니다. 예: 식료품 원재료비는 매출 대비 {foodMatSales}%, 공장 원가 안에서는 {foodMatFactory}%.",
           "재료비에 부재료(포장재 등)가 포함되는지는 공식 해설에서 확인되지 않았습니다.",
-          "제조원가 구성은 그해 생산에 쓴 비용(당기총제조비용) 기준이라, 그해 팔린 제품의 원가(매출원가)와 재고 변동만큼 차이가 납니다. 매출원가율에서 재료비율을 뺀 값도 대략적인 값입니다.",
+          "원가 구조의 공장 비용 항목은 그해 생산에 쓴 비용(당기총제조비용) 기준입니다. 매출원가와의 차이는 '상품 매입·재고 변동 등' 한 칸으로 보여 주며 세부는 이 통계로 알 수 없습니다. 재고가 크게 늘어난 해에는 이 칸이 음수가 될 수 있습니다.",
           "생산직 복리후생비는 '그 외 공장 경비'에 들어 있어 생산 인건비(노무비)에 포함되지 않습니다.",
           "브랜드사의 원가(위탁생산 매입가)에는 제조사의 원재료비뿐 아니라 인건비·공장비·제조사 마진까지 들어 있어, 재료비율과도 매출원가율과도 같지 않습니다."
         ])
+      }),
+      Object.freeze({
+        title: "5. 공헌이익(한계이익) 읽는 법",
+        items: Object.freeze([
+          "공헌이익률 = 100 − 변동비율입니다. 한국은행 용어로는 '한계이익률'입니다.",
+          "변동비·고정비 구분은 한국은행의 일괄 기준입니다. 판관비 전부(광고선전비·판매수수료 포함), 영업외비용, 생산 인건비의 절반, 외주가공비를 뺀 공장 경비를 고정비로 보고, 나머지(원재료비·외주가공비·상품 매입원가 등)를 변동비로 봅니다.",
+          "그래서 광고비·판매수수료가 매출에 따라 움직이는 D2C·온라인 브랜드는 실제 공헌이익률이 이 값보다 낮습니다. 이 통계는 그 비용을 고정비로 계산하기 때문입니다.",
+          "손익분기점 매출 = (고정비 − 영업외수익) ÷ 공헌이익률입니다. 예: 식료품은 손익분기점률이 {foodBEP}%라 매출이 약 {foodBEPdrop}% 줄면 이익이 0이 됩니다.",
+          "고정비에 이자 등 영업외비용이 포함돼 있어, 공헌이익률에서 고정비율을 뺀 값은 영업이익률과 다릅니다.",
+          "업종 합계 기준 값이라 개별 회사의 공헌이익률과는 다를 수 있습니다."
+        ])
+      })
+,
+      Object.freeze({
+        title: "6. 소비자가 대비 범위",
+        items: Object.freeze([
+          "정확한 값이 아니라 경향을 보는 대략 범위입니다. 유통 경로(대형마트·슈퍼·편의점·일반 소매, 도매를 거치는지)를 바꿔 가며 계산한 가장 낮은 값과 높은 값을 보여 줍니다.",
+          "소매 업태의 매입원가율은 그 업태가 파는 모든 상품의 평균이라, 특정 업종(예: 식품)만의 마진과 다를 수 있습니다.",
+          "제조사 매출에는 수출·기업 납품처럼 소비자에게 가지 않는 매출도 섞여 있습니다.",
+          "할인·판촉이 있으면 실제로 낸 값이 정가보다 낮아 비율이 달라집니다.",
+          "백화점은 입점 수수료를 매출로 잡아 매입원가율로 쓸 수 없어 계산에서 뺐고, 온라인(통신판매업)은 중개 플랫폼의 수수료 매출이 섞여 있어 '참고'로만 표시합니다.",
+          "의약품은 약값이 제도로 정해지고 약국 유통 구조가 달라 소비자가 계산에서 뺐습니다.",
+          "정확한 값이 필요하면 제품별 소비자가·출고가·원가(또는 위탁생산 매입가) 자료로 직접 계산해야 합니다."
+        ])
       })
     ]),
-    composition: Object.freeze({
-      note: "제조업 11개 업종의 공장 원가(당기총제조비용)를 100으로 놓고 항목별 비중을 계산했습니다. 한 행을 따라 읽으면 그 업종의 원가 구성이, 한 열을 따라 읽으면 업종 간 차이가 보입니다.",
+    salesBreakdown: Object.freeze({
+      note: "매출을 100으로 놓고 원재료비부터 영업이익까지 나눴습니다. 한 행의 합이 100이며, 원가와 비용을 빼고 남는 몫이 마지막 칸의 영업이익입니다. 막대는 매출 대비 비중이고, 영업이익 막대만 짙은 색입니다.",
       columns: Object.freeze([
         Object.freeze({ key: "materials", label: "원재료비", desc: "재료비" }),
         Object.freeze({ key: "labor", label: "생산 인건비", desc: "노무비" }),
-        Object.freeze({ key: "depreciation", label: "감가상각비", desc: "공장 설비·건물의 감가상각" }),
+        Object.freeze({ key: "depreciation", label: "공장 감가상각", desc: "공장 설비·건물의 감가상각" }),
         Object.freeze({ key: "outsourcing", label: "외주가공비", desc: "생산 공정 일부를 외부 업체에 맡긴 비용" }),
         Object.freeze({ key: "energy", label: "전력·가스·수도", desc: "전력비 + 가스수도비" }),
-        Object.freeze({ key: "otherOverhead", label: "그 외 공장 경비", desc: "경비에서 위 항목을 뺀 나머지(복리후생비·수선비·임차료·포장비 등)" })
+        Object.freeze({ key: "otherOverhead", label: "그 외 공장 경비", desc: "공장 경비에서 위 항목을 뺀 나머지(복리후생비·수선비·임차료·포장비 등)" }),
+        Object.freeze({ key: "merchandise", label: "상품 매입·재고 변동 등", desc: "매출원가 − 그해 공장 원가. 사 와서 파는 상품의 매입원가와 재고 변동 등(세부 미상)" }),
+        Object.freeze({ key: "sga", label: "판관비", desc: "판매비와관리비(광고선전비·급여·판매수수료 등)" }),
+        Object.freeze({ key: "operatingIncome", label: "영업이익", desc: "매출 − 매출원가 − 판관비", profit: true })
+      ]),
+      factoryKeys: Object.freeze(["materials", "labor", "depreciation", "outsourcing", "energy", "otherOverhead"])
+    }),
+    contribution: Object.freeze({
+      note: "공헌이익 = 매출 − 변동비(팔수록 함께 늘어나는 비용). 공헌이익으로 고정비를 덮고 남는 것이 이익입니다. 한국은행은 공헌이익을 '한계이익'이라고 부르며, 아래 변동비·고정비·손익분기점률은 한국은행이 발표한 값입니다.",
+      exampleCode: "C10",
+      columns: Object.freeze([
+        Object.freeze({ key: "materialToSales", label: "원재료비", desc: "매출 대비 재료비" }),
+        Object.freeze({ key: "variableToSales", label: "변동비", desc: "매출 대비 변동비(원재료비·외주가공비·상품 매입원가 등)" }),
+        Object.freeze({ key: "contributionMargin", label: "공헌이익률", desc: "100 − 변동비", bar: true }),
+        Object.freeze({ key: "materialShareOfVariable", label: "변동비 중 원재료비", desc: "원재료비 ÷ 변동비", unit: "of" }),
+        Object.freeze({ key: "fixedToSales", label: "고정비", desc: "매출 대비 고정비(판관비 전부·영업외비용·생산 인건비 절반 등)" }),
+        Object.freeze({ key: "breakEven", label: "손익분기점률", desc: "손익분기점 매출 ÷ 실제 매출. 100에서 뺀 만큼 매출이 줄면 이익이 0" }),
+        Object.freeze({ key: "operatingMargin", label: "영업이익률", desc: "매출 대비 영업이익" })
       ])
     }),
-    footnote: "출처: 한국은행 「기업경영분석」(경제통계시스템 ECOS, 통계표 501Y006 손익 지표의 매출원가대매출액·재료비대매출액, 501Y003 제조원가명세서). 업종은 제11차 한국표준산업분류 기준입니다. 브랜드사·제조사 비교(상장사 공시 기준)는 추후 추가 예정입니다."
+    glossary: Object.freeze([
+      Object.freeze({ term: "매출", plain: "물건을 팔아서 받은 돈 전체입니다." }),
+      Object.freeze({ term: "매출원가", plain: "판 물건을 만들거나 사 오는 데 든 돈입니다." }),
+      Object.freeze({ term: "매출원가율", plain: "매출 100원 중 매출원가가 몇 원인지입니다. 높을수록 남는 몫이 적습니다." }),
+      Object.freeze({ term: "공장 원가 (당기총제조비용)", plain: "그해 공장에서 물건을 만드는 데 쓴 돈 전부입니다. 재료비 + 생산 인건비 + 공장 운영비." }),
+      Object.freeze({ term: "원재료비 (재료비)", plain: "물건의 재료를 사는 데 쓴 돈입니다. 과자라면 밀가루·설탕 같은 것." }),
+      Object.freeze({ term: "감가상각", plain: "비싼 기계나 건물값을 한 번에 비용으로 잡지 않고, 쓰는 기간에 나눠서 비용으로 잡는 것입니다." }),
+      Object.freeze({ term: "외주가공비", plain: "만드는 과정의 일부를 다른 회사에 맡기고 낸 돈입니다." }),
+      Object.freeze({ term: "판관비 (판매비와관리비)", plain: "물건을 만든 뒤 팔고 회사를 운영하는 데 쓴 돈입니다. 광고비, 사무직 월급, 사무실 임대료 등." }),
+      Object.freeze({ term: "영업이익", plain: "매출에서 매출원가와 판관비를 빼고 남은 돈, 즉 장사로 번 돈입니다." }),
+      Object.freeze({ term: "변동비", plain: "많이 팔수록 같이 늘어나는 비용입니다. 재료비가 대표적입니다." }),
+      Object.freeze({ term: "고정비", plain: "덜 팔아도 똑같이 나가는 비용입니다. 임대료, 감가상각 등." }),
+      Object.freeze({ term: "공헌이익 (한계이익)", plain: "매출에서 변동비를 빼고 남은 돈입니다. 이 돈으로 고정비를 내고 남아야 이익이 됩니다." }),
+      Object.freeze({ term: "손익분기점", plain: "이익도 손해도 없는(0원) 매출입니다. 이보다 덜 팔면 손해입니다." }),
+      Object.freeze({ term: "출고가 vs 소비자가", plain: "출고가는 제조사가 가게에 넘기는 가격, 소비자가는 우리가 가게에서 내는 가격(부가세 포함)입니다." }),
+      Object.freeze({ term: "부가세", plain: "물건값에 10%를 더해 내는 세금입니다. 소비자가에 들어 있습니다." }),
+      Object.freeze({ term: "업종 합계 기준", plain: "그 업종 회사들의 숫자를 모두 더해 계산한 값이라, 큰 회사의 영향이 크게 들어갑니다." })
+    ]),
+    plain: Object.freeze({
+      data: "업종마다 '판 물건의 원가'가 매출의 몇 %인지 보여 줍니다. 예를 들어 식료품 {foodCogs}%는 과자를 100원어치 팔면 그 과자를 만드는 데 약 {foodCogsRound}원이 들었다는 뜻입니다.",
+      comp: "매출 100원이 어디로 나가는지 나눠 본 표입니다. 식료품은 100원 중 원재료비 {foodMatSales}원, 공장 원가 전체 {foodFactorySales}원이 들고, 판관비 {foodSga}원을 쓰고 나면 영업이익으로 {foodOp}원이 남습니다.",
+      cm: "많이 팔수록 같이 늘어나는 비용(변동비)을 빼고 남은 돈이 공헌이익입니다. 이 돈으로 매달 고정으로 나가는 비용(고정비)을 내야 하고, 그러고도 남아야 이익입니다.",
+      consumer: "가게에서 1,000원짜리 과자를 살 때, 그중 공장에서 만드는 데 든 돈이 대략 얼마인지 어림한 것입니다. 식료품은 약 {snackFactoryMin}~{snackFactoryMax}원, 그중 원재료값은 약 {snackMatMin}~{snackMatMax}원입니다."
+    }),
+    consumer: Object.freeze({
+      vat: 1.1,
+      wholesale: "G46",
+      channels: Object.freeze([
+        Object.freeze({ code: "G4711", label: "대형마트·면세점", status: "use", note: "계산에 사용" }),
+        Object.freeze({ code: "G4712", label: "기타 종합소매 (슈퍼·편의점 등)", status: "use", note: "계산에 사용" }),
+        Object.freeze({ code: "G479", label: "일반 소매점 (전문 소매)", status: "use", note: "계산에 사용" }),
+        Object.freeze({ code: "G4791", label: "온라인 판매 (통신판매업)", status: "ref", note: "참고: 중개 플랫폼의 수수료 매출이 섞여 있음" }),
+        Object.freeze({ code: "G4718", label: "백화점", status: "out", note: "제외: 입점 수수료를 매출로 잡아 매입원가율로 쓸 수 없음" }),
+        Object.freeze({ code: "G46", label: "도매 (중간 유통)", status: "wholesale", note: "도매를 거치는 경로에서 한 번 더 곱함" })
+      ]),
+      excluded: Object.freeze({ C21: "약값이 제도로 정해지고 약국 유통 구조가 달라 제외" }),
+      defense: Object.freeze([
+        "모든 숫자가 한 출처(한국은행 기업경영분석, 승인통계)에서 나옵니다. 업계 통설이나 추정 계수를 쓰지 않아, 누가 다시 계산해도 같은 값이 나옵니다.",
+        "계산식은 거래 관계를 그대로 곱한 것입니다. 가게가 물건을 사 온 값 = 제조사(또는 도매상)가 판 값이므로, 빈틈은 '업종 평균을 쓴다'는 가정 하나뿐입니다.",
+        "한 개의 숫자가 아니라 범위로 보여 줍니다. 유통 경로를 모른다는 불확실성을 숨기지 않고 범위 폭에 담았습니다.",
+        "계산에 쓴 제조사 쪽 숫자(매출원가율·영업이익률·손익분기점률)는 한국은행 발표값과 금액으로 다시 계산한 값이 일치하는지 검사합니다.",
+        "숫자의 성격이 다른 채널은 이유를 밝히고 뺍니다. 백화점은 제외, 온라인은 참고로만 표시합니다.",
+        "업종도 이유를 밝히고 고릅니다. 가격이 제도로 정해지는 의약품은 제외했습니다.",
+        "앞으로 상장 유통사(대형마트·편의점 운영사)의 공시 마진과 비교해 소매 매입원가율이 현실과 맞는지 더 확인할 수 있습니다."
+      ])
+    }),
+    faq: Object.freeze([
+      Object.freeze({ q: "매출원가율이 80%면 회사에 20%가 남는 건가요?", a: "아닙니다. 20%는 원가만 뺀 몫(매출총이익)이고, 여기서 광고비·월급·임대료 같은 판관비를 또 빼야 합니다. 식료품은 매출원가율 {foodCogs}%, 판관비 {foodSga}%를 빼면 영업이익은 {foodOp}%입니다." }),
+      Object.freeze({ q: "식료품 원재료비가 {foodMatFactory}%라고도 하고 {foodMatSales}%라고도 하던데 어느 게 맞나요?", a: "둘 다 맞고 기준이 다릅니다. 매출 100원 기준으로는 원재료비가 {foodMatSales}원이고, 공장 원가({foodFactorySales}원)를 100으로 놓으면 그 안에서 원재료비가 {foodMatFactory}%입니다. 이 페이지의 기본 숫자는 매출 기준입니다." }),
+      Object.freeze({ q: "공헌이익은 왜 중요한가요?", a: "물건을 하나 더 팔 때 실제로 남는 몫이 공헌이익이기 때문입니다. 식료품은 매출 100원마다 공헌이익이 {foodCM}원이고, 이 돈으로 고정비 {foodFixed}원을 감당합니다. 할인이나 광고 효과를 따질 때 기준이 됩니다." }),
+      Object.freeze({ q: "손익분기점률 {foodBEP}%는 무슨 뜻인가요?", a: "지금 매출의 {foodBEP}%만 팔아도 손해는 안 본다는 뜻입니다. 거꾸로 말하면 매출이 약 {foodBEPdrop}% 줄면 이익이 0이 됩니다. 여유가 적을수록 매출 감소에 약합니다." }),
+      Object.freeze({ q: "1,000원짜리 과자의 원가는 얼마인가요?", a: "식료품 업종 평균으로 어림하면 공장에서 만드는 데 약 {snackFactoryMin}~{snackFactoryMax}원, 그중 원재료값은 약 {snackMatMin}~{snackMatMax}원입니다. 나머지는 가게·도매 마진, 부가세(약 91원), 제조사의 판관비와 이익입니다. 제품마다 다르니 경향으로만 보세요." }),
+      Object.freeze({ q: "왜 정확한 값이 아니라 범위로 보여 주나요?", a: "같은 제품도 대형마트에서 파는지, 편의점에서 파는지, 도매상을 거치는지에 따라 중간 마진이 달라지기 때문입니다. 경로별로 계산해 가장 낮은 값과 높은 값을 보여 줍니다." }),
+      Object.freeze({ q: "백화점과 온라인은 왜 따로 취급하나요?", a: "백화점은 상품을 직접 사서 파는 대신 입점 수수료를 매출로 잡는 경우가 많아, 매입원가율이 마진을 뜻하지 않습니다. 온라인도 수수료를 받는 중개 플랫폼이 섞여 있어 참고로만 표시합니다." }),
+      Object.freeze({ q: "화장품 원가율은 왜 따로 안 보이나요? 브랜드사 원가율이 25~30%라던데요?", a: "공식 통계에서 화장품은 세제·광택제와 함께 '기타 화학제품'으로 묶여 있습니다({cosmeticsCogs}%). 또 이 통계는 공장을 가진 제조사 중심이라, 생산을 맡기는 브랜드사의 원가율(언론·증권사 자료 기준 25~30%)보다 높게 나옵니다." }),
+      Object.freeze({ q: "우리 회사(고객사) 원가와 비교해도 되나요?", a: "업계 평균 대비 어느 쪽에 있는지 보는 기준선으로는 쓸 수 있습니다. 다만 업종 합계 기준이라 큰 회사 영향이 크고, 개인사업자는 빠져 있습니다. 정확한 판단은 제품별 소비자가·출고가·원가 자료로 하세요." }),
+      Object.freeze({ q: "데이터는 언제 기준이고 언제 바뀌나요?", a: "{year}년 값이며 한국은행이 2025-10-29에 공개했습니다. 이 페이지는 {fetched}에 받아 왔고, 새 연도 값이 공개되면 다시 받아 갱신합니다." })
+    ]),
+    footnote: "출처: 한국은행 「기업경영분석」(경제통계시스템 ECOS, 통계표 501Y006 손익 지표의 매출원가대매출액·재료비대매출액·변동비대매출액·고정비대매출액·손익분기점률·영업이익률, 501Y003 제조원가명세서, 501Y002 손익계산서). 업종은 제11차 한국표준산업분류 기준입니다. 브랜드사·제조사 비교(상장사 공시 기준)는 추후 추가 예정입니다."
   });
   </script>
   <script id="cost-ratio-data">
@@ -506,6 +670,96 @@
       "C21": 21.9,
       "C32": 37.68
     },
+    "ratios": {
+      "C10": {
+        "materialToSales": 50.43,
+        "variableToSales": 64.61,
+        "fixedToSales": 34.94,
+        "breakEven": 91.4,
+        "operatingMargin": 3.82,
+        "pretaxMargin": 3.04
+      },
+      "C106": {
+        "materialToSales": 33.56,
+        "variableToSales": 48.77,
+        "fixedToSales": 49.2,
+        "breakEven": 88.37,
+        "operatingMargin": 4.82,
+        "pretaxMargin": 5.96
+      },
+      "C107": {
+        "materialToSales": 34.44,
+        "variableToSales": 46.99,
+        "fixedToSales": 54.32,
+        "breakEven": 99.07,
+        "operatingMargin": 3.76,
+        "pretaxMargin": 0.49
+      },
+      "C108": {
+        "materialToSales": 38.89,
+        "variableToSales": 56.89,
+        "fixedToSales": 42.51,
+        "breakEven": 89.96,
+        "operatingMargin": 4.89,
+        "pretaxMargin": 4.33
+      },
+      "C11": {
+        "materialToSales": 32.81,
+        "variableToSales": 42.55,
+        "fixedToSales": 52.11,
+        "breakEven": 85.75,
+        "operatingMargin": 8.66,
+        "pretaxMargin": 8.19
+      },
+      "C112": {
+        "materialToSales": 35.9,
+        "variableToSales": 48.02,
+        "fixedToSales": 47.86,
+        "breakEven": 88.74,
+        "operatingMargin": 6.43,
+        "pretaxMargin": 5.85
+      },
+      "C14": {
+        "materialToSales": 29.41,
+        "variableToSales": 58.83,
+        "fixedToSales": 40.6,
+        "breakEven": 88.47,
+        "operatingMargin": 5.24,
+        "pretaxMargin": 4.75
+      },
+      "C15": {
+        "materialToSales": 35.69,
+        "variableToSales": 68.9,
+        "fixedToSales": 29.08,
+        "breakEven": 72.94,
+        "operatingMargin": 6.28,
+        "pretaxMargin": 8.42
+      },
+      "C204": {
+        "materialToSales": 41.69,
+        "variableToSales": 54.63,
+        "fixedToSales": 45.2,
+        "breakEven": 85.73,
+        "operatingMargin": 7.04,
+        "pretaxMargin": 6.47
+      },
+      "C21": {
+        "materialToSales": 21.9,
+        "variableToSales": 38.43,
+        "fixedToSales": 58.12,
+        "breakEven": 84.6,
+        "operatingMargin": 10.5,
+        "pretaxMargin": 9.48
+      },
+      "C32": {
+        "materialToSales": 37.68,
+        "variableToSales": 61.93,
+        "fixedToSales": 36.68,
+        "breakEven": 91.36,
+        "operatingMargin": 3.66,
+        "pretaxMargin": 3.29
+      }
+    },
     "composition": {
       "C10": {
         "totalManufacturingCost": 108562763.0,
@@ -629,11 +883,144 @@
         "outsourcing": 957332.0
       }
     },
+    "income": {
+      "C10": {
+        "sales": 161006609.0,
+        "cogs": 127928242.0,
+        "sga": 26930379.0,
+        "advertising": 2811061.0,
+        "operatingIncome": 6147989.0,
+        "nonOperatingIncome": 4171678.0,
+        "nonOperatingExpense": 5419227.0
+      },
+      "C106": {
+        "sales": 15872970.0,
+        "cogs": 11106640.0,
+        "sga": 4001163.0,
+        "advertising": 335953.0,
+        "operatingIncome": 765167.0,
+        "nonOperatingIncome": 623468.0,
+        "nonOperatingExpense": 442556.0
+      },
+      "C107": {
+        "sales": 2556982.0,
+        "cogs": 2027488.0,
+        "sga": 433399.0,
+        "advertising": 17245.0,
+        "operatingIncome": 96094.0,
+        "nonOperatingIncome": 46116.0,
+        "nonOperatingExpense": 129618.0
+      },
+      "C108": {
+        "sales": 51584890.0,
+        "cogs": 37982792.0,
+        "sga": 11078234.0,
+        "advertising": 1660719.0,
+        "operatingIncome": 2523864.0,
+        "nonOperatingIncome": 1923027.0,
+        "nonOperatingExpense": 2213032.0
+      },
+      "C11": {
+        "sales": 14474606.0,
+        "cogs": 8578701.0,
+        "sga": 4641982.0,
+        "advertising": 791876.0,
+        "operatingIncome": 1253923.0,
+        "nonOperatingIncome": 411102.0,
+        "nonOperatingExpense": 480092.0
+      },
+      "C112": {
+        "sales": 8671553.0,
+        "cogs": 5519456.0,
+        "sga": 2594856.0,
+        "advertising": 364474.0,
+        "operatingIncome": 557241.0,
+        "nonOperatingIncome": 149948.0,
+        "nonOperatingExpense": 199475.0
+      },
+      "C14": {
+        "sales": 57949199.0,
+        "cogs": 37666409.0,
+        "sga": 17243680.0,
+        "advertising": 1364292.0,
+        "operatingIncome": 3039110.0,
+        "nonOperatingIncome": 2423685.0,
+        "nonOperatingExpense": 2711330.0
+      },
+      "C15": {
+        "sales": 11524190.0,
+        "cogs": 8797850.0,
+        "sga": 2002583.0,
+        "advertising": 153687.0,
+        "operatingIncome": 723757.0,
+        "nonOperatingIncome": 737334.0,
+        "nonOperatingExpense": 491310.0
+      },
+      "C204": {
+        "sales": 74775985.0,
+        "cogs": 53355986.0,
+        "sga": 16157162.0,
+        "advertising": 2332067.0,
+        "operatingIncome": 5262838.0,
+        "nonOperatingIncome": 4713560.0,
+        "nonOperatingExpense": 5136863.0
+      },
+      "C21": {
+        "sales": 44743205.0,
+        "cogs": 25895340.0,
+        "sga": 14150496.0,
+        "advertising": 1249459.0,
+        "operatingIncome": 4697369.0,
+        "nonOperatingIncome": 2697724.0,
+        "nonOperatingExpense": 3153898.0
+      },
+      "C32": {
+        "sales": 13099713.0,
+        "cogs": 10100553.0,
+        "sga": 2519644.0,
+        "advertising": 195928.0,
+        "operatingIncome": 479516.0,
+        "nonOperatingIncome": 249193.0,
+        "nonOperatingExpense": 297911.0
+      }
+    },
     "compositionSource": {
       "table": "501Y003",
       "name": "제조원가명세서",
       "unit": "백만원",
       "year": "2024"
+    },
+    "incomeSource": {
+      "table": "501Y002",
+      "name": "손익계산서",
+      "unit": "백만원",
+      "year": "2024"
+    },
+    "channels": {
+      "G46": {
+        "name": "G46 도매 및 상품중개업",
+        "cogsRatio": 81.89
+      },
+      "G4711": {
+        "name": "G4711,3 대형 종합 소매업 및 면세점(백화점 제외)",
+        "cogsRatio": 71.12
+      },
+      "G4712": {
+        "name": "G4712,9 기타 종합 소매업",
+        "cogsRatio": 77.03
+      },
+      "G479": {
+        "name": "G472-9 일반 소매업",
+        "cogsRatio": 65.61
+      },
+      "G4791": {
+        "name": "G4791 통신 판매업",
+        "cogsRatio": 59.4
+      },
+      "G4718": {
+        "name": "G47111 백화점",
+        "cogsRatio": 33.19
+      }
     }
   };
   </script>
@@ -661,26 +1048,9 @@
         ["지표", "매출원가 대 매출액 = 매출원가 ÷ 매출액 × 100"],
         ["기준 연도", latest + "년 (최근 " + years.length + "년 추이 " + years[0] + "~" + latest + ")"],
         ["대상", "국내 비금융 영리법인(법인세 신고 기준), 개인사업자 제외"],
-        ["원가 구성", "제조원가명세서(" + DATA.compositionSource.year + "년, 당기총제조비용 = 재료비 + 노무비 + 경비)"],
+        ["원가 구조", "제조업: 제조원가명세서·손익계산서(" + DATA.compositionSource.year + "년), 변동비·고정비·손익분기점률은 한국은행 발표값"],
         ["값을 받은 날", DATA.source.fetchedAt]
       ].forEach(function (pair) { source.append(element("dt", null, pair[0]), element("dd", null, pair[1])); });
-
-      // ── 주의사항 (전부 병기) ──
-      const caveats = document.getElementById("caveats");
-      CONFIG.caveats.forEach(function (c) {
-        const box = element("div", "panel");
-        box.append(element("h3", null, c.title));
-        const ul = element("ul");
-        c.items.forEach(function (item) {
-          if (typeof item === "string") { ul.append(element("li", null, item)); return; }
-          const li = element("li", null, item.text);
-          const sub = element("ul");
-          item.sub.forEach(function (s) { sub.append(element("li", null, s)); });
-          li.append(sub); ul.append(li);
-        });
-        box.append(ul);
-        caveats.append(box);
-      });
 
       // ── 업종별 표 (원가 기준별로 나눔) ──
       const groups = document.getElementById("groups");
@@ -721,49 +1091,252 @@
         groups.append(wrap);
       });
 
-      // ── 제조원가 구성 (공장 원가 = 100). 금액은 데이터 원본(백만원), 비중은 여기서 계산한다. ──
-      const comp = CONFIG.composition;
+      // ── 매출 100으로 보는 원가 구조 (제조업). 금액은 데이터 원본(백만원), 비중은 여기서 계산한다. ──
       const manufacturing = CONFIG.groups.find(function (g) { return g.showMaterialRatio; });
-      document.getElementById("comp-note").textContent = comp.note;
-      function parts(c) {
-        return {
-          materials: c.materials, labor: c.labor, depreciation: c.depreciation, outsourcing: c.outsourcing,
-          energy: c.electricity + c.gasWater,
-          otherOverhead: c.overhead - c.depreciation - c.outsourcing - c.electricity - c.gasWater
-        };
+      const one = function (n) { return (Math.round(n * 10) / 10).toFixed(1); };
+      function headRow(table, labels) {
+        const thead = element("thead"); const tr = element("tr");
+        labels.forEach(function (h, i) { const th = element("th", i ? "num" : null, h); th.setAttribute("scope", "col"); tr.append(th); });
+        thead.append(tr); table.append(thead);
       }
-      const compTable = document.getElementById("comp-table");
-      const chead = element("thead"); const chr = element("tr");
-      ["업종"].concat(comp.columns.map(function (col) { return col.label; })).forEach(function (h, i) {
-        const th = element("th", i ? "num" : null, h); th.setAttribute("scope", "col"); chr.append(th);
-      });
-      chead.append(chr);
-      const cbody = element("tbody");
-      manufacturing.industries.forEach(function (ind) {
-        const c = DATA.composition[ind.code];
-        const p = parts(c);
-        const tr = element("tr");
-        const name = element("th"); name.setAttribute("scope", "row");
-        name.append(element("span", null, (ind.parent ? "└ " : "") + ind.name), element("span", "code", ind.code));
-        tr.append(name);
-        comp.columns.forEach(function (col) {
-          const share = p[col.key] / c.totalManufacturingCost * 100;
-          const td = element("td", "num bar-cell");
-          td.setAttribute("title", ind.name + " · " + col.label + " " + share.toFixed(1) + "% (공장 원가 대비)");
+      function nameCell(ind) {
+        const th = element("th"); th.setAttribute("scope", "row");
+        th.append(element("span", null, (ind.parent ? "└ " : "") + ind.name), element("span", "code", ind.code));
+        return th;
+      }
+      function barCell(value, title, opts) {
+        const td = element("td", "num bar-cell" + (value < 0 ? " neg" : "") + (opts && opts.profit ? " profit" : ""));
+        td.setAttribute("title", title);
+        td.append(element("span", "val", one(value) + "%"));
+        if (!(opts && opts.noBar)) {
           const track = element("span", "bar-track"); track.setAttribute("aria-hidden", "true");
           const fill = element("span", "bar-fill");
-          fill.style.width = Math.max(0, Math.min(100, share)).toFixed(1) + "%";
-          track.append(fill);
-          td.append(element("span", "val", share.toFixed(1) + "%"), track);
-          tr.append(td);
+          fill.style.width = Math.max(0, Math.min(100, value)).toFixed(1) + "%";
+          track.append(fill); td.append(track);
+        }
+        return td;
+      }
+      function salesParts(code) {
+        const c = DATA.composition[code]; const inc = DATA.income[code];
+        const sales = inc.sales;
+        const energy = c.electricity + c.gasWater;
+        const part = {
+          materials: c.materials, labor: c.labor, depreciation: c.depreciation, outsourcing: c.outsourcing, energy: energy,
+          otherOverhead: c.overhead - c.depreciation - c.outsourcing - energy,
+          merchandise: inc.cogs - c.totalManufacturingCost,
+          sga: inc.sga, operatingIncome: inc.operatingIncome
+        };
+        const out = {};
+        Object.keys(part).forEach(function (k) { out[k] = part[k] / sales * 100; });
+        out.factoryShare = function (k) { return part[k] / c.totalManufacturingCost * 100; };
+        return out;
+      }
+
+      const sb = CONFIG.salesBreakdown;
+      document.getElementById("comp-note").textContent = sb.note;
+      const compTable = document.getElementById("comp-table");
+      headRow(compTable, ["업종"].concat(sb.columns.map(function (col) { return col.label; })));
+      const cbody = element("tbody");
+      manufacturing.industries.forEach(function (ind) {
+        const p = salesParts(ind.code);
+        const tr = element("tr"); tr.append(nameCell(ind));
+        sb.columns.forEach(function (col) {
+          let title = ind.name + " · " + col.label + " 매출 대비 " + one(p[col.key]) + "%";
+          if (sb.factoryKeys.indexOf(col.key) >= 0) title += " (공장 원가 안에서는 " + one(p.factoryShare(col.key)) + "%)";
+          tr.append(barCell(p[col.key], title, { profit: col.profit }));
         });
         cbody.append(tr);
       });
-      compTable.append(chead, cbody);
+      compTable.append(cbody);
       const legend = document.getElementById("comp-legend");
-      legend.append(element("span", null, "막대 길이 = 그 항목이 공장 원가에서 차지하는 비중(%). 항목 설명: "));
-      comp.columns.forEach(function (col, i) {
-        legend.append(element("b", null, col.label), element("span", null, " " + col.desc + (i < comp.columns.length - 1 ? " · " : ".")));
+      legend.append(element("span", null, "막대 길이 = 매출 대비 비중(%). ▼ 표시는 음수입니다. 항목 설명: "));
+      sb.columns.forEach(function (col, i) {
+        legend.append(element("b", null, col.label), element("span", null, " " + col.desc + (i < sb.columns.length - 1 ? " · " : ".")));
+      });
+
+      // ── 공헌이익(한계이익) ──
+      const cm = CONFIG.contribution;
+      function cmValues(code) {
+        const r = DATA.ratios[code];
+        return {
+          materialToSales: r.materialToSales, variableToSales: r.variableToSales,
+          contributionMargin: 100 - r.variableToSales,
+          materialShareOfVariable: r.materialToSales / r.variableToSales * 100,
+          fixedToSales: r.fixedToSales, breakEven: r.breakEven, operatingMargin: r.operatingMargin
+        };
+      }
+      document.getElementById("cm-note").textContent = cm.note;
+      const ex = manufacturing.industries.find(function (i) { return i.code === cm.exampleCode; });
+      const exV = cmValues(ex.code); const exInc = DATA.income[ex.code]; const exR = DATA.ratios[ex.code];
+      const exNonOp = exInc.nonOperatingIncome / exInc.sales * 100;
+      const example = document.getElementById("cm-example");
+      [
+        ["읽는 법 (" + ex.name + ", " + latest + "): 매출 100 → 변동비 ", one(exV.variableToSales)],
+        [" (그중 원재료비 ", one(exV.materialToSales)],
+        [") → 공헌이익 ", one(exV.contributionMargin)],
+        [" → 고정비 ", one(exV.fixedToSales)],
+        [" 차감, 영업외수익 ", one(exNonOp)],
+        [" 더하면 세전이익 ", one(exR.pretaxMargin)],
+        [". 손익분기점률 ", one(exV.breakEven)],
+        ["%라 매출이 약 ", one(100 - exV.breakEven)],
+        ["% 줄면 이익이 0이 됩니다.", null]
+      ].forEach(function (pair) {
+        example.append(element("span", null, pair[0]));
+        if (pair[1] !== null) example.append(element("b", null, pair[1]));
+      });
+      const cmTable = document.getElementById("cm-table");
+      headRow(cmTable, ["업종"].concat(cm.columns.map(function (col) { return col.label; })));
+      const mbody = element("tbody");
+      manufacturing.industries.forEach(function (ind) {
+        const v = cmValues(ind.code);
+        const tr = element("tr"); tr.append(nameCell(ind));
+        cm.columns.forEach(function (col) {
+          const suffix = col.unit === "of" ? " (변동비 = 100 기준)" : " (매출 대비)";
+          tr.append(barCell(v[col.key], ind.name + " · " + col.label + " " + one(v[col.key]) + "%" + suffix, { noBar: !col.bar, profit: col.bar }));
+        });
+        mbody.append(tr);
+      });
+      cmTable.append(mbody);
+      const cmLegend = document.getElementById("cm-legend");
+      cmLegend.append(element("span", null, "항목 설명: "));
+      cm.columns.forEach(function (col, i) {
+        cmLegend.append(element("b", null, col.label), element("span", null, " " + col.desc + (i < cm.columns.length - 1 ? " · " : ".")));
+      });
+
+      // ── 소비자가 대비 대략 범위 ──
+      const cons = CONFIG.consumer;
+      const channelByCode = {}; cons.channels.forEach(function (ch) { channelByCode[ch.code] = ch; });
+      function consumerRange(code) {
+        const c = DATA.composition[code]; const inc = DATA.income[code];
+        const factory = c.totalManufacturingCost / inc.sales * 100;
+        const material = c.materials / inc.sales * 100;
+        const wholesale = DATA.channels[cons.wholesale].cogsRatio / 100;
+        const shares = { factory: [], material: [] };
+        cons.channels.filter(function (ch) { return ch.status === "use"; }).forEach(function (ch) {
+          const retail = DATA.channels[ch.code].cogsRatio / 100;
+          [1, wholesale].forEach(function (w) {  // 직거래, 도매 경유
+            shares.factory.push(factory * retail * w / cons.vat);
+            shares.material.push(material * retail * w / cons.vat);
+          });
+        });
+        const online = DATA.channels.G4791.cogsRatio / 100;
+        return {
+          factoryRatio: factory,
+          factoryMin: Math.min.apply(null, shares.factory), factoryMax: Math.max.apply(null, shares.factory),
+          materialMin: Math.min.apply(null, shares.material), materialMax: Math.max.apply(null, shares.material),
+          onlineFactory: factory * online / cons.vat, paths: shares.factory.length
+        };
+      }
+
+      // ── 쉬운 말 문장의 숫자는 데이터에서 채운다(갱신 때 어긋나지 않게). ──
+      const food = cm.exampleCode;
+      const fc = DATA.composition[food]; const fi = DATA.income[food]; const fr = DATA.ratios[food];
+      const foodRange = consumerRange(food);
+      const won10 = function (pct) { return String(Math.round(pct) * 10); };  // 소비자가 1,000원 기준 금액, 10원 단위 반올림
+      const fills = {
+        year: latest, fetched: DATA.source.fetchedAt,
+        foodCogs: DATA.values[food].A[latest].toFixed(2), foodCogsRound: String(Math.round(DATA.values[food].A[latest])),
+        foodMatSales: one(fr.materialToSales), foodFactorySales: one(fc.totalManufacturingCost / fi.sales * 100),
+        foodMatFactory: one(fc.materials / fc.totalManufacturingCost * 100),
+        foodSga: one(fi.sga / fi.sales * 100), foodOp: one(fr.operatingMargin),
+        foodCM: one(100 - fr.variableToSales), foodFixed: one(fr.fixedToSales),
+        foodBEP: one(fr.breakEven), foodBEPdrop: one(100 - fr.breakEven),
+        snackFactoryMin: won10(foodRange.factoryMin), snackFactoryMax: won10(foodRange.factoryMax),
+        snackMatMin: won10(foodRange.materialMin), snackMatMax: won10(foodRange.materialMax),
+        cosmeticsCogs: DATA.values.C204.A[latest].toFixed(2)
+      };
+      function fill(text) {
+        return text.replace(/\{(\w+)\}/g, function (m, k) {
+          if (!(k in fills)) throw new Error("채울 값이 없다: " + k);
+          return fills[k];
+        });
+      }
+      document.getElementById("data-plain").textContent = "쉽게 말하면: " + fill(CONFIG.plain.data);
+      document.getElementById("comp-plain").textContent = "쉽게 말하면: " + fill(CONFIG.plain.comp);
+      document.getElementById("cm-plain").textContent = "쉽게 말하면: " + fill(CONFIG.plain.cm);
+      document.getElementById("consumer-plain").textContent = "쉽게 말하면: " + fill(CONFIG.plain.consumer);
+
+      // ── 주의사항 (전부 병기) ──
+      const caveats = document.getElementById("caveats");
+      CONFIG.caveats.forEach(function (c) {
+        const box = element("div", "panel");
+        box.append(element("h3", null, c.title));
+        const ul = element("ul");
+        c.items.forEach(function (item) {
+          if (typeof item === "string") { ul.append(element("li", null, fill(item))); return; }
+          const li = element("li", null, fill(item.text));
+          const sub = element("ul");
+          item.sub.forEach(function (s) { sub.append(element("li", null, fill(s))); });
+          li.append(sub); ul.append(li);
+        });
+        box.append(ul);
+        caveats.append(box);
+      });
+
+      // 용어 풀이
+      const glossary = document.getElementById("glossary");
+      CONFIG.glossary.forEach(function (g) {
+        const div = element("div"); div.append(element("dt", null, g.term), element("dd", null, g.plain)); glossary.append(div);
+      });
+
+      // 계산식
+      const formula = document.getElementById("consumer-formula");
+      [["소비자가 대비 공장 원가 = ", true], ["제조사 공장 원가율", false], ["(출고가 대비) × ", true], ["가게의 매입원가율", false],
+       ["(가게가 물건을 사 오는 값 ÷ 가게 매출) × 도매 매입원가율(도매를 거칠 때만) ÷ 1.1(부가세)", true]].forEach(function (pair) {
+        formula.append(pair[1] ? element("span", null, pair[0]) : element("b", null, pair[0]));
+      });
+
+      // 채널 표
+      const channelTable = document.getElementById("channel-table");
+      headRow(channelTable, ["유통 단계", "매입원가율", "계산에서 쓰는 방식"]);
+      const chbody = element("tbody");
+      cons.channels.forEach(function (ch) {
+        const tr = element("tr");
+        const th = element("th"); th.setAttribute("scope", "row");
+        th.append(element("span", null, ch.label), element("span", "code", DATA.channels[ch.code].name));
+        const how = element("td");
+        how.append(element("span", "status " + (ch.status === "use" ? "use" : ch.status === "ref" ? "ref" : ch.status === "out" ? "out" : ""), ch.note));
+        tr.append(th, element("td", "num", pct(DATA.channels[ch.code].cogsRatio)), how);
+        chbody.append(tr);
+      });
+      channelTable.append(chbody);
+
+      // 업종별 범위
+      const consumerTable = document.getElementById("consumer-table");
+      headRow(consumerTable, ["업종", "제조사 공장 원가율 (출고가 대비)", "소비자가 대비 공장 원가 (범위)", "소비자가 대비 원재료비 (범위)", "온라인 참고값 (공장 원가)"]);
+      const rbody = element("tbody");
+      manufacturing.industries.forEach(function (ind) {
+        const tr = element("tr"); tr.append(nameCell(ind));
+        if (cons.excluded[ind.code]) {
+          tr.append(element("td", "num", "—"));
+          const td = element("td"); td.setAttribute("colspan", "3"); td.append(element("span", "status out", cons.excluded[ind.code]));
+          tr.append(td); rbody.append(tr); return;
+        }
+        const r = consumerRange(ind.code);
+        tr.append(element("td", "num", one(r.factoryRatio) + "%"));
+        const rc = element("td", "num range-cell");
+        rc.setAttribute("title", ind.name + " · 소비자가 100원 중 공장 원가 약 " + one(r.factoryMin) + "~" + one(r.factoryMax) + "원 (유통 경로 " + r.paths + "가지)");
+        rc.append(element("span", "val", one(r.factoryMin) + "% ~ " + one(r.factoryMax) + "%"));
+        const track = element("span", "range-track"); track.setAttribute("aria-hidden", "true");
+        const band = element("span", "range-fill");
+        band.style.left = r.factoryMin.toFixed(1) + "%"; band.style.width = Math.max(0.5, r.factoryMax - r.factoryMin).toFixed(1) + "%";
+        track.append(band); rc.append(track);
+        tr.append(rc);
+        tr.append(element("td", "num", one(r.materialMin) + "% ~ " + one(r.materialMax) + "%"));
+        tr.append(element("td", "num", "(참고) " + one(r.onlineFactory) + "%"));
+        rbody.append(tr);
+      });
+      consumerTable.append(rbody);
+      document.getElementById("consumer-legend").textContent = "범위 = 대형마트·기타 종합소매·일반 소매점 각각에 대해 직거래와 도매 경유를 모두 계산한 값 중 가장 낮은 값 ~ 가장 높은 값. 막대는 0~100% 눈금 위의 범위입니다. 온라인은 직거래 기준 참고값이며 범위에 넣지 않았습니다.";
+      const defense = document.getElementById("defense");
+      cons.defense.forEach(function (d) { defense.append(element("li", null, d)); });
+
+      // 자주 묻는 질문
+      const faq = document.getElementById("faq");
+      CONFIG.faq.forEach(function (item) {
+        const d = element("details");
+        d.append(element("summary", null, "Q. " + fill(item.q)), element("p", null, "A. " + fill(item.a)));
+        faq.append(d);
       });
 
       document.getElementById("footnote").textContent = CONFIG.footnote + " '—'는 공식 통계에서 해당 기업 규모의 값을 제공하지 않는 칸입니다.";
