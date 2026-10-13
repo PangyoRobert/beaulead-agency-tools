@@ -11,6 +11,11 @@
 //   호가 2부터 시작했다. 내용은 그대로 두고 번호만 1부터 다시 매겼다(누락된 1호는 보완 예정).
 // - 문장 끝 마침표 누락(제4조 1·3항, 제7조), 제8조 4항의 짝이 안 맞는 따옴표를 바로잡았다.
 // - 제4조 1항의 기간은 입력한 시작일·종료일에서 만든다.
+// 네이버 세부 업무 프리셋용 항목 생성기. group 은 견적서에서 소제목으로 묶인다.
+// 네이버 문구는 전부 초안(draft)이다 — 사용자가 확정하면 status 만 "confirmed" 로 바꾼다.
+const naverItem = (group, text) => Object.freeze({ status: "draft", group, text });
+const NAVER_SETUP_GROUP = "계정·환경 설정";
+
 window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
   title: "디지털 광고 대행 계약서",
   bodyTitle: "광고 대행계약서",
@@ -87,6 +92,46 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
           Object.freeze({ status: "draft", text: "무효·중복 DB 처리 기준 협의" }),
           Object.freeze({ status: "draft", text: "리드 품질 피드백 반영 방식 협의" }),
           Object.freeze({ status: "draft", text: "광고 집행은 입금 후 24시간(영업일 기준 2일)입니다." })
+        ])
+      }),
+      Object.freeze({
+        id: "naver-search",
+        label: "네이버 · 검색광고",
+        heading: "검색광고 운영 범위",
+        items: Object.freeze([
+          naverItem(NAVER_SETUP_GROUP, "광고 계정이 없는 경우: 네이버 검색광고 계정 생성 절차 안내 및 개설 지원"),
+          naverItem(NAVER_SETUP_GROUP, "광고 계정이 있는 경우: 관리자(담당자) 초대 및 권한 부여 후 진행"),
+          naverItem(NAVER_SETUP_GROUP, "비즈머니 충전 방식과 결제 수단 확인"),
+          naverItem(NAVER_SETUP_GROUP, "전환 추적(공통 로그 분석 스크립트 설치·전환 설정) 확인"),
+          naverItem(NAVER_SETUP_GROUP, "광고 집행은 입금(비즈머니 충전) 확인 후 진행합니다."),
+          naverItem("파워링크", "키워드 발굴 및 캠페인·광고그룹 구조 설계"),
+          naverItem("파워링크", "광고 소재(제목·설명) 작성과 확장소재 등록"),
+          naverItem("파워링크", "입찰가·일 예산 운영과 제외 키워드 관리"),
+          naverItem("쇼핑검색광고", "쇼핑 상품 연동 상태 확인(스마트스토어·쇼핑 파트너센터 등) 및 상품 정보 오류 점검"),
+          naverItem("쇼핑검색광고", "상품·카테고리별 캠페인 구조 설계"),
+          naverItem("쇼핑검색광고", "상품별 입찰가 운영과 노출·성과 점검"),
+          naverItem("브랜드검색광고", "브랜드 키워드 및 노출 영역 구성안(이미지·문구·링크) 제안"),
+          naverItem("브랜드검색광고", "광고 등록·심사 진행 및 노출 일정 관리"),
+          naverItem("플레이스광고", "스마트플레이스 등록 정보 점검(상호·주소·영업시간·사진 등)"),
+          naverItem("플레이스광고", "플레이스 광고 세팅(지역 키워드·입찰가)과 운영"),
+          naverItem("플레이스광고", "리뷰·사진 등 플레이스 정보 개선 제안")
+        ])
+      }),
+      Object.freeze({
+        id: "naver-gfa",
+        label: "네이버 · 배너광고(GFA)",
+        heading: "배너광고(GFA) 운영 범위",
+        items: Object.freeze([
+          naverItem(NAVER_SETUP_GROUP, "광고 계정이 없는 경우: 성과형 디스플레이 광고(GFA) 계정 생성 절차 안내 및 개설 지원"),
+          naverItem(NAVER_SETUP_GROUP, "광고 계정이 있는 경우: 관리자(담당자) 초대 및 권한 부여 후 진행"),
+          naverItem(NAVER_SETUP_GROUP, "비즈머니 충전 방식과 결제 수단 확인"),
+          naverItem(NAVER_SETUP_GROUP, "전환 추적 설정 및 이벤트 수집 확인"),
+          naverItem(NAVER_SETUP_GROUP, "광고 집행은 입금(비즈머니 충전) 확인 후 진행합니다."),
+          naverItem("캠페인 운영", "캠페인 목적 설정과 타겟(맞춤 타겟·관심사 등) 설계"),
+          naverItem("캠페인 운영", "게재 지면·소재 유형(배너형·네이티브·피드형·카탈로그형 등) 선정 및 규격 점검"),
+          naverItem("캠페인 운영", "카탈로그형 사용 시 상품 피드 연동 확인"),
+          naverItem("캠페인 운영", "입찰·일 예산 운영과 소재 교체·테스트"),
+          naverItem("캠페인 운영", "타겟·소재·지면별 성과 점검 및 최적화")
         ])
       })
     ])

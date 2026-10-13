@@ -135,9 +135,22 @@
       const preset = presets.find((item) => item.id === row.scopeId);
       if (!preset) return null;
       const on = new Set(row.scopeOn || []);
-      const picked = preset.items.filter((_, index) => on.has(index)).map((item) => item.text);
+      const pickedItems = preset.items.filter((_, index) => on.has(index));
       const extra = text(row.scopeExtra).split(/\n+/).map((line) => line.trim()).filter(Boolean);
-      return { media: text(row.media), heading: preset.heading, items: [...picked, ...extra] };
+      const block = { media: text(row.media), heading: preset.heading, items: [...pickedItems.map((item) => item.text), ...extra] };
+      // 항목에 group 이 있는 프리셋(네이버)만 소제목별 sections 를 더한다. 없으면 출력은 이전과 같다.
+      if (pickedItems.some((item) => item.group)) {
+        const sections = [];
+        pickedItems.forEach((item) => {
+          const group = item.group || "";
+          let section = sections.find((s) => s.group === group);
+          if (!section) sections.push((section = { group, items: [] }));
+          section.items.push(item.text);
+        });
+        if (extra.length) sections.push({ group: "추가 항목", items: extra });
+        block.sections = sections;
+      }
+      return block;
     }).filter((block) => block && block.items.length);
   }
 

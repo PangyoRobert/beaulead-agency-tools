@@ -146,7 +146,7 @@ check(special.articles[13].paragraphs.map((p) => plain(p.segments)), ["첫째 �
 
 // 견적서1 매체별 세부 업무 — 견적서에만 들어가고 계약서 조항에는 들어가지 않는다.
 const presets = config.mediaScope.presets;
-check(presets.map((p) => p.id), ["meta-ecom-own", "meta-ecom-mall", "meta-cpa"], "메타 세부 업무 프리셋 3종");
+check(presets.map((p) => p.id), ["meta-ecom-own", "meta-ecom-mall", "meta-cpa", "naver-search", "naver-gfa"], "세부 업무 프리셋: 메타 3종 + 네이버 2종");
 const own = presets[0];
 const ownText = own.items.map((i) => i.text).join("\n");
 ["Google Marketing Platform(GA4·GTM", "픽셀 및 전환 API(CAPI)", "GMC 및 카탈로그", "입금 후 24시간(영업일 기준 2일)"].forEach((t) =>
@@ -175,6 +175,25 @@ check(emptyPick.issues.some((i) => /선택된 항목이 없어/.test(i.message))
 
 const extra = contract.build(scoped({ scopeId: "meta-cpa", scopeOn: [], scopeExtra: "첫째 추가\n\n 둘째 추가 " }), config);
 check(extra.attachment.scopes[0].items, ["첫째 추가", "둘째 추가"], "추가 항목은 줄마다 1개");
+
+// 네이버 프리셋 — 계정 생성·관리자 초대·환경 설정과 상품별 항목이 group 소제목으로 묶인다. 전부 초안.
+const naverSearch = presets.find((p) => p.id === "naver-search");
+const naverGfa = presets.find((p) => p.id === "naver-gfa");
+check(naverSearch.items.every((i) => i.status === "draft" && i.group), true, "네이버 검색광고 항목은 전부 초안이고 group 이 있다");
+check(naverGfa.items.every((i) => i.status === "draft" && i.group), true, "네이버 GFA 항목은 전부 초안이고 group 이 있다");
+check([...new Set(naverSearch.items.map((i) => i.group))], ["계정·환경 설정", "파워링크", "쇼핑검색광고", "브랜드검색광고", "플레이스광고"], "검색광고 소제목 순서");
+check([...new Set(naverGfa.items.map((i) => i.group))], ["계정·환경 설정", "캠페인 운영"], "GFA 소제목 순서");
+["계정 생성", "관리자(담당자) 초대"].forEach((t) => {
+  check(naverSearch.items.some((i) => i.text.includes(t)), true, `검색광고 설정 항목: ${t}`);
+  check(naverGfa.items.some((i) => i.text.includes(t)), true, `GFA 설정 항목: ${t}`);
+});
+const nv = contract.build({ ...sample, amountMode: "schedule", scheduleRows: [{ media: "네이버 검색광고", budget: 1000000, feeRate: 10, scopeId: "naver-search", scopeOn: [0, 1, 5, 12], scopeExtra: "추가 한 줄" }] }, config);
+const nvBlock = nv.attachment.scopes[0];
+check(nvBlock.sections.map((s) => s.group), ["계정·환경 설정", "파워링크", "브랜드검색광고", "추가 항목"], "켠 항목만 소제목별로 묶이고 추가 항목은 마지막");
+check(nvBlock.sections.flatMap((s) => s.items), nvBlock.items, "sections 와 평면 items 가 같은 문구");
+check(nv.issues.some((i) => /초안·미확정 항목 4개/.test(i.message)), true, "네이버 초안을 켜면 경고");
+// 메타(group 없음)는 sections 가 생기지 않아 출력이 이전과 같다.
+check("sections" in withScope.attachment.scopes[0], false, "메타 프리셋 출력에는 sections 가 없다");
 
 // 24시간 집행 문구는 견적서에만 있다. 계약서 조항(제7조 포함)에는 넣지 않는다.
 const articleText = JSON.stringify(withScope.articles) + JSON.stringify(withScope.summary);
