@@ -102,10 +102,10 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
           draftItem(SETUP_GROUP, "광고 계정이 없는 경우: 네이버 검색광고 계정 생성 절차 안내 및 개설 지원"),
           draftItem(SETUP_GROUP, "광고 계정이 있는 경우: 관리자(담당자) 초대 및 권한 부여 후 진행"),
           draftItem(SETUP_GROUP, "비즈머니 충전 방식과 결제 수단 확인"),
-          draftItem(SETUP_GROUP, "전환 추적(공통 로그 분석 스크립트 설치·전환 설정) 확인"),
+          draftItem(SETUP_GROUP, "전환 추적(공통 로그 분석 스크립트 설치 여부·전환 설정) 확인"),
           draftItem(SETUP_GROUP, "광고 집행은 입금(비즈머니 충전) 확인 후 진행합니다."),
           draftItem("파워링크", "키워드 발굴 및 캠페인·광고그룹 구조 설계"),
-          draftItem("파워링크", "광고 소재(제목·설명) 작성과 확장소재 등록"),
+          draftItem("파워링크", "광고 문구(제목·설명) 작성 협조 및 확장소재 등록"),
           draftItem("파워링크", "입찰가·일 예산 운영과 제외 키워드 관리"),
           draftItem("쇼핑검색광고", "쇼핑 상품 연동 상태 확인(스마트스토어·쇼핑 파트너센터 등) 및 상품 정보 오류 점검"),
           draftItem("쇼핑검색광고", "상품·카테고리별 캠페인 구조 설계"),
@@ -145,7 +145,7 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
           draftItem(SETUP_GROUP, "전환 추적 설정(전환 액션, GA4·태그 관리자 연동) 확인"),
           draftItem(SETUP_GROUP, "광고 집행은 입금 또는 결제 수단 확인 후 진행합니다."),
           draftItem("검색광고", "키워드 발굴 및 캠페인·광고그룹 구조 설계"),
-          draftItem("검색광고", "반응형 검색 광고 문구(제목·설명) 작성과 확장 소재(사이트링크·콜아웃 등) 등록"),
+          draftItem("검색광고", "반응형 검색 광고 문구(제목·설명) 작성 협조 및 확장 소재(사이트링크·콜아웃 등) 등록"),
           draftItem("검색광고", "입찰 전략 설정과 일 예산 운영"),
           draftItem("검색광고", "제외 키워드 관리 및 검색어 보고서 점검")
         ])
@@ -178,7 +178,7 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
           draftItem(SETUP_GROUP, "전환 추적 설정(전환 액션, GA4·태그 관리자 연동) 확인"),
           draftItem(SETUP_GROUP, "광고 집행은 입금 또는 결제 수단 확인 후 진행합니다."),
           draftItem("캠페인 운영", "전환 목표와 전환 가치 설정"),
-          draftItem("캠페인 운영", "애셋 그룹(이미지·영상·문구) 구성"),
+          draftItem("캠페인 운영", "애셋 그룹 구성(고객사가 제공한 이미지·영상·문구 기준)"),
           draftItem("캠페인 운영", "상품 피드(Merchant Center) 연동 및 오류 점검(상품 판매 시)"),
           draftItem("캠페인 운영", "오디언스 신호 설정과 일 예산 운영"),
           draftItem("캠페인 운영", "애셋·채널별 성과 점검 및 최적화")
