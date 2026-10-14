@@ -234,6 +234,15 @@
       "card": null
     },
     {
+      "slug": "shorts-editor",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "listed": false,
+      "name": "숏츠 편집기",
+      "card": null
+    },
+    {
       "slug": "meta-ad-price-history",
       "kind": "tool",
       "status": "live",
