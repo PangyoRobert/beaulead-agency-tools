@@ -176,28 +176,42 @@ check(emptyPick.issues.some((i) => /선택된 항목이 없어/.test(i.message))
 const extra = contract.build(scoped({ scopeId: "meta-cpa", scopeOn: [], scopeExtra: "첫째 추가\n\n 둘째 추가 " }), config);
 check(extra.attachment.scopes[0].items, ["첫째 추가", "둘째 추가"], "추가 항목은 줄마다 1개");
 
-// 네이버 프리셋 — 계정 생성·관리자 초대·환경 설정과 상품별 항목이 group 소제목으로 묶인다. 전부 초안.
+// 네이버·구글 프리셋 — 계정 생성·관리자 초대·환경 설정과 운영 항목이 group 소제목으로 묶인다.
+// 2026-10-14 사용자가 절차·점검·운영 항목 46개를 확정했고, 범위가 넓어지거나 조건부인 9개는 초안으로 남겼다.
+const HELD_DRAFT = [
+  "쇼핑 상품 연동 상태 확인(스마트스토어·쇼핑 파트너센터 등) 및 상품 정보 오류 점검",
+  "광고 등록·심사 진행 및 노출 일정 관리",
+  "스마트플레이스 등록 정보 점검(상호·주소·영업시간·사진 등)",
+  "리뷰·사진 등 플레이스 정보 개선 제안",
+  "광고 문구(제목·설명) 작성 협조 및 확장소재 등록",
+  "카탈로그형 사용 시 상품 피드 연동 확인",
+  "반응형 검색 광고 문구(제목·설명) 작성 협조 및 확장 소재(사이트링크·콜아웃 등) 등록",
+  "애셋 그룹 구성(고객사가 제공한 이미지·영상·문구 기준)",
+  "상품 피드(Merchant Center) 연동 및 오류 점검(상품 판매 시)"
+];
+const channelItems = presets.filter((p) => /^(naver|google)-/.test(p.id)).flatMap((p) => p.items);
+check(channelItems.length, 55, "네이버·구글 항목 55개");
+check(channelItems.filter((i) => i.status === "confirmed").length, 46, "확정 46개");
+check(channelItems.filter((i) => i.status === "draft").map((i) => i.text).sort(), [...HELD_DRAFT].sort(), "초안으로 남은 항목은 보류 9개뿐");
+check(channelItems.every((i) => i.group), true, "모든 항목에 group");
 const naverSearch = presets.find((p) => p.id === "naver-search");
 const naverGfa = presets.find((p) => p.id === "naver-gfa");
-check(naverSearch.items.every((i) => i.status === "draft" && i.group), true, "네이버 검색광고 항목은 전부 초안이고 group 이 있다");
-check(naverGfa.items.every((i) => i.status === "draft" && i.group), true, "네이버 GFA 항목은 전부 초안이고 group 이 있다");
 check([...new Set(naverSearch.items.map((i) => i.group))], ["계정·환경 설정", "파워링크", "쇼핑검색광고", "브랜드검색광고", "플레이스광고"], "검색광고 소제목 순서");
 check([...new Set(naverGfa.items.map((i) => i.group))], ["계정·환경 설정", "캠페인 운영"], "GFA 소제목 순서");
 ["계정 생성", "관리자(담당자) 초대"].forEach((t) => {
   check(naverSearch.items.some((i) => i.text.includes(t)), true, `검색광고 설정 항목: ${t}`);
   check(naverGfa.items.some((i) => i.text.includes(t)), true, `GFA 설정 항목: ${t}`);
 });
-const nv = contract.build({ ...sample, amountMode: "schedule", scheduleRows: [{ media: "네이버 검색광고", budget: 1000000, feeRate: 10, scopeId: "naver-search", scopeOn: [0, 1, 5, 12], scopeExtra: "추가 한 줄" }] }, config);
+const nv = contract.build({ ...sample, amountMode: "schedule", scheduleRows: [{ media: "네이버 검색광고", budget: 1000000, feeRate: 10, scopeId: "naver-search", scopeOn: [0, 1, 5, 12, 13], scopeExtra: "추가 한 줄" }] }, config);
 const nvBlock = nv.attachment.scopes[0];
-check(nvBlock.sections.map((s) => s.group), ["계정·환경 설정", "파워링크", "브랜드검색광고", "추가 항목"], "켠 항목만 소제목별로 묶이고 추가 항목은 마지막");
+check(nvBlock.sections.map((s) => s.group), ["계정·환경 설정", "파워링크", "브랜드검색광고", "플레이스광고", "추가 항목"], "켠 항목만 소제목별로 묶이고 추가 항목은 마지막");
 check(nvBlock.sections.flatMap((s) => s.items), nvBlock.items, "sections 와 평면 items 가 같은 문구");
-check(nv.issues.some((i) => /초안·미확정 항목 4개/.test(i.message)), true, "네이버 초안을 켜면 경고");
+check(nv.issues.some((i) => /초안·미확정 항목 2개/.test(i.message)), true, "네이버: 확정 항목은 경고 없이, 켠 초안 2개만 경고");
 // 메타(group 없음)는 sections 가 생기지 않아 출력이 이전과 같다.
 check("sections" in withScope.attachment.scopes[0], false, "메타 프리셋 출력에는 sections 가 없다");
 
-// 구글 프리셋 — 같은 구조(계정·환경 설정 + 운영 소제목), 전부 초안.
+// 구글 프리셋 — 같은 구조(계정·환경 설정 + 운영 소제목).
 const googlePresets = presets.filter((p) => p.id.startsWith("google-"));
-check(googlePresets.every((p) => p.items.every((i) => i.status === "draft" && i.group)), true, "구글 항목은 전부 초안이고 group 이 있다");
 check(googlePresets.map((p) => [...new Set(p.items.map((i) => i.group))]), [["계정·환경 설정", "검색광고"], ["계정·환경 설정", "캠페인 운영"], ["계정·환경 설정", "캠페인 운영"]], "구글 소제목 순서");
 googlePresets.forEach((p) => ["계정 생성", "관리자 계정(MCC) 연결", "전환 추적 설정"].forEach((x) => check(p.items.some((i) => i.text.includes(x)), true, `${p.id} 설정 항목: ${x}`)));
 const gg = contract.build({ ...sample, amountMode: "schedule", scheduleRows: [{ media: "구글 광고", budget: 1000000, feeRate: 10, scopeId: "google-pmax", scopeOn: [1, 6] }] }, config);

@@ -12,8 +12,11 @@
 // - 문장 끝 마침표 누락(제4조 1·3항, 제7조), 제8조 4항의 짝이 안 맞는 따옴표를 바로잡았다.
 // - 제4조 1항의 기간은 입력한 시작일·종료일에서 만든다.
 // 네이버·구글 세부 업무 프리셋용 항목 생성기. group 은 견적서에서 소제목으로 묶인다.
-// 이 문구들은 전부 초안(draft)이다 — 사용자가 확정하면 status 만 "confirmed" 로 바꾼다.
+// 2026-10-14 사용자가 절차·점검·운영 항목을 확정(confirmed)하고, 범위가 넓어지거나 조건부인 9개는
+// 초안(draft)으로 남겼다(상품 피드·상품 정보 연동, 브랜드검색 등록·일정, 플레이스 점검·개선 제안,
+// 광고 문구 작성 협조, PMax 애셋 구성). 바꿀 때는 생성기만 갈아 끼운다.
 const draftItem = (group, text) => Object.freeze({ status: "draft", group, text });
+const confirmedItem = (group, text) => Object.freeze({ status: "confirmed", group, text });
 const SETUP_GROUP = "계정·환경 설정";
 
 window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
@@ -99,21 +102,21 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
         label: "네이버 · 검색광고",
         heading: "검색광고 운영 범위",
         items: Object.freeze([
-          draftItem(SETUP_GROUP, "광고 계정이 없는 경우: 네이버 검색광고 계정 생성 절차 안내 및 개설 지원"),
-          draftItem(SETUP_GROUP, "광고 계정이 있는 경우: 관리자(담당자) 초대 및 권한 부여 후 진행"),
-          draftItem(SETUP_GROUP, "비즈머니 충전 방식과 결제 수단 확인"),
-          draftItem(SETUP_GROUP, "전환 추적(공통 로그 분석 스크립트 설치 여부·전환 설정) 확인"),
-          draftItem(SETUP_GROUP, "광고 집행은 입금(비즈머니 충전) 확인 후 진행합니다."),
-          draftItem("파워링크", "키워드 발굴 및 캠페인·광고그룹 구조 설계"),
+          confirmedItem(SETUP_GROUP, "광고 계정이 없는 경우: 네이버 검색광고 계정 생성 절차 안내 및 개설 지원"),
+          confirmedItem(SETUP_GROUP, "광고 계정이 있는 경우: 관리자(담당자) 초대 및 권한 부여 후 진행"),
+          confirmedItem(SETUP_GROUP, "비즈머니 충전 방식과 결제 수단 확인"),
+          confirmedItem(SETUP_GROUP, "전환 추적(공통 로그 분석 스크립트 설치 여부·전환 설정) 확인"),
+          confirmedItem(SETUP_GROUP, "광고 집행은 입금(비즈머니 충전) 확인 후 진행합니다."),
+          confirmedItem("파워링크", "키워드 발굴 및 캠페인·광고그룹 구조 설계"),
           draftItem("파워링크", "광고 문구(제목·설명) 작성 협조 및 확장소재 등록"),
-          draftItem("파워링크", "입찰가·일 예산 운영과 제외 키워드 관리"),
+          confirmedItem("파워링크", "입찰가·일 예산 운영과 제외 키워드 관리"),
           draftItem("쇼핑검색광고", "쇼핑 상품 연동 상태 확인(스마트스토어·쇼핑 파트너센터 등) 및 상품 정보 오류 점검"),
-          draftItem("쇼핑검색광고", "상품·카테고리별 캠페인 구조 설계"),
-          draftItem("쇼핑검색광고", "상품별 입찰가 운영과 노출·성과 점검"),
-          draftItem("브랜드검색광고", "브랜드 키워드 및 노출 영역 구성안(이미지·문구·링크) 제안"),
+          confirmedItem("쇼핑검색광고", "상품·카테고리별 캠페인 구조 설계"),
+          confirmedItem("쇼핑검색광고", "상품별 입찰가 운영과 노출·성과 점검"),
+          confirmedItem("브랜드검색광고", "브랜드 키워드 및 노출 영역 구성안(이미지·문구·링크) 제안"),
           draftItem("브랜드검색광고", "광고 등록·심사 진행 및 노출 일정 관리"),
           draftItem("플레이스광고", "스마트플레이스 등록 정보 점검(상호·주소·영업시간·사진 등)"),
-          draftItem("플레이스광고", "플레이스 광고 세팅(지역 키워드·입찰가)과 운영"),
+          confirmedItem("플레이스광고", "플레이스 광고 세팅(지역 키워드·입찰가)과 운영"),
           draftItem("플레이스광고", "리뷰·사진 등 플레이스 정보 개선 제안")
         ])
       }),
@@ -122,16 +125,16 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
         label: "네이버 · 배너광고(GFA)",
         heading: "배너광고(GFA) 운영 범위",
         items: Object.freeze([
-          draftItem(SETUP_GROUP, "광고 계정이 없는 경우: 성과형 디스플레이 광고(GFA) 계정 생성 절차 안내 및 개설 지원"),
-          draftItem(SETUP_GROUP, "광고 계정이 있는 경우: 관리자(담당자) 초대 및 권한 부여 후 진행"),
-          draftItem(SETUP_GROUP, "비즈머니 충전 방식과 결제 수단 확인"),
-          draftItem(SETUP_GROUP, "전환 추적 설정 및 이벤트 수집 확인"),
-          draftItem(SETUP_GROUP, "광고 집행은 입금(비즈머니 충전) 확인 후 진행합니다."),
-          draftItem("캠페인 운영", "캠페인 목적 설정과 타겟(맞춤 타겟·관심사 등) 설계"),
-          draftItem("캠페인 운영", "게재 지면·소재 유형(배너형·네이티브·피드형·카탈로그형 등) 선정 및 규격 점검"),
+          confirmedItem(SETUP_GROUP, "광고 계정이 없는 경우: 성과형 디스플레이 광고(GFA) 계정 생성 절차 안내 및 개설 지원"),
+          confirmedItem(SETUP_GROUP, "광고 계정이 있는 경우: 관리자(담당자) 초대 및 권한 부여 후 진행"),
+          confirmedItem(SETUP_GROUP, "비즈머니 충전 방식과 결제 수단 확인"),
+          confirmedItem(SETUP_GROUP, "전환 추적 설정 및 이벤트 수집 확인"),
+          confirmedItem(SETUP_GROUP, "광고 집행은 입금(비즈머니 충전) 확인 후 진행합니다."),
+          confirmedItem("캠페인 운영", "캠페인 목적 설정과 타겟(맞춤 타겟·관심사 등) 설계"),
+          confirmedItem("캠페인 운영", "게재 지면·소재 유형(배너형·네이티브·피드형·카탈로그형 등) 선정 및 규격 점검"),
           draftItem("캠페인 운영", "카탈로그형 사용 시 상품 피드 연동 확인"),
-          draftItem("캠페인 운영", "입찰·일 예산 운영과 소재 교체·테스트"),
-          draftItem("캠페인 운영", "타겟·소재·지면별 성과 점검 및 최적화")
+          confirmedItem("캠페인 운영", "입찰·일 예산 운영과 소재 교체·테스트"),
+          confirmedItem("캠페인 운영", "타겟·소재·지면별 성과 점검 및 최적화")
         ])
       }),
       Object.freeze({
@@ -139,15 +142,15 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
         label: "구글 · 검색광고",
         heading: "검색광고 운영 범위",
         items: Object.freeze([
-          draftItem(SETUP_GROUP, "광고 계정이 없는 경우: Google Ads 계정 생성 절차 안내 및 개설 지원"),
-          draftItem(SETUP_GROUP, "광고 계정이 있는 경우: 뷰리드 관리자 계정(MCC) 연결 요청 및 액세스 권한 부여 후 진행"),
-          draftItem(SETUP_GROUP, "결제 프로필·결제 방식 설정 확인"),
-          draftItem(SETUP_GROUP, "전환 추적 설정(전환 액션, GA4·태그 관리자 연동) 확인"),
-          draftItem(SETUP_GROUP, "광고 집행은 입금 또는 결제 수단 확인 후 진행합니다."),
-          draftItem("검색광고", "키워드 발굴 및 캠페인·광고그룹 구조 설계"),
+          confirmedItem(SETUP_GROUP, "광고 계정이 없는 경우: Google Ads 계정 생성 절차 안내 및 개설 지원"),
+          confirmedItem(SETUP_GROUP, "광고 계정이 있는 경우: 뷰리드 관리자 계정(MCC) 연결 요청 및 액세스 권한 부여 후 진행"),
+          confirmedItem(SETUP_GROUP, "결제 프로필·결제 방식 설정 확인"),
+          confirmedItem(SETUP_GROUP, "전환 추적 설정(전환 액션, GA4·태그 관리자 연동) 확인"),
+          confirmedItem(SETUP_GROUP, "광고 집행은 입금 또는 결제 수단 확인 후 진행합니다."),
+          confirmedItem("검색광고", "키워드 발굴 및 캠페인·광고그룹 구조 설계"),
           draftItem("검색광고", "반응형 검색 광고 문구(제목·설명) 작성 협조 및 확장 소재(사이트링크·콜아웃 등) 등록"),
-          draftItem("검색광고", "입찰 전략 설정과 일 예산 운영"),
-          draftItem("검색광고", "제외 키워드 관리 및 검색어 보고서 점검")
+          confirmedItem("검색광고", "입찰 전략 설정과 일 예산 운영"),
+          confirmedItem("검색광고", "제외 키워드 관리 및 검색어 보고서 점검")
         ])
       }),
       Object.freeze({
@@ -155,16 +158,16 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
         label: "구글 · 디스플레이·유튜브",
         heading: "디스플레이·유튜브 운영 범위",
         items: Object.freeze([
-          draftItem(SETUP_GROUP, "광고 계정이 없는 경우: Google Ads 계정 생성 절차 안내 및 개설 지원"),
-          draftItem(SETUP_GROUP, "광고 계정이 있는 경우: 뷰리드 관리자 계정(MCC) 연결 요청 및 액세스 권한 부여 후 진행"),
-          draftItem(SETUP_GROUP, "결제 프로필·결제 방식 설정 확인"),
-          draftItem(SETUP_GROUP, "전환 추적 설정(전환 액션, GA4·태그 관리자 연동) 확인"),
-          draftItem(SETUP_GROUP, "광고 집행은 입금 또는 결제 수단 확인 후 진행합니다."),
-          draftItem("캠페인 운영", "캠페인 목적 설정과 타겟(맞춤 세그먼트·관심사·리마케팅) 설계"),
-          draftItem("캠페인 운영", "소재 유형(반응형 디스플레이·영상) 선정 및 규격 점검"),
-          draftItem("캠페인 운영", "리마케팅 오디언스 태그 설정 확인"),
-          draftItem("캠페인 운영", "입찰·일 예산 운영과 소재 교체·테스트"),
-          draftItem("캠페인 운영", "게재 위치 제외 및 성과 점검")
+          confirmedItem(SETUP_GROUP, "광고 계정이 없는 경우: Google Ads 계정 생성 절차 안내 및 개설 지원"),
+          confirmedItem(SETUP_GROUP, "광고 계정이 있는 경우: 뷰리드 관리자 계정(MCC) 연결 요청 및 액세스 권한 부여 후 진행"),
+          confirmedItem(SETUP_GROUP, "결제 프로필·결제 방식 설정 확인"),
+          confirmedItem(SETUP_GROUP, "전환 추적 설정(전환 액션, GA4·태그 관리자 연동) 확인"),
+          confirmedItem(SETUP_GROUP, "광고 집행은 입금 또는 결제 수단 확인 후 진행합니다."),
+          confirmedItem("캠페인 운영", "캠페인 목적 설정과 타겟(맞춤 세그먼트·관심사·리마케팅) 설계"),
+          confirmedItem("캠페인 운영", "소재 유형(반응형 디스플레이·영상) 선정 및 규격 점검"),
+          confirmedItem("캠페인 운영", "리마케팅 오디언스 태그 설정 확인"),
+          confirmedItem("캠페인 운영", "입찰·일 예산 운영과 소재 교체·테스트"),
+          confirmedItem("캠페인 운영", "게재 위치 제외 및 성과 점검")
         ])
       }),
       Object.freeze({
@@ -172,16 +175,16 @@ window.AD_AGENCY_CONTRACT_CONFIG = Object.freeze({
         label: "구글 · 퍼포먼스 맥스(PMax)",
         heading: "퍼포먼스 맥스 운영 범위",
         items: Object.freeze([
-          draftItem(SETUP_GROUP, "광고 계정이 없는 경우: Google Ads 계정 생성 절차 안내 및 개설 지원"),
-          draftItem(SETUP_GROUP, "광고 계정이 있는 경우: 뷰리드 관리자 계정(MCC) 연결 요청 및 액세스 권한 부여 후 진행"),
-          draftItem(SETUP_GROUP, "결제 프로필·결제 방식 설정 확인"),
-          draftItem(SETUP_GROUP, "전환 추적 설정(전환 액션, GA4·태그 관리자 연동) 확인"),
-          draftItem(SETUP_GROUP, "광고 집행은 입금 또는 결제 수단 확인 후 진행합니다."),
-          draftItem("캠페인 운영", "전환 목표와 전환 가치 설정"),
+          confirmedItem(SETUP_GROUP, "광고 계정이 없는 경우: Google Ads 계정 생성 절차 안내 및 개설 지원"),
+          confirmedItem(SETUP_GROUP, "광고 계정이 있는 경우: 뷰리드 관리자 계정(MCC) 연결 요청 및 액세스 권한 부여 후 진행"),
+          confirmedItem(SETUP_GROUP, "결제 프로필·결제 방식 설정 확인"),
+          confirmedItem(SETUP_GROUP, "전환 추적 설정(전환 액션, GA4·태그 관리자 연동) 확인"),
+          confirmedItem(SETUP_GROUP, "광고 집행은 입금 또는 결제 수단 확인 후 진행합니다."),
+          confirmedItem("캠페인 운영", "전환 목표와 전환 가치 설정"),
           draftItem("캠페인 운영", "애셋 그룹 구성(고객사가 제공한 이미지·영상·문구 기준)"),
           draftItem("캠페인 운영", "상품 피드(Merchant Center) 연동 및 오류 점검(상품 판매 시)"),
-          draftItem("캠페인 운영", "오디언스 신호 설정과 일 예산 운영"),
-          draftItem("캠페인 운영", "애셋·채널별 성과 점검 및 최적화")
+          confirmedItem("캠페인 운영", "오디언스 신호 설정과 일 예산 운영"),
+          confirmedItem("캠페인 운영", "애셋·채널별 성과 점검 및 최적화")
         ])
       })
     ])
