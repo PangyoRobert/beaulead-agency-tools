@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="네이버 GFA 보고서 표를 붙여넣고 목표 ROAS를 넣으면, 유형별로 CPM·CPC·CPA를 얼마까지 써도 되는지와 어디가 병목인지 계산해 주는 내부용 계산기">
+<title>GFA 허용 CPM 계산기 · Beaulead Agency Tools</title>
+<link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/gfa-allowable-cpm/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Beaulead">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/gfa-allowable-cpm/">
+<meta property="og:title" content="GFA 허용 CPM 계산기 · Beaulead Agency Tools">
+<meta property="og:description" content="네이버 GFA 보고서 표를 붙여넣고 목표 ROAS를 넣으면, 유형별로 CPM·CPC·CPA를 얼마까지 써도 되는지와 어디가 병목인지 계산해 주는 내부용 계산기">
+<meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GFA 허용 CPM 계산기 · Beaulead Agency Tools">
+<meta name="twitter:description" content="네이버 GFA 보고서 표를 붙여넣고 목표 ROAS를 넣으면, 유형별로 CPM·CPC·CPA를 얼마까지 써도 되는지와 어디가 병목인지 계산해 주는 내부용 계산기">
+<meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+<link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{color-scheme:light;--bg:var(--bl-surface-raised);--panel:var(--bl-surface-default);--ink:var(--bl-text-default);--muted:var(--bl-text-body-on-light);--line:var(--bl-rule-on-light);--brand:var(--bl-brand-accent);--ok:rgba(36,161,72,.15);--bad:rgba(218,30,40,.15);--warn:rgba(241,194,27,.25)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-width:320px;background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+a{color:inherit}button,input,select,textarea{font:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+header{background:var(--bl-surface-inverse);color:var(--bl-text-inverse);padding:20px 5vw;display:flex;justify-content:space-between;gap:16px}
+header a{color:inherit;text-decoration:none;font-weight:800;letter-spacing:.06em}
+header .back{color:var(--bl-on-dark-body);font-weight:600;font-size:14px}
+main{max-width:1180px;margin:auto;padding:52px 28px 80px}
+.eyebrow{font-size:12px;letter-spacing:.15em;font-weight:800;color:var(--brand)}
+h1{font-size:clamp(32px,4.6vw,56px);letter-spacing:-.05em;line-height:1.12;margin:14px 0 18px}
+h2{font-size:22px;letter-spacing:-.03em;margin:44px 0 6px}
+.lead{max-width:760px;font-size:16px;color:var(--muted);word-break:keep-all}
+.notice{margin:24px 0 8px;border-left:4px solid var(--brand);background:var(--panel);padding:18px 22px;font-size:14px;word-break:keep-all}
+.notice strong{display:block;margin-bottom:6px;font-size:15px}
+.notice ul{margin:8px 0 0;padding-left:18px}.notice li{margin-bottom:6px}
+.sub{font-size:14px;color:var(--muted);margin:0 0 14px;word-break:keep-all}
+textarea{width:100%;min-height:170px;padding:12px 14px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:12px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.5;white-space:pre;overflow:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:14px}
+.field{display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px 16px}
+.field label{font-size:14px;font-weight:700}
+.field .hint{font-size:12px;color:var(--muted);word-break:keep-all}
+.field .row{display:flex;align-items:center;gap:8px}
+.field input[type=number]{width:100%;padding:10px 12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;font-size:15px;font-variant-numeric:tabular-nums;text-align:right}
+.unit{font-size:13px;color:var(--muted);white-space:nowrap}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:14px;word-break:keep-all}
+.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--brand)}
+.actions{display:flex;gap:10px;margin:14px 0 0;flex-wrap:wrap}
+button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer}
+button:hover{border-color:var(--brand)}
+.issues{margin:14px 0;padding:12px 18px;border:1px solid var(--line);background:var(--warn);border-radius:12px;font-size:14px}
+.issues ul{margin:4px 0 0;padding-left:18px}.issues.bad{background:var(--bad)}
+.totals{margin:14px 0 0;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:14px}
+.totals p{margin:0 0 8px;color:var(--muted);font-size:13px;word-break:keep-all}
+.totals label{display:inline-flex;gap:6px;align-items:center;margin:0 16px 6px 0}
+.totals input{accent-color:var(--brand)}
+.assume{margin:6px 0 14px;padding:10px 14px;background:var(--warn);border-radius:10px;font-size:13px;font-weight:700;word-break:keep-all}
+.glance{margin:0 0 14px;padding:13px 18px;border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:12px;background:var(--panel);font-size:15px;word-break:keep-all}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:1040px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;vertical-align:top}
+thead th{background:var(--bl-surface-raised);font-size:12px}
+th[scope=row]{text-align:left;font-weight:700;min-width:130px;position:sticky;left:0;background:var(--panel)}
+td.left{text-align:left}
+td.ok{background:var(--ok)}td.bad{background:var(--bad)}td.warn{background:var(--warn)}
+td .note{display:block;font-size:11px;color:var(--muted);font-weight:400;word-break:keep-all}
+tr.thin td,tr.thin th{color:var(--muted)}
+tr.total th,tr.total td{background:var(--bl-surface-raised);color:var(--muted)}
+.stand{margin:10px 0 0;font-size:13px;color:var(--muted);word-break:keep-all}
+.scroll-hint{display:none;margin:0 0 6px;font-size:12px;color:var(--muted)}
+details.how{border:1px solid var(--line);border-radius:12px;background:var(--panel);margin:18px 0 0}
+details.how summary{cursor:pointer;padding:13px 18px;font-weight:700}
+.how-body{padding:2px 18px 16px;font-size:14px;word-break:keep-all}
+.how-body code{background:var(--bl-surface-raised);padding:1px 6px;border-radius:6px;font-size:13px}
+.how-body p{margin:8px 0}
+.foot{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.7}
+[hidden]{display:none!important}
+@media(max-width:900px){.scroll-hint{display:block}}
+@media(max-width:640px){main{padding:36px 18px}header{padding:16px}}
+@media print{header,.actions,.check{display:none!important}main{padding:0}.table-wrap{overflow:visible}body{background:var(--panel)}}
+</style>
+</head>
+<body>
+<header><a href="../">BEAULEAD ↗</a><span class="back"><a href="../#tools">← 전체 도구</a></span></header>
+<main>
+<div class="eyebrow">NAVER GFA · ALLOWABLE CPM</div>
+<h1>GFA 허용 CPM<br>계산기</h1>
+<p class="lead">GFA 보고서 표를 붙여넣고 목표 ROAS를 넣으면, 유형마다 CPM이 얼마까지 허용되는지와 어느 단계가 병목인지 보여 줍니다. CPM이 낮다고 좋은 게 아니라, 목표 ROAS를 지킬 수 있는 최대 CPM과 비교해서 봅니다.</p>
+
+<div class="notice">
+<strong>이 화면을 읽기 전에 확인해 주세요</strong>
+<ul>
+<li><b>목표 ROAS는 기본값이 없어요.</b> 광고주 마진에서 정해지는 값이라 직접 넣어야 해요.</li>
+<li><b>매출은 광고 플랫폼이 귀속한 값</b>이에요. 실제 매출과 다를 수 있으니 조치 전에 광고 관리자 화면과 대조해 확인하세요.</li>
+<li><b>광고비와 매출의 부가세 기준을 같게</b> 맞춰서 붙여넣어 주세요. 기준이 다르면 ROAS가 틀어져요.</li>
+<li>입력한 값은 이 브라우저 안에서만 계산해요. 저장하거나 어디로도 보내지 않고, 새로고침하면 사라져요.</li>
+</ul>
+</div>
+
+<h2>1. 표 붙여넣기</h2>
+<p class="sub">구글 시트·엑셀에서 헤더까지 복사해 붙여넣으세요(탭 구분). 광고비·노출수·클릭수·구매완료수·구매완료 매출액 열만 읽고, CPM·ROAS 등은 다시 계산해요.</p>
+<textarea id="table" aria-label="GFA 보고서 표" spellcheck="false" placeholder="이미지 유형&#9;광고비&#9;노출수&#9;클릭수&#9;구매완료수&#9;구매완료 매출액"></textarea>
+<div class="actions"><button type="button" id="example">가상 예시 채우기</button><button type="button" id="clear">지우기</button></div>
+<div id="parseIssues" class="issues" hidden></div>
+<div id="totalsBox" class="totals" hidden></div>
+
+<div class="grid">
+<div class="field"><label for="targetRoas">목표 ROAS</label><div class="row"><input type="number" id="targetRoas" min="1" step="any" inputmode="decimal" placeholder="예: 200"><span class="unit">%</span></div><span class="hint">광고비 100원당 결제금액 몇 원을 목표로 하는지. 비워 두면 계산하지 않아요.</span></div>
+<div class="field"><label for="margin">광고 전 공헌이익률 (선택)</label><div class="row"><input type="number" id="margin" min="1" max="100" step="any" inputmode="decimal" placeholder="예: 40"><span class="unit">%</span></div><span class="hint">넣으면 본전 ROAS(= 100 ÷ 이 값)를 보여 주고, 목표가 그보다 낮으면 경고해요. 판정에는 쓰지 않아요.</span></div>
+</div>
+<label class="check"><input type="checkbox" id="vatOk"><span>광고비와 매출의 <b>부가세 기준이 같음</b>을 확인했어요. (확인해야 결과가 나와요)</span></label>
+
+<div id="results" hidden>
+<h2>2. 결과</h2>
+<div id="inputIssues" class="issues bad" hidden></div>
+<div class="glance" id="glance"></div>
+<div class="assume" id="assume"></div>
+<p class="scroll-hint">표를 옆으로 밀어서 보세요.</p>
+<div class="table-wrap"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+<p class="stand" id="stand"></p>
+<div id="rowNotes" class="issues" hidden></div>
+</div>
+<div id="waiting" class="stand" hidden></div>
+
+<details class="how"><summary>계산 방법</summary>
+<div class="how-body">
+<p><b>허용 CPM</b> = <code>CTR × CVR × 객단가 × 1,000 ÷ 목표 ROAS</code> (= 현재 CPM × 현재 ROAS ÷ 목표 ROAS)</p>
+<p><b>허용 CPC</b> = <code>CVR × 객단가 ÷ 목표 ROAS</code>, <b>허용 CPA</b> = <code>객단가 ÷ 목표 ROAS</code></p>
+<p>CTR·CVR·객단가는 그 행의 현재 값을 그대로 둔다는 가정이에요. CPM이 내려가도 클릭률과 구매율이 같다는 뜻이라, 실제로는 달라질 수 있어요.</p>
+<p><b>판정</b>: 구매가 <span id="minPurchases"></span>건보다 적으면 "표본 부족"으로 판정하지 않아요. 그 외에는 (현재 ROAS ÷ 목표 ROAS)가 1 ± 오차폭 밖이면 "여유"(위) 또는 "초과"(아래), 안이면 "경계"예요. 오차폭 = 1.96 ÷ √구매 수 (구매 수만 보는 근사이고 객단가 변동은 반영하지 않아요).</p>
+<p><b>병목</b>: 합계를 뺀 모든 행을 합친 평균과 비교해 클릭률·구매 전환율·객단가·노출 단가 중 ROAS를 가장 많이 깎는 하나만 알려 줘요. 비교 기준에는 그 행 자신도 들어 있어요. 행이 <span id="minPeer"></span>개보다 적으면 표시하지 않아요.</p>
+<p><b>한 가지만 바꿔서 목표에 닿으려면</b>: 목표 ROAS ÷ 현재 ROAS 배만큼 클릭률·구매 전환율·객단가를 올리거나(또는 CPM을 그 역수만큼 내리면) 돼요.</p>
+</div></details>
+
+<div class="foot">정의서: docs/gfa-allowable-cpm-calculator.md · 기준값(최소 구매 수 등)은 gfa-config.js에서 바꿉니다.</div>
+</main>
+<script src="./gfa-config.js"></script>
+<script src="./calculator.js"></script>
+<script>
+(function () {
+  const CONFIG = window.GFA_ALLOWABLE_CPM_CONFIG;
+  const CALC = window.GFA_ALLOWABLE_CPM_CALCULATOR;
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, attrs, children) => {
+    const node = document.createElement(tag);
+    Object.entries(attrs || {}).forEach(([k, v]) => { if (k === "text") node.textContent = v; else node.setAttribute(k, v); });
+    (children || []).forEach((child) => node.append(child));
+    return node;
+  };
+  const num = (n) => (n === null || n === undefined ? "—" : Math.round(n).toLocaleString("ko-KR"));
+  const pct = (v, d = 1) => (v === null || v === undefined ? "—" : `${(v * 100).toFixed(d)}%`);
+  const signed = (v) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(Math.round(v)).toLocaleString("ko-KR");
+  const TH = CONFIG.thresholds;
+  $("minPurchases").textContent = String(TH.minPurchases);
+  $("minPeer").textContent = String(TH.minPeerRows);
+
+  let parsed = { rows: [], issues: [], headerFound: false };
+  let totals = [];
+  const override = new Map(); // 이름 → 사용자가 직접 바꾼 합계 체크
+
+  function fillList(box, items, heading) {
+    box.replaceChildren();
+    if (!items.length) { box.hidden = true; return; }
+    box.hidden = false;
+    if (heading) box.append(el("b", { text: heading }));
+    box.append(el("ul", {}, items.map((t) => el("li", { text: t }))));
+  }
+
+  function renderTotals() {
+    const box = $("totalsBox");
+    box.replaceChildren();
+    if (parsed.rows.length < 2) { box.hidden = true; return; }
+    box.hidden = false;
+    box.append(el("p", { text: "다른 행들의 합과 같은 '합계' 행은 체크하세요. 체크한 행은 병목 비교 기준에서 빠져요(이중 계산 방지). 자동으로 찾은 행은 미리 체크해 두었어요." }));
+    parsed.rows.forEach((row, i) => {
+      const input = el("input", { type: "checkbox", "data-index": String(i) });
+      input.checked = Boolean(totals[i]);
+      input.addEventListener("change", () => { override.set(row.name, input.checked); totals[i] = input.checked; render(); });
+      box.append(el("label", {}, [input, el("span", { text: row.name })]));
+    });
+  }
+
+  function readNumber(id) {
+    const raw = $(id).value.trim();
+    return raw === "" ? null : Number(raw);
+  }
+
+  function resultRow(r, g) {
+    const m = r.metrics;
+    const a = r.allowable;
+    const key = r.verdict.key;
+    const tr = el("tr", { class: r.isTotal ? "total" : key === "thin" ? "thin" : "" });
+    const cell = (text, cls, note) => {
+      const td = el("td", cls ? { class: cls } : {}, [document.createTextNode(text)]);
+      if (note) td.append(el("span", { class: "note", text: note }));
+      return td;
+    };
+    tr.append(el("th", { scope: "row", text: r.isTotal ? `${r.name} (합계·기준 제외)` : r.name }));
+    tr.append(cell(num(r.raw.spend)), cell(num(r.raw.purchases)), cell(num(m.cpm)));
+    tr.append(cell(a ? num(a.cpm) : "—"));
+    if (a && m.cpm) tr.append(cell(`${signed(a.cpm - m.cpm)}`, "", pct(a.cpm / m.cpm - 1, 0)));
+    else tr.append(cell("—"));
+    tr.append(cell(pct(m.roas, 0), "", g ? `목표의 ${pct(m.roas / g, 0)}` : ""));
+    const vcls = key === "room" ? "ok" : key === "over" ? "bad" : key === "edge" ? "warn" : "";
+    const vnote = r.verdict.e !== null ? `오차폭 ±${pct(r.verdict.e, 0)}` : key === "thin" ? `구매 ${TH.minPurchases}건 미만` : "";
+    tr.append(cell(r.verdict.label, vcls, vnote));
+    let bText = "—", bNote = "";
+    if (r.bottleneck) { bText = r.bottleneck.factor ? CONFIG.factors[r.bottleneck.factor] : "병목 없음"; if (key === "thin") bNote = "참고용"; }
+    tr.append(cell(bText, "left", bNote));
+    tr.append(cell(a ? num(a.cpc) : "—", "", `현재 ${num(m.cpc)}`), cell(a ? num(a.cpa) : "—", "", `현재 ${num(m.cpa)}`));
+    tr.append(cell(r.needMultiple === null ? "—" : r.needMultiple <= 1 ? "개선 불필요" : `×${r.needMultiple.toFixed(2)}`));
+    return tr;
+  }
+
+  function render() {
+    const waiting = $("waiting");
+    const results = $("results");
+    const targetRoas = readNumber("targetRoas");
+    const marginPct = readNumber("margin");
+    results.hidden = true; waiting.hidden = false;
+    if (!parsed.rows.length) { waiting.textContent = "표를 붙여넣으면 여기에 결과가 나와요."; return; }
+    if (targetRoas === null) { waiting.textContent = "목표 ROAS를 넣으면 계산해요. 기본값이 없어요."; return; }
+    if (!$("vatOk").checked) { waiting.textContent = "광고비와 매출의 부가세 기준이 같은지 확인하고 체크하면 결과가 나와요."; return; }
+    const out = CALC.analyze({ rows: parsed.rows, totals, targetRoas, margin: marginPct === null ? null : marginPct / 100 }, CONFIG);
+    fillList($("inputIssues"), out.issues);
+    if (out.issues.length && out.g === null) { waiting.textContent = ""; waiting.hidden = true; results.hidden = false; $("glance").textContent = ""; $("assume").textContent = ""; $("thead").replaceChildren(); $("tbody").replaceChildren(); return; }
+    waiting.hidden = true; results.hidden = false;
+
+    const count = { room: 0, edge: 0, over: 0, thin: 0, none: 0 };
+    out.results.filter((r) => !r.isTotal).forEach((r) => { count[r.verdict.key] += 1; });
+    $("glance").textContent = `목표 ROAS ${targetRoas}% 기준: 초과 ${count.over}개 · 경계 ${count.edge}개 · 여유 ${count.room}개 · 표본 부족 ${count.thin}개` + (count.none ? ` · 계산 불가 ${count.none}개` : "") + ` (합계로 체크한 행 제외)`;
+    $("assume").textContent = out.belowBreakEven
+      ? `목표 ROAS ${targetRoas}%가 본전 ROAS ${(out.breakEvenRoas * 100).toFixed(0)}%보다 낮아요. 목표를 달성해도 주문마다 손해예요.`
+      : out.breakEvenRoas ? `본전 ROAS는 ${(out.breakEvenRoas * 100).toFixed(0)}%예요.` : "허용 CPM은 각 행의 현재 클릭률·구매 전환율·객단가가 그대로라는 가정이에요.";
+    $("assume").hidden = false;
+
+    const heads = ["유형", "광고비(원)", "구매(건)", "현재 CPM(원)", "허용 CPM(원)", "허용 − 현재", "현재 ROAS", "판정", "병목", "허용 CPC(원)", "허용 CPA(원)", "한 가지만 바꾼다면"];
+    $("thead").replaceChildren(el("tr", {}, heads.map((t, i) => el("th", { scope: "col", text: t, ...(i === 0 ? { style: "text-align:left" } : {}) }))));
+    $("tbody").replaceChildren(...out.results.map((r) => resultRow(r, out.g)));
+    $("stand").textContent = out.baseline
+      ? `병목 비교 기준: 합계를 뺀 ${out.baseline.rows}개 행을 합친 평균(CTR ${pct(out.baseline.metrics.ctr, 2)}, CVR ${pct(out.baseline.metrics.cvr, 2)}, 객단가 ${num(out.baseline.metrics.aov)}원, CPM ${num(out.baseline.metrics.cpm)}원). 그 행 자신도 포함돼요.`
+      : `병목 비교 기준 행이 ${TH.minPeerRows}개보다 적어 병목은 표시하지 않아요.`;
+    const notes = [];
+    out.results.forEach((r) => {
+      r.problems.forEach((p) => notes.push(`"${r.name}": ${p} 이 행은 판정하지 않아요.`));
+      if (r.mismatches.length) notes.push(`"${r.name}": 붙여넣은 ${r.mismatches.map((k) => k.toUpperCase()).join("·")} 값이 광고비·노출·클릭·구매·매출로 다시 계산한 값과 달라요. 열이 섞이지 않았는지 확인하세요.`);
+    });
+    fillList($("rowNotes"), notes, "확인해 주세요");
+  }
+
+  function reparse() {
+    parsed = CALC.parseTable($("table").value, CONFIG);
+    const suggested = CALC.suggestTotals(parsed.rows);
+    totals = parsed.rows.map((row, i) => (override.has(row.name) ? override.get(row.name) : suggested[i]));
+    fillList($("parseIssues"), $("table").value.trim() ? parsed.issues : []);
+    renderTotals();
+    render();
+  }
+
+  $("table").addEventListener("input", reparse);
+  ["targetRoas", "margin"].forEach((id) => $(id).addEventListener("input", render));
+  $("vatOk").addEventListener("change", render);
+  $("example").addEventListener("click", () => {
+    $("table").value = CONFIG.example.table;
+    $("targetRoas").value = String(CONFIG.example.targetRoas);
+    override.clear(); reparse();
+  });
+  $("clear").addEventListener("click", () => {
+    $("table").value = ""; $("targetRoas").value = ""; $("margin").value = ""; $("vatOk").checked = false;
+    override.clear(); reparse();
+  });
+  reparse();
+})();
+</script>
+</body>
+</html>

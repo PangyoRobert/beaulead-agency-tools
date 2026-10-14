@@ -22,6 +22,7 @@
 - `ad-agency-contract/` — 디지털 광고 대행 계약서 작성기 (저장소에만 있음 — 배포 제외)
 - `lead-cpa-guide/` — 업종별 리드 단가 참고표
 - `ecommerce-unit-economics/` — 묶음 판매(번들) 손익 시뮬레이터
+- `gfa-allowable-cpm/` — GFA 허용 CPM 계산기 (저장소에만 있음 — 배포 제외)
 - `meta-ad-price-history/` — 메타 광고단가 공시 이력 (저장소에만 있음 — 배포 제외)
 - `meta-media-buying-exam/` — 메타 미디어 바잉 프로페셔널 50제
 - `meta-media-planning-exam/` — 메타 미디어 플래닝 프로페셔널 50제
