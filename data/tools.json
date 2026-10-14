@@ -226,6 +226,14 @@
       }
     },
     {
+      "slug": "gfa-allowable-cpm",
+      "kind": "tool",
+      "status": "live",
+      "public": false,
+      "name": "GFA 허용 CPM 계산기",
+      "card": null
+    },
+    {
       "slug": "meta-ad-price-history",
       "kind": "tool",
       "status": "live",
