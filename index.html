@@ -568,6 +568,34 @@
     .era-note { margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; word-break: keep-all; }
     .era-stage--now .era-period, .era-stage--now .era-title { color: var(--accent); }
 
+
+    /* 08 — How We Work: 전문성(검수 기준) · 프로세스 · 커뮤니케이션. 막대는 배점 비율만 보여주고 숫자가 항상 같이 적혀 있다. */
+    .how-intro { max-width: 640px; margin: 28px 0 0; color: var(--muted); font-size: 1rem; line-height: 1.65; word-break: keep-all; }
+    .how-block { margin-top: 72px; }
+    .how-head { display: flex; align-items: baseline; gap: 16px; margin: 0 0 28px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .how-head span { color: var(--accent); font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.13em; text-transform: uppercase; }
+    .how-head h3 { margin: 0; font-size: clamp(1.3rem, 2.4vw, 1.9rem); letter-spacing: -0.04em; word-break: keep-all; }
+    .how-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+    .how-col { padding: 0 28px; border-left: 1px solid var(--line); }
+    .how-col:first-child { padding-left: 0; border-left: 0; }
+    .how-col h4 { margin: 0 0 10px; font-size: 1.05rem; letter-spacing: -0.02em; word-break: keep-all; }
+    .how-col p { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.65; word-break: keep-all; }
+    .score-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 56px; }
+    .score-row { display: grid; grid-template-columns: 1fr 40px; gap: 4px 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .score-row strong { font-size: 0.95rem; font-weight: 600; word-break: keep-all; }
+    .score-row b { font-family: var(--mono); font-size: 0.95rem; text-align: right; }
+    .score-row i { grid-column: 1 / -1; display: block; height: 4px; background: var(--line); }
+    .score-row i::after { content: ""; display: block; height: 100%; width: var(--w); background: var(--accent); }
+    .score-note { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; word-break: keep-all; }
+    .grade-row { display: flex; flex-wrap: wrap; gap: 12px 32px; margin: 28px 0 0; padding: 0; list-style: none; font-size: 0.88rem; }
+    .grade-row li { color: var(--muted); }
+    .grade-row b { margin-right: 8px; color: var(--text); font-family: var(--mono); }
+    .proc-line { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); counter-reset: proc; }
+    .proc-step { counter-increment: proc; padding: 22px 28px 26px 0; border-bottom: 1px solid var(--line); }
+    .proc-step::before { content: counter(proc, decimal-leading-zero); display: block; margin-bottom: 10px; color: var(--accent); font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.04em; }
+    .proc-step h4 { margin: 0 0 8px; font-size: 1.05rem; letter-spacing: -0.02em; word-break: keep-all; }
+    .proc-step p { margin: 0; color: var(--muted); font-size: 0.86rem; line-height: 1.6; word-break: keep-all; }
+
     /* 글래스 면 + 포인터 빛. 도구 카드 마크업은 레지스트리 생성물이라 클래스를 못 붙이므로
        선택자로 묶는다. JS 의 querySelectorAll 과 같은 목록을 유지한다.
        --x/--y 는 요소 안 포인터 좌표, --glow 는 0~1 — 포인터가 요소 밖 반경 안에 들어올 때부터 올라간다. */
@@ -677,6 +705,12 @@
       .era-stage { border-left: 0; border-top: 1px solid var(--line); padding: 20px 0 0; }
       .era-stage:first-child { border-top: 0; }
       .era-stage--now { margin-top: 0; }
+      .how-cols { grid-template-columns: 1fr; }
+      .how-col { padding: 22px 0 0; border-left: 0; border-top: 1px solid var(--line); margin-top: 22px; }
+      .how-col:first-child { padding-top: 0; border-top: 0; margin-top: 0; }
+      .score-list { grid-template-columns: 1fr; }
+      .proc-line { grid-template-columns: 1fr; }
+      .proc-step { padding-right: 0; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -703,6 +737,7 @@
           <li><a class="nav-link" href="#tools">AGENCY TOOLS</a></li>
           <li><a class="nav-link" href="#geo-seo">GEO × SEO</a></li>
           <li><a class="nav-link" href="#team">TEAM</a></li>
+          <li><a class="nav-link" href="#process">PROCESS</a></li>
         </ul>
       </nav>
 
@@ -956,6 +991,84 @@
           </div>
         </div>
         <p class="stack-caption">복잡도가 커진 게 아니라, 복잡도의 성질이 바뀌었습니다 — 그래서 팀으로 움직입니다.</p>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="section-inner">
+        <p class="section-label">08 — How We Work</p>
+        <h2 class="section-title">그럴듯한 보고서가 아니라,<br>근거 있는 실행.</h2>
+        <p class="how-intro">AI가 초안을 쓰는 시대일수록 검수가 품질을 결정합니다. 뷰리드는 업무 태스크를 내부 표준으로 채점하고, 근거 없는 내용(AI slop)은 걸러낸 뒤에만 실행합니다.</p>
+
+        <div class="how-block">
+          <div class="how-head"><span>Expertise</span><h3>전문성: 만들 때부터 검증 가능하게</h3></div>
+          <div class="how-cols">
+            <div class="how-col">
+              <h4>지어내지 않습니다</h4>
+              <p>확인되지 않은 수치, 시간, 권한은 쓰지 않고 '확정 필요'로 표시합니다. 근거 없는 숫자를 걸러내는 가장 기본적인 기준입니다.</p>
+            </div>
+            <div class="how-col">
+              <h4>한 줄로 이어집니다</h4>
+              <p>업무 목적 → 담당자 → 실행 내용 → 기한 → 결과물·증빙 → 승인까지 끊김 없이 이어져야 업무로 인정합니다.</p>
+            </div>
+            <div class="how-col">
+              <h4>이행과 성과를 나눠 봅니다</h4>
+              <p>업무를 했는지와 성과 목표를 달성했는지는 따로 평가합니다. 목표에 못 미쳤다고 이행하지 않은 것으로 보지 않습니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="how-block">
+          <div class="how-head"><span>Quality score</span><h3>문서 품질 100점 평가표</h3></div>
+          <ul class="score-list">
+            <li class="score-row" title="왜 하는지, 무엇을 달성하는지 명시"><strong>목적·기대 결과</strong><b>10</b><i style="--w:67%"></i><p class="score-note">왜 하는지, 무엇을 달성하는지 명시</p></li>
+            <li class="score-row" title="목표, 측정 기간, 데이터 출처가 명확"><strong>KPI·성공 기준</strong><b>15</b><i style="--w:100%"></i><p class="score-note">목표, 측정 기간, 데이터 출처가 명확</p></li>
+            <li class="score-row" title="구체적 행동, 범위, 주기, 우선순위"><strong>실행·우선순위</strong><b>15</b><i style="--w:100%"></i><p class="score-note">구체적 행동, 범위, 주기, 우선순위</p></li>
+            <li class="score-row" title="수행·제출·승인 시점이 서로 맞음"><strong>일정·마감</strong><b>10</b><i style="--w:67%"></i><p class="score-note">수행·제출·승인 시점이 서로 맞음</p></li>
+            <li class="score-row" title="담당자, 승인자, 권한 범위가 명확"><strong>권한·책임</strong><b>10</b><i style="--w:67%"></i><p class="score-note">담당자, 승인자, 권한 범위가 명확</p></li>
+            <li class="score-row" title="문제 등급, 초기 조치, 이관, 해결 검증"><strong>문제·예외 대응</strong><b>15</b><i style="--w:100%"></i><p class="score-note">문제 등급, 초기 조치, 이관, 해결 검증</p></li>
+            <li class="score-row" title="검증 가능한 자료와 그 위치"><strong>기록·증빙</strong><b>10</b><i style="--w:67%"></i><p class="score-note">검증 가능한 자료와 그 위치</p></li>
+            <li class="score-row" title="산출물, 체크 기준, 승인과 반려 절차"><strong>결과물·승인</strong><b>10</b><i style="--w:67%"></i><p class="score-note">산출물, 체크 기준, 승인과 반려 절차</p></li>
+            <li class="score-row" title="지연·미해결 건의 책임자, 기한, 연결"><strong>미완료·후속 관리</strong><b>5</b><i style="--w:33%"></i><p class="score-note">지연·미해결 건의 책임자, 기한, 연결</p></li>
+          </ul>
+          <ul class="grade-row" aria-label="등급 기준">
+            <li><b>S</b>95~100</li>
+            <li><b>A</b>85~94</li>
+            <li><b>B</b>70~84</li>
+            <li><b>C</b>69 이하 · 재작성</li>
+          </ul>
+          <p class="stack-caption">항목마다 100%, 50%, 0% 중 하나로 판정하고 판정 근거가 된 문장을 함께 적습니다. 막대 길이는 배점 비율입니다.</p>
+        </div>
+
+        <div class="how-block">
+          <div class="how-head"><span>Process</span><h3>프로세스: 검수는 여섯 단계</h3></div>
+          <ol class="proc-line">
+          <li class="proc-step"><h4>업무 유형 분류</h4><p>반복 운영형, 프로젝트형, 단발 실행형, 문제 해결형, 성과 개선형 중 어디에 속하는지부터 정합니다.</p></li>
+          <li class="proc-step"><h4>확정·미확정 구분</h4><p>확인된 정보와 아직 확정되지 않은 정보를 나눕니다. 모르는 값은 '확정 필요'로 남깁니다.</p></li>
+          <li class="proc-step"><h4>9개 항목 채점</h4><p>항목마다 근거 문장과 감점 사유를 적습니다. 확인하지 못한 항목에는 만점을 주지 않습니다.</p></li>
+          <li class="proc-step"><h4>실제 내용으로 보완</h4><p>보완한 뒤 다시 채점합니다. 점수만 올리기 위한 수정은 하지 않습니다.</p></li>
+          <li class="proc-step"><h4>게이트·운영 준비 판정</h4><p>필수 게이트와 운영 준비 상태를 점수와 따로 판정합니다.</p></li>
+          <li class="proc-step"><h4>팀장 승인 후 등록</h4><p>팀장이 승인한 건만 ERP에 등록합니다.</p></li>
+          </ol>
+        </div>
+
+        <div class="how-block">
+          <div class="how-head"><span>Communication</span><h3>커뮤니케이션: 무엇이 확정이고 무엇이 아닌지 먼저</h3></div>
+          <div class="how-cols">
+            <div class="how-col">
+              <h4>필수 게이트</h4>
+              <p>담당자, 승인자, 마감, 검증 가능한 완료 기준 중 하나라도 없으면 점수와 관계없이 등록을 보류합니다. KPI가 필요한 업무에 성공 기준이 없어도 보류합니다.</p>
+            </div>
+            <div class="how-col">
+              <h4>운영 준비 판정</h4>
+              <p><strong>준비 완료</strong>는 담당자·목표·일정·권한·승인 경로가 모두 확정된 상태, <strong>조건부</strong>는 일부 자료나 자동화가 덜 된 상태(임시 대안과 보완 기한 기록), <strong>미완료</strong>는 핵심 항목이 하나라도 미확정인 상태입니다. 점수와 따로 판정합니다.</p>
+            </div>
+            <div class="how-col">
+              <h4>기록은 필요한 만큼</h4>
+              <p>정상적인 반복 업무는 간단히, 이슈와 변경은 자세히 남깁니다. ERP 필드에 이미 있는 정보는 본문에 다시 쓰지 않습니다. 검토 의견에는 수치 근거, 리스크와 대안, 제안의 장단점을 함께 담습니다.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
