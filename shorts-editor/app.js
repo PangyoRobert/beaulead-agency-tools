@@ -258,16 +258,21 @@
   }
 
   // ---------- 재생·내보내기 ----------
-  function speak(scene) {
-    if (!("speechSynthesis" in window)) return;
-    const u = new SpeechSynthesisUtterance(scene.text);
+  let utterance = null; // 발화 중 객체를 붙들어 둔다 — 지워지면 Chrome이 소리를 끊는다
+  function speakText(text) {
+    if (!("speechSynthesis" in window) || !text.trim()) return;
+    const u = new SpeechSynthesisUtterance(text);
     u.lang = "ko-KR";
     u.rate = state.ttsRate;
     u.pitch = state.ttsPitch;
     const voice = speechSynthesis.getVoices().find((v) => v.voiceURI === state.ttsVoiceURI);
     if (voice) u.voice = voice;
-    speechSynthesis.speak(u);
+    u.onerror = (e) => { if (e.error !== "canceled" && e.error !== "interrupted") toast(`목소리 재생에 실패했어요(${e.error}). 다른 목소리를 골라 보세요.`); };
+    utterance = u;
+    // cancel() 직후 같은 틱에 speak()하면 Chrome이 발화를 버리는 경우가 있어 한 박자 늦춘다
+    setTimeout(() => { if (utterance === u) speechSynthesis.speak(u); }, 60);
   }
+  function speak(scene) { speakText(scene.text); }
   function stopMedia() {
     media.forEach((m) => { if (m.kind === "video") { m.el.pause(); if (m.gain) m.gain.gain.value = 1; } });
     if ("speechSynthesis" in window) speechSynthesis.cancel();
@@ -746,6 +751,7 @@
     $("outScale").replaceChildren(...CONFIG.outputScales.map((o) => el("option", { value: String(o.scale), text: o.label })));
     $("outScale").addEventListener("change", () => { state.outScale = Number($("outScale").value) || 1; resizeCanvas(); redraw(); });
     $("ttsVoice").addEventListener("change", () => { state.ttsVoiceURI = $("ttsVoice").value; });
+    $("ttsTest").addEventListener("click", () => { if ("speechSynthesis" in window) speechSynthesis.cancel(); speakText("안녕하세요. 선택한 목소리로 읽어 드립니다."); });
     $("ttsRate").addEventListener("input", () => { state.ttsRate = Number($("ttsRate").value); $("ttsRateVal").textContent = state.ttsRate.toFixed(1); refresh(); renderScenesDurationsOnly(); });
     $("ttsPitch").addEventListener("input", () => { state.ttsPitch = Number($("ttsPitch").value); $("ttsPitchVal").textContent = state.ttsPitch.toFixed(1); });
     $("ttsPreview").addEventListener("change", () => { state.ttsPreview = $("ttsPreview").checked; });
