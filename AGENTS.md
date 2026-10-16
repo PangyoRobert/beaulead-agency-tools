@@ -34,6 +34,7 @@
 - `/keyword-volume-plan/` — 네이버 월간 검색량 조회 화면기획서 (배포됨 — 홈 카드 없음, 링크로만 접근)
 - `/ad-agency-contract/` — 디지털 광고 대행 계약서 작성기 (저장소에만 있음 — 배포 제외)
 - `/lead-cpa-guide/` — 업종별 리드 단가 참고표
+- `/ad-frame-prompt/` — 광고 프레임 프롬프트 생성기
 - `/ecommerce-unit-economics/` — 묶음 판매(번들) 손익 시뮬레이터
 - `/gfa-allowable-cpm/` — GFA 허용 CPM 계산기 (저장소에만 있음 — 배포 제외)
 - `/shorts-editor/` — 숏츠 편집기 (배포됨 — 홈 카드 없음, 링크로만 접근)

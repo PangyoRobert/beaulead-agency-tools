@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="제품명·소구점·스타일을 넣으면 Claude에 붙여넣을 지시문을 만들고, 받은 결과를 컷별 Start·End·Storyboard 프롬프트(한글·영문)로 정리합니다">
+<title>광고 프레임 프롬프트 생성기 · Beaulead Agency Tools</title>
+<link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/ad-frame-prompt/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Beaulead">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/ad-frame-prompt/">
+<meta property="og:title" content="광고 프레임 프롬프트 생성기 · Beaulead Agency Tools">
+<meta property="og:description" content="제품명·소구점·스타일을 넣으면 Claude에 붙여넣을 지시문을 만들고, 받은 결과를 컷별 Start·End·Storyboard 프롬프트(한글·영문)로 정리합니다">
+<meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="광고 프레임 프롬프트 생성기 · Beaulead Agency Tools">
+<meta name="twitter:description" content="제품명·소구점·스타일을 넣으면 Claude에 붙여넣을 지시문을 만들고, 받은 결과를 컷별 Start·End·Storyboard 프롬프트(한글·영문)로 정리합니다">
+<meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+<link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{color-scheme:light;--bg:var(--bl-surface-raised);--panel:var(--bl-surface-default);--ink:var(--bl-text-default);--muted:var(--bl-text-body-on-light);--line:var(--bl-rule-on-light);--brand:var(--bl-brand-accent);--inv:var(--bl-surface-inverse);--tint-ok:color-mix(in srgb,var(--bl-state-success) 15%,var(--bl-surface-default));--tint-bad:color-mix(in srgb,var(--bl-state-danger) 15%,var(--bl-surface-default));--tint-warn:color-mix(in srgb,var(--bl-state-warning) 15%,var(--bl-surface-default))}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-width:320px;background:var(--bg);color:var(--ink);font-family:var(--bl-font-primary);line-height:1.6}
+a{color:inherit}button,input,textarea{font:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+header.top{background:var(--inv);color:var(--bl-text-inverse);padding:20px 5vw;display:flex;justify-content:space-between;gap:16px}
+header.top a{text-decoration:none;font-weight:800;letter-spacing:.06em}
+header.top .back a{color:var(--bl-on-dark-body);font-weight:600;font-size:14px;letter-spacing:0}
+main{max-width:860px;margin:auto;padding:52px 20px 80px}
+.eyebrow{font-size:12px;letter-spacing:.15em;font-weight:800;color:var(--brand)}
+h1{font-size:clamp(30px,4.6vw,48px);letter-spacing:-.05em;line-height:1.12;margin:14px 0 16px}
+.lead{max-width:680px;font-size:16px;color:var(--muted);word-break:keep-all;margin:0 0 28px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:20px}
+.step{font-size:12px;letter-spacing:.12em;font-weight:800;color:var(--brand);margin:0 0 4px}
+h2{font-size:20px;letter-spacing:-.03em;margin:0 0 16px}
+label,.lbl{display:block;font-size:13px;font-weight:700;margin:20px 0 8px}
+label:first-of-type{margin-top:0}
+.field{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--ink)}
+textarea.field{resize:vertical;line-height:1.6}
+.field::placeholder{color:var(--bl-text-muted)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.opt{display:flex;flex-direction:column;gap:2px;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;cursor:pointer;color:var(--ink)}
+.opt.c{align-items:center;text-align:center}
+.opt b{font-size:13px}.opt small{font-size:11px;color:var(--muted)}
+.opt:hover{border-color:var(--brand)}
+.opt[aria-pressed="true"]{background:var(--inv);border-color:var(--inv);color:var(--bl-text-inverse)}
+.opt[aria-pressed="true"] small{color:var(--bl-on-dark-body)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:10px;padding:13px 20px;font-weight:700;font-size:14px;cursor:pointer;border:1px solid var(--inv);background:var(--inv);color:var(--bl-text-inverse)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.note{margin-top:14px;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;background:var(--tint-warn)}
+.note.err{background:var(--tint-bad)}
+.note[hidden]{display:none}
+pre.out{margin:16px 0 0;max-height:320px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px;font-family:var(--bl-font-mono);font-size:12px;line-height:1.7}
+.hint{font-size:13px;color:var(--muted);margin:0 0 14px;word-break:keep-all}
+.result{margin-top:8px}
+.title-block{text-align:center;margin:8px 0 24px}
+.title-block h3{font-size:26px;letter-spacing:-.03em;margin:6px 0}
+.logline{color:var(--muted);font-size:14px;max-width:620px;margin:0 auto;word-break:keep-all}
+.sec{font-size:15px;font-weight:800;margin:26px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--inv)}
+.cuts{display:flex;flex-direction:column;gap:8px}
+.cut{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cut.open{border-color:var(--brand)}
+.cut-head{width:100%;display:flex;align-items:center;gap:12px;background:none;border:0;padding:14px 16px;cursor:pointer;text-align:left;color:var(--ink)}
+.cut-no{font-family:var(--bl-font-mono);font-weight:700;font-size:12px;color:var(--bl-text-inverse);background:var(--brand);padding:3px 9px;border-radius:4px}
+.cut-role{flex:1;font-size:13px;font-weight:600;color:var(--muted)}
+.chev{color:var(--muted);transition:transform .2s}.cut.open .chev{transform:rotate(180deg)}
+.cut-body{padding:0 16px 16px;display:flex;flex-direction:column;gap:10px}
+.tag{align-self:flex-start;font-family:var(--bl-font-mono);font-size:11px;font-weight:700;letter-spacing:.1em;padding:3px 9px;border-radius:4px;margin-top:6px;color:var(--ink)}
+.tag.start{background:var(--tint-ok)}.tag.end{background:var(--tint-bad)}.tag.sb{background:var(--tint-warn)}
+.block{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}
+.block-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.bt{font-size:11px;font-weight:700;letter-spacing:.05em}
+.block p{margin:0;font-size:13px;line-height:1.7;overflow-wrap:anywhere}
+.block.en p{font-family:var(--bl-font-mono);font-size:12px}
+.copy-btn{background:none;border:1px solid var(--line);color:var(--muted);font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;cursor:pointer}
+.copy-btn:hover{border-color:var(--brand);color:var(--ink)}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+@media(max-width:640px){main{padding:36px 16px}header.top{padding:16px}.grid{grid-template-columns:repeat(2,1fr)}.panel{padding:18px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><a href="../">BEAULEAD ↗</a><span class="back"><a href="../#tools">← 전체 도구</a></span></header>
+<main>
+  <div class="eyebrow">AD FRAME PROMPT LAB</div>
+  <h1>광고 프레임 프롬프트 생성기</h1>
+  <p class="lead">제품명·소구점·스타일만 넣으면 Claude에 붙여넣을 지시문을 만들어 드립니다. Claude가 돌려준 결과를 붙여넣으면 컷별 Start Frame → End Frame → Storyboard 프롬프트를 한글·영문으로 정리해 복사할 수 있습니다.</p>
+
+  <section class="panel" aria-labelledby="s1">
+    <p class="step">STEP 1</p><h2 id="s1">입력 → 지시문 만들기</h2>
+    <label for="product">제품명</label>
+    <input class="field" id="product" autocomplete="off" placeholder="예) 비타민C 브라이트닝 세럼, 무선 미니 블렌더">
+    <label for="usp">소구점</label>
+    <textarea class="field" id="usp" rows="3" placeholder="예) 바르는 순간 흡수되는 산뜻한 제형, 7일 만에 톤업 체감. 끈적임 없는 마무리가 핵심."></textarea>
+    <div class="lbl">비주얼 스타일</div>
+    <div class="grid" id="styles"></div>
+    <div class="lbl">컷 수</div>
+    <div class="grid" id="cutopts"></div>
+    <div class="note err" id="err" role="alert" hidden></div>
+    <div class="row"><button class="btn" id="make" type="button">지시문 만들기</button></div>
+    <div id="instr-wrap" hidden>
+      <pre class="out" id="instr" tabindex="0"></pre>
+      <div class="row"><button class="btn" id="copy-instr" type="button">지시문 복사</button></div>
+      <p class="hint" style="margin-top:12px">복사한 지시문을 Claude 대화창에 붙여넣고, 돌려받은 JSON을 아래 STEP 2에 붙여넣으세요. 결과가 중간에 잘리면 Claude에 “이어서 컷 N번부터 같은 JSON 형식으로”라고 요청하세요.</p>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="s2">
+    <p class="step">STEP 2</p><h2 id="s2">Claude 결과 붙여넣기 → 컷별 정리</h2>
+    <label for="paste">Claude가 돌려준 JSON</label>
+    <textarea class="field" id="paste" rows="6" placeholder='{"campaign_title": "...", "concept": "...", "cuts": [ ... ]}'></textarea>
+    <div class="note err" id="err2" role="alert" hidden></div>
+    <div class="row"><button class="btn" id="render" type="button">컷별로 정리하기</button></div>
+  </section>
+
+  <section class="result" id="result" hidden>
+    <div class="title-block">
+      <div class="eyebrow">CAMPAIGN</div>
+      <h3 id="r-title"></h3>
+      <p class="logline" id="r-concept"></p>
+      <div class="row" style="justify-content:center"><button class="btn" id="copy-all" type="button">전체 프롬프트 복사</button></div>
+    </div>
+    <div class="sec">컷별 프레임 프롬프트</div>
+    <div class="cuts" id="cuts"></div>
+  </section>
+
+  <p class="foot">입력한 내용과 붙여넣은 결과는 이 브라우저 안에서만 처리하며 어디에도 저장하거나 전송하지 않습니다. 생성은 사용자가 직접 Claude에 붙여넣어 진행합니다.</p>
+</main>
+<script src="prompt-config.js"></script>
+<script>
+(() => {
+  const C = window.AD_FRAME_CONFIG;
+  const $ = (id) => document.getElementById(id);
+  const S = { style: C.defaults.style, cutN: C.defaults.cutN, result: null, meta: null, open: 0 };
+
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function renderOptions() {
+    const s = $("styles"), c = $("cutopts");
+    s.replaceChildren(...C.styles.map((o) => {
+      const b = el("button", "opt"); b.type = "button"; b.dataset.style = o.id;
+      b.setAttribute("aria-pressed", String(S.style === o.id));
+      b.append(el("b", "", o.id), el("small", "", o.hint)); return b;
+    }));
+    c.replaceChildren(...C.cutOptions.map((o) => {
+      const b = el("button", "opt c"); b.type = "button"; b.dataset.cut = String(o.n);
+      b.setAttribute("aria-pressed", String(S.cutN === o.n));
+      b.append(el("b", "", o.n + "컷"), el("small", "", o.hint)); return b;
+    }));
+  }
+  $("styles").addEventListener("click", (e) => { const b = e.target.closest("[data-style]"); if (b) { S.style = b.dataset.style; renderOptions(); } });
+  $("cutopts").addEventListener("click", (e) => { const b = e.target.closest("[data-cut]"); if (b) { S.cutN = +b.dataset.cut; renderOptions(); } });
+
+  function note(id, msg, warn) { const n = $(id); n.hidden = !msg; n.textContent = msg || ""; n.classList.toggle("err", !warn); }
+
+  async function copyText(text) {
+    try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.style.cssText = "position:fixed;top:-9999px;opacity:0";
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      const ok = document.execCommand("copy"); document.body.removeChild(ta); return ok;
+    } catch (e) { return false; }
+  }
+  async function flash(btn, text, done) {
+    const old = btn.textContent;
+    if (await copyText(text)) { btn.textContent = done; setTimeout(() => { btn.textContent = old; }, 1500); }
+    else btn.textContent = "복사 실패 — 직접 선택해 복사하세요";
+  }
+
+  function buildInstruction(m) {
+    const en = C.styles.find((s) => s.id === m.style)?.en || m.style;
+    const vars = { product: m.product, usp: m.usp, style: m.style, styleEn: en, cutN: m.cutN, flow: C.flow };
+    return C.instruction.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? vars[k] : "{" + k + "}"));
+  }
+
+  $("make").addEventListener("click", () => {
+    const product = $("product").value.trim(), usp = $("usp").value.trim();
+    if (!product) return note("err", "제품명을 입력해 주세요.");
+    if (!usp) return note("err", "소구점을 입력해 주세요.");
+    note("err", "");
+    S.meta = { product, usp, style: S.style, cutN: S.cutN };
+    $("instr").textContent = buildInstruction(S.meta);
+    $("instr-wrap").hidden = false;
+  });
+  $("copy-instr").addEventListener("click", (e) => flash(e.currentTarget, $("instr").textContent, "복사됨"));
+
+  const KEYS = ["start_ko", "start_en", "end_ko", "end_en", "storyboard_ko", "storyboard_en"];
+  function parse(raw) {
+    let t = raw.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+    const a = t.indexOf("{"), b = t.lastIndexOf("}");
+    if (a < 0 || b <= a) throw new Error("JSON을 찾지 못했어요. Claude 답변 전체를 그대로 붙여넣어 주세요.");
+    let r;
+    try { r = JSON.parse(t.slice(a, b + 1)); }
+    catch (e) { throw new Error("JSON 형식이 깨졌어요. 답변이 중간에 잘렸다면 ‘이어서’를 요청해 이어 붙여 주세요."); }
+    if (!r || !Array.isArray(r.cuts) || !r.cuts.length) throw new Error("cuts 항목이 없어요. 지시문 그대로 다시 요청해 주세요.");
+    r.cuts.forEach((c, i) => {
+      const miss = KEYS.filter((k) => typeof c[k] !== "string" || !c[k].trim());
+      if (miss.length) throw new Error("컷 " + (c.cut ?? i + 1) + "에 빠진 항목: " + miss.join(", "));
+    });
+    return r;
+  }
+
+  $("render").addEventListener("click", () => {
+    try {
+      S.result = parse($("paste").value); S.open = 0; note("err2", "");
+      if (S.meta && S.result.cuts.length !== S.meta.cutN)
+        note("err2", "요청한 " + S.meta.cutN + "컷과 달리 " + S.result.cuts.length + "컷이 들어 있어요. 내용은 그대로 보여드립니다.", true);
+      renderResult();
+    } catch (e) { S.result = null; renderResult(); note("err2", e.message); }
+  });
+
+  function block(tag, ko, en) {
+    const mk = (suffix, text, cls) => {
+      const d = el("div", "block" + cls), h = el("div", "block-h"), cp = el("button", "copy-btn", "복사");
+      cp.type = "button"; cp.dataset.copy = text;
+      h.append(el("span", "bt", tag + " · " + suffix), cp); d.append(h, el("p", "", text)); return d;
+    };
+    return [mk("한글", ko, ""), mk("English", en, " en")];
+  }
+
+  function renderResult() {
+    const r = S.result;
+    $("result").hidden = !r;
+    if (!r) return;
+    $("r-title").textContent = r.campaign_title || "";
+    $("r-concept").textContent = r.concept || "";
+    $("cuts").replaceChildren(...r.cuts.map((c, i) => {
+      const open = S.open === i, wrap = el("div", "cut" + (open ? " open" : ""));
+      const h = el("button", "cut-head"); h.type = "button"; h.dataset.idx = String(i); h.setAttribute("aria-expanded", String(open));
+      h.append(el("span", "cut-no", "CUT " + (c.cut ?? i + 1)), el("span", "cut-role", c.role || ""), el("span", "chev", "▾"));
+      wrap.append(h);
+      if (open) {
+        const body = el("div", "cut-body");
+        body.append(el("div", "tag start", "▶ START FRAME"), ...block("Start Frame", c.start_ko, c.start_en),
+          el("div", "tag end", "■ END FRAME"), ...block("End Frame", c.end_ko, c.end_en),
+          el("div", "tag sb", "STORYBOARD (Start → End 통합)"), ...block("Storyboard", c.storyboard_ko, c.storyboard_en));
+        wrap.append(body);
+      }
+      return wrap;
+    }));
+  }
+  $("cuts").addEventListener("click", (e) => {
+    const h = e.target.closest("[data-idx]");
+    if (h) { const i = +h.dataset.idx; S.open = S.open === i ? -1 : i; renderResult(); return; }
+    const c = e.target.closest("[data-copy]");
+    if (c) flash(c, c.dataset.copy, "복사됨");
+  });
+
+  function fullText() {
+    const r = S.result, m = S.meta; if (!r) return "";
+    const lines = ["🎬 " + (r.campaign_title || "")];
+    if (m) lines.push("제품: " + m.product + " | 소구점: " + m.usp + " | 스타일: " + m.style);
+    lines.push("컨셉: " + (r.concept || ""), "");
+    r.cuts.forEach((c, i) => lines.push("──── 컷 " + (c.cut ?? i + 1) + " · " + (c.role || "") + " ────",
+      "[Start Frame · KO] " + c.start_ko, "[Start Frame · EN] " + c.start_en,
+      "[End Frame · KO] " + c.end_ko, "[End Frame · EN] " + c.end_en,
+      "[Storyboard · KO] " + c.storyboard_ko, "[Storyboard · EN] " + c.storyboard_en, ""));
+    return lines.join("\n");
+  }
+  $("copy-all").addEventListener("click", (e) => flash(e.currentTarget, fullText(), "전체 프롬프트 복사됨!"));
+
+  renderOptions();
+})();
+</script>
+</body>
+</html>

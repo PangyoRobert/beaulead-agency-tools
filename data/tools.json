@@ -214,6 +214,18 @@
       }
     },
     {
+      "slug": "ad-frame-prompt",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "name": "광고 프레임 프롬프트 생성기",
+      "card": {
+        "kicker": "Prompt Generator",
+        "title": ["Ad Frame", "Prompt Lab"],
+        "description": "제품명·소구점·스타일로 Claude용 지시문을 만들고, 결과를 컷별 Start·End·Storyboard 프롬프트(한글·영문)로 정리하는 도구입니다."
+      }
+    },
+    {
       "slug": "ecommerce-unit-economics",
       "kind": "tool",
       "status": "live",
