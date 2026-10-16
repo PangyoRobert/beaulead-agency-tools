@@ -63,8 +63,21 @@
       inset: 0 0 auto;
       height: var(--header-height);
       border-bottom: 1px solid var(--line);
-      background: rgba(22, 22, 22, 0.86);
-      backdrop-filter: blur(16px);
+      background: rgba(22, 22, 22, 0.55);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      backdrop-filter: blur(20px) saturate(150%);
+    }
+
+    /* 뒤에 흐릴 대상이 있어야 유리로 보인다. 단색 #161616 위의 blur 는 아무 변화가 없으므로
+       뷰포트에 고정된 빛 레이어를 깔고, 커서를 느리게 따라오게 한다(JS 가 --ax/--ay 를 쓴다). */
+    .ambient {
+      position: fixed;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(34rem circle at var(--ax, 72%) var(--ay, 22%), rgba(15, 98, 254, 0.30), transparent 70%),
+        radial-gradient(40rem circle at 10% 82%, rgba(69, 137, 255, 0.12), transparent 70%);
     }
 
     .gnb-inner {
@@ -369,13 +382,19 @@
       padding: clamp(30px, 5vw, 58px);
       border: 1px solid rgba(15, 98, 254, 0.5);
       color: var(--text);
-      background: linear-gradient(145deg, rgba(15, 98, 254, 0.18), rgba(15, 98, 254, 0.03));
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02)),
+        linear-gradient(145deg, rgba(15, 98, 254, 0.18), rgba(15, 98, 254, 0.03));
       text-decoration: none;
       transition: background 180ms ease;
     }
 
     .tool-card:hover,
-    .tool-card:focus-visible { background: rgba(15, 98, 254, 0.22); }
+    .tool-card:focus-visible {
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
+        linear-gradient(145deg, rgba(15, 98, 254, 0.24), rgba(15, 98, 254, 0.08));
+    }
     .tool-card .tool-kicker { display: block; margin-bottom: 22px; color: var(--muted); font-size: 0.73rem; letter-spacing: 0.13em; text-transform: uppercase; }
     .tool-card h2 { margin: 0 0 16px; font-size: clamp(2.2rem, 4vw, 4rem); line-height: 0.95; letter-spacing: -0.06em; }
     .tool-card p { max-width: 590px; margin: 0; color: var(--muted); line-height: 1.65; }
@@ -549,6 +568,67 @@
     .era-note { margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; word-break: keep-all; }
     .era-stage--now .era-period, .era-stage--now .era-title { color: var(--accent); }
 
+    /* 글래스 면 + 포인터 빛. 도구 카드 마크업은 레지스트리 생성물이라 클래스를 못 붙이므로
+       선택자로 묶는다. JS 의 querySelectorAll 과 같은 목록을 유지한다.
+       --x/--y 는 요소 안 포인터 좌표, --glow 는 0~1 — 포인터가 요소 밖 반경 안에 들어올 때부터 올라간다. */
+    .tool-card,
+    .stack-tree {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      border-radius: 16px;
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      backdrop-filter: blur(18px) saturate(140%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        0 12px 32px rgba(22, 22, 22, 0.35);
+    }
+
+    .stack-tree {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015));
+    }
+
+    .tool-card > *,
+    .stack-tree > * { position: relative; z-index: 1; }
+
+    .tool-card::before,
+    .stack-tree::before,
+    .tool-card::after,
+    .stack-tree::after {
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      border-radius: inherit;
+      opacity: var(--glow, 0);
+      pointer-events: none;
+      transition: opacity 160ms ease-out;
+      content: "";
+    }
+
+    /* 면을 비추는 번짐 */
+    .tool-card::before,
+    .stack-tree::before {
+      background: radial-gradient(15rem circle at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.14), transparent 70%);
+    }
+
+    /* 테두리만 비추는 빛 — 1px 링을 마스크로 도려내고 그 위에 같은 위치의 그라디언트를 깐다 */
+    .tool-card::after,
+    .stack-tree::after {
+      padding: 1px;
+      background: radial-gradient(11rem circle at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.85), transparent 70%);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    }
+
+    /* 키보드 포커스에는 포인터가 없으므로 상단 중앙에서 비춘다 */
+    .tool-card:focus-visible { --glow: 1 !important; --x: 50% !important; --y: 0% !important; }
+
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .gnb { background: rgba(22, 22, 22, 0.92); }
+      .tool-card, .stack-tree { background-color: rgba(22, 22, 22, 0.8); }
+    }
+
     @media (max-width: 1180px) {
       .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
@@ -556,6 +636,8 @@
     @media (max-width: 940px) {
       :root { --header-height: 72px; }
       .gnb-inner, .section-inner { width: min(100% - 40px, 1440px); }
+      /* 모바일은 GPU 부담을 줄이려 blur 반경을 낮춘다 */
+      .tool-card, .stack-tree { -webkit-backdrop-filter: blur(10px) saturate(130%); backdrop-filter: blur(10px) saturate(130%); }
       .menu-button { display: block; }
       .contact-link { display: none; }
 
@@ -608,6 +690,7 @@
   </style>
 </head>
 <body>
+  <div class="ambient" aria-hidden="true"></div>
   <header class="gnb">
     <div class="gnb-inner">
       <a class="logo" href="#home" aria-label="Beaulead 홈">BEAULEAD</a>
@@ -960,6 +1043,53 @@
     }, { rootMargin: '-35% 0px -55%' });
 
     sections.forEach((section) => observer.observe(section));
+  </script>
+
+  <script>
+    // 포인터 빛. 마우스(hover+fine)에서만 켜고, 모션 감소 설정이면 끈다 — 그때는 CSS 의 정적 글래스만 남는다.
+    // 카드 밖이어도 RADIUS 안이면 가까운 카드부터 테두리가 밝아진다.
+    (() => {
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const RADIUS = 260;
+      const root = document.documentElement;
+      const targets = [...document.querySelectorAll('.tool-card, .stack-tree')];
+      let px = innerWidth * 0.72, py = innerHeight * 0.22;
+      let ax = px, ay = py;
+      let active = false, frame = 0;
+
+      function tick() {
+        frame = 0;
+        ax += (px - ax) * 0.14;
+        ay += (py - ay) * 0.14;
+        root.style.setProperty('--ax', `${ax.toFixed(1)}px`);
+        root.style.setProperty('--ay', `${ay.toFixed(1)}px`);
+
+        const rects = targets.map((el) => el.getBoundingClientRect());
+        rects.forEach((r, i) => {
+          const dx = Math.max(r.left - px, 0, px - r.right);
+          const dy = Math.max(r.top - py, 0, py - r.bottom);
+          const glow = active ? Math.max(0, 1 - Math.hypot(dx, dy) / RADIUS) : 0;
+          const el = targets[i];
+          el.style.setProperty('--x', `${(px - r.left).toFixed(1)}px`);
+          el.style.setProperty('--y', `${(py - r.top).toFixed(1)}px`);
+          el.style.setProperty('--glow', glow.toFixed(3));
+        });
+
+        if (active && Math.hypot(px - ax, py - ay) > 0.5) schedule();
+      }
+
+      function schedule() { if (!frame) frame = requestAnimationFrame(tick); }
+
+      document.addEventListener('pointermove', (e) => {
+        if (e.pointerType === 'touch') return;
+        px = e.clientX; py = e.clientY; active = true; schedule();
+      }, { passive: true });
+      root.addEventListener('mouseleave', () => { active = false; schedule(); });
+      addEventListener('scroll', () => { if (active) schedule(); }, { passive: true });
+      addEventListener('resize', schedule);
+    })();
   </script>
 </body>
 </html>
