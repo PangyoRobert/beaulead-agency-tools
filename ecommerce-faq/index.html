@@ -53,6 +53,12 @@ details[open] summary::after{content:"−"}
 .body{padding:0 22px 20px 58px;font-size:15px;word-break:keep-all}
 .body p{margin:0 0 10px}
 .tag{display:inline-block;margin:0 0 12px;padding:3px 10px;font-size:12px;font-weight:700;border:1px solid var(--line);border-radius:999px;background:var(--bl-surface-raised);color:var(--ink)}
+.tbl-wrap{overflow-x:auto;margin:14px 0 4px;border:1px solid var(--line);border-radius:10px}
+.tbl-wrap table{width:100%;min-width:560px;border-collapse:collapse;font-size:13px;line-height:1.5}
+.tbl-wrap th,.tbl-wrap td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+.tbl-wrap th{background:var(--bl-surface-raised);font-size:12px}
+.tbl-wrap tr:last-child td{border-bottom:0}
+.tbl-wrap td:first-child{font-weight:700;white-space:nowrap}
 .checks{margin:14px 0 0;padding:14px 16px;border-radius:10px;background:var(--bl-surface-raised);font-size:14px}
 .checks h3{margin:0 0 6px;font-size:13px;letter-spacing:.04em}
 .checks ul{margin:0;padding-left:18px}
@@ -103,6 +109,11 @@ details[open] summary::after{content:"−"}
       el("span", { class: "tag", text: "신뢰도: " + CONFIG.levels[item.level] })
     ]);
     item.answer.forEach((text) => body.append(el("p", { text })));
+    if (item.table) {
+      const head = el("tr", {}, item.table.headers.map((h) => el("th", { scope: "col", text: h })));
+      const rows = item.table.rows.map((row) => el("tr", {}, row.map((cell) => el("td", { text: cell }))));
+      body.append(el("div", { class: "tbl-wrap" }, [el("table", {}, [el("thead", {}, [head]), el("tbody", {}, rows)])]));
+    }
     const checks = el("div", { class: "checks" }, [el("h3", { text: "확인할 것" })]);
     const list = el("ul");
     item.checks.forEach((text) => list.append(el("li", { text })));

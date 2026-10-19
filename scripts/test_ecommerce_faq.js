@@ -16,13 +16,17 @@ function check(name, ok) {
 
 check("config exists", !!cfg);
 check("updatedAt is a date", /^\d{4}-\d{2}-\d{2}$/.test(cfg.updatedAt));
-check("6 items", cfg.items.length === 6);
+check("10 items", cfg.items.length === 10);
 const ids = new Set(cfg.items.map((i) => i.id));
 check("unique ids", ids.size === cfg.items.length);
 cfg.items.forEach((item) => {
   check(item.id + " has question and answers", item.q.endsWith("?") && item.answer.length >= 1);
   check(item.id + " has checks", item.checks.length >= 1);
   check(item.id + " level valid", Object.prototype.hasOwnProperty.call(cfg.levels, item.level));
+  if (item.table) {
+    const cols = item.table.headers.length;
+    check(item.id + " table rows match header width", item.table.rows.length >= 1 && item.table.rows.every((r) => r.length === cols));
+  }
 });
 check("sources are https", cfg.sources.length >= 1 && cfg.sources.every((s) => /^https:\/\//.test(s.url)));
 
