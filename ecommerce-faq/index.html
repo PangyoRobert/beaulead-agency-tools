@@ -59,6 +59,7 @@ details[open] summary::after{content:"−"}
 .tbl-wrap th{background:var(--bl-surface-raised);font-size:12px}
 .tbl-wrap tr:last-child td{border-bottom:0}
 .tbl-wrap td:first-child{font-weight:700;white-space:nowrap}
+.tag.verdict{border-color:var(--brand);margin-right:6px}
 .checks{margin:14px 0 0;padding:14px 16px;border-radius:10px;background:var(--bl-surface-raised);font-size:14px}
 .checks h3{margin:0 0 6px;font-size:13px;letter-spacing:.04em}
 .checks ul{margin:0;padding-left:18px}
@@ -105,9 +106,9 @@ details[open] summary::after{content:"−"}
 
   const faq = document.getElementById("faq");
   CONFIG.items.forEach((item, index) => {
-    const body = el("div", { class: "body" }, [
-      el("span", { class: "tag", text: "신뢰도: " + CONFIG.levels[item.level] })
-    ]);
+    const body = el("div", { class: "body" });
+    if (item.verdict) body.append(el("span", { class: "tag verdict", text: "카더라 판정: " + CONFIG.verdicts[item.verdict] }));
+    body.append(el("span", { class: "tag", text: "신뢰도: " + CONFIG.levels[item.level] }));
     item.answer.forEach((text) => body.append(el("p", { text })));
     if (item.table) {
       const head = el("tr", {}, item.table.headers.map((h) => el("th", { scope: "col", text: h })));
