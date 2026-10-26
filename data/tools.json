@@ -261,9 +261,13 @@
       "slug": "utm-manager",
       "kind": "tool",
       "status": "live",
-      "public": false,
+      "public": true,
       "name": "UTM 매니저",
-      "card": null
+      "card": {
+        "kicker": "Tracking URL Builder",
+        "title": ["UTM", "Manager"],
+        "description": "랜딩 URL에 채널·유형·캠페인을 붙여 추적 URL을 만들고, 대문자·공백·길이 같은 표기 실수를 바로 잡는 도구입니다. 입력값은 저장하지 않습니다."
+      }
     },
     {
       "slug": "shorts-editor",

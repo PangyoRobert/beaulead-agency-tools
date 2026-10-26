@@ -25,7 +25,7 @@
 - `ecommerce-unit-economics/` — 묶음 판매(번들) 손익 시뮬레이터
 - `ecommerce-faq/` — 이커머스 FAQ (자사몰과 네이버 쇼핑)
 - `gfa-allowable-cpm/` — GFA 허용 CPM 계산기 (저장소에만 있음 — 배포 제외)
-- `utm-manager/` — UTM 매니저 (저장소에만 있음 — 배포 제외)
+- `utm-manager/` — UTM 매니저
 - `shorts-editor/` — 숏츠 편집기 (배포됨 — 홈 카드 없음, 링크로만 접근)
 - `meta-ad-price-history/` — 메타 광고단가 공시 이력 (저장소에만 있음 — 배포 제외)
 - `meta-media-buying-exam/` — 메타 미디어 바잉 프로페셔널 50제
