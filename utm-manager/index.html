@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="랜딩 URL과 채널·유형·캠페인을 고르면 UTM이 붙은 URL을 만들어 주고, 소문자·공백·길이 같은 표기 실수를 잡아 주는 내부용 도구">
+<title>UTM 매니저 · Beaulead Agency Tools</title>
+<link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/utm-manager/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Beaulead">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/utm-manager/">
+<meta property="og:title" content="UTM 매니저 · Beaulead Agency Tools">
+<meta property="og:description" content="랜딩 URL과 채널·유형·캠페인을 고르면 UTM이 붙은 URL을 만들어 주고, 소문자·공백·길이 같은 표기 실수를 잡아 주는 내부용 도구">
+<meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="UTM 매니저 · Beaulead Agency Tools">
+<meta name="twitter:description" content="랜딩 URL과 채널·유형·캠페인을 고르면 UTM이 붙은 URL을 만들어 주고, 소문자·공백·길이 같은 표기 실수를 잡아 주는 내부용 도구">
+<meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+<link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{color-scheme:light;--bg:var(--bl-surface-raised);--panel:var(--bl-surface-default);--ink:var(--bl-text-default);--muted:var(--bl-text-body-on-light);--line:var(--bl-rule-on-light);--brand:var(--bl-brand-accent);--ok:rgba(36,161,72,.15);--bad:rgba(218,30,40,.15);--warn:rgba(241,194,27,.25)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-width:320px;background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+a{color:inherit}button,input,select,textarea{font:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+header{background:var(--bl-surface-inverse);color:var(--bl-text-inverse);padding:20px 5vw;display:flex;justify-content:space-between;gap:16px}
+header a{color:inherit;text-decoration:none;font-weight:800;letter-spacing:.06em}
+header .back{color:var(--bl-on-dark-body);font-weight:600;font-size:14px}
+main{max-width:1180px;margin:auto;padding:52px 28px 80px}
+.eyebrow{font-size:12px;letter-spacing:.15em;font-weight:800;color:var(--brand)}
+h1{font-size:clamp(32px,4.6vw,56px);letter-spacing:-.05em;line-height:1.12;margin:14px 0 18px}
+h2{font-size:22px;letter-spacing:-.03em;margin:44px 0 6px}
+.lead{max-width:760px;font-size:16px;color:var(--muted);word-break:keep-all}
+.notice{margin:24px 0 8px;border-left:4px solid var(--brand);background:var(--panel);padding:18px 22px;font-size:14px;word-break:keep-all}
+.notice strong{display:block;margin-bottom:6px;font-size:15px}
+.notice ul{margin:8px 0 0;padding-left:18px}.notice li{margin-bottom:6px}
+.sub{font-size:14px;color:var(--muted);margin:0 0 14px;word-break:keep-all}
+textarea{width:100%;min-height:170px;padding:12px 14px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:12px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.5;white-space:pre;overflow:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:14px}
+.field{display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px 16px}
+.field label{font-size:14px;font-weight:700}
+.field .hint{font-size:12px;color:var(--muted);word-break:keep-all}
+.field .row{display:flex;align-items:center;gap:8px}
+.field input[type=number]{width:100%;padding:10px 12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;font-size:15px;font-variant-numeric:tabular-nums;text-align:right}
+.unit{font-size:13px;color:var(--muted);white-space:nowrap}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:14px;word-break:keep-all}
+.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--brand)}
+.actions{display:flex;gap:10px;margin:14px 0 0;flex-wrap:wrap}
+button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer}
+button:hover{border-color:var(--brand)}
+.issues{margin:14px 0;padding:12px 18px;border:1px solid var(--line);background:var(--warn);border-radius:12px;font-size:14px}
+.issues ul{margin:4px 0 0;padding-left:18px}.issues.bad{background:var(--bad)}
+.totals{margin:14px 0 0;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:14px}
+.totals p{margin:0 0 8px;color:var(--muted);font-size:13px;word-break:keep-all}
+.totals label{display:inline-flex;gap:6px;align-items:center;margin:0 16px 6px 0}
+.totals input{accent-color:var(--brand)}
+.assume{margin:6px 0 14px;padding:10px 14px;background:var(--warn);border-radius:10px;font-size:13px;font-weight:700;word-break:keep-all}
+.glance{margin:0 0 14px;padding:13px 18px;border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:12px;background:var(--panel);font-size:15px;word-break:keep-all}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:1040px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;vertical-align:top}
+thead th{background:var(--bl-surface-raised);font-size:12px}
+th[scope=row]{text-align:left;font-weight:700;min-width:130px;position:sticky;left:0;background:var(--panel)}
+td.left{text-align:left}
+td.ok{background:var(--ok)}td.bad{background:var(--bad)}td.warn{background:var(--warn)}
+td .note{display:block;font-size:11px;color:var(--muted);font-weight:400;word-break:keep-all}
+tr.thin td,tr.thin th{color:var(--muted)}
+tr.total th,tr.total td{background:var(--bl-surface-raised);color:var(--muted)}
+.stand{margin:10px 0 0;font-size:13px;color:var(--muted);word-break:keep-all}
+.scroll-hint{display:none;margin:0 0 6px;font-size:12px;color:var(--muted)}
+details.how{border:1px solid var(--line);border-radius:12px;background:var(--panel);margin:18px 0 0}
+details.how summary{cursor:pointer;padding:13px 18px;font-weight:700}
+.how-body{padding:2px 18px 16px;font-size:14px;word-break:keep-all}
+.how-body code{background:var(--bl-surface-raised);padding:1px 6px;border-radius:6px;font-size:13px}
+.how-body p{margin:8px 0}
+.foot{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.7}
+[hidden]{display:none!important}
+@media(max-width:900px){.scroll-hint{display:block}}
+@media(max-width:640px){main{padding:36px 18px}header{padding:16px}}
+@media print{header,.actions,.check{display:none!important}main{padding:0}.table-wrap{overflow:visible}body{background:var(--panel)}}
+
+.opts{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.opts label{display:inline-flex;gap:6px;align-items:center;font-size:14px;font-weight:400}
+.opts input[type=radio]{accent-color:var(--brand);width:16px;height:16px}
+.opts .other{width:140px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}
+.req{color:var(--bl-state-danger)}
+.txt{width:100%;padding:10px 12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;font-size:15px}
+.count{font-size:12px;color:var(--muted);text-align:right}
+.preview{padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bl-surface-raised);font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all;min-height:46px}
+.field.wide{margin-top:14px}
+td.left,th.left{text-align:left}td.url{max-width:420px;word-break:break-all;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+table{min-width:900px}
+</style>
+</head>
+<body>
+<header><a href="../">BEAULEAD ↗</a><span class="back"><a href="../#tools">← 전체 도구</a></span></header>
+<main>
+<div class="eyebrow">UTM · MANAGER</div>
+<h1>UTM<br>매니저</h1>
+<p class="lead">랜딩 URL에 채널·유형·캠페인을 붙인 추적 URL을 만들고, 표기 실수(대문자·공백·길이 초과)를 만들 때 바로 잡습니다. 만든 URL은 이 화면의 목록에 쌓아 두었다가 표로 복사해 시트에 붙여넣을 수 있어요.</p>
+
+<div class="notice">
+<strong>이 화면을 읽기 전에 확인해 주세요</strong>
+<ul>
+<li><b>입력한 값은 이 브라우저 안에서만 계산해요.</b> 저장하거나 어디로도 보내지 않고, 새로고침하면 목록이 사라져요. 필요한 건 "표로 복사"로 시트에 옮기세요.</li>
+<li>실제 고객사 URL과 캠페인명은 공개 저장소에 두지 않아요. 계속 쌓아서 보관하는 기능(로그인·공유)은 별도 비공개 시스템에서 만들어야 해요.</li>
+<li>UTM은 <b>랜딩 URL이 그대로 유지될 때만</b> 집계돼요. 리다이렉트가 쿼리를 지우는지 광고 집행 전에 실제로 눌러 확인하세요.</li>
+<li>GA4는 <b>대소문자를 다른 값으로 집계</b>해요. 소문자 영문과 밑줄로 통일하는 걸 권해요.</li>
+</ul>
+</div>
+
+<h2>1. 태그 정보</h2>
+<div class="field wide">
+<label for="title">태그 제목 <span class="req">*</span></label>
+<input class="txt" id="title" type="text" autocomplete="off" placeholder="태그를 구분할 수 있는 제목 (예: 네이버 검색광고 - 여름 세일 / 최대 100자)">
+<div class="count" id="titleCount">0 / 100</div>
+</div>
+<div class="field wide">
+<label for="url">랜딩 URL <span class="req">*</span></label>
+<input class="txt" id="url" type="text" autocomplete="off" inputmode="url" placeholder="https://">
+</div>
+<div class="field wide">
+<label>생성된 URL 미리보기</label>
+<div class="preview" id="preview" aria-live="polite">https://</div>
+</div>
+
+<h2>2. UTM 파라미터</h2>
+<p class="sub">트래픽 유입 경로를 추적하기 위한 값이에요. 채널과 유형은 필수예요.</p>
+<div class="field wide">
+<label>utm_source (채널) <span class="req">*</span></label>
+<div class="opts" id="sourceOpts"></div>
+</div>
+<div class="field wide">
+<label>utm_medium (유형) <span class="req">*</span></label>
+<div class="opts" id="mediumOpts"></div>
+</div>
+<div class="grid">
+<div class="field"><label for="campaign">utm_campaign (캠페인)</label><input class="txt" id="campaign" autocomplete="off" placeholder="캠페인 이름 (예: summer_sale_2026 / 최대 50자)"><div class="count" id="campaignCount">0 / 50</div></div>
+<div class="field"><label for="term">utm_term (키워드)</label><input class="txt" id="term" autocomplete="off" placeholder="검색어나 타겟 키워드 (예: 운동화 / 최대 50자)"><div class="count" id="termCount">0 / 50</div></div>
+<div class="field"><label for="content">utm_content (세부항목)</label><input class="txt" id="content" autocomplete="off" placeholder="광고 소재나 위치 구분 (예: banner_300x250 / 최대 50자)"><div class="count" id="contentCount">0 / 50</div></div>
+</div>
+
+<div id="errors" class="issues bad" hidden></div>
+<div id="warnings" class="issues" hidden></div>
+<div class="actions">
+<button type="button" id="add">목록에 추가</button>
+<button type="button" id="copyUrl">URL 복사</button>
+<button type="button" id="example">예시 넣기</button>
+<button type="button" id="clear">입력 비우기</button>
+<span id="msg" class="sub" role="status" aria-live="polite"></span>
+</div>
+
+<h2>3. 이 화면에서 만든 목록</h2>
+<p class="sub">새로고침하면 사라져요. 시트에 붙여넣을 땐 "표로 복사"를 쓰세요.</p>
+<p class="scroll-hint">표는 좌우로 밀어서 볼 수 있어요.</p>
+<div class="table-wrap"><table>
+<thead><tr><th class="left" scope="col">태그 제목</th><th class="left" scope="col">source</th><th class="left" scope="col">medium</th><th class="left" scope="col">campaign</th><th class="left" scope="col">생성된 URL</th><th scope="col">삭제</th></tr></thead>
+<tbody id="rows"></tbody>
+</table></div>
+<div class="actions"><button type="button" id="copyAll">표로 복사</button><button type="button" id="clearAll">목록 비우기</button></div>
+
+<details class="how"><summary>이름 짓는 규칙 (권장)</summary><div class="how-body">
+<p><b>공통:</b> 소문자 영문 + 숫자 + 밑줄(_)만. 공백·한글·대문자는 피해요.</p>
+<p><b>utm_campaign:</b> <code>목적_프로모션_연도</code> 처럼 한 캠페인에 하나만. 예: <code>autumn_promo_2026</code></p>
+<p><b>utm_content:</b> 같은 캠페인 안에서 소재·위치를 가르는 값. 예: <code>video_a_1x1</code></p>
+<p><b>utm_term:</b> 검색 광고의 키워드 또는 타겟 이름. 비워 두어도 돼요.</p>
+<p><b>매체 자동 파라미터와 겹치지 않게:</b> 네이버·메타·구글이 자체 파라미터를 붙이는 경우, 같은 이름을 쓰면 서로 덮어쓰는지 한 번 점검하세요.</p>
+</div></details>
+
+<div class="foot">Beaulead · UTM 매니저 · 표기 점검 도구예요. 집계 결과는 GA4 화면에서 확인하세요.</div>
+</main>
+<script src="utm-config.js"></script>
+<script src="utm.js"></script>
+<script>
+(function () {
+  "use strict";
+  const CFG = window.UTM_CONFIG, CALC = window.UTM_CALC;
+  const $ = (id) => document.getElementById(id);
+  const items = [];
+  let last = null;
+
+  function radios(host, name, list) {
+    list.forEach((o) => {
+      const l = document.createElement("label");
+      const r = document.createElement("input"); r.type = "radio"; r.name = name; r.value = o.value;
+      l.append(r, document.createTextNode(o.label + (o.note ? " (" + o.note + ")" : "")));
+      host.append(l);
+    });
+    const l = document.createElement("label");
+    const r = document.createElement("input"); r.type = "radio"; r.name = name; r.value = "__other";
+    const t = document.createElement("input"); t.type = "text"; t.className = "other"; t.placeholder = "직접 입력"; t.setAttribute("aria-label", name + " 직접 입력");
+    l.append(r, document.createTextNode("직접 입력 "), t); host.append(l);
+    host.addEventListener("input", (e) => { if (e.target === t) r.checked = true; render(); });
+    host.addEventListener("change", render);
+  }
+  function pick(name) {
+    const r = document.querySelector('input[name="' + name + '"]:checked');
+    if (!r) return "";
+    return r.value === "__other" ? r.closest("label").querySelector(".other").value : r.value;
+  }
+  function setPick(name, value) {
+    const known = [...document.querySelectorAll('input[name="' + name + '"]')].find((r) => r.value === value);
+    if (known) known.checked = true;
+  }
+  radios($("sourceOpts"), "source", CFG.sources);
+  radios($("mediumOpts"), "medium", CFG.mediums);
+
+  function read() {
+    return { title: $("title").value, url: $("url").value, source: pick("source"), medium: pick("medium"), campaign: $("campaign").value, term: $("term").value, content: $("content").value };
+  }
+  function fill(box, list) { box.replaceChildren(...list.map((t) => { const d = document.createElement("div"); d.textContent = "• " + t; return d; })); box.hidden = !list.length; }
+  function counts() { [["title", "title"], ["campaign", "campaign"], ["term", "term"], ["content", "content"]].forEach(([id, k]) => { $(id + "Count").textContent = $(id).value.length + " / " + CFG.limits[k]; }); }
+
+  function render() {
+    counts();
+    const input = read();
+    const empty = !Object.values(input).some((v) => String(v).trim());
+    last = CALC.analyze(input, CFG);
+    $("msg").textContent = "";
+    if (empty) { $("preview").textContent = "https://"; fill($("errors"), []); fill($("warnings"), []); return; }
+    $("preview").textContent = last.url || "필수 항목을 채우면 URL이 만들어져요.";
+    fill($("errors"), last.errors); fill($("warnings"), last.warnings);
+  }
+  function say(t) { $("msg").textContent = t; }
+  async function copy(text, done) {
+    try { await navigator.clipboard.writeText(text); say(done); }
+    catch (e) { say("복사 권한이 없어요. 미리보기를 직접 선택해 복사하세요."); }
+  }
+
+  function renderRows() {
+    $("rows").replaceChildren(...items.map((it, i) => {
+      const tr = document.createElement("tr");
+      [it.values.title, it.values.source, it.values.medium, it.values.campaign || "-", it.url].forEach((t, c) => {
+        const td = document.createElement("td"); td.className = "left" + (c === 4 ? " url" : ""); td.textContent = t; tr.append(td);
+      });
+      const td = document.createElement("td"); const b = document.createElement("button"); b.type = "button"; b.textContent = "삭제";
+      b.setAttribute("aria-label", it.values.title + " 삭제"); b.addEventListener("click", () => { items.splice(i, 1); renderRows(); });
+      td.append(b); tr.append(td); return tr;
+    }));
+  }
+
+  ["title", "url", "campaign", "term", "content"].forEach((id) => $(id).addEventListener("input", render));
+  $("add").addEventListener("click", () => {
+    render();
+    if (!last || last.errors.length) { say("필수 항목을 먼저 채워 주세요."); return; }
+    items.push({ values: last.values, url: last.url }); renderRows(); say("목록에 추가했어요.");
+  });
+  $("copyUrl").addEventListener("click", () => { render(); if (!last || !last.url) { say("복사할 URL이 아직 없어요."); return; } copy(last.url, "URL을 복사했어요."); });
+  $("copyAll").addEventListener("click", () => { if (!items.length) { say("목록이 비어 있어요."); return; } copy(CALC.toTsv(items), "표로 복사했어요. 시트에 붙여넣으세요."); });
+  $("clearAll").addEventListener("click", () => { items.length = 0; renderRows(); });
+  $("example").addEventListener("click", () => {
+    const e = CFG.example;
+    $("title").value = e.title; $("url").value = e.url; $("campaign").value = e.campaign; $("term").value = e.term; $("content").value = e.content;
+    setPick("source", e.source); setPick("medium", e.medium); render();
+  });
+  $("clear").addEventListener("click", () => {
+    ["title", "url", "campaign", "term", "content"].forEach((id) => { $(id).value = ""; });
+    document.querySelectorAll('#sourceOpts input,#mediumOpts input').forEach((i) => { if (i.type === "radio") i.checked = false; else i.value = ""; });
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

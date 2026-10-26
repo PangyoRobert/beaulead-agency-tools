@@ -258,6 +258,14 @@
       "card": null
     },
     {
+      "slug": "utm-manager",
+      "kind": "tool",
+      "status": "live",
+      "public": false,
+      "name": "UTM 매니저",
+      "card": null
+    },
+    {
       "slug": "shorts-editor",
       "kind": "tool",
       "status": "live",
