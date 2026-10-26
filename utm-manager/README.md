@@ -1,6 +1,6 @@
 # UTM Manager
 
-랜딩 URL에 `utm_source`·`utm_medium`·`utm_campaign`·`utm_term`·`utm_content`를 붙인 추적 URL을 만들고, 표기 실수를 만들 때 바로 잡는 내부용 도구입니다.
+랜딩 URL에 `utm_source`·`utm_medium`·`utm_campaign`·`utm_term`·`utm_content`를 붙인 추적 URL을 만들고, 표기 실수를 만들 때 바로 잡는 도구입니다.
 화면 항목은 운영 중인 UTM 태그 화면(태그 제목·랜딩 URL·생성 URL 미리보기·source/medium 선택·campaign/term/content 입력)을 따릅니다.
 
 ## 파일
@@ -19,7 +19,7 @@
 - 목록은 화면 메모리에만 있습니다. 시트로 옮길 때는 "표로 복사"(탭 구분)를 씁니다.
 - 입력은 URL·`localStorage`·외부 전송 어디에도 남기지 않습니다. 제목·랜딩 URL은 고객사를 식별할 수 있어서이고, `scripts/test_utm_manager.js`가 그런 API가 소스에 없는지 검사합니다.
 - 태그를 계속 쌓아 두고 팀이 같이 보는 "관리" 기능은 로그인과 저장소가 필요해 이 공개 저장소에 두지 않습니다(별도 비공개 시스템).
-- 공개 범위: 내부용(`public: false`). 고객 시연이 필요해지면 `data/tools.json`에서 바꿉니다.
+- 공개 범위: 공개(`public: true`, 홈 카드 있음, 2026-10-26 확정). 고객이 봐도 되고, 목록이 새로고침에 사라지는 것도 감안한 결정입니다. 항목은 운영 중인 UTM 태그 화면 이미지를 그대로 따릅니다.
 
 ## 검증
 
