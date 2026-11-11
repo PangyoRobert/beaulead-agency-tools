@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="리드(DB) 수집 대행의 보수를 고정 수수료·라이트 CPA·하이브리드·CPS로 나눠 놓고, 전환율이 변할 때 대행사 수취액과 광고주 확정 1건당 비용이 어떻게 달라지는지 계산하는 도구">
+<title>리드 수집 대행 보수 구조 계산기 · Beaulead Agency Tools</title>
+<link rel="canonical" href="https://pangyorobert.github.io/beaulead-agency-tools/lead-cps-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Beaulead">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://pangyorobert.github.io/beaulead-agency-tools/lead-cps-calculator/">
+<meta property="og:title" content="리드 수집 대행 보수 구조 계산기 · Beaulead Agency Tools">
+<meta property="og:description" content="리드(DB) 수집 대행의 보수를 고정 수수료·라이트 CPA·하이브리드·CPS로 나눠 놓고, 전환율이 변할 때 대행사 수취액과 광고주 확정 1건당 비용이 어떻게 달라지는지 계산하는 도구">
+<meta property="og:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="리드 수집 대행 보수 구조 계산기 · Beaulead Agency Tools">
+<meta name="twitter:description" content="리드(DB) 수집 대행의 보수를 고정 수수료·라이트 CPA·하이브리드·CPS로 나눠 놓고, 전환율이 변할 때 대행사 수취액과 광고주 확정 1건당 비용이 어떻게 달라지는지 계산하는 도구">
+<meta name="twitter:image" content="https://pangyorobert.github.io/beaulead-agency-tools/shared/brand/og-default.png">
+<link rel="icon" href="../shared/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../shared/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../shared/brand/favicon-16.png">
+<link rel="apple-touch-icon" href="../shared/brand/apple-touch-icon.png">
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{color-scheme:light;--bg:var(--bl-surface-raised);--panel:var(--bl-surface-default);--ink:var(--bl-text-default);--muted:var(--bl-text-body-on-light);--line:var(--bl-rule-on-light);--brand:var(--bl-brand-accent);--ok:rgba(36,161,72,.15);--bad:rgba(218,30,40,.15);--warn:rgba(241,194,27,.25)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-width:320px;background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+a{color:inherit}button,input,select{font:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+header{background:var(--bl-surface-inverse);color:var(--bl-text-inverse);padding:20px 5vw;display:flex;justify-content:space-between;gap:16px}
+header a{color:inherit;text-decoration:none;font-weight:800;letter-spacing:.06em}
+header .back{color:var(--bl-on-dark-body);font-weight:600;font-size:14px}
+main{max-width:1180px;margin:auto;padding:52px 28px 80px}
+.eyebrow{font-size:12px;letter-spacing:.15em;font-weight:800;color:var(--brand)}
+h1{font-size:clamp(32px,4.6vw,56px);letter-spacing:-.05em;line-height:1.12;margin:14px 0 18px}
+h2{font-size:22px;letter-spacing:-.03em;margin:44px 0 6px}
+h3{font-size:16px;margin:26px 0 8px}
+.lead{max-width:780px;font-size:16px;color:var(--muted);word-break:keep-all}
+.notice{margin:24px 0 8px;border-left:4px solid var(--brand);background:var(--panel);padding:18px 22px;font-size:14px;word-break:keep-all}
+.notice strong{display:block;margin-bottom:6px;font-size:15px}
+.notice ul{margin:8px 0 0;padding-left:18px}.notice li{margin-bottom:6px}
+.sub{font-size:14px;color:var(--muted);margin:0 0 14px;word-break:keep-all}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:14px}
+.field{display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px 16px}
+.field label,.field .lab{font-size:14px;font-weight:700}
+.field .hint{font-size:12px;color:var(--muted);word-break:keep-all}
+.field .row{display:flex;align-items:center;gap:8px}
+.field input[type=number],.field input[type=text],.field select{width:100%;padding:10px 12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;font-size:15px;font-variant-numeric:tabular-nums}
+.field input[type=number],.field input[type=text]{text-align:right}
+.unit{font-size:13px;color:var(--muted);white-space:nowrap}
+.inline{display:flex;gap:8px}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:14px;word-break:keep-all}
+.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--brand)}
+.check.internal{border-left:4px solid var(--brand)}
+.actions{display:flex;gap:10px;margin:14px 0 0;flex-wrap:wrap}
+button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer}
+button:hover{border-color:var(--brand)}
+.issues{margin:14px 0;padding:12px 18px;border:1px solid var(--line);background:var(--bad);border-radius:12px;font-size:14px}
+.issues ul{margin:4px 0 0;padding-left:18px}
+.assume{margin:6px 0 14px;padding:10px 14px;background:var(--warn);border-radius:10px;font-size:13px;font-weight:700;word-break:keep-all}
+.glance{margin:0 0 14px;padding:13px 18px;border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:12px;background:var(--panel);font-size:15px;word-break:keep-all}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;vertical-align:top}
+thead th{background:var(--bl-surface-raised);font-size:12px}
+th[scope=row]{text-align:left;font-weight:700;min-width:150px}
+td.left,th.left{text-align:left;word-break:keep-all}
+td.ok{background:var(--ok)}td.bad{background:var(--bad)}td.warn{background:var(--warn)}
+th.base{box-shadow:inset 0 -3px 0 var(--brand)}
+td .note{display:block;font-size:11px;color:var(--muted);font-weight:400;word-break:keep-all}
+.tag{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:var(--bl-surface-raised);border:1px solid var(--line);font-size:11px;font-weight:700;color:var(--muted)}
+.stand{margin:10px 0 0;font-size:13px;color:var(--muted);word-break:keep-all}
+.scroll-hint{display:none;margin:0 0 6px;font-size:12px;color:var(--muted)}
+details.how{border:1px solid var(--line);border-radius:12px;background:var(--panel);margin:18px 0 0}
+details.how summary{cursor:pointer;padding:13px 18px;font-weight:700}
+.how-body{padding:2px 18px 16px;font-size:14px;word-break:keep-all}
+.how-body code{background:var(--bl-surface-raised);padding:1px 6px;border-radius:6px;font-size:13px}
+.how-body p{margin:8px 0}.how-body ol,.how-body ul{margin:6px 0;padding-left:20px}
+.foot{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.7}
+[hidden]{display:none!important}
+@media(max-width:900px){.scroll-hint{display:block}}
+@media(max-width:640px){main{padding:36px 18px}header{padding:16px}}
+@media print{header,.actions,.check{display:none!important}main{padding:0}.table-wrap{overflow:visible}body{background:var(--panel)}}
+</style>
+</head>
+<body>
+<header><a href="../">BEAULEAD ↗</a><span class="back"><a href="../#tools">← 전체 도구</a></span></header>
+<main>
+<div class="eyebrow">LEAD COLLECTION · FEE STRUCTURE</div>
+<h1>리드 수집 대행<br>보수 구조 계산기</h1>
+<p class="lead" id="principle"></p>
+
+<div class="notice">
+<strong>이 화면을 읽기 전에 확인해 주세요</strong>
+<ul>
+<li><b>광고비·CPA·전환율·수수료율에는 기본값이 없어요.</b> 계약마다 달라지는 값이라 직접 넣어야 해요. 기본으로 들어 있는 건 전환율 5·8·12%, 비교 기준 수수료 15%, 목표 영업이익률 25%뿐이에요.</li>
+<li>광고비는 <b>광고주가 부담</b>한다고 가정해요. 대행사가 광고비를 먼저 쓰는 구조는 계산하지 않아요.</li>
+<li>업종 참고 단가는 <a href="../lead-cpa-guide/">업종별 리드 단가 참고표</a>의 값이에요. 직접 집행한 실측이 아니니 계약에는 해당 계정의 실측 CPA로 바꿔 넣으세요.</li>
+<li>입력한 값은 이 브라우저 안에서만 계산해요. 저장하거나 어디로도 보내지 않고, 새로고침하면 사라져요.</li>
+</ul>
+</div>
+
+<h2>1. 기본 조건</h2>
+<div class="grid">
+<div class="field"><span class="lab">업종 참고 단가</span>
+<div class="inline"><select id="industry" aria-label="업종 선택"></select><button type="button" id="loadRef">불러오기</button></div>
+<span class="hint" id="refHint">업종을 고르고 불러오면 CPA 칸에 2026년 참고가가 들어가요. 값은 바꿀 수 있어요.</span></div>
+<div class="field"><label for="spend">월 광고비 (메타+구글)</label><div class="row"><input type="text" id="spend" data-money placeholder="예: 30,000,000"><span class="unit">원</span></div><span class="hint">VAT 기준을 CPA와 같게 넣으세요.</span></div>
+<div class="field"><label for="cpa">유효 DB 단가 (CPA)</label><div class="row"><input type="text" id="cpa" data-money placeholder="예: 33,000"><span class="unit">원</span></div><span class="hint">프론트에서 유효 DB 1건을 얻는 데 드는 광고비.</span></div>
+<div class="field"><label for="baseRate">기준 백엔드 전환율</label><div class="row"><input type="number" id="baseRate" min="0" max="100" step="any" inputmode="decimal" placeholder="예: 8"><span class="unit">%</span></div><span class="hint">접수 대비 승인·개통 비율. 이 전환율에서 세 구조의 광고주 비용이 같아지게 맞춰요.</span></div>
+</div>
+<div class="grid">
+<div class="field"><span class="lab">민감도 전환율 3개</span>
+<div class="row"><input type="number" id="rate1" min="0" max="100" step="any" inputmode="decimal" aria-label="민감도 전환율 1"><input type="number" id="rate2" min="0" max="100" step="any" inputmode="decimal" aria-label="민감도 전환율 2"><input type="number" id="rate3" min="0" max="100" step="any" inputmode="decimal" aria-label="민감도 전환율 3"><span class="unit">%</span></div>
+<span class="hint">기준 전환율이 이 목록에 없으면 열이 하나 더 생겨요.</span></div>
+<div class="field"><label for="advValue">확정 1건당 광고주 수익 (선택)</label><div class="row"><input type="text" id="advValue" data-money placeholder="예: 500,000"><span class="unit">원</span></div><span class="hint">넣으면 구조별 광고주 월 순수익을 함께 보여줘요.</span></div>
+</div>
+
+<h2>2. 보수 구조</h2>
+<div class="grid">
+<div class="field"><label for="refFee">기준(기존) 고정 수수료율</label><div class="row"><input type="number" id="refFee" min="0" step="any" inputmode="decimal"><span class="unit">% (광고비 대비)</span></div><span class="hint">비교 기준이에요. 2·3단계 CPS는 기준 전환율에서 이 수수료와 같아지도록 역산해요.</span></div>
+<div class="field"><label for="leanRate">1단계 라이트 CPA 수수료율</label><div class="row"><input type="number" id="leanRate" min="0" step="any" inputmode="decimal" placeholder="직접 입력"><span class="unit">% (광고비 대비)</span></div><span class="hint">품질 AS를 빼는 대신 낮추는 수수료율. 운영비를 넣으면 손익분기 수수료율을 알려 줘요.</span></div>
+<div class="field"><label for="hybridBase">2단계 하이브리드 기본료율</label><div class="row"><input type="number" id="hybridBase" min="0" step="any" inputmode="decimal" placeholder="직접 입력"><span class="unit">% (광고비 대비)</span></div><span class="hint">전환율이 낮아도 받는 바닥 수익이에요. 나머지는 확정 1건당 CPS로 역산해요.</span></div>
+<div class="field"><label for="mg">3단계 순수 CPS 월 최소 보장 (선택)</label><div class="row"><input type="text" id="mg" data-money placeholder="비우면 보장 없음"><span class="unit">원</span></div><span class="hint">확정 건이 적어도 월 이 금액까지는 청구해요. 순수 CPS에만 적용돼요.</span></div>
+</div>
+
+<label class="check internal"><input type="checkbox" id="internal"><span><b>내부 수익 보기</b> — 월 운영비를 넣어 대행사 이익·마진·손익분기·최소 보장 산출을 봅니다. <b>광고주와 화면을 공유하기 전에는 꺼 두세요.</b></span></label>
+<div class="grid" id="internalInputs" hidden>
+<div class="field"><label for="ops">월 운영비 (계정당)</label><div class="row"><input type="text" id="ops" data-money placeholder="직접 입력"><span class="unit">원</span></div><span class="hint">인건비·툴 비용 등 이 계정에 드는 월 비용. 계정마다 다르니 그때그때 넣으세요.</span></div>
+<div class="field"><label for="targetMargin">목표 영업이익률</label><div class="row"><input type="number" id="targetMargin" min="0" max="99" step="any" inputmode="decimal"><span class="unit">%</span></div><span class="hint">수취액 대비 이익 비율.</span></div>
+</div>
+
+<div class="actions"><button type="button" id="example">가상 예시 채우기</button><button type="button" id="clear">지우기</button></div>
+
+<div id="issues" class="issues" hidden></div>
+<div id="waiting" class="stand">광고비·CPA·기준 전환율을 넣으면 결과가 나와요.</div>
+
+<div id="results" hidden>
+<h2>3. 결과</h2>
+<div class="glance" id="glance"></div>
+<div class="assume" id="assume"></div>
+
+<h3>대행사 수취액 (월, 광고주가 내는 수수료)</h3>
+<p class="scroll-hint">표를 옆으로 밀어서 보세요.</p>
+<div class="table-wrap"><table><thead id="revHead"></thead><tbody id="revBody"></tbody></table></div>
+<p class="stand" id="revStand"></p>
+
+<h3>광고주 관점 — 확정 1건당 총비용 (광고비 + 수수료)</h3>
+<div class="table-wrap"><table><thead id="advHead"></thead><tbody id="advBody"></tbody></table></div>
+<p class="stand">"광고비만" 행은 수수료를 뺀 값(CPA ÷ 전환율)이에요. 확정 건이 0이면 계산하지 않아요.</p>
+
+<div id="netBox" hidden>
+<h3>광고주 월 순수익 (확정 수익 − 광고비 − 수수료)</h3>
+<div class="table-wrap"><table><thead id="netHead"></thead><tbody id="netBody"></tbody></table></div>
+</div>
+
+<div id="internalBox" hidden>
+<h2>4. 내부 — 대행사 손익</h2>
+<h3>영업이익률</h3>
+<div class="table-wrap"><table><thead id="mgnHead"></thead><tbody id="mgnBody"></tbody></table></div>
+<h3>손익분기·최소 보장</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col" class="left">항목</th><th scope="col">값</th><th scope="col" class="left">뜻</th></tr></thead><tbody id="beBody"></tbody></table></div>
+<h3>목표 마진을 맞추는 순수 CPS (전환율별)</h3>
+<div class="table-wrap"><table><thead id="reqHead"></thead><tbody id="reqBody"></tbody></table></div>
+</div>
+</div>
+
+<h2>보수 구조 4종</h2>
+<div class="table-wrap"><table><thead><tr><th scope="col" class="left">구조</th><th scope="col" class="left">대행사 책임 범위</th><th scope="col" class="left">보수</th></tr></thead><tbody id="structBody"></tbody></table></div>
+
+<details class="how"><summary>계산 방법</summary>
+<div class="how-body">
+<p>유효 DB = <code>광고비 ÷ CPA</code>, 확정 건수 = <code>유효 DB × 백엔드 전환율</code></p>
+<p>고정 수수료 = <code>광고비 × 수수료율</code></p>
+<p>순수 CPS = <code>기준 수수료 ÷ (기준 전환율에서의 확정 건수)</code>. 기준 전환율에서는 기존 수수료와 같은 금액이에요.</p>
+<p>하이브리드 = <code>광고비 × 기본료율 + CPS × 확정 건수</code>, CPS = <code>(기준 수수료 − 기본료) ÷ (기준 전환율 확정 건수)</code></p>
+<p>전환율이 기준보다 낮으면 하이브리드·CPS 수취액이 줄고, 높으면 늘어요. 고정 수수료는 그대로예요. 기대 수취액을 맞추고 위험만 나누는 구조예요.</p>
+<p>내부 보기: 이익 = <code>수취액 − 월 운영비</code>, 마진 = <code>이익 ÷ 수취액</code>. 손익분기 최소 보장 = 운영비, 목표 마진 최소 보장 = <code>운영비 ÷ (1 − 목표 마진)</code>. 1단계 손익분기 수수료율 = <code>운영비 ÷ 광고비</code>.</p>
+<p><b>3단계(CPS)에 필수인 안전장치</b></p>
+<ol id="safeguards"></ol>
+</div></details>
+
+<div class="foot">기준값·문구는 cps-config.js, 업종 참고 단가는 lead-cpa-guide/pricing-config.js에서 바꿉니다. 정의서: lead-cps-calculator/README.md</div>
+</main>
+<script src="../shared/money-input.js"></script>
+<script src="../lead-cpa-guide/pricing-config.js"></script>
+<script src="./cps-config.js"></script>
+<script src="./calculator.js"></script>
+<script>
+(function () {
+  const CONFIG = window.LEAD_CPS_CONFIG;
+  const GUIDE = window.LEAD_CPA_GUIDE_CONFIG;
+  const CALC = window.LEAD_CPS_CALCULATOR;
+  const MONEY = window.MONEY_INPUT;
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, attrs, children) => {
+    const node = document.createElement(tag);
+    Object.entries(attrs || {}).forEach(([k, v]) => { if (k === "text") node.textContent = v; else node.setAttribute(k, v); });
+    (children || []).forEach((child) => child && node.append(child));
+    return node;
+  };
+  const won = (n) => (n === null || n === undefined ? "—" : `${Math.round(n).toLocaleString("ko-KR")}원`);
+  const num = (n) => (n === null || n === undefined ? "—" : Math.round(n).toLocaleString("ko-KR"));
+  const pct = (v, d = 1) => (v === null || v === undefined ? "—" : `${(v * 100).toFixed(d)}%`);
+  const adjusted = (base) => Math.round(base * (1 + GUIDE.inflationRate));
+
+  $("principle").textContent = CONFIG.principle;
+  MONEY.upgrade();
+
+  // 업종 참고 단가(lead-cpa-guide 원천)
+  const industry = $("industry");
+  industry.append(el("option", { value: "", text: "업종 선택" }));
+  const refs = new Map();
+  GUIDE.categories.forEach((cat) => cat.groups.forEach((group) => {
+    const og = el("optgroup", { label: `${cat.label} · ${group.label}` });
+    group.items.forEach((item) => { const key = `${group.id}:${item.name}`; refs.set(key, item); og.append(el("option", { value: key, text: item.name })); });
+    industry.append(og);
+  }));
+  $("loadRef").addEventListener("click", () => {
+    const item = refs.get(industry.value);
+    if (!item) { $("refHint").textContent = "업종을 먼저 고르세요."; return; }
+    MONEY.write($("cpa"), adjusted(item.base));
+    $("refHint").textContent = `${item.name}: ${GUIDE.baseYear} ${num(item.base)}원 → ${GUIDE.targetYear} 참고가 ${num(adjusted(item.base))}원(+${Math.round(GUIDE.inflationRate * 100)}% 일괄 조정)을 CPA에 넣었어요. 실측이 아니에요.`;
+    render();
+  });
+
+  // 기본값(사용자가 정한 값만)
+  function setDefaults() {
+    const d = CONFIG.defaults;
+    ["rate1", "rate2", "rate3"].forEach((id, i) => { $(id).value = String(d.scenarioRates[i] * 100); });
+    $("refFee").value = String(d.referenceFeeRate * 100);
+    $("targetMargin").value = String(d.targetMargin * 100);
+  }
+  setDefaults();
+
+  CONFIG.safeguards.forEach((t) => $("safeguards").append(el("li", { text: t })));
+  CONFIG.structures.forEach((s) => $("structBody").append(el("tr", {}, [
+    el("th", { scope: "row", class: "left" }, [document.createTextNode(s.label), el("span", { class: "tag", text: s.tag })]),
+    el("td", { class: "left", text: s.scope }),
+    el("td", { class: "left", text: s.pay })
+  ])));
+
+  const percentOrNull = (id) => { const raw = $(id).value.trim(); return raw === "" ? null : Number(raw) / 100; };
+  const moneyOrNull = (id) => { const raw = $(id).value.trim(); return raw === "" ? null : MONEY.read($(id)); };
+
+  function read() {
+    const rates = ["rate1", "rate2", "rate3"].map(percentOrNull).filter((v) => v !== null);
+    return {
+      spend: moneyOrNull("spend"), cpa: moneyOrNull("cpa"), baseRate: percentOrNull("baseRate"), rates,
+      refFeeRate: percentOrNull("refFee"), leanRate: percentOrNull("leanRate"), hybridBaseRate: percentOrNull("hybridBase"),
+      advValue: moneyOrNull("advValue"), mg: moneyOrNull("mg"),
+      internal: $("internal").checked, ops: moneyOrNull("ops"), targetMargin: percentOrNull("targetMargin")
+    };
+  }
+
+  function fillIssues(items) {
+    const box = $("issues");
+    box.replaceChildren();
+    box.hidden = !items.length;
+    if (items.length) box.append(el("ul", {}, items.map((t) => el("li", { text: t }))));
+  }
+
+  function head(node, first, columns) {
+    node.replaceChildren(el("tr", {}, [el("th", { scope: "col", class: "left", text: first }), ...columns.map((c) => el("th", { scope: "col", class: c.isBase ? "base" : "", text: `전환율 ${pct(c.rate)}${c.isBase ? " (기준)" : ""}` }))]));
+  }
+
+  const NAMES = Object.fromEntries(CONFIG.structures.map((s) => [s.key, s.label]));
+  const KEYS = CONFIG.structures.map((s) => s.key);
+
+  function render() {
+    const input = read();
+    $("internalInputs").hidden = !input.internal;
+    const missing = input.spend === null || input.cpa === null || input.baseRate === null;
+    $("results").hidden = true; $("waiting").hidden = false; fillIssues([]);
+    if (missing) return;
+    const out = CALC.analyze(input);
+    if (!out.ok) { fillIssues(out.issues); return; }
+    $("waiting").hidden = true; $("results").hidden = false;
+
+    $("glance").textContent = `유효 DB ${num(out.leads)}건 · 기준 전환율 ${pct(input.baseRate)}에서 확정 ${out.salesBase.toFixed(1)}건 · 기준 수수료 ${won(out.refFee)}` +
+      (out.cpsPure !== null ? ` · 순수 CPS 건당 ${won(out.cpsPure)}` : "") + (out.cpsHybrid !== null ? ` · 하이브리드 건당 ${won(out.cpsHybrid)} + 기본료 ${won(out.hybridBase)}` : "");
+    $("assume").textContent = "기준 전환율에서는 고정·하이브리드·순수 CPS의 광고주 비용이 같아요. 전환율이 다르면 위험이 이전돼요. 확정 건수는 광고주 영업 결과에 달려 있어요.";
+
+    // 수취액
+    head($("revHead"), "구조", out.columns);
+    $("revBody").replaceChildren(...KEYS.map((key) => el("tr", {}, [
+      el("th", { scope: "row", text: NAMES[key] }),
+      ...out.columns.map((c) => { const cell = c.cells[key]; const td = el("td", {}, [document.createTextNode(won(cell.revenue))]); if (key === "cps" && out.mg > 0 && cell.revenue === out.mg && out.cpsPure * c.sales < out.mg) td.append(el("span", { class: "note", text: "최소 보장 적용" })); return td; })
+    ])));
+    $("revStand").textContent = [input.leanRate === null ? "1단계는 수수료율을 넣으면 표시해요." : "", input.hybridBaseRate === null ? "2단계는 기본료율을 넣으면 표시해요." : ""].filter(Boolean).join(" ");
+
+    // 광고주 확정 1건당 총비용
+    head($("advHead"), "구조", out.columns);
+    $("advBody").replaceChildren(
+      el("tr", {}, [el("th", { scope: "row", text: "광고비만 (수수료 제외)" }), ...out.columns.map((c) => el("td", { text: won(c.adCostOnly) }))]),
+      ...KEYS.map((key) => el("tr", {}, [el("th", { scope: "row", text: NAMES[key] }), ...out.columns.map((c) => el("td", { text: won(c.cells[key].advCostPerSale) }))]))
+    );
+
+    // 광고주 순수익(선택)
+    const showNet = input.advValue !== null;
+    $("netBox").hidden = !showNet;
+    if (showNet) {
+      head($("netHead"), "구조", out.columns);
+      $("netBody").replaceChildren(...KEYS.map((key) => el("tr", {}, [el("th", { scope: "row", text: NAMES[key] }), ...out.columns.map((c) => { const v = c.cells[key].advNet; return el("td", { class: v === null ? "" : v < 0 ? "bad" : "ok", text: won(v) }); })])));
+    }
+
+    // 내부
+    $("internalBox").hidden = !out.internal;
+    if (out.internal) {
+      const I = out.internal;
+      head($("mgnHead"), "구조", out.columns);
+      const target = input.targetMargin;
+      $("mgnBody").replaceChildren(...KEYS.map((key) => el("tr", {}, [el("th", { scope: "row", text: NAMES[key] }), ...out.columns.map((c) => {
+        const cell = c.cells[key];
+        const cls = cell.margin === null ? "" : cell.margin < 0 ? "bad" : target !== null && cell.margin < target ? "warn" : "ok";
+        return el("td", { class: cls }, [document.createTextNode(pct(cell.margin)), el("span", { class: "note", text: cell.profit === null ? "" : `이익 ${won(cell.profit)}` })]);
+      })])));
+      const rows = [
+        ["월 최소 보장 (손익분기)", won(I.mgBep), "확정 0건이어도 이 금액을 청구하면 운영비는 회수해요."],
+        ["월 최소 보장 (목표 마진)", I.mgTarget === null ? "—" : won(I.mgTarget), "운영비 ÷ (1 − 목표 마진). 이 금액을 보장받으면 목표 마진을 맞춰요."],
+        ["1단계 손익분기 수수료율", pct(I.leanBepRate, 2), "광고비 대비. 이보다 낮으면 운영비를 못 덮어요."],
+        ["1단계 목표 마진 수수료율", I.leanTargetRate === null ? "—" : pct(I.leanTargetRate, 2), "목표 마진을 맞추는 최소 수수료율."],
+        ["2단계 손익분기 전환율", I.hybridBepRate === null ? "—" : pct(I.hybridBepRate, 2), I.hybridBepRate === 0 ? "기본료만으로 운영비를 덮어요." : "이 전환율 이상이어야 운영비를 덮어요."],
+        ["3단계 손익분기 전환율", I.cpsBepRate === null ? "—" : pct(I.cpsBepRate, 2), "최소 보장 없이 순수 CPS만 받을 때."],
+        ["3단계 목표 마진 전환율", I.cpsTargetRate === null ? "—" : pct(I.cpsTargetRate, 2), "목표 마진을 맞추는 최소 전환율."]
+      ];
+      $("beBody").replaceChildren(...rows.map((r) => el("tr", {}, [el("th", { scope: "row", class: "left", text: r[0] }), el("td", { text: r[1] }), el("td", { class: "left", text: r[2] })])));
+      head($("reqHead"), "구분", out.columns);
+      $("reqBody").replaceChildren(el("tr", {}, [el("th", { scope: "row", text: "필요한 건당 CPS" }), ...out.columns.map((c, i) => el("td", { text: I.requiredCps ? won(I.requiredCps[i].cps) : "—" }))]));
+    }
+  }
+
+  ["spend", "cpa", "baseRate", "rate1", "rate2", "rate3", "advValue", "refFee", "leanRate", "hybridBase", "mg", "ops", "targetMargin"].forEach((id) => $(id).addEventListener("input", render));
+  $("internal").addEventListener("change", render);
+  $("example").addEventListener("click", () => {
+    const ex = CONFIG.example;
+    MONEY.write($("spend"), ex.spend); MONEY.write($("cpa"), ex.cpa); $("baseRate").value = String(ex.baseRate * 100);
+    $("leanRate").value = String(ex.leanRate * 100); $("hybridBase").value = String(ex.hybridBaseRate * 100);
+    MONEY.write($("ops"), ex.ops); $("refHint").textContent = "가상 예시예요. 실제 광고주 수치가 아니에요.";
+    render();
+  });
+  $("clear").addEventListener("click", () => {
+    ["spend", "cpa", "baseRate", "advValue", "leanRate", "hybridBase", "mg", "ops"].forEach((id) => { $(id).value = ""; });
+    industry.value = ""; $("internal").checked = false; setDefaults(); render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
