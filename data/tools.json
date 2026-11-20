@@ -238,6 +238,15 @@
       }
     },
     {
+      "slug": "image-prompt",
+      "kind": "tool",
+      "status": "live",
+      "public": true,
+      "listed": false,
+      "name": "이미지 프롬프트 변주 생성기",
+      "card": null
+    },
+    {
       "slug": "ecommerce-unit-economics",
       "kind": "tool",
       "status": "live",
