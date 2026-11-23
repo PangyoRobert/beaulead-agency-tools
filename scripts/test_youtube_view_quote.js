@@ -4,6 +4,8 @@ const path = require("node:path");
 
 global.window = global;
 require("../youtube-view-quote/pricing-config.js");
+require("../youtube-view-quote/calculator.js");
+const calculator = global.YoutubeViewCalculator;
 const config = global.YOUTUBE_VIEW_CONFIG;
 
 // 확정된 판매 조건. 세 값 중 하나라도 바뀌면 영업 자료와 어긋나므로 여기서 잡는다.
@@ -38,6 +40,31 @@ config.packages.forEach((plan) => {
   assert.ok(plan.impressionsMax > plan.impressionsMin, `${plan.id}: 노출 구간이 뒤집혔다`);
 });
 
+// 금액 → 조회수 환산. 기준점(패키지 금액)에서는 패키지 보장 조회수와 정확히 같아야 한다.
+config.packages.forEach((plan) => {
+  const out = calculator.calculate(config, plan.supplyPrice);
+  assert.equal(out.status, "ok");
+  assert.equal(out.views, plan.guaranteedViews, `${plan.id}: 패키지 금액의 환산 조회수가 패키지와 달라졌다`);
+  assert.equal(out.impressionsMin, plan.impressionsMin);
+  assert.equal(out.impressionsMax, plan.impressionsMax);
+});
+// 구간 안쪽 값(수기 계산): 100만 원 = 10,000 + 10,000*(10,000/1,000,000) = 10,100,
+// 240만 원 = 20,000 + 10,000*(410,000/900,000) = 24,555(내림).
+assert.equal(calculator.calculate(config, 1000000).views, 10100);
+assert.equal(calculator.calculate(config, 2400000).views, 24555);
+// 금액이 늘면 조회수가 줄지 않는다(구간 경계 포함).
+let previous = 0;
+for (let amount = 990000; amount <= 2890000; amount += 10000) {
+  const views = calculator.calculate(config, amount).views;
+  assert.ok(views >= previous, `${amount}원에서 조회수가 줄었다`);
+  previous = views;
+}
+// 범위 밖은 연장하지 않는다.
+assert.equal(calculator.calculate(config, 989999).status, "below");
+assert.equal(calculator.calculate(config, 2890001).status, "above");
+assert.equal(calculator.calculate(config, NaN).status, "invalid");
+assert.deepEqual(calculator.bounds(config), { min: 990000, max: 2890000 });
+
 // 계정 권한 제한은 성과 확인 수단과 맞바꾸는 조건이다. 제한만 남고 확인 수단이
 // 사라지면 근거 없는 제약으로 읽히므로, 세 항목이 함께 있는지 본다.
 const ops = config.operations;
@@ -67,7 +94,8 @@ const wholeConfig = JSON.stringify(config);
 const banned = ["원가", "마진", "조회당", "조회율", "CPV"];
 const source = [
   fs.readFileSync(path.join(__dirname, "../youtube-view-quote/pricing-config.js"), "utf8"),
-  fs.readFileSync(path.join(__dirname, "../youtube-view-quote/index.html"), "utf8")
+  fs.readFileSync(path.join(__dirname, "../youtube-view-quote/index.html"), "utf8"),
+  fs.readFileSync(path.join(__dirname, "../youtube-view-quote/calculator.js"), "utf8")
 ].join("\n");
 const inspectable = source
   .split("\n")

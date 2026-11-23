@@ -39,6 +39,13 @@ window.YOUTUBE_VIEW_CONFIG = Object.freeze({
       audience: "브랜드 인지도를 빠르게 끌어올려야 하는 기업"
     })
   ]),
+  // 금액 → 보장 조회수 환산 설정. 기준점은 위 packages 3종이며 이 안에 새 단가를 두지 않는다.
+  // 허용 범위는 packages 의 최저가~최고가로 정해진다(범위 밖으로 연장하지 않는다).
+  // inputStep 은 입력 단위 제안값이며 담당자 확정 대기 상태다(docs/youtube-view-quote-history.md 3-3).
+  calculator: Object.freeze({
+    inputStep: 10000,
+    defaultAmount: 1990000
+  }),
   // 보장형은 뷰리드 통합 계정에서 돌아가므로 운영 방식이 일반 대행과 다르다.
   // 성과 확인 수단과 계정 권한 제한은 맞바꾸는 조건이라 한 섹션에 붙여 둔다.
   // 떼어 놓으면 "권한을 안 준다"만 남아 근거 없는 제약으로 읽힌다.
